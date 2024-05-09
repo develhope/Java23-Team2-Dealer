@@ -1,0 +1,13 @@
+package vehicle.enumerators;
+
+public enum Optionals {
+    HEATEDSEATS,
+    LEATHERSEATS,
+    HEATEDWINDOW,
+    ALLOYWHEEL,
+    ALLWHEELDRIVE,
+    POWERTAILGATE,
+    HEATEDSTEERINGWHEEL,
+    REARBACKCAMERA,
+    PARKINGSENSORS;
+}
