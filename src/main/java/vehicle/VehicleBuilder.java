@@ -21,10 +21,11 @@ public class VehicleBuilder {
     private UsedFlag usedFlag;
     private MarketStatus marketStatus;
     private boolean discountFlag;
+    private int id;
 
     public VehicleBuilder(String brand, String model, Colors color, int displacement, int power, Gears gear,
                           int registrationYear, MotorPowerSupply powerSupply, double price, UsedFlag usedFlag,
-                          MarketStatus marketStatus) {
+                          MarketStatus marketStatus, int id) {
         this.brand = brand;
         this.model = model;
         this.color = color;
@@ -36,6 +37,7 @@ public class VehicleBuilder {
         this.price = BigDecimal.valueOf(price).setScale(2, RoundingMode.HALF_EVEN);
         this.usedFlag = usedFlag;
         this.marketStatus = marketStatus;
+        this.id = id;
         discountFlag = false;
         optionals = new ArrayList<>();
     }
@@ -44,6 +46,9 @@ public class VehicleBuilder {
         return new Vehicle(this);
     }
 
+    public int getId() {
+        return id;
+    }
 
     public boolean isDiscountFlag() {
         return discountFlag;
@@ -99,6 +104,11 @@ public class VehicleBuilder {
 
     public VehicleBuilder setDiscountFlag(boolean discountFlag) {
         this.discountFlag = discountFlag;
+        return this;
+    }
+
+    public VehicleBuilder setId(int id) {
+        this.id = id;
         return this;
     }
 
@@ -173,6 +183,7 @@ public class VehicleBuilder {
                 ", usedFlag=" + usedFlag +
                 ", marketStatus=" + marketStatus +
                 ", discountFlag=" + discountFlag +
+                ", id=" + id +
                 '}';
     }
 }

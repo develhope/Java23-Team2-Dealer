@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VehicleTest {
     Vehicle testVehicle = Vehicle.builder("", "", Colors.BLACK, 500, 500, Gears.AUTOMATIC,2024, MotorPowerSupply.DIESEL,
-            17000, UsedFlag.NEW, MarketStatus.AVIABLE).build();
+            17000, UsedFlag.NEW, MarketStatus.AVIABLE, 0).build();
 
     @Test
     public void testIfCalculateDiscountThrowAnExceptionIfOver100() {

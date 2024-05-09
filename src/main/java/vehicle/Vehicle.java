@@ -4,7 +4,6 @@ import vehicle.enumerators.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class Vehicle {
@@ -21,6 +20,7 @@ public class Vehicle {
     private UsedFlag usedFlag;
     private MarketStatus marketStatus;
     private boolean discountFlag;
+    private int id;
 
     public boolean isDiscountFlag() {
         return discountFlag;
@@ -30,7 +30,7 @@ public class Vehicle {
         this.brand = builder.getBrand();
         this.marketStatus = builder.getMarketStatus();
         this.usedFlag = builder.getUsedFlag();
-        this.optionals = builder.getOptionals() ;
+        this.optionals = builder.getOptionals();
         this.price = builder.getPrice();
         this.powerSupply = builder.getPowerSupply();
         this.registrationYear = builder.getRegistrationYear();
@@ -38,14 +38,15 @@ public class Vehicle {
         this.power = builder.getPower();
         this.color = builder.getColor();
         this.displacement = builder.getDisplacement();
+        this.id = builder.getId();
         this.model = builder.getModel();
         this.discountFlag = builder.isDiscountFlag();
     }
 
     public static VehicleBuilder builder(String brand, String model, Colors color, int displacement, int power, Gears gear,
-                                  int registrationYear, MotorPowerSupply powerSupply, double price, UsedFlag usedFlag,
-                                  MarketStatus marketStatus){
-        return new VehicleBuilder(brand,model,color,displacement,power,gear,registrationYear,powerSupply,price,usedFlag,marketStatus);
+                                         int registrationYear, MotorPowerSupply powerSupply, double price, UsedFlag usedFlag,
+                                         MarketStatus marketStatus, int id) {
+        return new VehicleBuilder(brand, model, color, displacement, power, gear, registrationYear, powerSupply, price, usedFlag, marketStatus, id);
     }
 
     protected BigDecimal calculateDiscount(double discountPercentage) {
@@ -81,9 +82,11 @@ public class Vehicle {
                 ", usedFlag=" + usedFlag +
                 ", marketStatus=" + marketStatus +
                 ", discountFlag=" + discountFlag +
+                ", id=" + id +
                 '}';
     }
-
-
 }
+
+
+
 
