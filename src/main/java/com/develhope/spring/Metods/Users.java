@@ -1,4 +1,4 @@
-package com.develhope.spring.Models;
+package com.develhope.spring.Metods;
 
 public enum Users{
     BUYER ,
