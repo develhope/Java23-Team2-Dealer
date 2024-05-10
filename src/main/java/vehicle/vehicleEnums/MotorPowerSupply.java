@@ -1,4 +1,4 @@
-package vehicle.enumerators;
+package vehicle.vehicleEnums;
 
 public enum MotorPowerSupply {
     DIESEL,

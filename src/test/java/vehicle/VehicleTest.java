@@ -1,7 +1,6 @@
 package vehicle;
 
 import org.junit.jupiter.api.Test;
-import vehicle.enumerators.*;
 
 import java.math.BigDecimal;
 

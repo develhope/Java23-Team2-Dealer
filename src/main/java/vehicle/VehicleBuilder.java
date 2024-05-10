@@ -1,11 +1,14 @@
 package vehicle;
 
-import vehicle.enumerators.*;
+import vehicle.vehicleEnums.*;
+import vehicle.optionals.doors.Doors;
+import vehicle.optionals.informatic.Informatic;
+import vehicle.optionals.seats.Seats;
+import vehicle.optionals.wheels.Wheels;
+import vehicle.optionals.windows.Windows;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class VehicleBuilder {
     private String brand;
@@ -18,29 +21,39 @@ public class VehicleBuilder {
     private MotorPowerSupply powerSupply;
     private BigDecimal originalPrice;
     private BigDecimal discountedPrice;
-    private Collection<Optionals> optionals;
     private UsedFlag usedFlag;
     private MarketStatus marketStatus;
     private boolean discountFlag;
     private int id;
+    private Doors doors;
+    private Informatic informatics;
+    private Seats seats;
+    private Wheels wheels;
+    private Windows windows;
 
-    public VehicleBuilder(String brand, String model, double originalPrice, int id) {
-        this.brand = brand;
-        this.model = model;
-        this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
-        this.id = id;
-        discountedPrice = this.originalPrice;
-        discountFlag = false;
-        optionals = new ArrayList<>();
+
+    public Doors getDoors() {
+        return doors;
     }
 
+    public Informatic getInformatics() {
+        return informatics;
+    }
+
+    public Seats getSeats() {
+        return seats;
+    }
+
+    public Wheels getWheels() {
+        return wheels;
+    }
+
+    public Windows getWindows() {
+        return windows;
+    }
 
     public BigDecimal getDiscountedPrice() {
         return discountedPrice;
-    }
-
-    public Vehicle build() {
-        return new Vehicle(this);
     }
 
     public int getId() {
@@ -53,10 +66,6 @@ public class VehicleBuilder {
 
     public BigDecimal getOriginalPrice() {
         return originalPrice.setScale(2, RoundingMode.HALF_EVEN);
-    }
-
-    public Collection<Optionals> getOptionals() {
-        return optionals;
     }
 
     public Colors getColor() {
@@ -99,6 +108,46 @@ public class VehicleBuilder {
         return usedFlag;
     }
 
+    public VehicleBuilder setBrand(String brand) {
+        this.brand = brand;
+        return this;
+    }
+
+    public VehicleBuilder setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
+        return this;
+    }
+
+    public VehicleBuilder setDoors(Doors doors) {
+        this.doors = doors;
+        return this;
+    }
+
+    public VehicleBuilder setInformatics(Informatic informatics) {
+        this.informatics = informatics;
+        return this;
+    }
+
+    public VehicleBuilder setOriginalPrice(BigDecimal originalPrice) {
+        this.originalPrice = originalPrice;
+        return this;
+    }
+
+    public VehicleBuilder setSeats(Seats seats) {
+        this.seats = seats;
+        return this;
+    }
+
+    public VehicleBuilder setWheels(Wheels wheels) {
+        this.wheels = wheels;
+        return this;
+    }
+
+    public VehicleBuilder setWindows(Windows windows) {
+        this.windows = windows;
+        return this;
+    }
+
     public VehicleBuilder setDiscountFlag(boolean discountFlag) {
         this.discountFlag = discountFlag;
         return this;
@@ -134,11 +183,6 @@ public class VehicleBuilder {
         return this;
     }
 
-    public VehicleBuilder setOptionals(Collection<Optionals> optionals) {
-        this.optionals = optionals;
-        return this;
-    }
-
     public VehicleBuilder setPower(int power) {
         this.power = power;
         return this;
@@ -164,6 +208,19 @@ public class VehicleBuilder {
         return this;
     }
 
+    public VehicleBuilder(String brand, String model, double originalPrice, int id) {
+        this.brand = brand;
+        this.model = model;
+        this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
+        this.id = id;
+        discountedPrice = this.originalPrice;
+        discountFlag = false;
+    }
+
+    public Vehicle build() {
+        return new Vehicle(this);
+    }
+
     @Override
     public String toString() {
         return "VehicleBuilder{" +
@@ -175,12 +232,17 @@ public class VehicleBuilder {
                 ", gear=" + gear +
                 ", registrationYear=" + registrationYear +
                 ", powerSupply=" + powerSupply +
-                ", price=" + originalPrice +
-                ", optionals=" + optionals +
+                ", originalPrice=" + originalPrice +
+                ", discountedPrice=" + discountedPrice +
                 ", usedFlag=" + usedFlag +
                 ", marketStatus=" + marketStatus +
                 ", discountFlag=" + discountFlag +
                 ", id=" + id +
+                ", doors=" + doors +
+                ", informatics=" + informatics +
+                ", seats=" + seats +
+                ", wheels=" + wheels +
+                ", windows=" + windows +
                 '}';
     }
 }
