@@ -8,7 +8,7 @@ public class Order {
     private boolean downPayment;
     private boolean paid;
     private OrderStatus orderStatus;
-    private String vehicleId;
+    private int vehicleId;
 
     /**
      * Constructs a new Order with specified characteristics.
@@ -18,7 +18,7 @@ public class Order {
      * @param orderStatus The current status of the order.
      * @param vehicleId The identifier for the vehicle associated with this order.
      */
-    public Order(boolean downPayment, boolean paid, OrderStatus orderStatus, String vehicleId) {
+    public Order(boolean downPayment, boolean paid, OrderStatus orderStatus, int vehicleId) {
         this.downPayment = downPayment;
         this.paid = paid;
         this.orderStatus = orderStatus;
@@ -30,7 +30,7 @@ public class Order {
      *
      * @return true if down payment is made, false otherwise.
      */
-    public boolean hasDownPayment() {
+    public boolean getDownPayment() {
         return downPayment;
     }
 
@@ -48,7 +48,7 @@ public class Order {
      *
      * @return true if fully paid, false otherwise.
      */
-    public boolean isPaid() {
+    public boolean getPaid() {
         return paid;
     }
 
@@ -84,7 +84,7 @@ public class Order {
      *
      * @return the vehicle ID.
      */
-    public String getVehicleId() {
+    public int getVehicleId() {
         return vehicleId;
     }
 
@@ -93,7 +93,7 @@ public class Order {
      *
      * @param vehicleId the new vehicle ID.
      */
-    public void setVehicleId(String vehicleId) {
+    public void setVehicleId(int vehicleId) {
         this.vehicleId = vehicleId;
     }
 
