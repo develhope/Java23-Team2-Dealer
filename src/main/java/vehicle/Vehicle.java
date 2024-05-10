@@ -15,7 +15,7 @@ public class Vehicle {
     private Gears gear;
     private int registrationYear;
     private MotorPowerSupply powerSupply;
-    private BigDecimal price;
+    private BigDecimal originalPrice;
     private BigDecimal discountedPrice;
     private Collection<Optionals> optionals;
     private UsedFlag usedFlag;
@@ -23,17 +23,15 @@ public class Vehicle {
     private boolean discountFlag;
     private int id;
 
-    public boolean isDiscountFlag() {
-        return discountFlag;
-    }
+
 
     protected Vehicle(VehicleBuilder builder) {
         this.brand = builder.getBrand();
         this.marketStatus = builder.getMarketStatus();
         this.usedFlag = builder.getUsedFlag();
         this.optionals = builder.getOptionals();
-        this.price = builder.getPrice();
-        discountedPrice= this.price;
+        this.originalPrice = builder.getOriginalPrice();
+        this.discountedPrice= builder.getDiscountedPrice();
         this.powerSupply = builder.getPowerSupply();
         this.registrationYear = builder.getRegistrationYear();
         this.gear = builder.getGear();
@@ -43,6 +41,10 @@ public class Vehicle {
         this.id = builder.getId();
         this.model = builder.getModel();
         this.discountFlag = builder.isDiscountFlag();
+    }
+
+    public boolean isDiscountFlag() {
+        return discountFlag;
     }
 
     public BigDecimal getDiscountedPrice() {
@@ -93,37 +95,54 @@ public class Vehicle {
         return optionals;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getOriginalPrice() {
+        return originalPrice;
     }
 
     public int getId() {
         return id;
-    }
-    public boolean isDiscountFlagged(){
-        return discountFlag;
     }
 
     public static VehicleBuilder builder(String brand, String model, double price, int id) {
         return new VehicleBuilder(brand, model, price, id);
     }
 
+    /**
+     * Calcola il prezzo scontato e modifica la variabile discountedPrice.
+     *
+     * @param discountPercentage è la percentuale di sconto che si desidera applicare
+     * @throws IllegalArgumentException se la percentuale inserita è fuori dai limiti 0 e 100
+     */
+
     protected void calculateDiscount(double discountPercentage) {
         if (discountPercentage > 100 || discountPercentage < 0) {
-            throw new RuntimeException("The discount percentage must be comprehended between 0 and 100");
+            throw new IllegalArgumentException("The discount percentage must be comprehended between 0 and 100");
         }
         BigDecimal discountRate = BigDecimal.valueOf(discountPercentage / 100).setScale(2, RoundingMode.HALF_EVEN);
-        BigDecimal removedPrice = price.multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
-        discountedPrice = price.subtract(removedPrice).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal removedPrice = originalPrice.multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
+        discountedPrice = originalPrice.subtract(removedPrice).setScale(2, RoundingMode.HALF_EVEN);
     }
 
+    /**
+     * Permette di decidere se attivare uno sconto e di scegliere di quanto scontare il prodotto.
+     *
+     * @param discountPercentage è la percentuale di sconto che si desidera applicare.
+     */
     public void activateDiscount(double discountPercentage) {
         discountFlag = true;
         try {
             calculateDiscount(discountPercentage);
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    /**
+     * Permette di rimuovere lo sconto e fa tornare il prezzo scontato come l'originale
+     */
+    public void removeDiscount(){
+        discountFlag=false;
+        discountedPrice= getOriginalPrice();
     }
 
     @Override
@@ -137,7 +156,7 @@ public class Vehicle {
                 ", gear=" + gear +
                 ", registrationYear=" + registrationYear +
                 ", powerSupply=" + powerSupply +
-                ", price=" + price +
+                ", price=" + originalPrice +
                 ", optionals=" + optionals +
                 ", usedFlag=" + usedFlag +
                 ", marketStatus=" + marketStatus +

@@ -33,4 +33,17 @@ public class VehicleTest {
         testVehicle.activateDiscount(50);
         assertTrue(testVehicle.isDiscountFlag());
     }
+    @Test
+    public void testIfRemoveDiscountSetTheFlagAsFalse(){
+        testVehicle.activateDiscount(0);
+        testVehicle.removeDiscount();
+        assertFalse(testVehicle.isDiscountFlag());
+    }
+
+    @Test
+    public void testIfRemoveDiscountReturnDiscountedPriceAsOriginal(){
+        testVehicle.activateDiscount(50);
+        testVehicle.removeDiscount();
+        assertEquals(testVehicle.getOriginalPrice(), testVehicle.getDiscountedPrice());
+    }
 }

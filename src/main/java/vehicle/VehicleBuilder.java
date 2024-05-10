@@ -16,23 +16,28 @@ public class VehicleBuilder {
     private Gears gear;
     private int registrationYear;
     private MotorPowerSupply powerSupply;
-    private BigDecimal price;
+    private BigDecimal originalPrice;
+    private BigDecimal discountedPrice;
     private Collection<Optionals> optionals;
     private UsedFlag usedFlag;
     private MarketStatus marketStatus;
     private boolean discountFlag;
     private int id;
 
-    public VehicleBuilder(String brand, String model, double price, int id) {
+    public VehicleBuilder(String brand, String model, double originalPrice, int id) {
         this.brand = brand;
         this.model = model;
-        this.price = BigDecimal.valueOf(price).setScale(2, RoundingMode.HALF_EVEN);
+        this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
         this.id = id;
+        discountedPrice = this.originalPrice;
         discountFlag = false;
         optionals = new ArrayList<>();
     }
 
 
+    public BigDecimal getDiscountedPrice() {
+        return discountedPrice;
+    }
 
     public Vehicle build() {
         return new Vehicle(this);
@@ -46,8 +51,8 @@ public class VehicleBuilder {
         return discountFlag;
     }
 
-    public BigDecimal getPrice() {
-        return price.setScale(2, RoundingMode.HALF_EVEN);
+    public BigDecimal getOriginalPrice() {
+        return originalPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public Collection<Optionals> getOptionals() {
@@ -144,8 +149,8 @@ public class VehicleBuilder {
         return this;
     }
 
-    public VehicleBuilder setPrice(double price) {
-        this.price = BigDecimal.valueOf(price).setScale(2, RoundingMode.HALF_EVEN);
+    public VehicleBuilder setOriginalPrice(double originalPrice) {
+        this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
         return this;
     }
 
@@ -170,7 +175,7 @@ public class VehicleBuilder {
                 ", gear=" + gear +
                 ", registrationYear=" + registrationYear +
                 ", powerSupply=" + powerSupply +
-                ", price=" + price +
+                ", price=" + originalPrice +
                 ", optionals=" + optionals +
                 ", usedFlag=" + usedFlag +
                 ", marketStatus=" + marketStatus +
