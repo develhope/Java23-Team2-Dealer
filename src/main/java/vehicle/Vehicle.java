@@ -16,6 +16,7 @@ public class Vehicle {
     private int registrationYear;
     private MotorPowerSupply powerSupply;
     private BigDecimal price;
+    private BigDecimal discountedPrice;
     private Collection<Optionals> optionals;
     private UsedFlag usedFlag;
     private MarketStatus marketStatus;
@@ -32,6 +33,7 @@ public class Vehicle {
         this.usedFlag = builder.getUsedFlag();
         this.optionals = builder.getOptionals();
         this.price = builder.getPrice();
+        discountedPrice= this.price;
         this.powerSupply = builder.getPowerSupply();
         this.registrationYear = builder.getRegistrationYear();
         this.gear = builder.getGear();
@@ -43,18 +45,76 @@ public class Vehicle {
         this.discountFlag = builder.isDiscountFlag();
     }
 
-    public static VehicleBuilder builder(String brand, String model, Colors color, int displacement, int power, Gears gear,
-                                         int registrationYear, MotorPowerSupply powerSupply, double price, UsedFlag usedFlag,
-                                         MarketStatus marketStatus, int id) {
-        return new VehicleBuilder(brand, model, color, displacement, power, gear, registrationYear, powerSupply, price, usedFlag, marketStatus, id);
+    public BigDecimal getDiscountedPrice() {
+        return discountedPrice;
     }
 
-    protected BigDecimal calculateDiscount(double discountPercentage) {
+    public UsedFlag getUsedFlag() {
+        return usedFlag;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public MotorPowerSupply getPowerSupply() {
+        return powerSupply;
+    }
+
+    public MarketStatus getMarketStatus() {
+        return marketStatus;
+    }
+
+    public int getRegistrationYear() {
+        return registrationYear;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getDisplacement() {
+        return displacement;
+    }
+
+    public Gears getGear() {
+        return gear;
+    }
+
+    public Colors getColor() {
+        return color;
+    }
+
+    public Collection<Optionals> getOptionals() {
+        return optionals;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public boolean isDiscountFlagged(){
+        return discountFlag;
+    }
+
+    public static VehicleBuilder builder(String brand, String model, double price, int id) {
+        return new VehicleBuilder(brand, model, price, id);
+    }
+
+    protected void calculateDiscount(double discountPercentage) {
         if (discountPercentage > 100 || discountPercentage < 0) {
             throw new RuntimeException("The discount percentage must be comprehended between 0 and 100");
         }
         BigDecimal discountRate = BigDecimal.valueOf(discountPercentage / 100).setScale(2, RoundingMode.HALF_EVEN);
-        return price.multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal removedPrice = price.multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
+        discountedPrice = price.subtract(removedPrice).setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public void activateDiscount(double discountPercentage) {

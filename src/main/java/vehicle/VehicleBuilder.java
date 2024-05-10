@@ -23,24 +23,16 @@ public class VehicleBuilder {
     private boolean discountFlag;
     private int id;
 
-    public VehicleBuilder(String brand, String model, Colors color, int displacement, int power, Gears gear,
-                          int registrationYear, MotorPowerSupply powerSupply, double price, UsedFlag usedFlag,
-                          MarketStatus marketStatus, int id) {
+    public VehicleBuilder(String brand, String model, double price, int id) {
         this.brand = brand;
         this.model = model;
-        this.color = color;
-        this.displacement = displacement;
-        this.power = power;
-        this.gear = gear;
-        this.registrationYear = registrationYear;
-        this.powerSupply = powerSupply;
         this.price = BigDecimal.valueOf(price).setScale(2, RoundingMode.HALF_EVEN);
-        this.usedFlag = usedFlag;
-        this.marketStatus = marketStatus;
         this.id = id;
         discountFlag = false;
         optionals = new ArrayList<>();
     }
+
+
 
     public Vehicle build() {
         return new Vehicle(this);

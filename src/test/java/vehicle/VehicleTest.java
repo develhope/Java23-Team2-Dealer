@@ -8,8 +8,7 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VehicleTest {
-    Vehicle testVehicle = Vehicle.builder("", "", Colors.BLACK, 500, 500, Gears.AUTOMATIC,2024, MotorPowerSupply.DIESEL,
-            17000, UsedFlag.NEW, MarketStatus.AVIABLE, 0).build();
+    Vehicle testVehicle = Vehicle.builder("", "", 17000, 0).build();
 
     @Test
     public void testIfCalculateDiscountThrowAnExceptionIfOver100() {
@@ -23,8 +22,9 @@ public class VehicleTest {
 
     @Test
     public void testIfCalculateDiscountGivesTheRightResult() {
-        BigDecimal expectedResult = new BigDecimal("1700.00");
-        BigDecimal actualResult = testVehicle.calculateDiscount(10);
+        BigDecimal expectedResult = new BigDecimal("15300.00");
+        testVehicle.calculateDiscount(10);
+        BigDecimal actualResult = testVehicle.getDiscountedPrice();
         assertEquals(expectedResult, actualResult);
     }
 
