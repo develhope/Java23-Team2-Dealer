@@ -10,14 +10,7 @@ public class Order {
     private OrderStatus orderStatus;
     private int vehicleId;
 
-    /**
-     * Constructs a new Order with specified characteristics.
-     *
-     * @param downPayment Indicates whether a down payment has been made.
-     * @param paid Indicates whether the order has been fully paid.
-     * @param orderStatus The current status of the order.
-     * @param vehicleId The identifier for the vehicle associated with this order.
-     */
+
     public Order(boolean downPayment, boolean paid, OrderStatus orderStatus, int vehicleId) {
         this.downPayment = downPayment;
         this.paid = paid;
@@ -25,74 +18,41 @@ public class Order {
         this.vehicleId = vehicleId;
     }
 
-    /**
-     * Returns true if a down payment has been made.
-     *
-     * @return true if down payment is made, false otherwise.
-     */
     public boolean getDownPayment() {
         return downPayment;
     }
 
-    /**
-     * Sets the down payment status of this order.
-     *
-     * @param downPayment true if a down payment is made, false otherwise.
-     */
+
     public void setDownPayment(boolean downPayment) {
         this.downPayment = downPayment;
     }
 
-    /**
-     * Returns true if the order has been fully paid.
-     *
-     * @return true if fully paid, false otherwise.
-     */
+
     public boolean getPaid() {
         return paid;
     }
 
-    /**
-     * Sets the payment status of the order.
-     *
-     * @param paid true if the order is fully paid, false otherwise.
-     */
+
     public void setPaid(boolean paid) {
         this.paid = paid;
     }
 
-    /**
-     * Gets the current status of the order.
-     *
-     * @return the current order status.
-     */
+
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    /**
-     * Sets the order status.
-     *
-     * @param orderStatus the new status of the order.
-     */
+
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
-    /**
-     * Returns the vehicle ID associated with this order.
-     *
-     * @return the vehicle ID.
-     */
+
     public int getVehicleId() {
         return vehicleId;
     }
 
-    /**
-     * Sets the vehicle ID for this order.
-     *
-     * @param vehicleId the new vehicle ID.
-     */
+
     public void setVehicleId(int vehicleId) {
         this.vehicleId = vehicleId;
     }
