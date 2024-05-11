@@ -25,8 +25,7 @@ public class WheelsBuilder {
     public WheelsBuilder() {
     }
 
-    @Override
-    public String toString() {
-        return "WheelsBuilder{" + "alloyWheels=" + alloyWheels + ", allWheelDrives=" + allWheelDrives + '}';
+    public Wheels build() {
+        return new Wheels(this);
     }
 }

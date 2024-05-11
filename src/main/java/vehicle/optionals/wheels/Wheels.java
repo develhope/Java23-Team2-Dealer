@@ -15,6 +15,6 @@ public class Wheels {
 
     @Override
     public String toString() {
-        return "Wheels{" + "alloyWheels=" + alloyWheels + ", allWheelDrives=" + allWheelDrives + '}';
+        return "Wheels{" + "alloyWheels= " + alloyWheels + ", allWheelDrives= " + allWheelDrives + '}';
     }
 }

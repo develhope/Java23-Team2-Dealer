@@ -25,8 +25,7 @@ public class SeatsBuilder {
     public SeatsBuilder() {
     }
 
-    @Override
-    public String toString() {
-        return "SeatsBuilder{" + "leatherSeats=" + leatherSeats + ", heatedSeats=" + heatedSeats + '}';
+    public Seats build() {
+        return new Seats(this);
     }
 }

@@ -1,6 +1,8 @@
 package vehicle;
 
 import org.junit.jupiter.api.Test;
+import vehicle.optionals.doors.Doors;
+import vehicle.optionals.wheels.Wheels;
 
 import java.math.BigDecimal;
 
@@ -10,12 +12,8 @@ public class VehicleTest {
     Vehicle testVehicle = Vehicle.builder("", "", 17000, 0).build();
 
     @Test
-    public void testIfCalculateDiscountThrowAnExceptionIfOver100() {
+    public void testIfCalculateDiscountThrowAnException() {
         assertThrows(Exception.class, () -> testVehicle.calculateDiscount(150));
-    }
-
-    @Test
-    public void testIfCalculateDiscountThrowAnExceptionIfUnder0() {
         assertThrows(Exception.class, () -> testVehicle.calculateDiscount(-1));
     }
 

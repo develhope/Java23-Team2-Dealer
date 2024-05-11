@@ -15,6 +15,6 @@ public class Informatic {
 
     @Override
     public String toString() {
-        return "Informatic{" + "rearebackCamera=" + rearebackCamera + ", parkingSensors=" + parkingSensors + '}';
+        return "Informatic{" + "rearebackCamera= " + rearebackCamera + ", parkingSensors= " + parkingSensors + '}';
     }
 }

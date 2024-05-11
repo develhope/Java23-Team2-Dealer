@@ -13,6 +13,6 @@ public class Doors {
 
     @Override
     public String toString() {
-        return "Doors{" + "poweredTailGate=" + poweredTailGate + '}';
+        return "Doors{" + "poweredTailGate= " + poweredTailGate + '}';
     }
 }

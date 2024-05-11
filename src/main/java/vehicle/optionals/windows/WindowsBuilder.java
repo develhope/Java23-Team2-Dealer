@@ -25,11 +25,7 @@ public class WindowsBuilder {
     public WindowsBuilder() {
     }
 
-    @Override
-    public String toString() {
-        return "WindowsBuilder{" +
-                "heatedWindows=" + heatedWindows +
-                ", tintedWindows=" + tintedWindows +
-                '}';
+    public Windows build() {
+        return new Windows(this);
     }
 }

@@ -15,6 +15,6 @@ public class Seats {
 
     @Override
     public String toString() {
-        return "Seats{" + "leatherSeats=" + leatherSeats + ", heatedSeats=" + heatedSeats + '}';
+        return "Seats{" + "leatherSeats= " + leatherSeats + ", heatedSeats= " + heatedSeats + '}';
     }
 }

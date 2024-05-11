@@ -1,11 +1,11 @@
 package vehicle;
 
-import vehicle.vehicleEnums.*;
 import vehicle.optionals.doors.Doors;
 import vehicle.optionals.informatic.Informatic;
 import vehicle.optionals.seats.Seats;
 import vehicle.optionals.wheels.Wheels;
 import vehicle.optionals.windows.Windows;
+import vehicle.vehicleEnums.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -214,35 +214,9 @@ public class VehicleBuilder {
         this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
         this.id = id;
         discountedPrice = this.originalPrice;
-        discountFlag = false;
     }
 
     public Vehicle build() {
         return new Vehicle(this);
-    }
-
-    @Override
-    public String toString() {
-        return "VehicleBuilder{" +
-                "brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", displacement=" + displacement +
-                ", color=" + color +
-                ", power=" + power +
-                ", gear=" + gear +
-                ", registrationYear=" + registrationYear +
-                ", powerSupply=" + powerSupply +
-                ", originalPrice=" + originalPrice +
-                ", discountedPrice=" + discountedPrice +
-                ", usedFlag=" + usedFlag +
-                ", marketStatus=" + marketStatus +
-                ", discountFlag=" + discountFlag +
-                ", id=" + id +
-                ", doors=" + doors +
-                ", informatics=" + informatics +
-                ", seats=" + seats +
-                ", wheels=" + wheels +
-                ", windows=" + windows +
-                '}';
     }
 }

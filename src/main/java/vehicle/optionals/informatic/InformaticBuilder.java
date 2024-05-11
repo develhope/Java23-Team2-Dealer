@@ -25,8 +25,7 @@ public class InformaticBuilder {
     public InformaticBuilder() {
     }
 
-    @Override
-    public String toString() {
-        return "InformaticBuilder{" + "rearebackCamera=" + rearebackCamera + ", parkingSensors=" + parkingSensors + '}';
+    public Informatic build() {
+        return new Informatic(this);
     }
 }

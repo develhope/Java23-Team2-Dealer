@@ -136,6 +136,7 @@ public class Vehicle {
 
     /**
      * Calcola il prezzo scontato e modifica la variabile discountedPrice.
+     * Inserisce un double che viene convertito internamente in un BigDecimal.
      *
      * @param discountPercentage è la percentuale di sconto che si desidera applicare
      * @throws IllegalArgumentException se la percentuale inserita è fuori dai limiti 0 e 100
@@ -172,28 +173,30 @@ public class Vehicle {
         discountedPrice = getOriginalPrice();
     }
 
+
+
     @Override
     public String toString() {
         return "Vehicle{" +
-                "brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", displacement=" + displacement +
-                ", color=" + color +
-                ", power=" + power +
-                ", gear=" + gear +
-                ", registrationYear=" + registrationYear +
-                ", powerSupply=" + powerSupply +
-                ", originalPrice=" + originalPrice +
-                ", discountedPrice=" + discountedPrice +
-                ", usedFlag=" + usedFlag +
-                ", marketStatus=" + marketStatus +
-                ", discountFlag=" + discountFlag +
-                ", id=" + id +
-                ", doors=" + doors +
-                ", informatics=" + informatics +
-                ", seats=" + seats +
-                ", wheels=" + wheels +
-                ", windows=" + windows +
+                "brand= '" + brand + '\'' +
+                "\nmodel= '" + model + '\'' +
+                "\ndisplacement= " + displacement +
+                "\ncolor= " + color +
+                "\npower= " + power +
+                "\ngear= " + gear +
+                "\nregistrationYear= " + registrationYear +
+                "\npowerSupply= " + powerSupply +
+                "\noriginalPrice= " + originalPrice +
+                "\ndiscountedPrice= " + discountedPrice +
+                "\nusedFlag= " + usedFlag +
+                "\nmarketStatus= " + marketStatus +
+                "\ndiscountFlag= " + discountFlag +
+                "\nid= " + id +
+                "\ndoors= " + doors +
+                "\ninformatics= " + informatics +
+                "\nseats= " + seats +
+                "\nwheels= " + wheels +
+                "\nwindows= " + windows +
                 '}';
     }
 }

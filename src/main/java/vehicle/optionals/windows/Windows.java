@@ -16,8 +16,8 @@ public class Windows {
     @Override
     public String toString() {
         return "Windows{" +
-                "heatedWindows=" + heatedWindows +
-                ", tintedWindows=" + tintedWindows +
+                "heatedWindows= " + heatedWindows +
+                ", tintedWindows= " + tintedWindows +
                 '}';
     }
 }

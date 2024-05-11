@@ -15,8 +15,7 @@ public class DoorsBuilder {
     public DoorsBuilder() {
     }
 
-    @Override
-    public String toString() {
-        return "DoorsBuilder{" + "poweredTailGate=" + poweredTailGate + '}';
+    public Doors build() {
+        return new Doors(this);
     }
 }
