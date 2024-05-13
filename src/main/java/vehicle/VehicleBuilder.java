@@ -1,10 +1,5 @@
 package vehicle;
 
-import vehicle.optionals.doors.Doors;
-import vehicle.optionals.informatic.Informatic;
-import vehicle.optionals.seats.Seats;
-import vehicle.optionals.wheels.Wheels;
-import vehicle.optionals.windows.Windows;
 import vehicle.vehicleEnums.*;
 
 import java.math.BigDecimal;
@@ -25,32 +20,10 @@ public class VehicleBuilder {
     private MarketStatus marketStatus;
     private boolean discountFlag;
     private int id;
-    private Doors doors;
-    private Informatic informatics;
-    private Seats seats;
-    private Wheels wheels;
-    private Windows windows;
 
 
-    public Doors getDoors() {
-        return doors;
-    }
 
-    public Informatic getInformatics() {
-        return informatics;
-    }
 
-    public Seats getSeats() {
-        return seats;
-    }
-
-    public Wheels getWheels() {
-        return wheels;
-    }
-
-    public Windows getWindows() {
-        return windows;
-    }
 
     public BigDecimal getDiscountedPrice() {
         return discountedPrice;
@@ -118,33 +91,9 @@ public class VehicleBuilder {
         return this;
     }
 
-    public VehicleBuilder setDoors(Doors doors) {
-        this.doors = doors;
-        return this;
-    }
-
-    public VehicleBuilder setInformatics(Informatic informatics) {
-        this.informatics = informatics;
-        return this;
-    }
 
     public VehicleBuilder setOriginalPrice(BigDecimal originalPrice) {
         this.originalPrice = originalPrice;
-        return this;
-    }
-
-    public VehicleBuilder setSeats(Seats seats) {
-        this.seats = seats;
-        return this;
-    }
-
-    public VehicleBuilder setWheels(Wheels wheels) {
-        this.wheels = wheels;
-        return this;
-    }
-
-    public VehicleBuilder setWindows(Windows windows) {
-        this.windows = windows;
         return this;
     }
 

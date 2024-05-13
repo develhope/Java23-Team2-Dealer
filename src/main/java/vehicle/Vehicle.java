@@ -1,11 +1,7 @@
 package vehicle;
 
 import vehicle.vehicleEnums.*;
-import vehicle.optionals.doors.Doors;
-import vehicle.optionals.informatic.Informatic;
-import vehicle.optionals.seats.Seats;
-import vehicle.optionals.wheels.Wheels;
-import vehicle.optionals.windows.Windows;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -25,11 +21,11 @@ public class Vehicle {
     private MarketStatus marketStatus;
     private boolean discountFlag;
     private int id;
-    private Doors doors;
-    private Informatic informatics;
-    private Seats seats;
-    private Wheels wheels;
-    private Windows windows;
+    private Object doors;
+    private Object informatics;
+    private Object seats;
+    private Object wheels;
+    private Object windows;
 
 
     public boolean isDiscountFlag() {
@@ -88,25 +84,6 @@ public class Vehicle {
         return id;
     }
 
-    public Wheels getWheels() {
-        return wheels;
-    }
-
-    public Informatic getInformatics() {
-        return informatics;
-    }
-
-    public Windows getWindows() {
-        return windows;
-    }
-
-    public Seats getSeats() {
-        return seats;
-    }
-
-    public Doors getDoors() {
-        return doors;
-    }
 
     protected Vehicle(VehicleBuilder builder) {
         this.brand = builder.getBrand();
@@ -123,57 +100,11 @@ public class Vehicle {
         this.id = builder.getId();
         this.model = builder.getModel();
         this.discountFlag = builder.isDiscountFlag();
-        this.doors = builder.getDoors();
-        this.informatics = builder.getInformatics();
-        this.seats = builder.getSeats();
-        this.wheels = builder.getWheels();
-        this.windows = builder.getWindows();
     }
 
     public static VehicleBuilder builder(String brand, String model, double price, int id) {
         return new VehicleBuilder(brand, model, price, id);
     }
-
-    /**
-     * Calcola il prezzo scontato e modifica la variabile discountedPrice.
-     * Inserisce un double che viene convertito internamente in un BigDecimal.
-     *
-     * @param discountPercentage è la percentuale di sconto che si desidera applicare
-     * @throws IllegalArgumentException se la percentuale inserita è fuori dai limiti 0 e 100
-     */
-
-    protected void calculateDiscount(double discountPercentage) {
-        if (discountPercentage > 100 || discountPercentage < 0) {
-            throw new IllegalArgumentException("The discount percentage must be comprehended between 0 and 100");
-        }
-        BigDecimal discountRate = BigDecimal.valueOf(discountPercentage / 100).setScale(2, RoundingMode.HALF_EVEN);
-        BigDecimal removedPrice = originalPrice.multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
-        discountedPrice = originalPrice.subtract(removedPrice).setScale(2, RoundingMode.HALF_EVEN);
-    }
-
-    /**
-     * Permette di decidere se attivare uno sconto e di scegliere di quanto scontare il prodotto.
-     *
-     * @param discountPercentage è la percentuale di sconto che si desidera applicare.
-     */
-    public void activateDiscount(double discountPercentage) {
-        discountFlag = true;
-        try {
-            calculateDiscount(discountPercentage);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Permette di rimuovere lo sconto e fa tornare il prezzo scontato come l'originale
-     */
-    public void removeDiscount() {
-        discountFlag = false;
-        discountedPrice = getOriginalPrice();
-    }
-
-
 
     @Override
     public String toString() {
@@ -192,11 +123,6 @@ public class Vehicle {
                 "\nmarketStatus= " + marketStatus +
                 "\ndiscountFlag= " + discountFlag +
                 "\nid= " + id +
-                "\ndoors= " + doors +
-                "\ninformatics= " + informatics +
-                "\nseats= " + seats +
-                "\nwheels= " + wheels +
-                "\nwindows= " + windows +
                 '}';
     }
 }

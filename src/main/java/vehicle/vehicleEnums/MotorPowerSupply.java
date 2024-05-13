@@ -6,5 +6,5 @@ public enum MotorPowerSupply {
     METHANE,
     GPL,
     ELECTRIC,
-    HYBRID;
+    HYBRID
 }
