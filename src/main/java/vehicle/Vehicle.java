@@ -28,7 +28,7 @@ public class Vehicle {
     private Object windows;
 
 
-    public boolean isDiscountFlag() {
+    public boolean getDiscountFlag() {
         return discountFlag;
     }
 
@@ -99,7 +99,7 @@ public class Vehicle {
         this.displacement = builder.getDisplacement();
         this.id = builder.getId();
         this.model = builder.getModel();
-        this.discountFlag = builder.isDiscountFlag();
+        this.discountFlag = builder.getDiscountFlag();
     }
 
     public static VehicleBuilder builder(String brand, String model, double price, int id) {

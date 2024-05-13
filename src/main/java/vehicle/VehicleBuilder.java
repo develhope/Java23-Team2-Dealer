@@ -33,7 +33,7 @@ public class VehicleBuilder {
         return id;
     }
 
-    public boolean isDiscountFlag() {
+    public boolean getDiscountFlag() {
         return discountFlag;
     }
 
