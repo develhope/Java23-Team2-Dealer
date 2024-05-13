@@ -22,9 +22,7 @@ public class VehicleBuilder {
     private int id;
 
 
-
-
-
+    //Getter
     public BigDecimal getDiscountedPrice() {
         return discountedPrice;
     }
@@ -81,6 +79,7 @@ public class VehicleBuilder {
         return usedFlag;
     }
 
+    //Setter
     public VehicleBuilder setBrand(String brand) {
         this.brand = brand;
         return this;
@@ -90,7 +89,6 @@ public class VehicleBuilder {
         this.discountedPrice = discountedPrice;
         return this;
     }
-
 
     public VehicleBuilder setOriginalPrice(BigDecimal originalPrice) {
         this.originalPrice = originalPrice;
@@ -157,6 +155,7 @@ public class VehicleBuilder {
         return this;
     }
 
+    //Costruttori
     public VehicleBuilder(String brand, String model, double originalPrice, int id) {
         this.brand = brand;
         this.model = model;
