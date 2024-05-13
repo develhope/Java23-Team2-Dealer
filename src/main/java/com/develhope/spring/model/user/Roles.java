@@ -1,4 +1,4 @@
-package User;
+package com.develhope.spring.model.user;
 
 public enum Roles {
     BUYER ,
