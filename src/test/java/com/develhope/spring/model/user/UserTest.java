@@ -8,7 +8,7 @@ public class UserTest {
 
     @Test
     void testUserCreation_emptyNameOrSurname() {
-        assertThrows(EmptyParameterException.class, () -> new User("", "Salomon", 04356546734, "gigino@hey.com", Roles.ADMIN));
+        assertThrows(EmptyParameterException.class, () -> new User(" ", "Salomon", 04356546734, "gigino@hey.com", Roles.ADMIN));
     }
 
     @Test

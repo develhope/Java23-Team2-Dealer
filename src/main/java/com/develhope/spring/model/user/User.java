@@ -13,18 +13,20 @@ public class User {
     private Roles roles;
 
     private void checkEmptyName(String name) throws EmptyParameterException {
-        if (name.isEmpty()) {
+        String validName = name.trim();
+        if (validName.isEmpty()) {
             throw new EmptyParameterException("Name can't be empty");
         } else {
-            this.name = name;
+            this.name = validName;
         }
     }
 
     private void checkEmptySurname(String surname) throws EmptyParameterException {
-        if (surname.isEmpty()) {
+        String validSurname = surname.trim();
+        if (validSurname.isEmpty()) {
             throw new EmptyParameterException("Surname can't be empty");
         } else {
-            this.surname = surname;
+            this.surname = validSurname;
         }
     }
 
