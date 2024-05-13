@@ -106,6 +106,45 @@ public class Vehicle {
         return new VehicleBuilder(brand, model, price, id);
     }
 
+    /**
+     * Calcola il prezzo scontato e modifica la variabile discountedPrice.
+     * Inserisce un double che viene convertito internamente in un BigDecimal.
+     *
+     * @param discountPercentage è la percentuale di sconto che si desidera applicare
+     * @throws ExcessiveParameterException se la percentuale inserita è fuori dai limiti 0 e 100
+     */
+
+    protected void calculateDiscount(double discountPercentage) throws ExcessiveParameterException {
+        if (discountPercentage > 100 || discountPercentage < 0) {
+            throw new ExcessiveParameterException("The discount percentage must be comprehended between 0 and 100");
+        }
+        BigDecimal discountRate = BigDecimal.valueOf(discountPercentage / 100).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal removedPrice = originalPrice.multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
+        discountedPrice = originalPrice.subtract(removedPrice).setScale(2, RoundingMode.HALF_EVEN);
+    }
+
+    /**
+     * Permette di decidere se attivare uno sconto e di scegliere di quanto scontare il prodotto.
+     *
+     * @param discountPercentage è la percentuale di sconto che si desidera applicare.
+     */
+    public void activateDiscount(double discountPercentage) {
+        discountFlag = true;
+        try {
+            calculateDiscount(discountPercentage);
+        } catch (ExcessiveParameterException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Permette di rimuovere lo sconto e fa tornare il prezzo scontato come l'originale
+     */
+    public void removeDiscount() {
+        discountFlag = false;
+        discountedPrice = getOriginalPrice();
+    }
+
     @Override
     public String toString() {
         return "Vehicle{" +
