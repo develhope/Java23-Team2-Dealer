@@ -4,7 +4,7 @@ import vehicle.vehicleEnums.*;
 
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.math.RoundingMode;
 
 public class Vehicle {
     private String brand;
@@ -85,7 +85,7 @@ public class Vehicle {
     }
 
 
-    protected Vehicle(Vehicle builder) {
+    protected Vehicle(VehicleBuilder builder) {
         this.brand = builder.getBrand();
         this.marketStatus = builder.getMarketStatus();
         this.usedFlag = builder.getUsedFlag();
@@ -125,5 +125,4 @@ public class Vehicle {
                 "\nid= " + id +
                 '}';
     }
-
 }
