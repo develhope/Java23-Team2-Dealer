@@ -1,6 +1,6 @@
-package vehicle;
+package com.develhope.spring.model.vehicle;
 
-import vehicle.vehicleEnums.*;
+import com.develhope.spring.model.vehicle.vehicleEnums.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -1,6 +1,6 @@
-package vehicle;
+package com.develhope.spring.model.vehicle;
 
-import vehicle.vehicleEnums.*;
+import com.develhope.spring.model.vehicle.vehicleEnums.*;
 
 
 import java.math.BigDecimal;
@@ -21,13 +21,8 @@ public class Vehicle {
     private MarketStatus marketStatus;
     private boolean discountFlag;
     private int id;
-    private Object doors;
-    private Object informatics;
-    private Object seats;
-    private Object wheels;
-    private Object windows;
 
-
+    //Getters
     public boolean getDiscountFlag() {
         return discountFlag;
     }
@@ -84,7 +79,7 @@ public class Vehicle {
         return id;
     }
 
-
+    //Costruttori
     protected Vehicle(VehicleBuilder builder) {
         this.brand = builder.getBrand();
         this.marketStatus = builder.getMarketStatus();
