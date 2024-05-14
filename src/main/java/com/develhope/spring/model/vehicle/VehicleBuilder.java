@@ -95,11 +95,6 @@ public class VehicleBuilder {
         return this;
     }
 
-    public VehicleBuilder setDiscountFlag(boolean discountFlag) {
-        this.discountFlag = discountFlag;
-        return this;
-    }
-
     public VehicleBuilder setId(int id) {
         this.id = id;
         return this;
