@@ -1,7 +1,6 @@
 package com.develhope.spring.model.vehicle;
 
-import com.develhope.spring.model.vehicle.ExcessiveParameterException;
-import com.develhope.spring.model.vehicle.Vehicle;
+
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
