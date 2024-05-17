@@ -11,14 +11,6 @@ public class VehicleOptional {
     private boolean keylessSystem;
 
     public VehicleOptional() {
-        this.infotainment = false;
-        this.adaptiveCruiseControl = false;
-        this.fullLEDLights = false;
-        this.parkingSensors = false;
-        this.heatedSeats = false;
-        this.safetyDevices = false;
-        this.headUpDisplay = false;
-        this.keylessSystem = false;
     }
 
     public void setInfotainment(boolean infotainment) {
