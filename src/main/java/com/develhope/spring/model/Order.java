@@ -6,14 +6,12 @@ package com.develhope.spring.model;
  */
 public class Order {
     private boolean downPayment;
-    private boolean paid;
     private OrderStatus orderStatus;
     private int vehicleId;
 
 
-    public Order(boolean downPayment, boolean paid, OrderStatus orderStatus, int vehicleId) {
+    public Order(boolean downPayment, OrderStatus orderStatus, int vehicleId) {
         this.downPayment = downPayment;
-        this.paid = paid;
         this.orderStatus = orderStatus;
         this.vehicleId = vehicleId;
     }
@@ -25,16 +23,6 @@ public class Order {
 
     public void setDownPayment(boolean downPayment) {
         this.downPayment = downPayment;
-    }
-
-
-    public boolean getPaid() {
-        return paid;
-    }
-
-
-    public void setPaid(boolean paid) {
-        this.paid = paid;
     }
 
 
@@ -66,7 +54,6 @@ public class Order {
     public String toString() {
         return "Ordine { " +
                 "Acconto = " + downPayment +
-                ", Pagato =" + paid +
                 ", Stato dell'ordine = " + orderStatus +
                 ", Id del veicolo = " + vehicleId +
                 '}';
