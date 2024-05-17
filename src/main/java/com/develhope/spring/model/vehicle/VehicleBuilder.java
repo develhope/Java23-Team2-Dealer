@@ -1,6 +1,7 @@
 package com.develhope.spring.model.vehicle;
 
 import com.develhope.spring.model.vehicle.vehicleEnums.*;
+import jdk.jshell.Snippet;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
