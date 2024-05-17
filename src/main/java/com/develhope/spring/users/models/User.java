@@ -1,4 +1,7 @@
-package com.develhope.spring.model.user;
+package com.develhope.spring.users.models;
+
+import com.develhope.spring.users.models.exceptions.EmptyParameterException;
+import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 
 public class User {
 

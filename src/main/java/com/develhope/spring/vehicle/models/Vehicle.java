@@ -1,6 +1,8 @@
-package com.develhope.spring.model.vehicle;
+package com.develhope.spring.vehicle.models;
 
-import com.develhope.spring.model.vehicle.vehicleEnums.*;
+import com.develhope.spring.users.vehicle.vehicleEnums.*;
+import com.develhope.spring.vehicle.ExcessiveParameterException;
+import com.develhope.spring.vehicle.vehicleEnums.*;
 
 
 import java.math.BigDecimal;
