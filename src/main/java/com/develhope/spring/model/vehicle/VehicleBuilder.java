@@ -20,6 +20,7 @@ public class VehicleBuilder {
     private MarketStatus marketStatus;
     private boolean discountFlag;
     private int id;
+    private KindOfVehicle type;
 
 
     //Getter
@@ -45,6 +46,10 @@ public class VehicleBuilder {
 
     public Gears getGear() {
         return gear;
+    }
+
+    public KindOfVehicle getType() {
+        return type;
     }
 
     public int getDisplacement() {
@@ -83,6 +88,12 @@ public class VehicleBuilder {
     public VehicleBuilder setBrand(String brand) {
         this.brand = brand;
         return this;
+    }
+
+    public VehicleBuilder setType(KindOfVehicle type) {
+        this.type = type;
+        return this;
+
     }
 
     public VehicleBuilder setDiscountedPrice(BigDecimal discountedPrice) {
@@ -151,7 +162,8 @@ public class VehicleBuilder {
     }
 
     //Costruttori
-    public VehicleBuilder(String brand, String model, double originalPrice, int id) {
+    public VehicleBuilder(KindOfVehicle type, String brand, String model, double originalPrice, int id) {
+        this.type = type;
         this.brand = brand;
         this.model = model;
         this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
