@@ -20,6 +20,7 @@ public class VehicleBuilder {
     private MarketStatus marketStatus;
     private boolean discountFlag;
     private int id;
+    private String engine;
 
 
     //Getter
@@ -29,6 +30,10 @@ public class VehicleBuilder {
 
     public int getId() {
         return id;
+    }
+
+    public String getEngine() {
+        return engine;
     }
 
     public boolean getDiscountFlag() {
@@ -83,6 +88,10 @@ public class VehicleBuilder {
     public VehicleBuilder setBrand(String brand) {
         this.brand = brand;
         return this;
+    }
+
+    public void setEngine(String engine) {
+        this.engine = engine;
     }
 
     public VehicleBuilder setDiscountedPrice(BigDecimal discountedPrice) {
