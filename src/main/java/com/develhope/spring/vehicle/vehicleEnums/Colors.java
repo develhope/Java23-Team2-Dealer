@@ -1,4 +1,4 @@
-package com.develhope.spring.model.vehicle.vehicleEnums;
+package com.develhope.spring.vehicle.vehicleEnums;
 
 public enum Colors {
     RED,

@@ -1,5 +1,9 @@
-package com.develhope.spring.model.user;
+package com.develhope.spring.users;
 
+import com.develhope.spring.users.models.exceptions.EmptyParameterException;
+import com.develhope.spring.users.models.Roles;
+import com.develhope.spring.users.models.User;
+import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
