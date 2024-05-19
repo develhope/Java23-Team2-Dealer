@@ -1,6 +1,6 @@
-package com.develhope.spring.model.vehicle;
+package com.develhope.spring.vehicle.models;
 
-import com.develhope.spring.model.vehicle.vehicleEnums.*;
+import com.develhope.spring.vehicle.vehicleEnums.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,6 +22,7 @@ public class VehicleBuilder {
     private int id;
     private String engine;
 
+    private KindOfVehicle type;
 
     //Getter
     public BigDecimal getDiscountedPrice() {
@@ -50,6 +51,10 @@ public class VehicleBuilder {
 
     public Gears getGear() {
         return gear;
+    }
+
+    public KindOfVehicle getType() {
+        return type;
     }
 
     public int getDisplacement() {
@@ -90,8 +95,14 @@ public class VehicleBuilder {
         return this;
     }
 
-    public void setEngine(String engine) {
+    public VehicleBuilder setEngine(String engine) {
         this.engine = engine;
+        return this;
+    }
+
+    public VehicleBuilder setType(KindOfVehicle type) {
+        this.type = type;
+        return this;
     }
 
     public VehicleBuilder setDiscountedPrice(BigDecimal discountedPrice) {
@@ -160,7 +171,8 @@ public class VehicleBuilder {
     }
 
     //Costruttori
-    public VehicleBuilder(String brand, String model, double originalPrice, int id) {
+    public VehicleBuilder(KindOfVehicle type, String brand, String model, double originalPrice, int id) {
+        this.type = type;
         this.brand = brand;
         this.model = model;
         this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
