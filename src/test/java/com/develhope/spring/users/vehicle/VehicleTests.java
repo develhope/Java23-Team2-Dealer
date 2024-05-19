@@ -1,6 +1,8 @@
-package com.develhope.spring.model.vehicle;
+package com.develhope.spring.users.vehicle;
 
-import com.develhope.spring.model.vehicle.vehicleEnums.KindOfVehicle;
+import com.develhope.spring.vehicle.ExcessiveParameterException;
+import com.develhope.spring.vehicle.models.Vehicle;
+import com.develhope.spring.vehicle.vehicleEnums.KindOfVehicle;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

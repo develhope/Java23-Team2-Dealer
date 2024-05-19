@@ -1,6 +1,8 @@
-package com.develhope.spring.model.vehicle;
+package com.develhope.spring.vehicle.models;
 
-import com.develhope.spring.model.vehicle.vehicleEnums.*;
+
+import com.develhope.spring.vehicle.ExcessiveParameterException;
+import com.develhope.spring.vehicle.vehicleEnums.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -114,7 +116,7 @@ public class Vehicle {
      * @throws ExcessiveParameterException se la percentuale inserita è fuori dai limiti 0 e 100
      */
 
-    protected void calculateDiscount(double discountPercentage) throws ExcessiveParameterException {
+    public void calculateDiscount(double discountPercentage) throws ExcessiveParameterException {
         if (discountPercentage > 100 || discountPercentage < 0) {
             throw new ExcessiveParameterException("The discount percentage must be comprehended between 0 and 100");
         }
