@@ -1,14 +1,14 @@
 package com.develhope.spring.vehicle.models;
 
-import com.develhope.spring.users.vehicle.vehicleEnums.*;
+
 import com.develhope.spring.vehicle.ExcessiveParameterException;
 import com.develhope.spring.vehicle.vehicleEnums.*;
-
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class Vehicle {
+    private KindOfVehicle type;
     private String brand;
     private String model;
     private int displacement;
@@ -43,6 +43,10 @@ public class Vehicle {
 
     public String getBrand() {
         return brand;
+    }
+
+    public KindOfVehicle getType() {
+        return type;
     }
 
     public MotorPowerSupply getPowerSupply() {
@@ -83,6 +87,7 @@ public class Vehicle {
 
     //Costruttori
     protected Vehicle(VehicleBuilder builder) {
+        this.type = builder.getType();
         this.brand = builder.getBrand();
         this.marketStatus = builder.getMarketStatus();
         this.usedFlag = builder.getUsedFlag();
@@ -99,8 +104,8 @@ public class Vehicle {
         this.discountFlag = builder.getDiscountFlag();
     }
 
-    public static VehicleBuilder builder(String brand, String model, double price, int id) {
-        return new VehicleBuilder(brand, model, price, id);
+    public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, double price, int id) {
+        return new VehicleBuilder(type, brand, model, price, id);
     }
 
     /**
@@ -111,7 +116,7 @@ public class Vehicle {
      * @throws ExcessiveParameterException se la percentuale inserita è fuori dai limiti 0 e 100
      */
 
-    protected void calculateDiscount(double discountPercentage) throws ExcessiveParameterException {
+    public void calculateDiscount(double discountPercentage) throws ExcessiveParameterException {
         if (discountPercentage > 100 || discountPercentage < 0) {
             throw new ExcessiveParameterException("The discount percentage must be comprehended between 0 and 100");
         }
@@ -144,21 +149,6 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Vehicle{" +
-                "brand= '" + brand + '\'' +
-                "\nmodel= '" + model + '\'' +
-                "\ndisplacement= " + displacement +
-                "\ncolor= " + color +
-                "\npower= " + power +
-                "\ngear= " + gear +
-                "\nregistrationYear= " + registrationYear +
-                "\npowerSupply= " + powerSupply +
-                "\noriginalPrice= " + originalPrice +
-                "\ndiscountedPrice= " + discountedPrice +
-                "\nusedFlag= " + usedFlag +
-                "\nmarketStatus= " + marketStatus +
-                "\ndiscountFlag= " + discountFlag +
-                "\nid= " + id +
-                '}';
+        return "Vehicle{" + "brand= '" + brand + '\'' + "\nmodel= '" + model + '\'' + "\ndisplacement= " + displacement + "\ncolor= " + color + "\npower= " + power + "\ngear= " + gear + "\nregistrationYear= " + registrationYear + "\npowerSupply= " + powerSupply + "\noriginalPrice= " + originalPrice + "\ndiscountedPrice= " + discountedPrice + "\nusedFlag= " + usedFlag + "\nmarketStatus= " + marketStatus + "\ndiscountFlag= " + discountFlag + "\nid= " + id + '}';
     }
 }
