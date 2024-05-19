@@ -23,10 +23,15 @@ public class Vehicle {
     private MarketStatus marketStatus;
     private boolean discountFlag;
     private int id;
+    private String engine;
 
     //Getters
     public boolean getDiscountFlag() {
         return discountFlag;
+    }
+
+    public String getEngine() {
+        return engine;
     }
 
     public BigDecimal getDiscountedPrice() {
@@ -102,6 +107,7 @@ public class Vehicle {
         this.id = builder.getId();
         this.model = builder.getModel();
         this.discountFlag = builder.getDiscountFlag();
+        this.engine = builder.getEngine();
     }
 
     public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, double price, int id) {
