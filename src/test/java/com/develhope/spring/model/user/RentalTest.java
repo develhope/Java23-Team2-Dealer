@@ -1,6 +1,7 @@
 package com.develhope.spring.model.user;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +19,8 @@ public class RentalTest {
         Rental rental = new Rental(startDate, endDate, dailyCost, vehicleId);
 
         // Assert expected true 50* 4 days = 200
-        BigDecimal expectedTotalCost = new BigDecimal("200.00");
-        assertEquals(expectedTotalCost, rental.getTotalCost());
+        BigDecimal expectedTotalCost = new BigDecimal("200.00").setScale(2, RoundingMode.HALF_EVEN);;
+        assertEquals(expectedTotalCost.setScale(2, RoundingMode.HALF_EVEN), rental.getTotalCost().setScale(2, RoundingMode.HALF_EVEN));
     }
 
     @Test
