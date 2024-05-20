@@ -1,26 +1,50 @@
 package com.develhope.spring.vehicle.models;
 
 import com.develhope.spring.model.vehicle.optionals.Optionals;
+import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+@Entity
+@Table(name = "traction_control")
 public class TractionControl implements Optionals {
-    private boolean enabled;
 
-    public TractionControl(boolean enabled) {
-        this.enabled = enabled;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
+    private BigDecimal price;
+
+    public TractionControl() {
     }
 
-    public boolean getEnabled() {
-        return enabled;
+    public TractionControl(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getPrice() {
+        return price.setScale(2, RoundingMode.HALF_EVEN);
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     @Override
     public String toString() {
         return "TractionControl{" +
-                "enabled=" + enabled +
+                "id=" + id +
+                ", price=" + price +
                 '}';
     }
 }
