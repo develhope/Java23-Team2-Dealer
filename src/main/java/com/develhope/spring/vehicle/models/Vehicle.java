@@ -25,15 +25,10 @@ public class Vehicle {
     private boolean discountFlag;
     private int id;
     private String engine;
-    private Abs abs;
 
     //Getters
     public boolean getDiscountFlag() {
         return discountFlag;
-    }
-
-    public Abs getAbs() {
-        return abs;
     }
 
     public String getEngine() {
@@ -114,7 +109,6 @@ public class Vehicle {
         this.model = builder.getModel();
         this.discountFlag = builder.getDiscountFlag();
         this.engine = builder.getEngine();
-        this.abs = builder.getAbs();
     }
 
     public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, double price, int id) {

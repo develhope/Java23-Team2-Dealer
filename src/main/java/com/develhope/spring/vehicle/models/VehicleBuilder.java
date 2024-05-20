@@ -22,17 +22,13 @@ public class VehicleBuilder {
     private boolean discountFlag;
     private int id;
     private String engine;
-    private Abs abs;
+
 
     private KindOfVehicle type;
 
     //Getter
     public BigDecimal getDiscountedPrice() {
         return discountedPrice;
-    }
-
-    public Abs getAbs() {
-        return abs;
     }
 
     public int getId() {
@@ -173,11 +169,6 @@ public class VehicleBuilder {
 
     public VehicleBuilder setUsedFlag(UsedFlag usedFlag) {
         this.usedFlag = usedFlag;
-        return this;
-    }
-
-    public VehicleBuilder setAbs(Abs abs) {
-        this.abs = abs;
         return this;
     }
 
