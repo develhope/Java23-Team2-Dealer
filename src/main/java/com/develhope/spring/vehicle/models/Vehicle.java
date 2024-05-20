@@ -3,26 +3,48 @@ package com.develhope.spring.vehicle.models;
 
 import com.develhope.spring.vehicle.ExcessiveParameterException;
 import com.develhope.spring.vehicle.vehicleEnums.*;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@Entity
+@Table(name = "vehicles")
 public class Vehicle {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(nullable = false, unique = true)
+    @Enumerated(EnumType.STRING)
     private KindOfVehicle type;
+    @Column(nullable = false)
     private String brand;
+    @Column(nullable = false)
     private String model;
     private int displacement;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true)
     private Colors color;
+    @Column(nullable = false)
     private int power;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true)
     private Gears gear;
     private int registrationYear;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true)
     private MotorPowerSupply powerSupply;
+    @Column(nullable = false)
     private BigDecimal originalPrice;
     private BigDecimal discountedPrice;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true)
     private UsedFlag usedFlag;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = true)
     private MarketStatus marketStatus;
     private boolean discountFlag;
-    private int id;
     private String engine;
 
     //Getters
@@ -86,7 +108,7 @@ public class Vehicle {
         return originalPrice;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -110,7 +132,7 @@ public class Vehicle {
         this.engine = builder.getEngine();
     }
 
-    public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, double price, int id) {
+    public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, double price, long id) {
         return new VehicleBuilder(type, brand, model, price, id);
     }
 
