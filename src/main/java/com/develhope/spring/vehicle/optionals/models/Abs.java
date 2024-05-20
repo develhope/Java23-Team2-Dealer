@@ -1,9 +1,6 @@
 package com.develhope.spring.vehicle.optionals.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -12,7 +9,7 @@ import java.math.RoundingMode;
 public class Abs implements Optionals{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private BigDecimal price;
 
