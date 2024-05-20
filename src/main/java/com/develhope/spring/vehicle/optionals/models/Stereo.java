@@ -1,5 +1,6 @@
 package com.develhope.spring.vehicle.optionals.models;
 
+import com.develhope.spring.vehicle.optionals.Optionals;
 import com.develhope.spring.vehicle.optionals.enums.TypeOfStereos;
 import jakarta.persistence.*;
 
@@ -8,7 +9,7 @@ import java.math.RoundingMode;
 
 @Entity
 @Table(name = "stereos")
-public class Stereo {
+public class Stereo implements Optionals {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
