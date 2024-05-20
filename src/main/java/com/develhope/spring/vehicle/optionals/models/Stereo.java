@@ -15,6 +15,7 @@ public class Stereo implements Optionals {
     private long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TypeOfStereos type;
 
     @Column(nullable = false)
