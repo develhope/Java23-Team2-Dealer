@@ -1,6 +1,7 @@
 package com.develhope.spring.model.user;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 public class Rental {
@@ -28,7 +29,7 @@ public class Rental {
 
     private void calculateTotalCost() {
         long rentalDays = startDate.until(endDate).getDays();
-        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays));
+        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
     }
 
     public void markAsPaid() {
