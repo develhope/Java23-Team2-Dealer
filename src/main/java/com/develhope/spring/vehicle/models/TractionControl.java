@@ -9,7 +9,7 @@ public class TractionControl implements Optionals {
         this.enabled = enabled;
     }
 
-    public boolean isEnabled() {
+    public boolean getEnabled() {
         return enabled;
     }
 
