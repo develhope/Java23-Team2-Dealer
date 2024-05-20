@@ -2,7 +2,7 @@ package com.develhope.spring.vehicle.models;
 
 
 import com.develhope.spring.vehicle.ExcessiveParameterException;
-import com.develhope.spring.vehicle.optionals.models.VehicleBuilder;
+import com.develhope.spring.vehicle.optionals.models.Abs;
 import com.develhope.spring.vehicle.vehicleEnums.*;
 
 import java.math.BigDecimal;
@@ -25,10 +25,15 @@ public class Vehicle {
     private boolean discountFlag;
     private int id;
     private String engine;
+    private Abs abs;
 
     //Getters
     public boolean getDiscountFlag() {
         return discountFlag;
+    }
+
+    public Abs getAbs() {
+        return abs;
     }
 
     public String getEngine() {
@@ -109,6 +114,7 @@ public class Vehicle {
         this.model = builder.getModel();
         this.discountFlag = builder.getDiscountFlag();
         this.engine = builder.getEngine();
+        this.abs = builder.getAbs();
     }
 
     public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, double price, int id) {
