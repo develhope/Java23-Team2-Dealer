@@ -1,6 +1,5 @@
 package com.develhope.spring.vehicle.optionals.models;
 
-import com.develhope.spring.vehicle.optionals.Optionals;
 import com.develhope.spring.vehicle.optionals.enums.TypeOfStereos;
 import jakarta.persistence.*;
 
@@ -15,7 +14,7 @@ public class Stereo implements Optionals {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TypeOfStereos type;
 
     @Column(nullable = false)
@@ -52,7 +51,8 @@ public class Stereo implements Optionals {
     public Stereo() {
     }
 
-    public Stereo(TypeOfStereos type, double price) {
+    public Stereo(long id, TypeOfStereos type, double price) {
+        this.id = id;
         this.type = type;
         this.price = BigDecimal.valueOf(price).setScale(2, RoundingMode.HALF_EVEN);
     }
