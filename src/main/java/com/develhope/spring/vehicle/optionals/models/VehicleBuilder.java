@@ -1,5 +1,6 @@
-package com.develhope.spring.vehicle.models;
+package com.develhope.spring.vehicle.optionals.models;
 
+import com.develhope.spring.vehicle.models.Vehicle;
 import com.develhope.spring.vehicle.vehicleEnums.*;
 
 import java.math.BigDecimal;
