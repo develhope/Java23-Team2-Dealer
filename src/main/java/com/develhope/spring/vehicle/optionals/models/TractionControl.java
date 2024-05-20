@@ -19,7 +19,8 @@ public class TractionControl implements Optionals {
     public TractionControl() {
     }
 
-    public TractionControl(BigDecimal price) {
+    public TractionControl(long id, BigDecimal price) {
+        this.id = id;
         this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
