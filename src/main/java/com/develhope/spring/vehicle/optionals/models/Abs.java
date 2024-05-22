@@ -12,6 +12,7 @@ public class Abs implements Optionals{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(nullable = false)
     private BigDecimal price;
 
     public Abs(){}
@@ -34,6 +35,6 @@ public class Abs implements Optionals{
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);;
     }
 }
