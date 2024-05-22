@@ -76,7 +76,7 @@ public class Vehicle {
     }
 
     public BigDecimal getDiscountedPrice() {
-        return discountedPrice.setScale(2, RoundingMode.HALF_EVEN);
+        return discountedPrice;
     }
 
     public UsedFlag getUsedFlag() {
@@ -124,7 +124,7 @@ public class Vehicle {
     }
 
     public BigDecimal getOriginalPrice() {
-        return originalPrice.setScale(2, RoundingMode.HALF_EVEN);
+        return originalPrice;
     }
 
     public long getId() {
@@ -194,10 +194,5 @@ public class Vehicle {
     public void removeDiscount() {
         discountFlag = false;
         discountedPrice = getOriginalPrice();
-    }
-
-    @Override
-    public String toString() {
-        return "Vehicle{" + "brand= '" + brand + '\'' + "\nmodel= '" + model + '\'' + "\ndisplacement= " + displacement + "\ncolor= " + color + "\npower= " + power + "\ngear= " + gear + "\nregistrationYear= " + registrationYear + "\npowerSupply= " + powerSupply + "\noriginalPrice= " + originalPrice + "\ndiscountedPrice= " + discountedPrice + "\nusedFlag= " + usedFlag + "\nmarketStatus= " + marketStatus + "\ndiscountFlag= " + discountFlag + "\nid= " + id + '}';
     }
 }

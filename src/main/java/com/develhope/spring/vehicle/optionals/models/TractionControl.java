@@ -33,18 +33,11 @@ public class TractionControl implements Optionals {
     }
 
     public BigDecimal getPrice() {
-        return price.setScale(2, RoundingMode.HALF_EVEN);
+        return price;
     }
 
     public void setPrice(BigDecimal price) {
         this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
-
-    @Override
-    public String toString() {
-        return "TractionControl{" +
-                "id=" + id +
-                ", price=" + price +
-                '}';
     }
 }

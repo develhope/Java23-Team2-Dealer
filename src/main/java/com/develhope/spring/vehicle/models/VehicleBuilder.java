@@ -21,12 +21,11 @@ public class VehicleBuilder {
     private boolean discountFlag;
     private long id;
     private String engine;
-
     private KindOfVehicle type;
 
     //Getter
     public BigDecimal getDiscountedPrice() {
-        return discountedPrice.setScale(2, RoundingMode.HALF_EVEN);
+        return discountedPrice;
     }
 
     public long getId() {
@@ -42,7 +41,7 @@ public class VehicleBuilder {
     }
 
     public BigDecimal getOriginalPrice() {
-        return originalPrice.setScale(2, RoundingMode.HALF_EVEN);
+        return originalPrice;
     }
 
     public Colors getColor() {
@@ -155,10 +154,6 @@ public class VehicleBuilder {
         return this;
     }
 
-    public VehicleBuilder setOriginalPrice(double originalPrice) {
-        this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
-        return this;
-    }
 
     public VehicleBuilder setRegistrationYear(int registrationYear) {
         this.registrationYear = registrationYear;
