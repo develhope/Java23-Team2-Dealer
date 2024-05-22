@@ -26,8 +26,8 @@ public class AirConditioner implements Optionals {
     }
 
     //setter
-    public void setPrice(double price) {
-        this.price = BigDecimal.valueOf(price).setScale(2, RoundingMode.HALF_EVEN);
+    public void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public void setId(long id) {
@@ -39,8 +39,8 @@ public class AirConditioner implements Optionals {
     public AirConditioner() {
     }
 
-    public AirConditioner(long id, double price) {
+    public AirConditioner(long id, BigDecimal price) {
         this.id = id;
-        this.price = BigDecimal.valueOf(price).setScale(2,RoundingMode.HALF_EVEN);
+        this.price = price.setScale(2,RoundingMode.HALF_EVEN);
     }
 }
