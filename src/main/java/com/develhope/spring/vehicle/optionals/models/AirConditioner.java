@@ -18,7 +18,7 @@ public class AirConditioner implements Optionals {
 
     //getter
     public BigDecimal getPrice() {
-        return price;
+        return price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public long getId() {
