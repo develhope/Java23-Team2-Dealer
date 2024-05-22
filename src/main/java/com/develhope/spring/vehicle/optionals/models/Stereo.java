@@ -15,7 +15,7 @@ public class Stereo implements Optionals {
     private long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private TypeOfStereos type;
 
     @Column(nullable = false)
@@ -43,8 +43,8 @@ public class Stereo implements Optionals {
         this.type = type;
     }
 
-    public void setPrice(double price) {
-        this.price = BigDecimal.valueOf(price).setScale(2, RoundingMode.HALF_EVEN);
+    public void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     //Constructors
@@ -52,9 +52,9 @@ public class Stereo implements Optionals {
     public Stereo() {
     }
 
-    public Stereo(long id, TypeOfStereos type, double price) {
+    public Stereo(long id, TypeOfStereos type, BigDecimal price) {
         this.id = id;
         this.type = type;
-        this.price = BigDecimal.valueOf(price).setScale(2, RoundingMode.HALF_EVEN);
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 }
