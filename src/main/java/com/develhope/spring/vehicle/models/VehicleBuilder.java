@@ -26,7 +26,7 @@ public class VehicleBuilder {
 
     //Getter
     public BigDecimal getDiscountedPrice() {
-        return discountedPrice;
+        return discountedPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public int getId() {
@@ -106,12 +106,12 @@ public class VehicleBuilder {
     }
 
     public VehicleBuilder setDiscountedPrice(BigDecimal discountedPrice) {
-        this.discountedPrice = discountedPrice;
+        this.discountedPrice = discountedPrice.setScale(2, RoundingMode.HALF_EVEN);
         return this;
     }
 
     public VehicleBuilder setOriginalPrice(BigDecimal originalPrice) {
-        this.originalPrice = originalPrice;
+        this.originalPrice = originalPrice.setScale(2, RoundingMode.HALF_EVEN);
         return this;
     }
 
@@ -155,10 +155,6 @@ public class VehicleBuilder {
         return this;
     }
 
-    public VehicleBuilder setOriginalPrice(double originalPrice) {
-        this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
-        return this;
-    }
 
     public VehicleBuilder setRegistrationYear(int registrationYear) {
         this.registrationYear = registrationYear;
@@ -171,11 +167,11 @@ public class VehicleBuilder {
     }
 
     //Costruttori
-    public VehicleBuilder(KindOfVehicle type, String brand, String model, double originalPrice, int id) {
+    public VehicleBuilder(KindOfVehicle type, String brand, String model, BigDecimal originalPrice, int id) {
         this.type = type;
         this.brand = brand;
         this.model = model;
-        this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
+        this.originalPrice = originalPrice.setScale(2, RoundingMode.HALF_EVEN);
         this.id = id;
         discountedPrice = this.originalPrice;
     }

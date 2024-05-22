@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VehicleTests {
 
-    Vehicle testVehicle = Vehicle.builder(KindOfVehicle.CAR,"", "", 17000, 0).build();
+    Vehicle testVehicle = Vehicle.builder(KindOfVehicle.CAR,"", "", new BigDecimal(17000),0).build();
     @Test
     public void testCalculateDiscount_ThrowAnExceptionIfOver100() {
         assertThrows(Exception.class, () -> testVehicle.calculateDiscount(150));

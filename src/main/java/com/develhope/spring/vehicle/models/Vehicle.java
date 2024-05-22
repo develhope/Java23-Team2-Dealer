@@ -35,7 +35,7 @@ public class Vehicle {
     }
 
     public BigDecimal getDiscountedPrice() {
-        return discountedPrice;
+        return discountedPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public UsedFlag getUsedFlag() {
@@ -83,7 +83,7 @@ public class Vehicle {
     }
 
     public BigDecimal getOriginalPrice() {
-        return originalPrice;
+        return originalPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public int getId() {
@@ -110,7 +110,7 @@ public class Vehicle {
         this.engine = builder.getEngine();
     }
 
-    public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, double price, int id) {
+    public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, BigDecimal price, int id) {
         return new VehicleBuilder(type, brand, model, price, id);
     }
 
