@@ -22,6 +22,7 @@ public class VehicleBuilder {
     private long id;
     private String engine;
 
+
     private KindOfVehicle type;
 
     //Getter
