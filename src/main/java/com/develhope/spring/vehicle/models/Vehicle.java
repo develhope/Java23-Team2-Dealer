@@ -15,36 +15,55 @@ public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private KindOfVehicle type;
+
     @Column(nullable = false)
     private String brand;
+
     @Column(nullable = false)
     private String model;
+
+    @Column(nullable = false)
     private int displacement;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private Colors color;
+
     @Column(nullable = false)
     private int power;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private Gears gear;
+
+    @Column(nullable = false)
     private int registrationYear;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private MotorPowerSupply powerSupply;
+
     @Column(nullable = false)
     private BigDecimal originalPrice;
+    @Column
     private BigDecimal discountedPrice;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private UsedFlag usedFlag;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private MarketStatus marketStatus;
+
+    @Column
     private boolean discountFlag;
+
+    @Column(nullable = false)
     private String engine;
 
     //Getters
@@ -111,6 +130,8 @@ public class Vehicle {
     public long getId() {
         return id;
     }
+
+    public Vehicle(){}
 
     //Costruttori
     protected Vehicle(VehicleBuilder builder) {
