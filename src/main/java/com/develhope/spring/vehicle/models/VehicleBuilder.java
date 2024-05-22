@@ -19,7 +19,7 @@ public class VehicleBuilder {
     private UsedFlag usedFlag;
     private MarketStatus marketStatus;
     private boolean discountFlag;
-    private int id;
+    private long id;
     private String engine;
 
 
@@ -30,7 +30,7 @@ public class VehicleBuilder {
         return discountedPrice;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -172,7 +172,7 @@ public class VehicleBuilder {
     }
 
     //Costruttori
-    public VehicleBuilder(KindOfVehicle type, String brand, String model, double originalPrice, int id) {
+    public VehicleBuilder(KindOfVehicle type, String brand, String model, double originalPrice, long id) {
         this.type = type;
         this.brand = brand;
         this.model = model;
