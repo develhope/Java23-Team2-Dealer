@@ -19,7 +19,7 @@ public class VehicleBuilder {
     private UsedFlag usedFlag;
     private MarketStatus marketStatus;
     private boolean discountFlag;
-    private int id;
+    private long id;
     private String engine;
 
     private KindOfVehicle type;
@@ -29,7 +29,7 @@ public class VehicleBuilder {
         return discountedPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -155,6 +155,10 @@ public class VehicleBuilder {
         return this;
     }
 
+    public VehicleBuilder setOriginalPrice(double originalPrice) {
+        this.originalPrice = BigDecimal.valueOf(originalPrice).setScale(2, RoundingMode.HALF_EVEN);
+        return this;
+    }
 
     public VehicleBuilder setRegistrationYear(int registrationYear) {
         this.registrationYear = registrationYear;
@@ -167,7 +171,7 @@ public class VehicleBuilder {
     }
 
     //Costruttori
-    public VehicleBuilder(KindOfVehicle type, String brand, String model, BigDecimal originalPrice, int id) {
+    public VehicleBuilder(KindOfVehicle type, String brand, String model, BigDecimal originalPrice, long id) {
         this.type = type;
         this.brand = brand;
         this.model = model;
