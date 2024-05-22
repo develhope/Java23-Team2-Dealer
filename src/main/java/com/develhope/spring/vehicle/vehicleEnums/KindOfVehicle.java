@@ -6,7 +6,7 @@ public enum KindOfVehicle {
     SCOOTER,
     VAN,
     TRUCK,
-    NOT_DEFINED
+    NOT_DEFINED;
 
     public static KindOfVehicle convertFromString(String type) {
         return switch (type.toLowerCase()) {
