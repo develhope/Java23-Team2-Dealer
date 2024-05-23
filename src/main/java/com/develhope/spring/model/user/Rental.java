@@ -23,8 +23,8 @@ public class Rental {
         this.endDate = endDate;
         this.dailyCost = dailyCost;
         this.vehicleId = vehicleId;
-        this.calculateTotalCost();
-        this.paid = false;
+        calculateTotalCost();
+       // this.paid = false;
     }
 
     private void calculateTotalCost() {
@@ -44,5 +44,7 @@ public class Rental {
     public boolean isPaid() {
         return paid;
     }
+
+
 }
 
