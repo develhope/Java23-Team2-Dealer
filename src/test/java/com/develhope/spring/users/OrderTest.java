@@ -12,7 +12,7 @@ class OrderTests {
     void testOrderInitialization() {
         Order order = new Order(true, OrderStatus.PENDING,  123);
         assertNotNull(order, "L'ordine non deve essere nullo");
-        assertTrue(order.getDownPayment(), "L'acconto dovrebbe essere vero");
+        assertTrue(order.isDownPayment(), "L'acconto dovrebbe essere vero");
         assertEquals(OrderStatus.PENDING, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe essere PENDING (IN ATTESA)");
         assertEquals(123, order.getVehicleId(), "L'ID del veicolo deve corrispondere all'argomento del costruttore");
     }
@@ -21,7 +21,7 @@ class OrderTests {
     void testOrderInitializationWithNoPayments() {
         Order order = new Order(false, OrderStatus.PENDING, 123);
         assertNotNull(order, "L'ordine non deve essere nullo");
-        assertFalse(order.getDownPayment(), "L'acconto dovrebbe essere falso");
+        assertFalse(order.isDownPayment(), "L'acconto dovrebbe essere falso");
         assertEquals(OrderStatus.PENDING, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe essere PENDING (IN ATTESA)");
         assertEquals(123, order.getVehicleId(), "L'ID del veicolo deve corrispondere all'argomento del costruttore");
     }
@@ -30,7 +30,7 @@ class OrderTests {
     void testOrderInitializationWithPaidOnly() {
         Order order = new Order(false, OrderStatus.PENDING, 123);
         assertNotNull(order, "L'ordine non deve essere nullo");
-        assertFalse(order.getDownPayment(), "L'acconto dovrebbe essere falso");
+        assertFalse(order.isDownPayment(), "L'acconto dovrebbe essere falso");
         assertEquals(OrderStatus.PENDING, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe essere PENDING (IN ATTESA)");
         assertEquals(123, order.getVehicleId(), "L'ID del veicolo deve corrispondere all'argomento del costruttore");
     }
@@ -39,7 +39,7 @@ class OrderTests {
     void testOrderInitializationWithBothPayments() {
         Order order = new Order(true,  OrderStatus.PENDING, 123);
         assertNotNull(order, "L'ordine non deve essere nullo");
-        assertTrue(order.getDownPayment(), "L'acconto dovrebbe essere vero");
+        assertTrue(order.isDownPayment(), "L'acconto dovrebbe essere vero");
         assertEquals(OrderStatus.PENDING, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe essere PENDING (IN ATTESA)");
         assertEquals(123, order.getVehicleId(), "L'ID del veicolo deve corrispondere all'argomento del costruttore");
     }
@@ -51,7 +51,7 @@ class OrderTests {
         order.setOrderStatus(OrderStatus.SHIPPED);
         order.setVehicleId(456);
 
-        assertTrue(order.getDownPayment(), "L'acconto deve essere aggiornato a true");
+        assertTrue(order.isDownPayment(), "L'acconto deve essere aggiornato a true");
         assertEquals(OrderStatus.SHIPPED, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe essere aggiornato in SHIPPED (SPEDITO)");
         assertEquals(456, order.getVehicleId(), "L'ID del veicolo deve essere aggiornato");
     }
@@ -63,7 +63,7 @@ class OrderTests {
         order.setOrderStatus(OrderStatus.SHIPPED);
         order.setVehicleId(456);
 
-        assertTrue(order.getDownPayment(), "L'acconto deve essere aggiornato a true");
+        assertTrue(order.isDownPayment(), "L'acconto deve essere aggiornato a true");
         assertEquals(OrderStatus.SHIPPED, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe essere aggiornato in SHIPPED (SPEDITO)");
         assertEquals(456, order.getVehicleId(), "L'ID del veicolo deve essere aggiornato");
     }
@@ -75,7 +75,7 @@ class OrderTests {
         order.setOrderStatus(OrderStatus.CANCELLED);
         order.setVehicleId(789);
 
-        assertFalse(order.getDownPayment(), "L'acconto non deve essere true");
+        assertFalse(order.isDownPayment(), "L'acconto non deve essere true");
         assertEquals(OrderStatus.CANCELLED, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe essere aggiornato in CANCELLED (ANNULLATO)");
         assertEquals(789, order.getVehicleId(), "L'ID del veicolo deve essere aggiornato");
     }
@@ -87,7 +87,7 @@ class OrderTests {
         order.setOrderStatus(OrderStatus.PENDING);
         order.setVehicleId(321);
 
-        assertFalse(order.getDownPayment(), "L'acconto non deve essere true");
+        assertFalse(order.isDownPayment(), "L'acconto non deve essere true");
         assertEquals(OrderStatus.PENDING, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe rimanere PENDING (IN ATTESA)");
         assertEquals(321, order.getVehicleId(), "L'ID del veicolo deve essere aggiornato");
     }
@@ -99,7 +99,7 @@ class OrderTests {
         order.setOrderStatus(OrderStatus.PAID);
         order.setVehicleId(456);
 
-        assertFalse(order.getDownPayment(), "L'acconto non deve essere true");
+        assertFalse(order.isDownPayment(), "L'acconto non deve essere true");
         assertEquals(OrderStatus.PAID, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe rimanere PAID (PAGATO)");
         assertEquals(456, order.getVehicleId(), "L'ID del veicolo deve essere aggiornato");
     }
@@ -110,7 +110,7 @@ class OrderTests {
         order.setDownPayment(false);
         order.setVehicleId(789);
 
-        assertFalse(order.getDownPayment(), "L'acconto deve essere aggiornato a false");
+        assertFalse(order.isDownPayment(), "L'acconto deve essere aggiornato a false");
         assertEquals(OrderStatus.PAID, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe rimanere PAID (PAGATO)");
         assertEquals(789, order.getVehicleId(), "L'ID del veicolo deve essere aggiornato");
     }
@@ -122,7 +122,7 @@ class OrderTests {
         order.setOrderStatus(OrderStatus.PAID);
         order.setVehicleId(456);
 
-        assertTrue(order.getDownPayment(), "L'acconto deve essere impostato a true");
+        assertTrue(order.isDownPayment(), "L'acconto deve essere impostato a true");
         assertEquals(OrderStatus.PAID, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe essere aggiornato a PAID (PAGATO)");
         assertEquals(456, order.getVehicleId(), "L'ID del veicolo deve essere aggiornato");
     }
@@ -134,7 +134,7 @@ class OrderTests {
         order.setOrderStatus(OrderStatus.PAID);
         order.setVehicleId(789);
 
-        assertTrue(order.getDownPayment(), "L'acconto deve rimanere vero");
+        assertTrue(order.isDownPayment(), "L'acconto deve rimanere vero");
         assertEquals(OrderStatus.PAID, order.getOrderStatus(), "Lo stato dell'ordine dovrebbe essere aggiornato a PAID (PAGATO)");
         assertEquals(789, order.getVehicleId(), "L'ID del veicolo deve essere aggiornato");
     }

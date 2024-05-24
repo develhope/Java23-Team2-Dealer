@@ -38,7 +38,7 @@ public class VehicleBuilder {
         return engine;
     }
 
-    public boolean getDiscountFlag() {
+    public boolean isDiscountFlag() {
         return discountFlag;
     }
 

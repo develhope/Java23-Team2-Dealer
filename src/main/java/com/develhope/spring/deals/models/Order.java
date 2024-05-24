@@ -16,7 +16,7 @@ public class Order {
         this.vehicleId = vehicleId;
     }
 
-    public boolean getDownPayment() {
+    public boolean isDownPayment() {
         return downPayment;
     }
 

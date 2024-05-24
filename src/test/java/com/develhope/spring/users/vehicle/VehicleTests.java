@@ -30,13 +30,13 @@ public class VehicleTests {
     @Test
     public void testActivateDiscount_SetTheFlagAsTrue() {
         testVehicle.activateDiscount(50);
-        assertTrue(testVehicle.getDiscountFlag());
+        assertTrue(testVehicle.isDiscountFlag());
     }
     @Test
     public void testRemoveDiscount_SetTheFlagAsFalse(){
         testVehicle.activateDiscount(0);
         testVehicle.removeDiscount();
-        assertFalse(testVehicle.getDiscountFlag());
+        assertFalse(testVehicle.isDiscountFlag());
     }
     @Test
     public void testRemoveDiscount_ReturnDiscountedPriceAsOriginal(){

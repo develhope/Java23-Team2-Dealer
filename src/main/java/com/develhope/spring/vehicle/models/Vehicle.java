@@ -67,7 +67,7 @@ public class Vehicle {
     private String engine;
 
     //Getters
-    public boolean getDiscountFlag() {
+    public boolean isDiscountFlag() {
         return discountFlag;
     }
 
@@ -149,7 +149,7 @@ public class Vehicle {
         this.displacement = builder.getDisplacement();
         this.id = builder.getId();
         this.model = builder.getModel();
-        this.discountFlag = builder.getDiscountFlag();
+        this.discountFlag = builder.isDiscountFlag();
         this.engine = builder.getEngine();
     }
 
