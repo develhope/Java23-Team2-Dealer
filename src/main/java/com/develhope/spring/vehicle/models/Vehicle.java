@@ -153,7 +153,7 @@ public class Vehicle {
         this.engine = builder.getEngine();
     }
 
-    public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, double price, long id) {
+    public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, BigDecimal price, long id) {
         return new VehicleBuilder(type, brand, model, price, id);
     }
 
@@ -194,10 +194,5 @@ public class Vehicle {
     public void removeDiscount() {
         discountFlag = false;
         discountedPrice = getOriginalPrice();
-    }
-
-    @Override
-    public String toString() {
-        return "Vehicle{" + "brand= '" + brand + '\'' + "\nmodel= '" + model + '\'' + "\ndisplacement= " + displacement + "\ncolor= " + color + "\npower= " + power + "\ngear= " + gear + "\nregistrationYear= " + registrationYear + "\npowerSupply= " + powerSupply + "\noriginalPrice= " + originalPrice + "\ndiscountedPrice= " + discountedPrice + "\nusedFlag= " + usedFlag + "\nmarketStatus= " + marketStatus + "\ndiscountFlag= " + discountFlag + "\nid= " + id + '}';
     }
 }

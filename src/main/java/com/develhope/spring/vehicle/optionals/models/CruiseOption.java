@@ -19,7 +19,7 @@ public class CruiseOption implements Optionals {
 
 
     public BigDecimal getPrice() {
-        return price.setScale(2, RoundingMode.HALF_EVEN);
+        return price;
     }
 
     public long getId() {
