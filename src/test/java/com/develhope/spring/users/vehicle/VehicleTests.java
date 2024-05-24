@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VehicleTests {
 
-    Vehicle testVehicle = Vehicle.builder(KindOfVehicle.CAR,"", "", 17000, 0).build();
+    Vehicle testVehicle = Vehicle.builder(KindOfVehicle.CAR,"", "", new BigDecimal(17000),0).build();
     @Test
     public void testCalculateDiscount_ThrowAnExceptionIfOver100() {
         assertThrows(Exception.class, () -> testVehicle.calculateDiscount(150));
@@ -30,13 +30,13 @@ public class VehicleTests {
     @Test
     public void testActivateDiscount_SetTheFlagAsTrue() {
         testVehicle.activateDiscount(50);
-        assertTrue(testVehicle.getDiscountFlag());
+        assertTrue(testVehicle.isDiscountFlag());
     }
     @Test
     public void testRemoveDiscount_SetTheFlagAsFalse(){
         testVehicle.activateDiscount(0);
         testVehicle.removeDiscount();
-        assertFalse(testVehicle.getDiscountFlag());
+        assertFalse(testVehicle.isDiscountFlag());
     }
     @Test
     public void testRemoveDiscount_ReturnDiscountedPriceAsOriginal(){
