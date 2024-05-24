@@ -96,4 +96,12 @@ public class User {
     public void setSurname(String surname) throws EmptyParameterException {
       checkEmptySurname(surname);
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
