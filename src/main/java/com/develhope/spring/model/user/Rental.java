@@ -1,6 +1,7 @@
 package com.develhope.spring.model.user;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 public class Rental {
@@ -17,22 +18,22 @@ public class Rental {
     private int vehicleId;
 
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, int vehicleId) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, int vehicleId, boolean paid) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
         this.vehicleId = vehicleId;
-        this.calculateTotalCost();
-        this.paid = false;
+        calculateTotalCost();
+        this.paid = paid;
     }
 
     private void calculateTotalCost() {
         long rentalDays = startDate.until(endDate).getDays();
-        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays));
+        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
     }
 
-    public void markAsPaid() {
-        this.paid = true;
+    public void setPaid(boolean paid) {
+        this.paid = paid;
     }
 
     // Getters
@@ -43,5 +44,7 @@ public class Rental {
     public boolean isPaid() {
         return paid;
     }
+
+
 }
 
