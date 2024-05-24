@@ -1,7 +1,7 @@
 package com.develhope.spring.model.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import vehicle.Vehicle;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,6 +9,9 @@ import java.time.LocalDate;
 
 @Entity
 public class Rental {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     @Column(nullable = false)
     private LocalDate startDate;
     @Column(nullable = false)
@@ -19,24 +22,10 @@ public class Rental {
     private BigDecimal totalCost;
     @Column(nullable = false)
     private boolean paid;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Vehicle vehicle;
 
-    //it was decided to use vehicle (object) but instead of using
-    // Vehicle as object is created private int vehicleId;
-    // passed to the constructor
-    // handled the same way in the Order class of User
-    private int vehicleId;
-
-
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, int vehicleId, boolean paid) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.dailyCost = dailyCost;
-        this.vehicleId = vehicleId;
-        calculateTotalCost();
-        this.paid = paid;
-    }
-
-    private void calculateTotalCost() {
+    void calculateTotalCost() {
         long rentalDays = startDate.until(endDate).getDays();
         this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
     }
@@ -54,16 +43,17 @@ public class Rental {
         return paid;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, int vehicleId) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
         this.totalCost = totalCost;
         this.paid = paid;
-        this.vehicleId = vehicleId;
+        this.vehicle = vehicle;
+        this.id = id;
     }
 
-    public Rental() {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, int vehicleId, boolean b) {
     }
 
     public LocalDate getStartDate() {
@@ -94,12 +84,20 @@ public class Rental {
         this.totalCost = totalCost;
     }
 
-    public int getVehicleId() {
-        return vehicleId;
+    public long getId() {
+        return id;
     }
 
-    public void setVehicleId(int vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }
 
