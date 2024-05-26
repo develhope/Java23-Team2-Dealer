@@ -18,25 +18,6 @@ public class VehicleController {
     private VehicleService vehicleService;
 
 
-
-
-
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-    }
-
-    @ExceptionHandler(NotAuthorizedOperationException.class)
-    public ResponseEntity<String> handleNotAuthorizedOperationException(NotAuthorizedOperationException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-    }
-
-    @ExceptionHandler(VehicleNotFoundException.class)
-    public ResponseEntity<String> handleVehicleNotFoundException(VehicleNotFoundException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-    }
-
     @DeleteMapping("/{userId}/{vehicleId}")
     public ResponseEntity<Void> delete(@PathVariable long userId, @PathVariable long vehicleId) {
         vehicleService.deleteVehicle(userId, vehicleId);
