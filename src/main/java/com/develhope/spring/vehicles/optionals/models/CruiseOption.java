@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicle.optionals.models;
+package com.develhope.spring.vehicles.optionals.models;
 
 import jakarta.persistence.*;
 
@@ -6,9 +6,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Entity
-@Table(name = "air_conditioner")
-public class AirConditioner implements Optionals {
-
+@Table(name = "Cruise_Option")
+public class CruiseOption implements Optionals {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,7 +15,9 @@ public class AirConditioner implements Optionals {
     @Column(nullable = false)
     private BigDecimal price;
 
-    //getter
+    //Getter
+
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -25,22 +26,24 @@ public class AirConditioner implements Optionals {
         return id;
     }
 
-    //setter
-    public void setPrice(BigDecimal price) {
-        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
-    }
+    //Setter
+
 
     public void setId(long id) {
         this.id = id;
     }
 
-    //Constructors
-
-    public AirConditioner() {
+    public void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
-    public AirConditioner(long id, BigDecimal price) {
+    //Constructor
+
+    public CruiseOption() {
+    }
+
+    public CruiseOption(long id, BigDecimal price) {
         this.id = id;
-        this.price = price.setScale(2,RoundingMode.HALF_EVEN);
+        this.price= price.setScale(2,RoundingMode.HALF_EVEN);
     }
 }

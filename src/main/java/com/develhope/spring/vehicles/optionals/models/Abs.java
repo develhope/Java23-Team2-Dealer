@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicle.optionals.models;
+package com.develhope.spring.vehicles.optionals.models;
 
 import jakarta.persistence.*;
 
