@@ -3,19 +3,19 @@ package com.develhope.spring.vehicle.optionals.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Wheels")
+@Table(name = "Rim")
 public class AllowWheels {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private boolean chromiumPlated;
-    private boolean ilLega;
+    private boolean alloyWheels;
     private boolean colored;
     public AllowWheels(){}
     public AllowWheels(long id, boolean chromiumPlated, boolean ilLega, boolean colored) {
         this.id = id;
         this.chromiumPlated = chromiumPlated;
-        this.ilLega = ilLega;
+        this.alloyWheels = ilLega;
         this.colored = colored;
     }
 
@@ -28,7 +28,7 @@ public class AllowWheels {
     }
 
     public boolean isIlLega() {
-        return ilLega;
+        return alloyWheels;
     }
 
     public boolean isColored() {
@@ -44,7 +44,7 @@ public class AllowWheels {
     }
 
     public void setIlLega(boolean ilLega) {
-        this.ilLega = ilLega;
+        this.alloyWheels = ilLega;
     }
 
     public void setColored(boolean colored) {
