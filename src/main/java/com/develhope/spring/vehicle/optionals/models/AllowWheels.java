@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "Wheels")
 public class AllowWheels {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private boolean chromiumPlated;
     private boolean ilLega;
@@ -33,5 +33,21 @@ public class AllowWheels {
 
     public boolean isColored() {
         return colored;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setChromiumPlated(boolean chromiumPlated) {
+        this.chromiumPlated = chromiumPlated;
+    }
+
+    public void setIlLega(boolean ilLega) {
+        this.ilLega = ilLega;
+    }
+
+    public void setColored(boolean colored) {
+        this.colored = colored;
     }
 }
