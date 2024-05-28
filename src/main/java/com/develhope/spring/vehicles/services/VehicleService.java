@@ -32,18 +32,37 @@ public class VehicleService {
         return vehicleRepository.save(vehicle);
     }
 
-    public void deleteVehicle(long userId, long vehicleId) {
+
+    public Vehicle updateVehicle(long userId, long vehicleId, Vehicle updatedVehicle) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException("No user with this id: " + userId + " is present");
         }
         if (optionalUser.get().getRoles() != Roles.ADMIN) {
-            throw new NotAuthorizedOperationException("Permission denied. Not authorized to delete vehicles");
+            throw new NotAuthorizedOperationException("Permission denied. Not authorized to update vehicles");
         }
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
         if (optionalVehicle.isEmpty()) {
             throw new VehicleNotFoundException("No vehicle with this id: " + vehicleId + " is present");
         }
-        vehicleRepository.deleteById(vehicleId);
+
+        Vehicle vehicle = optionalVehicle.get();
+        vehicle.setType(updatedVehicle.getType());
+        vehicle.setBrand(updatedVehicle.getBrand());
+        vehicle.setModel(updatedVehicle.getModel());
+        vehicle.setDisplacement(updatedVehicle.getDisplacement());
+        vehicle.setColor(updatedVehicle.getColor());
+        vehicle.setPower(updatedVehicle.getPower());
+        vehicle.setGear(updatedVehicle.getGear());
+        vehicle.setRegistrationYear(updatedVehicle.getRegistrationYear());
+        vehicle.setPowerSupply(updatedVehicle.getPowerSupply());
+        vehicle.setOriginalPrice(updatedVehicle.getOriginalPrice());
+        vehicle.setDiscountedPrice(updatedVehicle.getDiscountedPrice());
+        vehicle.setUsedFlag(updatedVehicle.getUsedFlag());
+        vehicle.setMarketStatus(updatedVehicle.getMarketStatus());
+        vehicle.setDiscountFlag(updatedVehicle.isDiscountFlag());
+        vehicle.setEngine(updatedVehicle.getEngine());
+
+        return vehicleRepository.save(vehicle);
     }
 }

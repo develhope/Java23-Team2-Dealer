@@ -130,7 +130,73 @@ public class Vehicle {
         return id;
     }
 
-    public Vehicle(){}
+    // Setter
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setType(KindOfVehicle type) {
+        this.type = type;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setDisplacement(int displacement) {
+        this.displacement = displacement;
+    }
+
+    public void setColor(Colors color) {
+        this.color = color;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public void setGear(Gears gear) {
+        this.gear = gear;
+    }
+
+    public void setRegistrationYear(int registrationYear) {
+        this.registrationYear = registrationYear;
+    }
+
+    public void setPowerSupply(MotorPowerSupply powerSupply) {
+        this.powerSupply = powerSupply;
+    }
+
+    public void setOriginalPrice(BigDecimal originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
+    }
+
+    public void setUsedFlag(UsedFlag usedFlag) {
+        this.usedFlag = usedFlag;
+    }
+
+    public void setMarketStatus(MarketStatus marketStatus) {
+        this.marketStatus = marketStatus;
+    }
+
+    public void setDiscountFlag(boolean discountFlag) {
+        this.discountFlag = discountFlag;
+    }
+
+    public void setEngine(String engine) {
+        this.engine = engine;
+    }
+
+    public Vehicle() {
+    }
 
     //Costruttori
     protected Vehicle(VehicleBuilder builder) {

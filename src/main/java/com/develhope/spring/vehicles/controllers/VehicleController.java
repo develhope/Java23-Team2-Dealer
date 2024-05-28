@@ -37,9 +37,9 @@ public class VehicleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(vehicleService.create(userId, vehicle));
     }
 
-    @DeleteMapping("/{userId}/{vehicleId}")
-    public ResponseEntity<Void> delete(@PathVariable long userId, @PathVariable long vehicleId) {
-        vehicleService.deleteVehicle(userId, vehicleId);
-        return ResponseEntity.noContent().build();
+
+    @PutMapping("/{userId}/{vehicleId}")
+    public ResponseEntity<Vehicle> update(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody Vehicle vehicle) {
+        return ResponseEntity.ok(vehicleService.updateVehicle(userId, vehicleId, vehicle));
     }
 }
