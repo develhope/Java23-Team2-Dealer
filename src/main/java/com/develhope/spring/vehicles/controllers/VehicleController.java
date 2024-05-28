@@ -3,6 +3,7 @@ package com.develhope.spring.vehicles.controllers;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.dto.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
+import com.develhope.spring.vehicles.models.exception.VehicleNotFoundException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class VehicleController {
 
     @ExceptionHandler(NotAuthorizedOperationException.class)
     public ResponseEntity<String> getException(NotAuthorizedOperationException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+    }
+
+    @ExceptionHandler(VehicleNotFoundException.class)
+    public ResponseEntity<String> handleVehicleNotFoundException(VehicleNotFoundException e) {
         return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
     }
 
