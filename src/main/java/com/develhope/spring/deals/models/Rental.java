@@ -1,7 +1,7 @@
-package com.develhope.spring.model.user;
+package com.develhope.spring.deals.models;
 
+import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
-import vehicle.Vehicle;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -1,13 +1,11 @@
-package com.develhope.spring.model;
+package com.develhope.spring.deals.models;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.develhope.spring.deals.models.Order;
-import com.develhope.spring.deals.models.OrderStatus;
 import org.junit.jupiter.api.Test;
 
-class OrderTests {
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+public class OrderTest {
     @Test
     void testOrderInitialization() {
         Order order = new Order(true, OrderStatus.PENDING,  123);
