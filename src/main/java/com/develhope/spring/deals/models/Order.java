@@ -1,15 +1,26 @@
 package com.develhope.spring.deals.models;
 
 import com.develhope.spring.users.models.User;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * Represents an order or purchase. This class includes details about
  * the payment status, order status, and identifies the vehicle associated with the order.
  */
+@Table(name = "orders")
+@Entity
 public class Order {
+
+    @Id
+    @GeneratedValue
+    private long id;
+    private int vehicleId;
     private boolean downPayment;
     private OrderStatus orderStatus;
-    private int vehicleId;
+
 
 
     public Order(boolean downPayment, OrderStatus orderStatus, int vehicleId) {
