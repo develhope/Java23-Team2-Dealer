@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicles.dto;
+package com.develhope.spring.vehicles.dtos;
 
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 

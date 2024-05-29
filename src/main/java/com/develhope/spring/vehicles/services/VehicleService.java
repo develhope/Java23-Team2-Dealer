@@ -4,7 +4,7 @@ import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
-import com.develhope.spring.vehicles.dto.VehicleStatusDTO;
+import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.models.exception.VehicleNotFoundException;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
