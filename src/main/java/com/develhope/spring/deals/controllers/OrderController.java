@@ -6,6 +6,7 @@ import com.develhope.spring.deals.services.OrderService;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.models.exceptions.UserNotFoundException;
+import com.develhope.spring.users.models.exceptions.VehicleNotFoundException;
 import com.develhope.spring.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

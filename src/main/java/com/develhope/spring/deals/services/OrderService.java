@@ -7,6 +7,7 @@ import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.models.exceptions.UserNotFoundException;
+import com.develhope.spring.users.models.exceptions.VehicleNotFoundException;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;

@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.models;
 
 
+import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
 
@@ -64,6 +65,9 @@ public class Vehicle {
 
     @Column(nullable = false)
     private String engine;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
 
     //Getters
@@ -197,6 +201,12 @@ public class Vehicle {
         discountedPrice = getOriginalPrice();
     }
 
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
 
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
 }
