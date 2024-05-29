@@ -3,7 +3,11 @@ package com.develhope.spring.vehicles.controllers;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
+
 import com.develhope.spring.vehicles.models.exception.VehicleNotFoundException;
+
+import com.develhope.spring.vehicles.models.exceptions.VehicleNotFoundException;
+
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +46,11 @@ public class VehicleController {
     @ResponseStatus(HttpStatus.OK)
     public Vehicle updateStatus(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody VehicleStatusDTO vehicleStatusDTO) {
         return vehicleService.updateVehicleStatus(userId, vehicleId, vehicleStatusDTO);
+
+    @DeleteMapping("/{userId}/{vehicleId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void delete(@PathVariable long userId, @PathVariable long vehicleId) {
+        vehicleService.deleteVehicle(userId, vehicleId);
+
     }
 }
