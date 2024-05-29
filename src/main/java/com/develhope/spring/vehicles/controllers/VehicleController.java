@@ -39,7 +39,8 @@ public class VehicleController {
     }
 
     @PatchMapping("/{userId}/{vehicleId}/status")
-    public ResponseEntity<Vehicle> updateStatus(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody VehicleStatusDTO vehicleStatusDTO) {
-        return ResponseEntity.ok(vehicleService.updateVehicleStatus(userId, vehicleId, vehicleStatusDTO));
+    @ResponseStatus(HttpStatus.OK)
+    public Vehicle updateStatus(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody VehicleStatusDTO vehicleStatusDTO) {
+        return vehicleService.updateVehicleStatus(userId, vehicleId, vehicleStatusDTO);
     }
 }
