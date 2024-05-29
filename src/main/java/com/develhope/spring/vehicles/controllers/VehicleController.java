@@ -38,8 +38,8 @@ public class VehicleController {
     }
 
     @DeleteMapping("/{userId}/{vehicleId}")
-    public ResponseEntity<Void> delete(@PathVariable long userId, @PathVariable long vehicleId) {
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void delete(@PathVariable long userId, @PathVariable long vehicleId) {
         vehicleService.deleteVehicle(userId, vehicleId);
-        return ResponseEntity.noContent().build();
     }
 }
