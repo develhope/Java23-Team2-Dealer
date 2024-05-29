@@ -65,6 +65,14 @@ public class Vehicle {
     @Column(nullable = false)
     private String engine;
 
+    @Column(nullable = false)
+    private boolean orderable;
+
+    public Vehicle(long id, boolean orderable) {
+        this.id = id;
+        this.orderable = orderable;
+    }
+
     //Getters
     public boolean isDiscountFlag() {
         return discountFlag;
@@ -259,5 +267,13 @@ public class Vehicle {
     public void removeDiscount() {
         discountFlag = false;
         discountedPrice = getOriginalPrice();
+    }
+
+    public boolean getOrderable() {
+        return orderable;
+    }
+
+    public void setOrderable(boolean orderable) {
+        this.orderable = orderable;
     }
 }

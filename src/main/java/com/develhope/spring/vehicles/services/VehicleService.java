@@ -32,7 +32,6 @@ public class VehicleService {
         return vehicleRepository.save(vehicle);
     }
 
-
     public Vehicle updateVehicle(long userId, long vehicleId, Vehicle updatedVehicle) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
@@ -46,23 +45,8 @@ public class VehicleService {
             throw new VehicleNotFoundException("No vehicle with this id: " + vehicleId + " is present");
         }
 
-        Vehicle vehicle = optionalVehicle.get();
-        vehicle.setType(updatedVehicle.getType());
-        vehicle.setBrand(updatedVehicle.getBrand());
-        vehicle.setModel(updatedVehicle.getModel());
-        vehicle.setDisplacement(updatedVehicle.getDisplacement());
-        vehicle.setColor(updatedVehicle.getColor());
-        vehicle.setPower(updatedVehicle.getPower());
-        vehicle.setGear(updatedVehicle.getGear());
-        vehicle.setRegistrationYear(updatedVehicle.getRegistrationYear());
-        vehicle.setPowerSupply(updatedVehicle.getPowerSupply());
-        vehicle.setOriginalPrice(updatedVehicle.getOriginalPrice());
-        vehicle.setDiscountedPrice(updatedVehicle.getDiscountedPrice());
-        vehicle.setUsedFlag(updatedVehicle.getUsedFlag());
-        vehicle.setMarketStatus(updatedVehicle.getMarketStatus());
-        vehicle.setDiscountFlag(updatedVehicle.isDiscountFlag());
-        vehicle.setEngine(updatedVehicle.getEngine());
-
-        return vehicleRepository.save(vehicle);
+        updatedVehicle.setId(vehicleId);
+        return vehicleRepository.save(updatedVehicle);
     }
+
 }
