@@ -19,39 +19,24 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/buyer/{vehicleId}")
-    public ResponseEntity<Order> createOrderForBuyer(@RequestParam long userId, @PathVariable long vehicleId) {
+    @PostMapping("/create")
+    public ResponseEntity<?> createOrder(@RequestParam boolean downPayment,
+                                         @RequestParam long vehicleId,
+                                         @RequestParam long userId,
+                                         @RequestParam(required = false) Long adminId) {
         try {
             User user = userRepository.findById(userId).orElseThrow(() -> new Exception("User not found"));
-            Order order = orderService.createOrderForBuyer(user, vehicleId);
-            return ResponseEntity.ok(order);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
-    }
 
-    @PostMapping("/admin")
-    public ResponseEntity<Order> createOrderForAdmin(@RequestParam long adminId, @RequestParam long vehicleId, @RequestParam long userId) {
-        try {
-            User admin = userRepository.findById(adminId).orElseThrow(() -> new Exception("Admin not found"));
-            if (admin.getRoles() != Roles.ADMIN) {
-                throw new Exception("User is not authorized to create an order as an admin");
+            if (adminId != null) {
+                User admin = userRepository.findById(adminId).orElseThrow(() -> new Exception("Admin not found"));
+                Order order = orderService.createOrderForUser(downPayment, vehicleId, admin, user);
+                return ResponseEntity.ok(order);
+            } else {
+                Order order = orderService.createOrder(downPayment, vehicleId, user);
+                return ResponseEntity.ok(order);
             }
-            Order order = orderService.createOrderForAdmin(userId, vehicleId);
-            return ResponseEntity.ok(order);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
-    }
-
-    @PostMapping("/salesperson/{vehicleId}")
-    public ResponseEntity<Order> createOrderForSalesperson(@RequestParam long userId, @PathVariable long vehicleId) {
-        try {
-            User user = userRepository.findById(userId).orElseThrow(() -> new Exception("User not found"));
-            Order order = orderService.createOrderForSalesperson(user, vehicleId);
-            return ResponseEntity.ok(order);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

@@ -30,4 +30,8 @@ public class VehicleService {
         }
         return vehicleRepository.save(vehicle);
     }
+
+    public Optional<Vehicle> findVehicleById(Long id) {
+        return vehicleRepository.findById(id);
+    }
 }

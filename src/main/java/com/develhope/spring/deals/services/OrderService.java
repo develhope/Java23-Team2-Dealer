@@ -2,11 +2,13 @@ package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
+import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.services.VehicleService;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,39 +22,31 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
-    public Order createOrderForBuyer(User buyer, long vehicleId) throws Exception {
-        if (buyer.getRoles() != Roles.BUYER) {
-            throw new Exception("User is not authorized to create an order as a buyer");
-        }
+    @Autowired
+    private VehicleService vehicleService;
 
-        Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new Exception("Vehicle not found"));
+    @Autowired
+    private OrderRepository orderRepository;
 
-        if (vehicle.getMarketStatus() != MarketStatus.ORDERABLE) {
+    public Order createOrder(boolean downPayment, long vehicleId, User user) throws Exception {
+        Vehicle vehicle = vehicleService.findVehicleById(vehicleId)
+                .orElseThrow(() -> new Exception("Vehicle not found"));
+
+        if ((user.getRoles() == Roles.BUYER || user.getRoles() == Roles.SALESPERSON) && !vehicle.getOrderable()) {
             throw new Exception("Vehicle is not orderable");
         }
-
-        return new Order(true, OrderStatus.PENDING, (int) vehicle.getId());
+        Order order = new Order(downPayment, OrderStatus.PENDING, vehicleId, user);
+        return orderRepository.save(order);
     }
 
-    public Order createOrderForAdmin(long userId, long vehicleId) throws Exception {
-        User user = userRepository.findById(userId).orElseThrow(() -> new Exception("User not found"));
+    public Order createOrderForUser(boolean downPayment, long vehicleId, User admin, User user) throws Exception {
+        Vehicle vehicle = vehicleService.findVehicleById(vehicleId)
+                .orElseThrow(() -> new Exception("Vehicle not found"));
 
-        Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new Exception("Vehicle not found"));
-
-        return new Order(true, OrderStatus.PENDING, (int) vehicle.getId());
-    }
-
-    public Order createOrderForSalesperson(User salesperson, long vehicleId) throws Exception {
-        if (salesperson.getRoles() != Roles.SALESPERSON) {
-            throw new Exception("User is not authorized to create an order as a salesperson");
+        if (admin.getRoles() != Roles.ADMIN) {
+            throw new Exception("Only admin can create an order for another user");
         }
-
-        Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new Exception("Vehicle not found"));
-
-        if (vehicle.getMarketStatus() != MarketStatus.ORDERABLE) {
-            throw new Exception("Vehicle is not orderable");
-        }
-
-        return new Order(true, OrderStatus.PENDING, (int) vehicle.getId());
+        Order order = new Order(downPayment, OrderStatus.PENDING, vehicleId, user);
+        return orderRepository.save(order);
     }
 }

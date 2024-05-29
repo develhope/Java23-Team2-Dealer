@@ -1,5 +1,7 @@
 package com.develhope.spring.deals.models;
 
+import com.develhope.spring.users.models.User;
+
 /**
  * Represents an order or purchase. This class includes details about
  * the payment status, order status, and identifies the vehicle associated with the order.
@@ -14,6 +16,9 @@ public class Order {
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
         this.vehicleId = vehicleId;
+    }
+
+    public Order(boolean downPayment, OrderStatus orderStatus, long vehicleId, User user) {
     }
 
     public boolean isDownPayment() {
