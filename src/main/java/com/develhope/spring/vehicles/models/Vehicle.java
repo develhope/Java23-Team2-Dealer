@@ -65,7 +65,6 @@ public class Vehicle {
     @Column(nullable = false)
     private String engine;
 
-    private boolean orderable;
 
     //Getters
     public boolean isDiscountFlag() {
@@ -154,9 +153,6 @@ public class Vehicle {
         this.engine = builder.getEngine();
     }
 
-    public Vehicle(boolean orderable) {
-        this.orderable = orderable;
-    }
 
     public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, BigDecimal price, long id) {
         return new VehicleBuilder(type, brand, model, price, id);
@@ -201,13 +197,6 @@ public class Vehicle {
         discountedPrice = getOriginalPrice();
     }
 
-    public boolean getOrderable() {
-        return orderable;
-    }
-
-    public void setOrderable(boolean orderable) {
-        this.orderable = orderable;
-    }
 
 
 }
