@@ -5,6 +5,7 @@ import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.models.Vehicle;
+import com.develhope.spring.vehicles.models.exceptions.VehicleNotFoundException;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,20 @@ public class VehicleService {
             throw new NotAuthorizedOperationException("Permission denied. Not authorized to insert new vehicles");
         }
         return vehicleRepository.save(vehicle);
+    }
+
+    public void deleteVehicle(long userId, long vehicleId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException("No user with this id: " + userId + " is present");
+        }
+        if (optionalUser.get().getRoles() != Roles.ADMIN) {
+            throw new NotAuthorizedOperationException("Permission denied. Not authorized to delete vehicles");
+        }
+        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
+        if (optionalVehicle.isEmpty()) {
+            throw new VehicleNotFoundException("No vehicle with this id: " + vehicleId + " is present");
+        }
+        vehicleRepository.deleteById(vehicleId);
     }
 }
