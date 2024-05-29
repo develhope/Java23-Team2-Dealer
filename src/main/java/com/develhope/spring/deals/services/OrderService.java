@@ -52,6 +52,8 @@ public class OrderService {
         }
 
         Order order = new Order(orderDTO.isDownPayment(), OrderStatus.PENDING, orderDTO.getVehicleId(), user);
+        vehicle.setOrderStatus(OrderStatus.PENDING);
+        vehicleRepository.save(vehicle);
         return orderRepository.save(order);
     }
 }
