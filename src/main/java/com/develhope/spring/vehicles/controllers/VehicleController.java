@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.controllers;
 
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
+import com.develhope.spring.vehicles.dto.VehicleDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.models.exceptions.VehicleNotFoundException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
@@ -33,14 +34,14 @@ public class VehicleController {
     }
 
     @PostMapping("/{userId}")
-    public ResponseEntity<Vehicle> create(@PathVariable long userId, @RequestBody Vehicle vehicle) {
+    public ResponseEntity<VehicleDTO> create(@PathVariable long userId, @RequestBody Vehicle vehicle) {
         return ResponseEntity.status(HttpStatus.CREATED).body(vehicleService.create(userId, vehicle));
     }
 
 
     @PutMapping("/{userId}/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
-    public Vehicle update(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody Vehicle vehicle) {
+    public VehicleDTO update(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody Vehicle vehicle) {
         return vehicleService.updateVehicle(userId, vehicleId, vehicle);
     }
 }
