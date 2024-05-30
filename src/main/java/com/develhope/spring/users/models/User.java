@@ -49,7 +49,8 @@ public class User {
         }
     }
 
-    public User(String name, String surname, long phoneNumber, String email, Roles roles) throws EmptyParameterException, WrongEmailFormatException {
+    public User(long id, String name, String surname, long phoneNumber, String email, Roles roles) throws EmptyParameterException, WrongEmailFormatException {
+        this.id = id;
         checkEmptyName(name);
         checkEmptySurname(surname);
         checkEmailFormat(email);

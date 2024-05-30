@@ -1,6 +1,10 @@
 package com.develhope.spring.users.controllers;
 
+import com.develhope.spring.users.components.Mapper;
+import com.develhope.spring.users.dto.UserCreationDTO;
 import com.develhope.spring.users.models.User;
+import com.develhope.spring.users.models.exceptions.EmptyParameterException;
+import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/users")
 public class UserController {
     @Autowired
+    private Mapper mapper;
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -19,7 +25,8 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerUser(@RequestBody User user){
+    public void registerUser(@RequestBody UserCreationDTO userCreationDTO) throws EmptyParameterException, WrongEmailFormatException {
+        User user = mapper.toUser(userCreationDTO);
         userService.createUser(user);
     }
 }
