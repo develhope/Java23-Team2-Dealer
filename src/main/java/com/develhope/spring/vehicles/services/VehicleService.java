@@ -6,7 +6,9 @@ import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.dtos.VehicleDTO;
 import com.develhope.spring.vehicles.dtos.VehicleUpdateDTO;
+import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
+import com.develhope.spring.vehicles.models.exception.VehicleNotFoundException;
 import com.develhope.spring.vehicles.models.exceptions.VehicleNotFoundException;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
@@ -62,12 +64,24 @@ public class VehicleService {
      * @throws VehicleNotFoundException se il veicolo non viene trovato
      */
     public VehicleDTO updateVehicle(long userId, long vehicleId, VehicleUpdateDTO updatedVehicleDTO) {
+
+    public Vehicle updateVehicleStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
+
+    public void deleteVehicle(long userId, long vehicleId) {
+
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException("Nessun utente con questo ID: " + userId + " è presente");
         }
         if (optionalUser.get().getRoles() != Roles.ADMIN) {
+
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
+
+            throw new NotAuthorizedOperationException("Permission denied. Not authorized to update vehicle status");
+
+            throw new NotAuthorizedOperationException("Permission denied. Not authorized to delete vehicles");
+
+
         }
 
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
@@ -79,5 +93,15 @@ public class VehicleService {
         vehicleMapper.toEntity(updatedVehicleDTO);
 
         return vehicleMapper.toDTO(vehicleRepository.save(vehicle));
+
+
+        Vehicle existingVehicle = optionalVehicle.get();
+        existingVehicle.setMarketStatus(vehicleStatusDTO.getMarketStatus());
+
+        return vehicleRepository.save(existingVehicle);
+
+        vehicleRepository.deleteById(vehicleId);
+
     }
+
 }

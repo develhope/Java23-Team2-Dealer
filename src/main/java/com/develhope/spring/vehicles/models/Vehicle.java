@@ -142,6 +142,7 @@ public class Vehicle {
     }
 
     // Setter
+
     public void setId(long id) {
         this.id = id;
     }
@@ -206,8 +207,8 @@ public class Vehicle {
         this.engine = engine;
     }
 
-    public Vehicle() {
-    }
+    public Vehicle(){}
+
 
     //Costruttori
     protected Vehicle(VehicleBuilder builder) {
