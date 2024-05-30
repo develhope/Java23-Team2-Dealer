@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(VehicleController.class)
@@ -49,6 +50,38 @@ public class VehicleControllerTest {
                                             "engine": "4-cylinder"
                                         }
                                         """))
-                .andExpect(status().isCreated());;
+                .andExpect(status().isCreated());
+        ;
+    }
+
+    @Test
+    void modifyVehicleTest() throws Exception {
+        long userId = 1L;
+        long vehicleId = 1L;
+
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.put("/v1/vehicles/{userId}/{vehicleId}", userId, vehicleId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                    {
+                                        "type": "VAN",
+                                        "brand": "Fiat",
+                                        "model": "Fiorino",
+                                        "displacement": 1200,
+                                        "color": "RED",
+                                        "power": 70,
+                                        "gear": "MANUAL",
+                                        "registrationYear": 2022,
+                                        "powerSupply": "METHANE",
+                                        "originalPrice": 15000,
+                                        "discountedPrice": 14000,
+                                        "usedFlag": "NEW",
+                                        "marketStatus": "AVAILABLE",
+                                        "discountFlag": true,
+                                        "engine": "4-cylinder"
+                                    }
+                                    """)
+                )
+                .andExpect(status().isOk());
     }
 }
