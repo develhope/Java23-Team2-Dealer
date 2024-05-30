@@ -1,8 +1,14 @@
 package com.develhope.spring.vehicles.models;
 
 
+import com.develhope.spring.vehicles.dtos.VehicleCreateDTO;
+import com.develhope.spring.vehicles.dtos.VehicleDTO;
+import com.develhope.spring.vehicles.dtos.VehicleUpdateDTO;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -65,12 +71,9 @@ public class Vehicle {
     @Column(nullable = false)
     private String engine;
 
-    @Column(nullable = false)
-    private boolean orderable;
 
-    public Vehicle(long id, boolean orderable) {
+    public Vehicle(long id) {
         this.id = id;
-        this.orderable = orderable;
     }
 
     //Getters
@@ -269,11 +272,86 @@ public class Vehicle {
         discountedPrice = getOriginalPrice();
     }
 
-    public boolean getOrderable() {
-        return orderable;
-    }
 
-    public void setOrderable(boolean orderable) {
-        this.orderable = orderable;
+    /**
+     * La mappatura è necessaria perché VehicleDTO è una rappresentazione dei dati trasferita tra il client e il server,
+     * mentre Vehicle è un'entità persistente nel database.
+     */
+    @Component
+    public class VehicleMapper {
+
+        @Autowired
+        private ModelMapper modelMapper;
+
+        /**
+         * Converte un Vehicle in un VehicleDTO.
+         *
+         * @param vehicle l'entità Vehicle da convertire
+         * @return il VehicleDTO convertito
+         */
+        public VehicleDTO toDTO(Vehicle vehicle) {
+            return modelMapper.map(vehicle, VehicleDTO.class);
+        }
+
+        /**
+         * Converte un VehicleCreateDTO in un Vehicle.
+         *
+         * @param vehicleCreateDTO il VehicleCreateDTO da convertire
+         * @return l'entità Vehicle convertita
+         */
+        public Vehicle toEntity(VehicleCreateDTO vehicleCreateDTO) {
+            return modelMapper.map(vehicleCreateDTO, Vehicle.class);
+        }
+
+        /**
+         * Converte un VehicleUpdateDTO in un Vehicle.
+         *
+         * @param vehicleUpdateDTO il VehicleUpdateDTO da convertire
+         * @return l'entità Vehicle convertita
+         */
+        public Vehicle toEntity(VehicleUpdateDTO vehicleUpdateDTO) {
+            return modelMapper.map(vehicleUpdateDTO, Vehicle.class);
+        }
+
+
+        /*private void mapDTOtoVehicle(Vehicle dto, Vehicle vehicle) {
+            vehicle.setType(dto.getType());
+            vehicle.setBrand(dto.getBrand());
+            vehicle.setModel(dto.getModel());
+            vehicle.setDisplacement(dto.getDisplacement());
+            vehicle.setColor(dto.getColor());
+            vehicle.setPower(dto.getPower());
+            vehicle.setGear(dto.getGear());
+            vehicle.setRegistrationYear(dto.getRegistrationYear());
+            vehicle.setPowerSupply(dto.getPowerSupply());
+            vehicle.setOriginalPrice(dto.getOriginalPrice());
+            vehicle.setDiscountedPrice(dto.getDiscountedPrice());
+            vehicle.setUsedFlag(dto.getUsedFlag());
+            vehicle.setMarketStatus(dto.getMarketStatus());
+            vehicle.setDiscountFlag(dto.isDiscountFlag());
+            vehicle.setEngine(dto.getEngine());
+        }
+
+        private VehicleDTO mapToDTO(Vehicle vehicle) {
+            VehicleDTO dto = new VehicleDTO();
+            dto.setId(vehicle.getId());
+            dto.setType(vehicle.getType());
+            dto.setBrand(vehicle.getBrand());
+            dto.setModel(vehicle.getModel());
+            dto.setDisplacement(vehicle.getDisplacement());
+            dto.setColor(vehicle.getColor());
+            dto.setPower(vehicle.getPower());
+            dto.setGear(vehicle.getGear());
+            dto.setRegistrationYear(vehicle.getRegistrationYear());
+            dto.setPowerSupply(vehicle.getPowerSupply());
+            dto.setOriginalPrice(vehicle.getOriginalPrice());
+            dto.setDiscountedPrice(vehicle.getDiscountedPrice());
+            dto.setUsedFlag(vehicle.getUsedFlag());
+            dto.setMarketStatus(vehicle.getMarketStatus());
+            dto.setDiscountFlag(vehicle.isDiscountFlag());
+            dto.setEngine(vehicle.getEngine());
+            return dto;
+        }*/
+
     }
 }

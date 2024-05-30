@@ -1,11 +1,10 @@
-package com.develhope.spring.vehicles.dto;
+package com.develhope.spring.vehicles.dtos;
 
 import com.develhope.spring.vehicles.vehicleEnums.*;
 
 import java.math.BigDecimal;
 
-public class VehicleDTO {
-
+public class VehicleUpdateDTO {
     private Long id;
     private KindOfVehicle type;
     private String brand;
@@ -23,10 +22,10 @@ public class VehicleDTO {
     private boolean discountFlag;
     private String engine;
 
-    public VehicleDTO() {
+    public VehicleUpdateDTO() {
     }
 
-    public VehicleDTO(Long id, KindOfVehicle type, String brand, String model, int displacement, Colors color, int power, Gears gear, int registrationYear, MotorPowerSupply powerSupply, BigDecimal originalPrice, BigDecimal discountedPrice, UsedFlag usedFlag, MarketStatus marketStatus, boolean discountFlag, String engine) {
+    public VehicleUpdateDTO(Long id, KindOfVehicle type, String brand, String model, int displacement, Colors color, int power, Gears gear, int registrationYear, MotorPowerSupply powerSupply, BigDecimal originalPrice, BigDecimal discountedPrice, UsedFlag usedFlag, MarketStatus marketStatus, boolean discountFlag, String engine) {
         this.id = id;
         this.type = type;
         this.brand = brand;
@@ -175,4 +174,3 @@ public class VehicleDTO {
 
 
 }
-
