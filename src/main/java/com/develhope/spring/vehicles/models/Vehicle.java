@@ -313,45 +313,5 @@ public class Vehicle {
             return modelMapper.map(vehicleUpdateDTO, Vehicle.class);
         }
 
-
-        /*private void mapDTOtoVehicle(Vehicle dto, Vehicle vehicle) {
-            vehicle.setType(dto.getType());
-            vehicle.setBrand(dto.getBrand());
-            vehicle.setModel(dto.getModel());
-            vehicle.setDisplacement(dto.getDisplacement());
-            vehicle.setColor(dto.getColor());
-            vehicle.setPower(dto.getPower());
-            vehicle.setGear(dto.getGear());
-            vehicle.setRegistrationYear(dto.getRegistrationYear());
-            vehicle.setPowerSupply(dto.getPowerSupply());
-            vehicle.setOriginalPrice(dto.getOriginalPrice());
-            vehicle.setDiscountedPrice(dto.getDiscountedPrice());
-            vehicle.setUsedFlag(dto.getUsedFlag());
-            vehicle.setMarketStatus(dto.getMarketStatus());
-            vehicle.setDiscountFlag(dto.isDiscountFlag());
-            vehicle.setEngine(dto.getEngine());
-        }
-
-        private VehicleDTO mapToDTO(Vehicle vehicle) {
-            VehicleDTO dto = new VehicleDTO();
-            dto.setId(vehicle.getId());
-            dto.setType(vehicle.getType());
-            dto.setBrand(vehicle.getBrand());
-            dto.setModel(vehicle.getModel());
-            dto.setDisplacement(vehicle.getDisplacement());
-            dto.setColor(vehicle.getColor());
-            dto.setPower(vehicle.getPower());
-            dto.setGear(vehicle.getGear());
-            dto.setRegistrationYear(vehicle.getRegistrationYear());
-            dto.setPowerSupply(vehicle.getPowerSupply());
-            dto.setOriginalPrice(vehicle.getOriginalPrice());
-            dto.setDiscountedPrice(vehicle.getDiscountedPrice());
-            dto.setUsedFlag(vehicle.getUsedFlag());
-            dto.setMarketStatus(vehicle.getMarketStatus());
-            dto.setDiscountFlag(vehicle.isDiscountFlag());
-            dto.setEngine(vehicle.getEngine());
-            return dto;
-        }*/
-
     }
 }
