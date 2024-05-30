@@ -85,6 +85,11 @@ public class VehicleControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Puoi modificare ogni parte di veicolo
+     *
+     */
+
     @Test
     void testForModifySatusOfVehicle() throws Exception {
         Roles roles = ADMIN;
@@ -96,6 +101,22 @@ public class VehicleControllerTest {
                         .content("""
                             {
                                 "status": "NOTAVAILABLE"
+                            }
+                            """))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testForModifyColorOfVehicle() throws Exception {
+        Roles roles = ADMIN;
+        long userId = 1L;
+        long vehicleId = 1L;
+
+        this.mockMvc.perform(MockMvcRequestBuilders.patch("/v1/vehicles/{userId}/{vehicleId}/status", userId, vehicleId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "color": "YELLOW"
                             }
                             """))
                 .andExpect(status().isOk());

@@ -39,7 +39,6 @@ public class VehicleService {
         }
 
         Vehicle vehicle = vehicleMapper.toEntity(vehicleCreateDTO);
-        // You missed saving the entity after mapping
         return vehicleMapper.toDTO(vehicleRepository.save(vehicle));
     }
 
