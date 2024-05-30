@@ -4,6 +4,9 @@ import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.dtos.VehicleCreateDTO;
 import com.develhope.spring.vehicles.dtos.VehicleDTO;
 import com.develhope.spring.vehicles.dtos.VehicleUpdateDTO;
+import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
+import com.develhope.spring.vehicles.models.Vehicle;
+import com.develhope.spring.vehicles.models.exception.VehicleNotFoundException;
 import com.develhope.spring.vehicles.models.exceptions.VehicleNotFoundException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.services.VehicleService;
@@ -40,10 +43,16 @@ public class VehicleController {
         return vehicleService.create(userId, vehicleCreateDTO);
     }
 
-
     @PutMapping("/{userId}/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
     public VehicleDTO update(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody VehicleUpdateDTO vehicleUpdateDTO) {
         return vehicleService.updateVehicle(userId, vehicleId, vehicleUpdateDTO);
+      
+    @PatchMapping("/{userId}/{vehicleId}/status")
+    @ResponseStatus(HttpStatus.OK)
+    public Vehicle updateStatus(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody VehicleStatusDTO vehicleStatusDTO) {
+        return vehicleService.updateVehicleStatus(userId, vehicleId, vehicleStatusDTO);
+
     }
+
 }
