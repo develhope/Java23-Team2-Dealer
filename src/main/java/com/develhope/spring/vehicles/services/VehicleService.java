@@ -4,7 +4,9 @@ import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
+import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
+import com.develhope.spring.vehicles.models.exception.VehicleNotFoundException;
 import com.develhope.spring.vehicles.models.exceptions.VehicleNotFoundException;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
@@ -32,18 +34,38 @@ public class VehicleService {
         return vehicleRepository.save(vehicle);
     }
 
+
+    public Vehicle updateVehicleStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
+
     public void deleteVehicle(long userId, long vehicleId) {
+
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException("No user with this id: " + userId + " is present");
         }
         if (optionalUser.get().getRoles() != Roles.ADMIN) {
+
+            throw new NotAuthorizedOperationException("Permission denied. Not authorized to update vehicle status");
+
             throw new NotAuthorizedOperationException("Permission denied. Not authorized to delete vehicles");
+
         }
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
         if (optionalVehicle.isEmpty()) {
             throw new VehicleNotFoundException("No vehicle with this id: " + vehicleId + " is present");
         }
+
+
+        Vehicle existingVehicle = optionalVehicle.get();
+        existingVehicle.setMarketStatus(vehicleStatusDTO.getMarketStatus());
+
+        return vehicleRepository.save(existingVehicle);
+
         vehicleRepository.deleteById(vehicleId);
+
     }
+
+
+
+
 }
