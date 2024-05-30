@@ -23,7 +23,7 @@ public class VehicleControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void createVehicle() throws Exception {
+    void testForCreateVehicle() throws Exception {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.post("/v1/vehicles/{userId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -47,11 +47,10 @@ public class VehicleControllerTest {
                                         }
                                         """))
                 .andExpect(status().isCreated());
-        ;
     }
 
     @Test
-    void modifyVehicleTest() throws Exception {
+    void testForModifyVehicleTest() throws Exception {
         long userId = 1L;
         long vehicleId = 1L;
 
