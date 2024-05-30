@@ -1,4 +1,6 @@
 package com.develhope.spring.vehicles.controllers;
+
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.vehicles.services.VehicleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -8,6 +10,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static com.develhope.spring.users.models.Roles.ADMIN;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(VehicleController.class)
@@ -50,7 +54,8 @@ public class VehicleControllerTest {
     }
 
     @Test
-    void testForModifyVehicleTest() throws Exception {
+    void testForModifyEntireVehicle() throws Exception {
+        Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;
 
@@ -58,25 +63,41 @@ public class VehicleControllerTest {
                         MockMvcRequestBuilders.put("/v1/vehicles/{userId}/{vehicleId}", userId, vehicleId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
-                                    {
-                                        "type": "VAN",
-                                        "brand": "Fiat",
-                                        "model": "Fiorino",
-                                        "displacement": 1200,
-                                        "color": "RED",
-                                        "power": 70,
-                                        "gear": "MANUAL",
-                                        "registrationYear": 2022,
-                                        "powerSupply": "METHANE",
-                                        "originalPrice": 15000,
-                                        "discountedPrice": 14000,
-                                        "usedFlag": "NEW",
-                                        "marketStatus": "AVAILABLE",
-                                        "discountFlag": true,
-                                        "engine": "4-cylinder"
-                                    }
-                                    """)
+                            {
+                                "type": "VAN",
+                                "brand": "Fiat",
+                                "model": "Fiorino",
+                                "displacement": 1200,
+                                "color": "RED",
+                                "power": 70,
+                                "gear": "MANUAL",
+                                "registrationYear": 2022,
+                                "powerSupply": "METHANE",
+                                "originalPrice": 15000,
+                                "discountedPrice": 14000,
+                                "usedFlag": "NEW",
+                                "marketStatus": "AVAILABLE",
+                                "discountFlag": true,
+                                "engine": "4-cylinder"
+                            }
+                            """)
                 )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testForModifySatusOfVehicle() throws Exception {
+        Roles roles = ADMIN;
+        long userId = 1L;
+        long vehicleId = 1L;
+
+        this.mockMvc.perform(MockMvcRequestBuilders.patch("/v1/vehicles/{userId}/{vehicleId}/status", userId, vehicleId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "status": "NOTAVAILABLE"
+                            }
+                            """))
                 .andExpect(status().isOk());
     }
 }
