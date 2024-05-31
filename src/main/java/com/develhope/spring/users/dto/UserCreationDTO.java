@@ -1,12 +1,9 @@
 package com.develhope.spring.users.dto;
 
 import com.develhope.spring.users.models.Roles;
-import com.develhope.spring.users.models.exceptions.EmptyParameterException;
-import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 
 public class UserCreationDTO {
 
-    private long id;
     private String name;
     private String surname;
     private long phoneNumber;
@@ -17,8 +14,7 @@ public class UserCreationDTO {
     public UserCreationDTO() {
     }
 
-    public UserCreationDTO(long id, String name, String surname, long phoneNumber, String email, Roles roles) {
-        this.id = id;
+    public UserCreationDTO(String name, String surname, long phoneNumber, String email, Roles roles) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -49,7 +45,7 @@ public class UserCreationDTO {
 
 
     //setters
-    public void setEmail(String email) throws WrongEmailFormatException {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -57,7 +53,7 @@ public class UserCreationDTO {
         this.roles = roles;
     }
 
-    public void setName(String name) throws EmptyParameterException {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -65,16 +61,9 @@ public class UserCreationDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setSurname(String surname) throws EmptyParameterException {
+    public void setSurname(String surname) {
         this.surname = surname;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 }
 
