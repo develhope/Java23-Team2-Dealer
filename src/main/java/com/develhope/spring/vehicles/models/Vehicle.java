@@ -72,10 +72,6 @@ public class Vehicle {
     private String engine;
 
 
-    public Vehicle(long id) {
-        this.id = id;
-    }
-
     //Getters
     public boolean isDiscountFlag() {
         return discountFlag;
