@@ -52,4 +52,10 @@ public class VehicleController {
                                 @RequestBody VehicleStatusDTO vehicleStatusDTO) {
         return vehicleService.updateStatus(userId, vehicleId, vehicleStatusDTO);
     }
+
+    @DeleteMapping("/{userId}/{vehicleId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void delete(@PathVariable long userId, @PathVariable long vehicleId) {
+        vehicleService.delete(userId, vehicleId);
+    }
 }

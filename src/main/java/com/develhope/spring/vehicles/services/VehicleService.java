@@ -42,8 +42,8 @@ public class VehicleService {
     }
 
     public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
-        checkUserAuthorization(userId);
-        Vehicle existingVehicle = findVehicleById(vehicleId);
+        checkUserAuthorizationBy(userId);
+        Vehicle existingVehicle = findVehicleBy(vehicleId);
 
 
         existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
@@ -53,8 +53,8 @@ public class VehicleService {
     }
 
     public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
-        checkUserAuthorization(userId);
-        Vehicle existingVehicle = findVehicleById(vehicleId);
+        checkUserAuthorizationBy(userId);
+        Vehicle existingVehicle = findVehicleBy(vehicleId);
 
 
         existingVehicle.setMarketStatus(vehicleStatusDTO.getMarketStatus());
@@ -63,19 +63,19 @@ public class VehicleService {
         return existingVehicle;
     }
 
-    public void deleteVehicle(long userId, long vehicleId) {
-        checkUserAuthorization(userId);
+    public void delete(long userId, long vehicleId) {
+        checkUserAuthorizationBy(userId);
         vehicleRepository.deleteById(vehicleId);
     }
 
-    private void checkUserAuthorization(long userId) {
+    private void checkUserAuthorizationBy(long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty() || !optionalUser.get().getRoles().equals(Roles.ADMIN)) {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
         }
     }
 
-    private Vehicle findVehicleById(long vehicleId) {
+    private Vehicle findVehicleBy(long vehicleId) {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
         if (optionalVehicle.isEmpty()) {
             throw new VehicleNotFoundException("Nessun veicolo con questo ID: " + vehicleId + " è presente");
