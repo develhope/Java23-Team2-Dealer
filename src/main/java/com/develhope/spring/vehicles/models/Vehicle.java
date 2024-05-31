@@ -1,7 +1,11 @@
 package com.develhope.spring.vehicles.models;
 
 
+<<<<<<< HEAD
 import com.develhope.spring.deals.models.OrderStatus;
+=======
+import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
+>>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
 
@@ -18,7 +22,7 @@ public class Vehicle {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private KindOfVehicle type;
+    private VehicleType vehicleType;
 
     @Column(nullable = false)
     private String brand;
@@ -66,9 +70,12 @@ public class Vehicle {
     @Column(nullable = false)
     private String engine;
 
+<<<<<<< HEAD
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+=======
+>>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
 
     //Getters
     public boolean isDiscountFlag() {
@@ -95,8 +102,8 @@ public class Vehicle {
         return brand;
     }
 
-    public KindOfVehicle getType() {
-        return type;
+    public VehicleType getVehicleType() {
+        return vehicleType;
     }
 
     public MotorPowerSupply getPowerSupply() {
@@ -135,11 +142,78 @@ public class Vehicle {
         return id;
     }
 
+    // Setter
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setDisplacement(int displacement) {
+        this.displacement = displacement;
+    }
+
+    public void setColor(Colors color) {
+        this.color = color;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public void setGear(Gears gear) {
+        this.gear = gear;
+    }
+
+    public void setRegistrationYear(int registrationYear) {
+        this.registrationYear = registrationYear;
+    }
+
+    public void setPowerSupply(MotorPowerSupply powerSupply) {
+        this.powerSupply = powerSupply;
+    }
+
+    public void setOriginalPrice(BigDecimal originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
+    }
+
+    public void setUsedFlag(UsedFlag usedFlag) {
+        this.usedFlag = usedFlag;
+    }
+
+    public void setMarketStatus(MarketStatus marketStatus) {
+        this.marketStatus = marketStatus;
+    }
+
+    public void setDiscountFlag(boolean discountFlag) {
+        this.discountFlag = discountFlag;
+    }
+
+    public void setEngine(String engine) {
+        this.engine = engine;
+    }
+
     public Vehicle(){}
+
 
     //Costruttori
     protected Vehicle(VehicleBuilder builder) {
-        this.type = builder.getType();
+        this.vehicleType = builder.getType();
         this.brand = builder.getBrand();
         this.marketStatus = builder.getMarketStatus();
         this.usedFlag = builder.getUsedFlag();
@@ -157,8 +231,12 @@ public class Vehicle {
         this.engine = builder.getEngine();
     }
 
+<<<<<<< HEAD
 
     public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, BigDecimal price, long id) {
+=======
+    public static VehicleBuilder builder(VehicleType type, String brand, String model, BigDecimal price, long id) {
+>>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
         return new VehicleBuilder(type, brand, model, price, id);
     }
 
@@ -201,6 +279,7 @@ public class Vehicle {
         discountedPrice = getOriginalPrice();
     }
 
+<<<<<<< HEAD
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
@@ -209,4 +288,6 @@ public class Vehicle {
         this.orderStatus = orderStatus;
     }
 
+=======
+>>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
 }
