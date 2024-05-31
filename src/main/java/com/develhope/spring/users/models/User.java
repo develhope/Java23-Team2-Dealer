@@ -5,6 +5,7 @@ import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "users")
@@ -68,7 +69,7 @@ public class User {
     }
 
     public Collection<Roles> getRoles() {
-        return roles;
+        return Collections.singleton(roles);
     }
 
     public String getEmail() {
@@ -96,7 +97,7 @@ public class User {
     }
 
     public void setSurname(String surname) throws EmptyParameterException {
-      checkEmptySurname(surname);
+        checkEmptySurname(surname);
     }
 
     public long getId() {
