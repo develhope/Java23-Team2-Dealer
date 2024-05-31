@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ModelMapperConfig {
-
     /**
      * Crea e restituisce un bean ModelMapper.
      *

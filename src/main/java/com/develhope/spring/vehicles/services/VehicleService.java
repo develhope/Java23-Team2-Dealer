@@ -4,8 +4,6 @@ import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
-import com.develhope.spring.vehicles.dtos.VehicleDTO;
-import com.develhope.spring.vehicles.dtos.VehicleUpdateDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.models.exceptions.VehicleNotFoundException;
@@ -13,7 +11,7 @@ import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.develhope.spring.vehicles.dtos.VehicleCreateDTO;
+import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.models.VehicleMapper;
 
 import java.util.Optional;
@@ -30,7 +28,7 @@ public class VehicleService {
     @Autowired
     private VehicleMapper vehicleMapper;
 
-    public VehicleDTO create(long userId, VehicleCreateDTO vehicleCreateDTO) {
+    public VehicleCreatorDTO create(long userId, VehicleCreatorDTO vehicleCreatorDTO) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException("Nessun utente con questo ID: " + userId + " è presente");
@@ -39,16 +37,16 @@ public class VehicleService {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato a inserire nuovi veicoli");
         }
 
-        Vehicle vehicle = vehicleMapper.toEntity(vehicleCreateDTO);
+        Vehicle vehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         return vehicleMapper.toDTO(vehicleRepository.save(vehicle));
     }
 
-    public VehicleDTO updateVehicle(long userId, long vehicleId, VehicleUpdateDTO updatedVehicleDTO) {
+    public VehicleCreatorDTO updateVehicle(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorization(userId);
         Vehicle existingVehicle = findVehicleById(vehicleId);
 
 
-        existingVehicle = vehicleMapper.toEntity(updatedVehicleDTO);
+        existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         existingVehicle.setId(vehicleId);
 
         return vehicleMapper.toDTO(vehicleRepository.save(existingVehicle));

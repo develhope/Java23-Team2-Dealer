@@ -1,14 +1,8 @@
 package com.develhope.spring.vehicles.models;
 
 
-import com.develhope.spring.vehicles.dtos.VehicleCreateDTO;
-import com.develhope.spring.vehicles.dtos.VehicleDTO;
-import com.develhope.spring.vehicles.dtos.VehicleUpdateDTO;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

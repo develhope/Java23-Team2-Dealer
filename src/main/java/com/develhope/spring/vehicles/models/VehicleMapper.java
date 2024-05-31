@@ -1,8 +1,6 @@
 package com.develhope.spring.vehicles.models;
 
-import com.develhope.spring.vehicles.dtos.VehicleCreateDTO;
-import com.develhope.spring.vehicles.dtos.VehicleDTO;
-import com.develhope.spring.vehicles.dtos.VehicleUpdateDTO;
+import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,28 +21,18 @@ public class VehicleMapper {
      * @param vehicle l'entità Vehicle da convertire
      * @return il VehicleDTO convertito
      */
-    public VehicleDTO toDTO(Vehicle vehicle) {
-        return modelMapper.map(vehicle, VehicleDTO.class);
+    public VehicleCreatorDTO toDTO(Vehicle vehicle) {
+        return modelMapper.map(vehicle, VehicleCreatorDTO.class);
     }
 
     /**
      * Converte un VehicleCreateDTO in un Vehicle.
      *
-     * @param vehicleCreateDTO il VehicleCreateDTO da convertire
+     * @param vehicleCreatorDTO il VehicleCreateDTO da convertire
      * @return l'entità Vehicle convertita
      */
-    public Vehicle toEntity(VehicleCreateDTO vehicleCreateDTO) {
-        return modelMapper.map(vehicleCreateDTO, Vehicle.class);
-    }
-
-    /**
-     * Converte un VehicleUpdateDTO in un Vehicle.
-     *
-     * @param vehicleUpdateDTO il VehicleUpdateDTO da convertire
-     * @return l'entità Vehicle convertita
-     */
-    public Vehicle toEntity(VehicleUpdateDTO vehicleUpdateDTO) {
-        return modelMapper.map(vehicleUpdateDTO, Vehicle.class);
+    public Vehicle toEntity(VehicleCreatorDTO vehicleCreatorDTO) {
+        return modelMapper.map(vehicleCreatorDTO, Vehicle.class);
     }
 
 }
