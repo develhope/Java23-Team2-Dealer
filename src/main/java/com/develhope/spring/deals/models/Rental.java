@@ -2,6 +2,7 @@ package com.develhope.spring.deals.models;
 
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -12,16 +13,26 @@ public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotBlank(message = "Start date is mandatory")
     @Column(nullable = false)
     private LocalDate startDate;
+
+    @NotBlank(message = "End date is mandatory")
     @Column(nullable = false)
     private LocalDate endDate;
+
+    @NotBlank(message = "Daily Cost is mandatory")
     @Column(nullable = false)
     private BigDecimal dailyCost;
+
+    @NotBlank(message = "Total cost is mandatory")
     @Column(nullable = false)
     private BigDecimal totalCost;
+
     @Column(nullable = false)
     private boolean paid;
+
     @OneToOne(fetch = FetchType.EAGER)
     private Vehicle vehicle;
 
@@ -43,17 +54,17 @@ public class Rental {
         return paid;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, Vehicle vehicle, long id) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
-        this.totalCost = totalCost;
+        calculateTotalCost();
         this.paid = paid;
         this.vehicle = vehicle;
         this.id = id;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, int vehicleId, boolean b) {
+    public Rental() {
     }
 
     public LocalDate getStartDate() {

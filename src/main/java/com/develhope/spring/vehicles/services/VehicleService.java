@@ -44,21 +44,15 @@ public class VehicleService {
     public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle = findVehicleBy(vehicleId);
-
-
         existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         existingVehicle.setId(vehicleId);
-
         return vehicleMapper.toDTO(vehicleRepository.save(existingVehicle));
     }
 
     public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle = findVehicleBy(vehicleId);
-
-
         existingVehicle.setMarketStatus(vehicleStatusDTO.getMarketStatus());
-
         vehicleRepository.save(existingVehicle);
         return existingVehicle;
     }
