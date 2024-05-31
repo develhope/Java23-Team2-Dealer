@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.models;
 
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,5 +35,15 @@ public class VehicleMapper {
     public Vehicle toEntity(VehicleCreatorDTO vehicleCreatorDTO) {
         return modelMapper.map(vehicleCreatorDTO, Vehicle.class);
     }
+
+
+    public VehicleStatusDTO statusToDo(Vehicle vehicle){
+        return modelMapper.map(vehicle, VehicleStatusDTO.class);
+    }
+
+    public Vehicle statusToEntity(VehicleStatusDTO vehicleStatusDTO){
+        return modelMapper.map(vehicleStatusDTO, Vehicle.class);
+    }
+
 
 }

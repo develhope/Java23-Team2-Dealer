@@ -27,7 +27,7 @@ public class VehicleControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void testForCreateVehicle() throws Exception {
+    void successfulVehicleCreation_test() throws Exception {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.post("/v1/vehicles/{userId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -43,7 +43,6 @@ public class VehicleControllerTest {
                                             "registrationYear": 2022,
                                             "powerSupply": "METHANE",
                                             "originalPrice": 15000,
-                                            "discountedPrice": 14000,
                                             "usedFlag": "NEW",
                                             "marketStatus": "AVAILABLE",
                                             "discountFlag": true,
@@ -54,7 +53,7 @@ public class VehicleControllerTest {
     }
 
     @Test
-    void testForModifyEntireVehicle() throws Exception {
+    void succsessfulVehicleModification_test() throws Exception {
         Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;
@@ -91,7 +90,7 @@ public class VehicleControllerTest {
      */
 
     @Test
-    void testForModifySatusOfVehicle() throws Exception {
+    void succsessfulStatusVehicleModification_test() throws Exception {
         Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;
@@ -107,7 +106,7 @@ public class VehicleControllerTest {
     }
 
     @Test
-    void testForModifyColorOfVehicle() throws Exception {
+    void succsessfulColorVehicleModification_test() throws Exception {
         Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;
