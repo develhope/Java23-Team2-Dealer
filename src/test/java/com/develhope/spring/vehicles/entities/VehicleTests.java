@@ -1,8 +1,8 @@
 package com.develhope.spring.vehicles.entities;
 
-import com.develhope.spring.vehicles.models.ExcessiveParameterException;
+import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.develhope.spring.vehicles.vehicleEnums.KindOfVehicle;
+import com.develhope.spring.vehicles.vehicleEnums.VehicleType;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VehicleTests {
 
-    Vehicle testVehicle = Vehicle.builder(KindOfVehicle.CAR,"", "", new BigDecimal(17000),0).build();
+    Vehicle testVehicle = Vehicle.builder(VehicleType.CAR,"", "", new BigDecimal(17000),0).build();
     @Test
     public void testCalculateDiscount_ThrowAnExceptionIfOver100() {
         assertThrows(Exception.class, () -> testVehicle.calculateDiscount(150));

@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.models;
 
 
+import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
 
@@ -17,7 +18,7 @@ public class Vehicle {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private KindOfVehicle type;
+    private VehicleType vehicleType;
 
     @Column(nullable = false)
     private String brand;
@@ -65,6 +66,7 @@ public class Vehicle {
     @Column(nullable = false)
     private String engine;
 
+
     //Getters
     public boolean isDiscountFlag() {
         return discountFlag;
@@ -90,8 +92,8 @@ public class Vehicle {
         return brand;
     }
 
-    public KindOfVehicle getType() {
-        return type;
+    public VehicleType getVehicleType() {
+        return vehicleType;
     }
 
     public MotorPowerSupply getPowerSupply() {
@@ -130,15 +132,14 @@ public class Vehicle {
         return id;
     }
 
-    //Setter
-
+    // Setter
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public void setType(KindOfVehicle type) {
-        this.type = type;
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public void setBrand(String brand) {
@@ -199,9 +200,10 @@ public class Vehicle {
 
     public Vehicle(){}
 
+
     //Costruttori
     protected Vehicle(VehicleBuilder builder) {
-        this.type = builder.getType();
+        this.vehicleType = builder.getType();
         this.brand = builder.getBrand();
         this.marketStatus = builder.getMarketStatus();
         this.usedFlag = builder.getUsedFlag();
@@ -219,7 +221,7 @@ public class Vehicle {
         this.engine = builder.getEngine();
     }
 
-    public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, BigDecimal price, long id) {
+    public static VehicleBuilder builder(VehicleType type, String brand, String model, BigDecimal price, long id) {
         return new VehicleBuilder(type, brand, model, price, id);
     }
 
@@ -261,4 +263,5 @@ public class Vehicle {
         discountFlag = false;
         discountedPrice = getOriginalPrice();
     }
+
 }
