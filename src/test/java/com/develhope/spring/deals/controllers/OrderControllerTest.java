@@ -33,36 +33,56 @@ public class OrderControllerTest {
                         MockMvcRequestBuilders.post("/v1/orders/{userId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
+                                        {
                                         "downPayment": true,
                                         "vehicleId": 1234,
                                         "userId": 5678,
                                         "adminId": null,
                                         "Vehicle": {
-                                                     "type": "VAN",
-                                                     "brand": "Fiat",
-                                                     "model": "Fiorino",
-                                                     "displacement": 1200,
-                                                     "color": "WHITE",
-                                                     "power": 70,
-                                                     "gear": "MANUAL",
-                                                     "registrationYear": 2022,
-                                                     "powerSupply": "METHANE",
-                                                     "originalPrice": 15000,
-                                                     "usedFlag": "NEW",
-                                                     "marketStatus": "AVAILABLE",
-                                                     "discountFlag": true,
-                                                     "engine": "4-cylinder"
-                                                 },
+                                              "type": "VAN",
+                                              "brand": "Fiat",
+                                              "model": "Fiorino",
+                                              "displacement": 1200,
+                                              "color": "WHITE",
+                                              "power": 70,
+                                              "gear": "MANUAL",
+                                              "registrationYear": 2022,
+                                              "powerSupply": "METHANE",
+                                              "originalPrice": 15000,
+                                              "usedFlag": "NEW",
+                                              "marketStatus": "AVAILABLE",
+                                              "discountFlag": true,
+                                              "engine": "4-cylinder"
+                                              },
                                         "User": {
-                                                     "name": "Claudio",
-                                                     "surname": "Genco",
-                                                     "phoneNumber": 1241515,
-                                                     "email": "genco.claudio@gmail.com",
-                                                     "Roles": "ADMIN"
-                                                 }
+                                              "name": "Claudio",
+                                              "surname": "Genco",
+                                              "phoneNumber": "1241515",
+                                              "email": "genco.claudio@gmail.com",
+                                              "Roles": "ADMIN"
+                                              }
                                         }
                                         """))
                 .andExpect(status().isCreated());
+
+
+    }
+
+    @Test
+    void successfulAnotherOrderCreation_test() throws Exception {
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.post("/v1/orders/{userId}", 1L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                        "downPayment": true,
+                                        "vehicleId": 1234,
+                                        "userId": 5678,
+                                        "adminId": null
+                                        }
+                                        """))
+                .andExpect(status().isCreated());
+
 
     }
 }
