@@ -8,7 +8,7 @@ import com.develhope.spring.vehicles.dtos.VehicleDTO;
 import com.develhope.spring.vehicles.dtos.VehicleUpdateDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.develhope.spring.vehicles.models.exception.VehicleNotFoundException;
+import com.develhope.spring.vehicles.models.exceptions.VehicleNotFoundException;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
