@@ -14,6 +14,7 @@ import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationExcept
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreateDTO;
+import com.develhope.spring.vehicles.models.VehicleMapper;
 
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class VehicleService {
     private UserRepository userRepository;
 
     @Autowired
-    private Vehicle.VehicleMapper vehicleMapper;
+    private VehicleMapper vehicleMapper;
 
     public VehicleDTO create(long userId, VehicleCreateDTO vehicleCreateDTO) {
         Optional<User> optionalUser = userRepository.findById(userId);
