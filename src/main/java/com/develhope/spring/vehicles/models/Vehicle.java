@@ -1,12 +1,15 @@
 package com.develhope.spring.vehicles.models;
 
 
+import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
+import com.develhope.spring.vehicles.responseStatus.VehicleNotFoundException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
 @Entity
 @Table(name = "vehicles")
@@ -66,8 +69,14 @@ public class Vehicle {
     @Column(nullable = false)
     private String engine;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
+
 
     //Getters
+
+
     public boolean isDiscountFlag() {
         return discountFlag;
     }
@@ -130,6 +139,10 @@ public class Vehicle {
 
     public long getId() {
         return id;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
     // Setter
@@ -196,6 +209,10 @@ public class Vehicle {
 
     public void setEngine(String engine) {
         this.engine = engine;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public Vehicle(){}

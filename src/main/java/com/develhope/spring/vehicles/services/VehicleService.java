@@ -75,7 +75,7 @@ public class VehicleService {
         }
     }
 
-    private Vehicle findVehicleBy(long vehicleId) {
+    public Vehicle findVehicleBy(long vehicleId) {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
         if (optionalVehicle.isEmpty()) {
             throw new VehicleNotFoundException("Nessun veicolo con questo ID: " + vehicleId + " è presente");
