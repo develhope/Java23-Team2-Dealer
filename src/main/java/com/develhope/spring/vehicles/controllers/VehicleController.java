@@ -43,13 +43,13 @@ public class VehicleController {
     @PutMapping("/{userId}/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
     public VehicleCreatorDTO update(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
-        return vehicleService.updateVehicle(userId, vehicleId, vehicleCreatorDTO);
+        return vehicleService.update(userId, vehicleId, vehicleCreatorDTO);
     }
 
     @PatchMapping("/{userId}/{vehicleId}/status")
     @ResponseStatus(HttpStatus.OK)
     public Vehicle updateStatus(@PathVariable long userId, @PathVariable long vehicleId,
                                 @RequestBody VehicleStatusDTO vehicleStatusDTO) {
-        return vehicleService.updateVehicleStatus(userId, vehicleId, vehicleStatusDTO);
+        return vehicleService.updateStatus(userId, vehicleId, vehicleStatusDTO);
     }
 }

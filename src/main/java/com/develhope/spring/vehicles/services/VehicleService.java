@@ -41,7 +41,7 @@ public class VehicleService {
         return vehicleMapper.toDTO(vehicleRepository.save(vehicle));
     }
 
-    public VehicleCreatorDTO updateVehicle(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
+    public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorization(userId);
         Vehicle existingVehicle = findVehicleById(vehicleId);
 
@@ -52,7 +52,7 @@ public class VehicleService {
         return vehicleMapper.toDTO(vehicleRepository.save(existingVehicle));
     }
 
-    public Vehicle updateVehicleStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
+    public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
         checkUserAuthorization(userId);
         Vehicle existingVehicle = findVehicleById(vehicleId);
 
