@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicles.optionals.models;
+package com.develhope.spring.vehicles.vehicleOptionals.models;
 
 import jakarta.persistence.*;
 
@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 
 @Entity
 @Table(name = "abs")
-public class Abs implements Optionals{
+public class Abs implements VehicleOptionals {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -21,7 +21,7 @@ public class VehicleBuilder {
     private boolean discountFlag;
     private long id;
     private String engine;
-    private KindOfVehicle type;
+    private VehicleType type;
 
     //Getter
     public BigDecimal getDiscountedPrice() {
@@ -52,7 +52,7 @@ public class VehicleBuilder {
         return gear;
     }
 
-    public KindOfVehicle getType() {
+    public VehicleType getType() {
         return type;
     }
 
@@ -99,7 +99,7 @@ public class VehicleBuilder {
         return this;
     }
 
-    public VehicleBuilder setType(KindOfVehicle type) {
+    public VehicleBuilder setType(VehicleType type) {
         this.type = type;
         return this;
     }
@@ -166,7 +166,7 @@ public class VehicleBuilder {
     }
 
     //Costruttori
-    public VehicleBuilder(KindOfVehicle type, String brand, String model, BigDecimal originalPrice, long id) {
+    public VehicleBuilder(VehicleType type, String brand, String model, BigDecimal originalPrice, long id) {
         this.type = type;
         this.brand = brand;
         this.model = model;

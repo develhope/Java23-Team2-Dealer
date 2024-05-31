@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicles.optionals.enums;
+package com.develhope.spring.vehicles.vehicleOptionals.enums;
 
 public enum TypeOfStereos {
     FULLOPTIONAL,

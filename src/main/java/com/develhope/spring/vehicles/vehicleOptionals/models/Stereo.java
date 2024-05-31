@@ -1,6 +1,6 @@
-package com.develhope.spring.vehicles.optionals.models;
+package com.develhope.spring.vehicles.vehicleOptionals.models;
 
-import com.develhope.spring.vehicles.optionals.enums.TypeOfStereos;
+import com.develhope.spring.vehicles.vehicleOptionals.enums.TypeOfStereos;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -8,10 +8,10 @@ import java.math.RoundingMode;
 
 @Entity
 @Table(name = "stereos")
-public class Stereo implements Optionals {
+public class Stereo implements VehicleOptionals {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Enumerated(EnumType.STRING)
