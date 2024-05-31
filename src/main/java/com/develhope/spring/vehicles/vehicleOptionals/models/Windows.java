@@ -1,20 +1,20 @@
 package com.develhope.spring.vehicles.vehicleOptionals.models;
 
-import com.develhope.spring.vehicles.vehicleOptionals.enums.TypeOfWindows;
+import com.develhope.spring.vehicles.vehicleOptionals.enums.WindowsType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "windows")
-public class Windows implements Optionals {
+public class Windows implements VehicleOptionals {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private TypeOfWindows type;
+    private WindowsType windowsType;
 
     @Column(nullable = false)
     private BigDecimal price;
@@ -22,9 +22,9 @@ public class Windows implements Optionals {
     public Windows() {
     }
 
-    public Windows(long id, TypeOfWindows type, BigDecimal price) {
+    public Windows(long id, WindowsType windowsType, BigDecimal price) {
         this.id = id;
-        this.type = type;
+        this.windowsType = windowsType;
         this.price = price;
     }
 
@@ -36,12 +36,12 @@ public class Windows implements Optionals {
         this.id = id;
     }
 
-    public TypeOfWindows getType() {
-        return type;
+    public WindowsType getWindowsType() {
+        return windowsType;
     }
 
-    public void setType(TypeOfWindows type) {
-        this.type = type;
+    public void setWindowsType(WindowsType windowsType) {
+        this.windowsType = windowsType;
     }
 
     public BigDecimal getPrice() {

@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 
 @Entity
 @Table(name = "traction_control")
-public class TractionControl implements Optionals {
+public class TractionControl implements VehicleOptionals {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

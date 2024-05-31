@@ -8,10 +8,10 @@ import java.math.RoundingMode;
 
 @Entity
 @Table(name = "stereos")
-public class Stereo implements Optionals {
+public class Stereo implements VehicleOptionals {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Enumerated(EnumType.STRING)

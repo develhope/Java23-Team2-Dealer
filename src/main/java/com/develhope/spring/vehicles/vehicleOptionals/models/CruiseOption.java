@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 
 @Entity
 @Table(name = "Cruise_Option")
-public class CruiseOption implements Optionals {
+public class CruiseOption implements VehicleOptionals {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

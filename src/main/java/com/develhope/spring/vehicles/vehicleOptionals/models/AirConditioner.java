@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 
 @Entity
 @Table(name = "air_conditioner")
-public class AirConditioner implements Optionals {
+public class AirConditioner implements VehicleOptionals {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

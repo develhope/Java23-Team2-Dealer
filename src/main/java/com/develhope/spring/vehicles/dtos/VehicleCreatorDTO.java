@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class VehicleCreatorDTO {
 
-    private KindOfVehicle type;
+    private VehicleType vehicleType;
     private String brand;
     private String model;
     private int displacement;
@@ -25,9 +25,9 @@ public class VehicleCreatorDTO {
     public VehicleCreatorDTO() {
     }
 
-    public VehicleCreatorDTO(KindOfVehicle type, String brand, String model, int displacement, Colors color, int power, Gears gear, int registrationYear, MotorPowerSupply powerSupply, BigDecimal originalPrice, BigDecimal discountedPrice, UsedFlag usedFlag, MarketStatus marketStatus, boolean discountFlag, String engine) {
+    public VehicleCreatorDTO(VehicleType vehicleType, String brand, String model, int displacement, Colors color, int power, Gears gear, int registrationYear, MotorPowerSupply powerSupply, BigDecimal originalPrice, BigDecimal discountedPrice, UsedFlag usedFlag, MarketStatus marketStatus, boolean discountFlag, String engine) {
 
-        this.type = type;
+        this.vehicleType = vehicleType;
         this.brand = brand;
         this.model = model;
         this.displacement = displacement;
@@ -44,12 +44,12 @@ public class VehicleCreatorDTO {
         this.engine = engine;
     }
 
-    public KindOfVehicle getType() {
-        return type;
+    public VehicleType getVehicleType() {
+        return vehicleType;
     }
 
-    public void setType(KindOfVehicle type) {
-        this.type = type;
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getBrand() {
