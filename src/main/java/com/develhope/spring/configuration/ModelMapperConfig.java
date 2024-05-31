@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicles.configuration;
+package com.develhope.spring.configuration;
 
 
 import org.modelmapper.ModelMapper;

@@ -1,6 +1,6 @@
-package com.develhope.spring.vehicles.optionals.models;
+package com.develhope.spring.vehicles.vehicleOptionals.models;
 
-import com.develhope.spring.vehicles.optionals.enums.TypeOfStereos;
+import com.develhope.spring.vehicles.vehicleOptionals.enums.TypeOfStereos;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

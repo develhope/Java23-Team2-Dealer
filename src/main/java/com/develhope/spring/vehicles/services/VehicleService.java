@@ -6,7 +6,7 @@ import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.develhope.spring.vehicles.models.exceptions.VehicleNotFoundException;
+import com.develhope.spring.vehicles.responseStatus.VehicleNotFoundException;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;

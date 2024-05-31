@@ -1,6 +1,6 @@
-package com.develhope.spring.vehicles.optionals.models;
+package com.develhope.spring.vehicles.vehicleOptionals.models;
 
-import com.develhope.spring.vehicles.optionals.enums.TypeOfWindows;
+import com.develhope.spring.vehicles.vehicleOptionals.enums.TypeOfWindows;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

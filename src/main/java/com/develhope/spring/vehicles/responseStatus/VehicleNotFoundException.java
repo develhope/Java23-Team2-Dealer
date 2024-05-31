@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicles.models.exceptions;
+package com.develhope.spring.vehicles.responseStatus;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

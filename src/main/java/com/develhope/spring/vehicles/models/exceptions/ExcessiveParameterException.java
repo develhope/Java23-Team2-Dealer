@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicles.models;
+package com.develhope.spring.vehicles.models.exceptions;
 
 
 public class ExcessiveParameterException extends Exception{

@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicles.optionals.models;
+package com.develhope.spring.vehicles.vehicleOptionals.models;
 
 import jakarta.persistence.*;
 
@@ -6,9 +6,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Entity
-@Table(name = "traction_control")
-public class TractionControl implements Optionals {
-
+@Table(name = "Cruise_Option")
+public class CruiseOption implements Optionals {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,27 +15,35 @@ public class TractionControl implements Optionals {
     @Column(nullable = false)
     private BigDecimal price;
 
-    public TractionControl() {
-    }
+    //Getter
 
-    public TractionControl(long id, BigDecimal price) {
-        this.id = id;
-        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
+
+    public BigDecimal getPrice() {
+        return price;
     }
 
     public long getId() {
         return id;
     }
 
+    //Setter
+
+
     public void setId(long id) {
         this.id = id;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
     public void setPrice(BigDecimal price) {
         this.price = price.setScale(2, RoundingMode.HALF_EVEN);
+    }
+
+    //Constructor
+
+    public CruiseOption() {
+    }
+
+    public CruiseOption(long id, BigDecimal price) {
+        this.id = id;
+        this.price= price.setScale(2,RoundingMode.HALF_EVEN);
     }
 }
