@@ -3,12 +3,13 @@ package com.develhope.spring.vehicles.optionals.models;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Table(name = "Start&Stop")
 public class StartAndStop {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Column(nullable = false)
     private BigDecimal price;
@@ -19,7 +20,7 @@ public class StartAndStop {
 //Full builder
     public StartAndStop(long id, BigDecimal price, boolean installed) {
         this.id = id;
-        this.price = price;
+        this.price = price.setScale(2 , RoundingMode.HALF_EVEN);
         this.installed = installed;
     }
     //Getter
