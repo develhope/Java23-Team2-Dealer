@@ -44,25 +44,6 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
-    /*public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
-        Vehicle vehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId())
-                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
-        User user = userRepository.findById(orderCreatorDTO.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-
-        Order order = orderMapper.toEntityFrom(orderCreatorDTO);
-        order.setVehicle(vehicle);
-        order.setUser(user);
-        order.setOrderStatus(OrderStatus.PENDING);
-
-        try {
-            order = orderRepository.save(order);
-        } catch (Exception e) {
-            throw new OrderCreationException("Failed to create order");
-        }
-        return orderMapper.toResponseDTOFrom(order);
-    }*/
-
     public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
         Vehicle vehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId())
                 .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
