@@ -12,18 +12,19 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private boolean downPayment;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @Column(nullable = false)
     private boolean isPaid;
 
     @ManyToOne
     private Vehicle vehicle;
 
     @ManyToOne
-    @JoinColumn
     private User user;
 
 
