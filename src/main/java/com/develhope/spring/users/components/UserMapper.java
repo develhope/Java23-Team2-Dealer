@@ -1,16 +1,18 @@
 package com.develhope.spring.users.components;
 
-import com.develhope.spring.users.dto.UserCreatorDTO;
+import com.develhope.spring.users.dtos.UserCreatorDTO;
+import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.models.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
-    public UserCreatorDTO toDTO(User user) {
-        return new UserCreatorDTO(user.getName(), user.getSurname(), user.getPhoneNumber(), user.getEmail(), user.getRoles());
+
+    public UserSavedDTO fromEntityToUserSavedDTO(User user) {
+        return new UserSavedDTO(user.getName(), user.getSurname(), user.getRoles());
     }
 
-    public User toEntity(UserCreatorDTO userDTO) {
+    public User fromUserCreatorDTOtoEntity(UserCreatorDTO userDTO) {
         User user = new User();
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());

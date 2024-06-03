@@ -1,8 +1,8 @@
 package com.develhope.spring.users.controllers;
 
 import com.develhope.spring.users.components.UserMapper;
-import com.develhope.spring.users.dto.UserCreatorDTO;
-import com.develhope.spring.users.repositories.UserRepository;
+import com.develhope.spring.users.dtos.UserCreatorDTO;
+import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserCreatorDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
+    public UserSavedDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
        return userService.createUser(userCreatorDTO);
     }
 }
