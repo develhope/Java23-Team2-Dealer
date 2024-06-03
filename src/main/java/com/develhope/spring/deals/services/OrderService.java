@@ -1,18 +1,9 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.dto.OrderDTO;
-import com.develhope.spring.deals.models.Order;
-import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
-import com.develhope.spring.users.models.Roles;
-import com.develhope.spring.users.models.User;
-import com.develhope.spring.users.models.exceptions.UserNotFoundException;
-import com.develhope.spring.users.models.exceptions.VehicleNotFoundException;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.services.VehicleService;
-import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,29 +22,30 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public Order createOrder(OrderDTO orderDTO) {
-        Vehicle vehicle = vehicleService.findVehicleById(orderDTO.getVehicleId())
+    /*public Order create(OrderCreatorDTO orderCreatorDTO) {
+        Vehicle vehicle = vehicleService.findVehicleById(orderCreatorDTO.getVehicleId())
                 .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
 
         if (vehicle.getOrderStatus() != OrderStatus.PENDING && vehicle.getOrderStatus() != OrderStatus.SHIPPED) {
             throw new RuntimeException("Vehicle is not orderable");
         }
 
-        User user = userRepository.findById(orderDTO.getUserId())
+        User user = userRepository.findById(orderCreatorDTO.getUserId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        // Possibile validazione aggiuntiva se adminId è presente
-        if (orderDTO.getAdminId() != null) {
-            User admin = userRepository.findById(orderDTO.getAdminId())
+        if (orderCreatorDTO.getAdminId() != null) {
+            User admin = userRepository.findById(orderCreatorDTO.getAdminId())
                     .orElseThrow(() -> new UserNotFoundException("Admin not found"));
             if (admin.getRoles() != Roles.ADMIN) {
                 throw new RuntimeException("Only admin can create an order for another user");
             }
         }
 
-        Order order = new Order(orderDTO.isDownPayment(), OrderStatus.PENDING, orderDTO.getVehicleId(), user);
+        Order order = new Order(orderCreatorDTO.isDownPayment(), OrderStatus.PENDING, orderCreatorDTO.getVehicleId(), user);
         vehicle.setOrderStatus(OrderStatus.PENDING);
         vehicleRepository.save(vehicle);
         return orderRepository.save(order);
-    }
+    }*/
+
+
 }

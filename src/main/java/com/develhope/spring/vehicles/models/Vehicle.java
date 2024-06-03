@@ -69,13 +69,9 @@ public class Vehicle {
 
     @Column(nullable = false)
     private String engine;
-
-<<<<<<< HEAD
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-=======
->>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
 
     //Getters
     public boolean isDiscountFlag() {
@@ -231,14 +227,8 @@ public class Vehicle {
         this.engine = builder.getEngine();
     }
 
-<<<<<<< HEAD
 
     public static VehicleBuilder builder(KindOfVehicle type, String brand, String model, BigDecimal price, long id) {
-=======
-    public static VehicleBuilder builder(VehicleType type, String brand, String model, BigDecimal price, long id) {
->>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
-        return new VehicleBuilder(type, brand, model, price, id);
-    }
 
     /**
      * Calcola il prezzo scontato e modifica la variabile discountedPrice.
@@ -279,7 +269,6 @@ public class Vehicle {
         discountedPrice = getOriginalPrice();
     }
 
-<<<<<<< HEAD
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
@@ -288,6 +277,4 @@ public class Vehicle {
         this.orderStatus = orderStatus;
     }
 
-=======
->>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
 }

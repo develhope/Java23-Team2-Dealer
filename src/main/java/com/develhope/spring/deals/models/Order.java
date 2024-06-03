@@ -1,52 +1,45 @@
 package com.develhope.spring.deals.models;
 
 import com.develhope.spring.users.models.User;
-<<<<<<< HEAD
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-=======
 import com.develhope.spring.vehicles.models.Vehicle;
->>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
+
 
 /**
  * Represents an order or purchase. This class includes details about
  * the payment status, order status, and identifies the vehicle associated with the order.
  */
-<<<<<<< HEAD
+
 @Table(name = "orders")
 @Entity
-=======
 
->>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
 public class Order {
 
     @Id
     @GeneratedValue
     private long id;
-    private int vehicleId;
     private boolean downPayment;
     private OrderStatus orderStatus;
-<<<<<<< HEAD
-
-=======
     private boolean isPaid;
     private Vehicle vehicle;
->>>>>>> db94af9e660c4ae21c88f9f9e6f577c5b5315a99
 
-    public Order(boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle) {
+    public Order(long id, long vehicleId, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle) {
+        this.id = id;
         this.downPayment = downPayment;
-        this.isPaid = isPaid;
         this.orderStatus = orderStatus;
+        this.isPaid = isPaid;
         this.vehicle = vehicle;
     }
 
-
-    public Order(boolean downPayment, OrderStatus orderStatus, long vehicleId, User user) {
+    public long getId() {
+        return id;
     }
 
-    public Order(boolean downPayment, OrderStatus orderStatus, long vehicleId, User user) {
+    public void setId(long id) {
+        this.id = id;
     }
 
     public boolean isDownPayment() {
@@ -61,7 +54,6 @@ public class Order {
         return orderStatus;
     }
 
-
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
@@ -74,11 +66,11 @@ public class Order {
         isPaid = paid;
     }
 
-    public Vehicle getVehicleId() {
+    public Vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicleId(int vehicleId) {
+    public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
 
