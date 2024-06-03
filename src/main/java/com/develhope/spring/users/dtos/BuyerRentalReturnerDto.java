@@ -1,5 +1,7 @@
 package com.develhope.spring.users.dtos;
 
+import com.develhope.spring.users.models.Roles;
+
 public class BuyerRentalReturnerDto {
 
     private String name;
@@ -10,11 +12,22 @@ public class BuyerRentalReturnerDto {
 
     private long phoneNumber;
 
-    public BuyerRentalReturnerDto(String name, String surname, String email, long phoneNumber) {
+    private Roles roles;
+
+    public BuyerRentalReturnerDto(String name, String surname, String email, long phoneNumber, Roles roles) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.roles = roles;
+    }
+
+    public Roles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Roles roles) {
+        this.roles = roles;
     }
 
     public BuyerRentalReturnerDto() {

@@ -54,10 +54,20 @@ public class VehicleMapper {
                vehicle.getModel(),
                vehicle.getColor(),
                vehicle.getGear(),
-               vehicle.getEngine()
+               vehicle.getPowerSupply()
        );
     }
 
-
+    public Vehicle toEntityFrom(VehicleRentalReturnerDTO vehicleRentalReturnerDTO) {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(vehicleRentalReturnerDTO.getId());
+        vehicle.setVehicleType(vehicleRentalReturnerDTO.getVehicleType());
+        vehicle.setBrand(vehicleRentalReturnerDTO.getBrand());
+        vehicle.setModel(vehicleRentalReturnerDTO.getModel());
+        vehicle.setColor(vehicleRentalReturnerDTO.getColor());
+        vehicle.setGear(vehicleRentalReturnerDTO.getGear());
+        vehicle.setPowerSupply(vehicleRentalReturnerDTO.getMotorPowerSupply());
+        return vehicle;
+    }
 
 }

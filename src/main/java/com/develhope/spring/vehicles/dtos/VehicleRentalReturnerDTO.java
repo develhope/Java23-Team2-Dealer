@@ -2,8 +2,8 @@ package com.develhope.spring.vehicles.dtos;
 
 import com.develhope.spring.vehicles.vehicleEnums.Colors;
 import com.develhope.spring.vehicles.vehicleEnums.Gears;
+import com.develhope.spring.vehicles.vehicleEnums.MotorPowerSupply;
 import com.develhope.spring.vehicles.vehicleEnums.VehicleType;
-import org.apache.catalina.Engine;
 
 public class VehicleRentalReturnerDTO {
 
@@ -19,19 +19,19 @@ public class VehicleRentalReturnerDTO {
 
     private Gears gear;
 
-    private String engine;
+    private MotorPowerSupply motorPowerSupply;
 
     public VehicleRentalReturnerDTO() {
     }
 
-    public VehicleRentalReturnerDTO(long id, VehicleType vehicleType, String brand, String model, Colors color, Gears gear, String engine) {
+    public VehicleRentalReturnerDTO(long id, VehicleType vehicleType, String brand, String model, Colors color, Gears gear, MotorPowerSupply motorPowerSupply) {
         this.id = id;
         this.vehicleType = vehicleType;
         this.brand = brand;
         this.model = model;
         this.color = color;
         this.gear = gear;
-        this.engine = engine;
+        this.motorPowerSupply = motorPowerSupply;
     }
 
     public long getId() {
@@ -82,11 +82,11 @@ public class VehicleRentalReturnerDTO {
         this.gear = gear;
     }
 
-    public String getEngine() {
-        return engine;
+    public MotorPowerSupply getMotorPowerSupply() {
+        return motorPowerSupply;
     }
 
-    public void setEngine(String engine) {
-        this.engine = engine;
+    public void setMotorPowerSupply(MotorPowerSupply motorPowerSupply) {
+        this.motorPowerSupply = motorPowerSupply;
     }
 }

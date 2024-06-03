@@ -2,7 +2,6 @@ package com.develhope.spring.deals.models;
 
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;

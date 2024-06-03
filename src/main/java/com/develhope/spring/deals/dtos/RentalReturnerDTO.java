@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
-public class RentalReturnerDTO{
+public class RentalReturnerDTO {
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -17,7 +17,8 @@ public class RentalReturnerDTO{
     private VehicleRentalReturnerDTO vehicle;
     private BuyerRentalReturnerDto buyer;
 
-    public RentalReturnerDTO(){}
+    public RentalReturnerDTO() {
+    }
 
     void calculateTotalCost() {
         long rentalDays = startDate.until(endDate).getDays();

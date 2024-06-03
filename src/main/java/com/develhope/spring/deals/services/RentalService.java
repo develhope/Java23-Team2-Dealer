@@ -28,8 +28,8 @@ public class RentalService {
     public RentalReturnerDTO create(RentalCreatorDTO rentalCreatorDTO) {
 //        checkExistingVehicle(rentalCreatorDTO);
 //        checkMarketStatus(rentalCreatorDTO);
-        Rental rental = rentalMapper.toEntity(rentalCreatorDTO);
-        return rentalMapper.toReturnerDTO(rentalRepository.save(rental));
+        Rental rental = rentalMapper.toEntityFrom(rentalCreatorDTO);
+        return rentalMapper.toReturnerDTOFrom(rentalRepository.save(rental));
 
     }
 

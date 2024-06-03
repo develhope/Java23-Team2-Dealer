@@ -1,7 +1,5 @@
 package com.develhope.spring.deals.dtos;
 
-import com.develhope.spring.vehicles.models.Vehicle;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -14,7 +12,8 @@ public class RentalCreatorDTO {
     private long vehicleId;
     private long userId;
 
-    public RentalCreatorDTO(){}
+    public RentalCreatorDTO() {
+    }
 
     public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, long vehicleId, long userId) {
         this.startDate = startDate;
