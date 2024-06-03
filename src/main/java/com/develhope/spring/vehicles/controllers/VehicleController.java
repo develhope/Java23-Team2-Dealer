@@ -36,13 +36,16 @@ public class VehicleController {
 
     @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public VehicleCreatorDTO create(@PathVariable long userId, @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
+    public VehicleCreatorDTO create(@PathVariable long userId,
+                                    @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
         return vehicleService.create(userId, vehicleCreatorDTO);
     }
 
     @PutMapping("/{userId}/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
-    public VehicleCreatorDTO update(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
+    public VehicleCreatorDTO update(@PathVariable long userId,
+                                    @PathVariable long vehicleId,
+                                    @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
         return vehicleService.update(userId, vehicleId, vehicleCreatorDTO);
     }
 

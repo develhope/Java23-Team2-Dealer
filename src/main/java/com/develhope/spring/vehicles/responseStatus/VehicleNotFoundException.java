@@ -1,15 +1,29 @@
 package com.develhope.spring.vehicles.responseStatus;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
+
+
 public class VehicleNotFoundException extends RuntimeException {
+
+    private HttpStatus httpStatus;
+
+    private String message;
+
+    public VehicleNotFoundException() {
+    }
+
     public VehicleNotFoundException(String message) {
         super(message);
+        this.httpStatus = HttpStatus.NOT_FOUND;
     }
 
     public HttpStatus getHttpStatus() {
-        return HttpStatus.NOT_FOUND;
+        return httpStatus;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

@@ -23,6 +23,8 @@ public class User {
     @Column(nullable = false)
     private Roles roles;
 
+    public User() {}
+
     private void checkEmptyName(String name) throws EmptyParameterException {
         String validName = name.trim();
         if (validName.isEmpty()) {
