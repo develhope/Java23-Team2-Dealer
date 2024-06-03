@@ -1,18 +1,22 @@
 package com.develhope.spring.deals.dtos;
-import com.develhope.spring.deals.models.OrderStatus;
 
-public class OrderCreatorDTO {
+import com.develhope.spring.deals.models.OrderStatus;
+import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
+
+public class OrderResponseDTO {
+
     private boolean downPayment;
-    private long vehicleId;
+    private VehicleOrderReturnerDTO vehicle;
     private long userId;
     private OrderStatus orderStatus;
     private boolean isPaid;
 
-    public OrderCreatorDTO() {}
+    public OrderResponseDTO() {
+    }
 
-    public OrderCreatorDTO(boolean downPayment, long vehicleId, long userId, OrderStatus orderStatus, boolean isPaid) {
+    public OrderResponseDTO(boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, OrderStatus orderStatus, boolean isPaid) {
         this.downPayment = downPayment;
-        this.vehicleId = vehicleId;
+        this.vehicle = vehicle;
         this.userId = userId;
         this.orderStatus = orderStatus;
         this.isPaid = isPaid;
@@ -26,12 +30,12 @@ public class OrderCreatorDTO {
         this.downPayment = downPayment;
     }
 
-    public long getVehicleId() {
-        return vehicleId;
+    public VehicleOrderReturnerDTO getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicleId(long vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setVehicle(VehicleOrderReturnerDTO vehicle) {
+        this.vehicle = vehicle;
     }
 
     public long getUserId() {

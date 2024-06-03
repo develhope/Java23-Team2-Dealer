@@ -36,6 +36,15 @@ public class Order {
         this.vehicle = vehicle;
     }
 
+    public Order(long id, long vehicleId, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle) {
+        this.id = id;
+        this.downPayment = downPayment;
+        this.orderStatus = orderStatus;
+        this.isPaid = isPaid;
+        this.vehicle = vehicle;
+    }
+
+
     public boolean isDownPayment() {
         return downPayment;
     }

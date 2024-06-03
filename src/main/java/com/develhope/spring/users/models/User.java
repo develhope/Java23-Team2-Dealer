@@ -25,6 +25,18 @@ public class User {
     @Column(nullable = false)
     private Roles roles;
 
+    public User() {
+    }
+
+    public User(long id, String name, String surname, long phoneNumber, String email, Roles roles) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.roles = roles;
+    }
+
     private void checkEmptyName(String name) throws EmptyParameterException {
         String validName = name.trim();
         if (validName.isEmpty()) {

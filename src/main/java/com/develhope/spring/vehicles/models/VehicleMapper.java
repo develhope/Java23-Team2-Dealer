@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.models;
 
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +14,68 @@ import org.springframework.stereotype.Component;
 @Component
 public class VehicleMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    /**
-     * Converte un Vehicle in un VehicleDTO.
-     *
-     * @param vehicle l'entità Vehicle da convertire
-     * @return il VehicleDTO convertito
-     */
-    public VehicleCreatorDTO toDTO(Vehicle vehicle) {
-        return modelMapper.map(vehicle, VehicleCreatorDTO.class);
+    public static VehicleCreatorDTO toVehicleCreatorDTOFrom(Vehicle vehicle) {
+        return new VehicleCreatorDTO(
+                vehicle.getVehicleType(),
+                vehicle.getBrand(),
+                vehicle.getModel(),
+                vehicle.getDisplacement(),
+                vehicle.getColor(),
+                vehicle.getPower(),
+                vehicle.getGear(),
+                vehicle.getRegistrationYear(),
+                vehicle.getPowerSupply(),
+                vehicle.getOriginalPrice(),
+                vehicle.getDiscountedPrice(),
+                vehicle.getUsedFlag(),
+                vehicle.getMarketStatus(),
+                vehicle.isDiscountFlag(),
+                vehicle.getEngine()
+        );
     }
 
-    /**
-     * Converte un VehicleCreateDTO in un Vehicle.
-     *
-     * @param vehicleCreatorDTO il VehicleCreateDTO da convertire
-     * @return l'entità Vehicle convertita
-     */
-    public Vehicle toEntity(VehicleCreatorDTO vehicleCreatorDTO) {
-        return modelMapper.map(vehicleCreatorDTO, Vehicle.class);
+    public static Vehicle toVehicleFrom(VehicleCreatorDTO dto) {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setVehicleType(dto.getVehicleType());
+        vehicle.setBrand(dto.getBrand());
+        vehicle.setModel(dto.getModel());
+        vehicle.setDisplacement(dto.getDisplacement());
+        vehicle.setColor(dto.getColor());
+        vehicle.setPower(dto.getPower());
+        vehicle.setGear(dto.getGear());
+        vehicle.setRegistrationYear(dto.getRegistrationYear());
+        vehicle.setPowerSupply(dto.getPowerSupply());
+        vehicle.setOriginalPrice(dto.getOriginalPrice());
+        vehicle.setDiscountedPrice(dto.getDiscountedPrice());
+        vehicle.setUsedFlag(dto.getUsedFlag());
+        vehicle.setMarketStatus(dto.getMarketStatus());
+        vehicle.setDiscountFlag(dto.isDiscountFlag());
+        vehicle.setEngine(dto.getEngine());
+        return vehicle;
+    }
+
+    public static VehicleStatusDTO toVehicleStatusDTOFrom(Vehicle vehicle) {
+        VehicleStatusDTO statusDTO = new VehicleStatusDTO();
+        statusDTO.setMarketStatus(vehicle.getMarketStatus());
+        return statusDTO;
+    }
+
+    public static void updateVehicleMarketStatusFrom(Vehicle vehicle, VehicleStatusDTO statusDTO) {
+        vehicle.setMarketStatus(statusDTO.getMarketStatus());
     }
 
 
-    public VehicleStatusDTO statusToDo(Vehicle vehicle){
-        return modelMapper.map(vehicle, VehicleStatusDTO.class);
-    }
-
-    public Vehicle statusToEntity(VehicleStatusDTO vehicleStatusDTO){
-        return modelMapper.map(vehicleStatusDTO, Vehicle.class);
+    public VehicleOrderReturnerDTO toOrderReturnerDTOFrom(Vehicle vehicle) {
+        return new VehicleOrderReturnerDTO(
+                vehicle.getId(),
+                vehicle.getVehicleType(),
+                vehicle.getBrand(),
+                vehicle.getModel(),
+                vehicle.getColor(),
+                vehicle.getOriginalPrice(),
+                vehicle.getUsedFlag(),
+                vehicle.getEngine()
+        );
     }
 
 
