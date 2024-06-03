@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicles")
@@ -17,59 +18,45 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private VehicleType vehicleType;
-
     @Column(nullable = false)
     private String brand;
-
     @Column(nullable = false)
     private String model;
-
     @Column
     private int displacement;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Colors color;
-
     @Column(nullable = false)
     private int power;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gears gear;
-
     @Column(nullable = false)
     private int registrationYear;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MotorPowerSupply powerSupply;
-
     @Column(nullable = false)
     private BigDecimal originalPrice;
     @Column
     private BigDecimal discountedPrice;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UsedFlag usedFlag;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MarketStatus marketStatus;
-
     @Column
     private boolean discountFlag;
-
     @Column(nullable = false)
     private String engine;
-    //OneToOne references
-    @OneToOne(mappedBy = "orders")
-    private Order order;
+    //References
+    @OneToMany(mappedBy = "orders")
+    private List<Order> orders;
 
 
     //Getters
@@ -203,7 +190,8 @@ public class Vehicle {
         this.engine = engine;
     }
 
-    public Vehicle(){}
+    public Vehicle() {
+    }
 
 
     //Costruttori

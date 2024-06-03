@@ -20,12 +20,12 @@ public class Order {
     private OrderStatus orderStatus;
     @Column(nullable = false)
     private boolean isPaid;
-    //OneToOne references
-    @OneToOne
+    //References
+    @ManyToOne
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id", nullable = false)
     private Vehicle vehicle;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
     private User seller;
 
 
