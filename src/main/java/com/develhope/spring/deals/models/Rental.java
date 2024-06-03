@@ -40,7 +40,7 @@ public class Rental {
     @OneToOne
     private User user;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Vehicle vehicle;
 
     void calculateTotalCost() {

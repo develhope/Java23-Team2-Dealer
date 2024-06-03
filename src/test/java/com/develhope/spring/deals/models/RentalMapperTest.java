@@ -1,20 +1,21 @@
 package com.develhope.spring.deals.models;
 
-import com.develhope.spring.configuration.ModelMapperConfig;
+import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.users.models.Roles;
+import com.develhope.spring.deals.dtos.RentalReturnerDTO;
+import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.models.User;
-import com.develhope.spring.users.models.exceptions.EmptyParameterException;
-import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
+import com.develhope.spring.users.models.UserMapper;
+import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
+import com.develhope.spring.vehicles.models.VehicleMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,22 +24,83 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RentalMapperTest {
 
     @Mock
-    private ModelMapper modelMapper;
+    private VehicleMapper vehicleMapper;
+
+    @Mock
+    private UserMapper userMapper;
 
     @InjectMocks
     private RentalMapper rentalMapper;
 
     @Test
-    void toEntity_test() throws EmptyParameterException, WrongEmailFormatException {
-        LocalDate endTime = LocalDate.of(2024, 12, 3);
-        RentalCreatorDTO rentalCreatorDTO = new RentalCreatorDTO(LocalDate.now(), endTime, BigDecimal.valueOf(150), true, 1, 1);
-        Rental result;
-        result = rentalMapper.toEntity(rentalCreatorDTO);
-        User expected = new User();
-        expected.setId(1);
-        expected.setName("hey");
-        expected.setEmail("h@e.it");
-        expected.setRoles(Roles.BUYER);
-        assertEquals(expected.getId(), result.getUser().getId());
+    void toEntity_testSuccessfulSameTotalPrice() {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.of(2024, 06, 5);
+
+        RentalCreatorDTO rentalCreatorDTO = new RentalCreatorDTO(
+                startDate,
+                endDate,
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+                true,
+                1,
+                1);
+
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(1);
+
+        User user = new User();
+        user.setId(1);
+
+        Rental result = rentalMapper.toEntity(rentalCreatorDTO);
+        Rental expected = new Rental(startDate, endDate, BigDecimal.valueOf(40), true, vehicle, 1, user);
+        assertEquals(expected.getTotalCost(), BigDecimal.valueOf(80).setScale(2, RoundingMode.HALF_EVEN));
+    }
+
+    @Test
+    void toEntity_testSuccessfulSameUserSuccessfulSameUser() {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.of(2024, 06, 5);
+
+        RentalCreatorDTO rentalCreatorDTO = new RentalCreatorDTO(
+                startDate,
+                endDate,
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+                true,
+                1,
+                1);
+
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(1);
+
+        User user = new User();
+        user.setId(1);
+
+        Rental result = rentalMapper.toEntity(rentalCreatorDTO);
+        Rental expected = new Rental(startDate, endDate, BigDecimal.valueOf(40), true, vehicle, 1, user);
+        assertEquals(expected.getUser().getId(), result.getUser().getId());
+    }
+
+    @Test
+    void toReturnerDTO_testSuccessfulSameTotalPrice() {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(1);
+
+        User user = new User();
+        user.setId(1);
+
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate= LocalDate.of(2024, 06, 5);
+        BigDecimal dailyCost = BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN);
+        Rental rental = new Rental(startDate, endDate, dailyCost, false, vehicle, 1, user);
+
+        VehicleRentalReturnerDTO vehicleRentalReturnerDTO = new VehicleRentalReturnerDTO();
+        vehicleRentalReturnerDTO.setId(rental.getVehicle().getId());
+
+        BuyerRentalReturnerDto buyerRentalReturnerDto = new BuyerRentalReturnerDto();
+        buyerRentalReturnerDto.setEmail(rental.getUser().getEmail());
+
+        RentalReturnerDTO result = rentalMapper.toReturnerDTO(rental);
+        RentalReturnerDTO expected = new RentalReturnerDTO(startDate, endDate, dailyCost, false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
+        assertEquals(expected.getTotalCost(), result.getTotalCost());
     }
 }

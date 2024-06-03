@@ -32,7 +32,7 @@ public class VehicleService {
         checkExistingUser(userId);
         checkUserAuthorizationBy(userId);
         Vehicle vehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
-        return vehicleMapper.toDTO(vehicleRepository.save(vehicle));
+        return vehicleMapper.toCreatorDTO(vehicleRepository.save(vehicle));
     }
 
 
@@ -43,7 +43,7 @@ public class VehicleService {
         Vehicle existingVehicle = findVehicleBy(vehicleId);
         existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         existingVehicle.setId(vehicleId);
-        return vehicleMapper.toDTO(vehicleRepository.save(existingVehicle));
+        return vehicleMapper.toCreatorDTO(vehicleRepository.save(existingVehicle));
     }
 
     public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {

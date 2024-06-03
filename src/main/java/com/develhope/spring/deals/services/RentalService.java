@@ -1,8 +1,9 @@
 package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
+import com.develhope.spring.deals.dtos.RentalReturnerDTO;
 import com.develhope.spring.deals.models.Rental;
-import com.develhope.spring.deals.models.RentalMapper;
+import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.repositories.RentalRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.users.repositories.UserRepository;
@@ -15,26 +16,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class RentalService {
 
+    @Autowired
     private RentalRepository rentalRepository;
-
+    @Autowired
     private VehicleRepository vehicleRepository;
-
+    @Autowired
     private UserRepository userRepository;
-
+    @Autowired
     private RentalMapper rentalMapper;
 
-    public RentalService(RentalRepository rentalRepository, VehicleRepository vehicleRepository, UserRepository userRepository, RentalMapper rentalMapper) {
-        this.rentalRepository = rentalRepository;
-        this.vehicleRepository = vehicleRepository;
-        this.userRepository = userRepository;
-        this.rentalMapper = rentalMapper;
-    }
-
-    public RentalCreatorDTO create(RentalCreatorDTO rentalCreatorDTO) {
+    public RentalReturnerDTO create(RentalCreatorDTO rentalCreatorDTO) {
 //        checkExistingVehicle(rentalCreatorDTO);
 //        checkMarketStatus(rentalCreatorDTO);
         Rental rental = rentalMapper.toEntity(rentalCreatorDTO);
-        return rentalMapper.toDTO(rentalRepository.save(rental));
+        return rentalMapper.toReturnerDTO(rentalRepository.save(rental));
+
     }
 
     private void checkExistingVehicle(RentalCreatorDTO rentalCreatorDTO) {

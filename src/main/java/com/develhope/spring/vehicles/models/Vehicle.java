@@ -49,6 +49,7 @@ public class Vehicle {
 
     @Column(nullable = false)
     private BigDecimal originalPrice;
+
     @Column
     private BigDecimal discountedPrice;
 
