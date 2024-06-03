@@ -1,30 +1,41 @@
 package com.develhope.spring.deals.models;
 
-import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
+import jakarta.persistence.*;
 
 /**
  * Represents an order or purchase. This class includes details about
  * the payment status, order status, and identifies the vehicle associated with the order.
  */
-
+@Entity
+@Table(name = "orders")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private boolean downPayment;
+
+    @Column(nullable = false)
     private OrderStatus orderStatus;
+
+    @Column(nullable = false)
     private boolean isPaid;
+    @OneToOne
     private Vehicle vehicle;
 
-    public Order(boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle) {
+    //costruttori
+    public Order(long id, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle) {
+        this.id = id;
         this.downPayment = downPayment;
         this.isPaid = isPaid;
         this.orderStatus = orderStatus;
         this.vehicle = vehicle;
     }
 
-
-    public Order(boolean downPayment, OrderStatus orderStatus, long vehicleId, User user) {
+    public Order() {
     }
 
+    //Setter e getter
     public boolean isDownPayment() {
         return downPayment;
     }
@@ -36,7 +47,6 @@ public class Order {
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
-
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
@@ -50,25 +60,12 @@ public class Order {
         isPaid = paid;
     }
 
-    public Vehicle getVehicleId() {
+    public Vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicleId(int vehicleId) {
+    public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
 
-    /**
-     * Returns a string representation of the order, including all details.
-     *
-     * @return a string representation of the order.
-     */
-    @Override
-    public String toString() {
-        return "Ordine { " +
-                "Acconto = " + downPayment +
-                ", Stato dell'ordine = " + orderStatus +
-                ", Id del veicolo = " + vehicle +
-                '}';
-    }
 }
