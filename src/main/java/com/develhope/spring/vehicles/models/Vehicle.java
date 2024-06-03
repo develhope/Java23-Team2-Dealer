@@ -54,9 +54,7 @@ public class Vehicle {
     private boolean discountFlag;
     @Column(nullable = false)
     private String engine;
-    //References
-    @OneToMany(mappedBy = "orders")
-    private List<Order> orders;
+
 
 
     //Getters
