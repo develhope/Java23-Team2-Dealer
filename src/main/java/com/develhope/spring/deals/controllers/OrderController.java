@@ -1,6 +1,7 @@
 package com.develhope.spring.deals.controllers;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
+import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,30 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/orders")
+@RequestMapping("/orders")
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/admin")
-    @ResponseStatus(HttpStatus.OK)
-    public Order createOrderForUser(@RequestBody OrderCreatorDTO orderDTO) {
-        Order order = orderService.createOrderForUser(orderDTO);
-        return order;
+    @PostMapping
+    public ResponseEntity<OrderResponseDTO> createOrder(@RequestBody OrderCreatorDTO orderCreatorDTO) {
+        OrderResponseDTO orderResponseDTO = orderService.create(orderCreatorDTO);
+        return ResponseEntity.ok(orderResponseDTO);
     }
 
-    @PostMapping("/salesperson")
-    @ResponseStatus(HttpStatus.OK)
-    public Order createOrderForVehicle(@RequestBody OrderCreatorDTO orderDTO) {
-        Order order = orderService.createOrderForVehicle(orderDTO);
-        return order;
-    }
-
-    @PostMapping("/buyer")
-    @ResponseStatus(HttpStatus.OK)
-    public Order purchaseVehicle(@RequestBody OrderCreatorDTO orderDTO) {
-        Order order = orderService.purchaseVehicle(orderDTO);
-        return order;
-    }
 }
