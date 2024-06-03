@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public UserSavedDTO fromEntityToUserSavedDTO(User user) {
+    public UserSavedDTO toUserSavedDTOFrom(User user) {
         return new UserSavedDTO(user.getName(), user.getSurname(), user.getRoles());
     }
 
-    public User fromUserCreatorDTOtoEntity(UserCreatorDTO userDTO) {
+    public User toEntityFrom(UserCreatorDTO userDTO) {
         User user = new User();
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
