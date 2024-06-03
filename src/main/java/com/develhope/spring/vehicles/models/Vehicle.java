@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.models;
 
 
+import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
@@ -14,6 +15,7 @@ public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
     @Column(nullable = false)
@@ -65,6 +67,9 @@ public class Vehicle {
 
     @Column(nullable = false)
     private String engine;
+    //OneToOne references
+    @OneToOne(mappedBy = "orders")
+    private Order order;
 
 
     //Getters

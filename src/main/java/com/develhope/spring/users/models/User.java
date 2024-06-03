@@ -1,5 +1,6 @@
 package com.develhope.spring.users.models;
 
+import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.users.models.exceptions.EmptyParameterException;
 import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 import jakarta.persistence.*;
@@ -10,18 +11,22 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String surname;
-
     private long phoneNumber;
     @Column(unique = true, nullable = false)
     private String email;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Roles roles;
+    //OneToOne references
+    @OneToMany(mappedBy = "orders")
+    private Order order;
+
 
     private void checkEmptyName(String name) throws EmptyParameterException {
         String validName = name.trim();
@@ -94,7 +99,7 @@ public class User {
     }
 
     public void setSurname(String surname) throws EmptyParameterException {
-      checkEmptySurname(surname);
+        checkEmptySurname(surname);
     }
 
     public long getId() {

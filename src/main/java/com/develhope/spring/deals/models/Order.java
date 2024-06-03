@@ -1,5 +1,6 @@
 package com.develhope.spring.deals.models;
 
+import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
 
@@ -14,22 +15,28 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private boolean downPayment;
-
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-
     @Column(nullable = false)
     private boolean isPaid;
+    //OneToOne references
     @OneToOne
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "id", nullable = false)
     private Vehicle vehicle;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User seller;
+
 
     //costruttori
-    public Order(long id, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle) {
+    public Order(long id, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle, User seller) {
         this.id = id;
         this.downPayment = downPayment;
         this.isPaid = isPaid;
         this.orderStatus = orderStatus;
         this.vehicle = vehicle;
+        this.seller = seller;
     }
 
     public Order() {
@@ -68,4 +75,19 @@ public class Order {
         this.vehicle = vehicle;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
 }
