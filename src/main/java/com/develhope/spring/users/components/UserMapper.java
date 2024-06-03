@@ -12,6 +12,10 @@ public class UserMapper {
         return new UserSavedDTO(user.getName(), user.getSurname(), user.getRoles());
     }
 
+    public UserCreatorDTO toUserCreatorDTOFrom(User user) {
+        return new UserCreatorDTO(user.getName(), user.getSurname(), user.getPhoneNumber(),user.getEmail(),user.getRoles());
+    }
+
     public User toEntityFrom(UserCreatorDTO userDTO) {
         User user = new User();
         user.setName(userDTO.getName());
