@@ -5,6 +5,8 @@ import com.develhope.spring.users.models.exceptions.EmptyParameterException;
 import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -25,7 +27,7 @@ public class User {
     private Roles roles;
     //OneToOne references
     @OneToMany(mappedBy = "orders")
-    private Order order;
+    private List<Order> orders;
 
 
     private void checkEmptyName(String name) throws EmptyParameterException {
@@ -108,5 +110,9 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 }
