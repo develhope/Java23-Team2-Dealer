@@ -2,8 +2,10 @@ package com.develhope.spring.vehicles.optionals.models;
 
 import com.develhope.spring.vehicles.optionals.enums.TypeOfRim;
 import jakarta.persistence.*;
+import org.apache.logging.log4j.message.ReusableMessage;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Table(name = "Rim")
@@ -15,7 +17,7 @@ public class AlloyWheels {
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private TypeOfRim type;
+    private TypeOfRim typeOfRim;
 
     //Empty builder
     public AlloyWheels() {
@@ -24,7 +26,7 @@ public class AlloyWheels {
     //Full builder
     public AlloyWheels(long id, BigDecimal price) {
         this.id = id;
-        this.price = price;
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     //Getter
@@ -33,7 +35,11 @@ public class AlloyWheels {
     }
 
     public BigDecimal getPrice() {
-        return price;
+        return price.setScale(2 , RoundingMode.HALF_EVEN);
+    }
+
+    public TypeOfRim getTypeOfRim() {
+        return typeOfRim;
     }
 
     //Setter
@@ -43,5 +49,9 @@ public class AlloyWheels {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public void setTypeOfRim(TypeOfRim typeOfRim) {
+        this.typeOfRim = typeOfRim;
     }
 }
