@@ -4,7 +4,6 @@ import com.develhope.spring.users.models.exceptions.EmptyParameterException;
 import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 import jakarta.persistence.*;
 
-import java.util.Collection;
 import java.util.Collections;
 
 @Entity
@@ -68,8 +67,8 @@ public class User {
         return phoneNumber;
     }
 
-    public Collection<Roles> getRoles() {
-        return Collections.singleton(roles);
+    public Roles getRoles() {
+        return roles;
     }
 
     public String getEmail() {

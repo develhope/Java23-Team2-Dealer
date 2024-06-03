@@ -23,7 +23,7 @@ public class Order {
     private Vehicle vehicle;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     private User user;
 
 
@@ -40,8 +40,16 @@ public class Order {
         return downPayment;
     }
 
+    public void setDownPayment(boolean downPayment) {
+        this.downPayment = downPayment;
+    }
+
     public void setPaid(boolean paid) {
         isPaid = paid;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
     }
 
     public Vehicle getVehicle() {
@@ -54,6 +62,18 @@ public class Order {
 
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
 }

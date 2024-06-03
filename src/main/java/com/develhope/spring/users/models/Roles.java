@@ -6,8 +6,4 @@ public enum Roles {
     BUYER,
     ADMIN,
     SALESPERSON;
-
-    public static boolean contains(Roles role, Collection<Roles> roles) {
-        return roles.contains(role);
-    }
 }
