@@ -10,25 +10,27 @@ import com.develhope.spring.users.models.UserMapper;
 import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.models.VehicleMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class RentalServiceTest {
 
-    @Mock
-    private VehicleMapper vehicleMapper;
-
-    @Mock
-    private UserMapper userMapper;
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Mock
     private RentalMapper rentalMapper;
@@ -79,5 +81,6 @@ public class RentalServiceTest {
                 .thenReturn(expected);
 
         Rental result = rentalMapper.toEntityFrom(rentalService.create(rentalCreatorDTO));
+        assertEquals(expected.getUser().getId(), result.getUser().getId());
     }
 }
