@@ -58,7 +58,7 @@ public class VehicleMapper {
        );
     }
 
-    public Vehicle toEntityFrom(VehicleRentalReturnerDTO vehicleRentalReturnerDTO) {
+    public Vehicle toEntity(VehicleRentalReturnerDTO vehicleRentalReturnerDTO) {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(vehicleRentalReturnerDTO.getId());
         vehicle.setVehicleType(vehicleRentalReturnerDTO.getVehicleType());

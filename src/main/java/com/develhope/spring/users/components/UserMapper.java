@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public UserSavedDTO toUserSavedDTOFrom(User user) {
+    public UserSavedDTO toUserSavedDTO(User user) {
         return new UserSavedDTO(user.getName(), user.getSurname(), user.getRoles());
     }
 
-    public User toEntityFrom(UserCreatorDTO userCreatorDTO) {
+    public User toEntity(UserCreatorDTO userCreatorDTO) {
         User user = new User();
         user.setName(userCreatorDTO.getName());
         user.setSurname(userCreatorDTO.getSurname());
@@ -33,7 +33,7 @@ public class UserMapper {
                 user.getPhoneNumber());
     }
 
-    public User toEntityFrom(BuyerRentalReturnerDto buyerRentalReturnerDto) {
+    public User toEntity(BuyerRentalReturnerDto buyerRentalReturnerDto) {
         return new User(buyerRentalReturnerDto.getId(), buyerRentalReturnerDto.getName(), buyerRentalReturnerDto.getSurname(), buyerRentalReturnerDto.getPhoneNumber(), buyerRentalReturnerDto.getEmail(), Roles.BUYER);
     }
 }

@@ -23,7 +23,7 @@ public class RentalMapper {
 
 
 
-    public Rental toEntityFrom(RentalCreatorDTO rentalCreatorDTO) {
+    public Rental toEntity(RentalCreatorDTO rentalCreatorDTO) {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(rentalCreatorDTO.getVehicleId());
         User user = new User();
@@ -39,7 +39,7 @@ public class RentalMapper {
         );
     }
 
-    public RentalReturnerDTO toReturnerDTOFrom(Rental rental) {
+    public RentalReturnerDTO toReturnerDTO(Rental rental) {
 
         VehicleRentalReturnerDTO vehicleRentalReturnerDTO = vehicleMapper.toRentalReturnerDTO(rental.getVehicle());
         BuyerRentalReturnerDto buyerReturnerDto = userMapper.toRentalBuyerDTO(rental.getUser());
@@ -54,9 +54,9 @@ public class RentalMapper {
         );
     }
 
-    public Rental toEntityFrom(RentalReturnerDTO rentalReturnerDTO) {
-        Vehicle vehicle = vehicleMapper.toEntityFrom(rentalReturnerDTO.getVehicle());
-        User user = userMapper.toEntityFrom(rentalReturnerDTO.getBuyer());
+    public Rental toEntity(RentalReturnerDTO rentalReturnerDTO) {
+        Vehicle vehicle = vehicleMapper.toEntity(rentalReturnerDTO.getVehicle());
+        User user = userMapper.toEntity(rentalReturnerDTO.getBuyer());
         return new Rental(rentalReturnerDTO.getStartDate(), rentalReturnerDTO.getEndDate(), rentalReturnerDTO.getDailyCost(), rentalReturnerDTO.isPaid(), vehicle, 0, user);
     }
 }

@@ -32,9 +32,9 @@ public class RentalService {
     public RentalReturnerDTO create(RentalCreatorDTO rentalCreatorDTO) {
         checkValidRentalDates(rentalCreatorDTO);
         checkMarketStatus(rentalCreatorDTO);
-        Rental rental = rentalMapper.toEntityFrom(rentalCreatorDTO);
+        Rental rental = rentalMapper.toEntity(rentalCreatorDTO);
         rentalRepository.save(rental);
-        return rentalMapper.toReturnerDTOFrom(rental);
+        return rentalMapper.toReturnerDTO(rental);
 
     }
 

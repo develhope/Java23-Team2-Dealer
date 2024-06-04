@@ -23,8 +23,8 @@ public class UserService {
     }
 
     public UserSavedDTO create(UserCreatorDTO userCreatorDTO) {
-        User userToRegister = userMapper.toEntityFrom(userCreatorDTO);
+        User userToRegister = userMapper.toEntity(userCreatorDTO);
         userRepository.save(userToRegister);
-        return userMapper.toUserSavedDTOFrom(userToRegister);
+        return userMapper.toUserSavedDTO(userToRegister);
     }
 }
