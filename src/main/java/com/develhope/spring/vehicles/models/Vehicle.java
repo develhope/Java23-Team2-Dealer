@@ -199,8 +199,12 @@ public class Vehicle {
         this.engine = engine;
     }
 
-    public Vehicle(){}
+    public Vehicle() {
+    }
 
+    public Vehicle(long id) {
+        this.id = id;
+    }
 
     //Costruttori
     protected Vehicle(VehicleBuilder builder) {

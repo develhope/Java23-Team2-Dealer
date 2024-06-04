@@ -34,6 +34,10 @@ public class VehicleRentalReturnerDTO {
         this.motorPowerSupply = motorPowerSupply;
     }
 
+    public VehicleRentalReturnerDTO(long id) {
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }

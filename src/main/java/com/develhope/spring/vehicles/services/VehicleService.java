@@ -29,7 +29,6 @@ public class VehicleService {
     private VehicleMapper vehicleMapper;
 
     public VehicleCreatorDTO create(long userId, VehicleCreatorDTO vehicleCreatorDTO) {
-        checkExistingUser(userId);
         checkUserAuthorizationBy(userId);
         Vehicle vehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         return vehicleMapper.toCreatorDTO(vehicleRepository.save(vehicle));
@@ -38,7 +37,6 @@ public class VehicleService {
 
 
     public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
-        checkExistingUser(userId);
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle = findVehicleBy(vehicleId);
         existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
@@ -47,7 +45,6 @@ public class VehicleService {
     }
 
     public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
-        checkExistingUser(userId);
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle = findVehicleBy(vehicleId);
         existingVehicle.setMarketStatus(vehicleStatusDTO.getMarketStatus());
@@ -56,7 +53,6 @@ public class VehicleService {
     }
 
     public void delete(long userId, long vehicleId) {
-        checkExistingUser(userId);
         checkUserAuthorizationBy(userId);
         vehicleRepository.deleteById(vehicleId);
     }
@@ -76,10 +72,5 @@ public class VehicleService {
         return optionalVehicle.get();
     }
 
-    private void checkExistingUser(long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException("Nessun utente con questo ID: " + userId + " è presente");
-        }
-    }
+
 }

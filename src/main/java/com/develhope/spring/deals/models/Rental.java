@@ -12,21 +12,22 @@ import java.time.LocalDate;
 
 @Entity
 public class Rental {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @NotBlank(message = "Start date is mandatory")
+
+
     @Column(nullable = false)
     private LocalDate startDate;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @NotBlank(message = "End date is mandatory")
+
+
     @Column(nullable = false)
     private LocalDate endDate;
 
-    @NotBlank(message = "Daily Cost is mandatory")
+
     @Column(nullable = false)
     private BigDecimal dailyCost;
 
@@ -36,10 +37,10 @@ public class Rental {
     @Column(nullable = false)
     private boolean paid;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
 
     void calculateTotalCost() {

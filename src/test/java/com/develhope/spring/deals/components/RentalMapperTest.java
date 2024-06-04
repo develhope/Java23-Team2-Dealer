@@ -1,11 +1,11 @@
-package com.develhope.spring.deals.models;
+package com.develhope.spring.deals.components;
 
-import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
+import com.develhope.spring.deals.models.Rental;
+import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.models.User;
-import com.develhope.spring.users.models.UserMapper;
 import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.models.VehicleMapper;
@@ -34,7 +34,7 @@ public class RentalMapperTest {
 
     @Test
     void toEntity_From_testSuccessfulSameTotalPrice() {
-        LocalDate startDate = LocalDate.now();
+        LocalDate startDate = LocalDate.of(2024, 06, 3);
         LocalDate endDate = LocalDate.of(2024, 06, 5);
 
         RentalCreatorDTO rentalCreatorDTO = new RentalCreatorDTO(

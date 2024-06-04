@@ -1,7 +1,9 @@
 package com.develhope.spring.users.components;
 
+import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.dtos.UserCreatorDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import org.springframework.stereotype.Component;
 
@@ -12,13 +14,26 @@ public class UserMapper {
         return new UserSavedDTO(user.getName(), user.getSurname(), user.getRoles());
     }
 
-    public User toEntityFrom(UserCreatorDTO userDTO) {
+    public User toEntityFrom(UserCreatorDTO userCreatorDTO) {
         User user = new User();
-        user.setName(userDTO.getName());
-        user.setSurname(userDTO.getSurname());
-        user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setEmail(userDTO.getEmail());
-        user.setRoles(userDTO.getRoles());
+        user.setName(userCreatorDTO.getName());
+        user.setSurname(userCreatorDTO.getSurname());
+        user.setPhoneNumber(userCreatorDTO.getPhoneNumber());
+        user.setEmail(userCreatorDTO.getEmail());
+        user.setRoles(userCreatorDTO.getRoles());
         return user;
+    }
+
+    public BuyerRentalReturnerDto toRentalBuyerDTO(User user) {
+        return new BuyerRentalReturnerDto(
+                user.getId(),
+                user.getName(),
+                user.getSurname(),
+                user.getEmail(),
+                user.getPhoneNumber());
+    }
+
+    public User toEntityFrom(BuyerRentalReturnerDto buyerRentalReturnerDto) {
+        return new User(buyerRentalReturnerDto.getId(), buyerRentalReturnerDto.getName(), buyerRentalReturnerDto.getSurname(), buyerRentalReturnerDto.getPhoneNumber(), buyerRentalReturnerDto.getEmail(), Roles.BUYER);
     }
 }

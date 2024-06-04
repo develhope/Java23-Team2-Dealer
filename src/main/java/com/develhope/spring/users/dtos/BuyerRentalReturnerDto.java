@@ -4,6 +4,8 @@ import com.develhope.spring.users.models.Roles;
 
 public class BuyerRentalReturnerDto {
 
+    private long id;
+
     private String name;
 
     private String surname;
@@ -12,26 +14,30 @@ public class BuyerRentalReturnerDto {
 
     private long phoneNumber;
 
-    private Roles roles;
 
-    public BuyerRentalReturnerDto(String name, String surname, String email, long phoneNumber, Roles roles) {
+    public BuyerRentalReturnerDto(long id, String name, String surname, String email, long phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.roles = roles;
+        this.id = id;
     }
 
-    public Roles getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Roles roles) {
-        this.roles = roles;
+    public BuyerRentalReturnerDto(long id) {
+        this.id = id;
     }
 
     public BuyerRentalReturnerDto() {
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 
     public String getName() {
         return name;

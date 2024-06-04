@@ -3,9 +3,9 @@ package com.develhope.spring.deals.components;
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
 import com.develhope.spring.deals.models.Rental;
+import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.models.User;
-import com.develhope.spring.users.models.UserMapper;
 import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.models.VehicleMapper;
@@ -20,6 +20,8 @@ public class RentalMapper {
 
     @Autowired
     private UserMapper userMapper;
+
+
 
     public Rental toEntityFrom(RentalCreatorDTO rentalCreatorDTO) {
         Vehicle vehicle = new Vehicle();
