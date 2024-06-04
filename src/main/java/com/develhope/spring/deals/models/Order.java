@@ -26,17 +26,17 @@ public class Order {
     private Vehicle vehicle;
     @ManyToOne
     @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
-    private User seller;
+    private User user;
 
 
     //costruttori
-    public Order(long id, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle, User seller) {
+    public Order(long id, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle, User user) {
         this.id = id;
         this.downPayment = downPayment;
         this.isPaid = isPaid;
         this.orderStatus = orderStatus;
         this.vehicle = vehicle;
-        this.seller = seller;
+        this.user = user;
     }
 
     public Order() {
@@ -83,11 +83,11 @@ public class Order {
         this.id = id;
     }
 
-    public User getSeller() {
-        return seller;
+    public User getUser() {
+        return user;
     }
 
-    public void setSeller(User seller) {
-        this.seller = seller;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
