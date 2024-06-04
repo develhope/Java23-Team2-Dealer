@@ -2,14 +2,13 @@ package com.develhope.spring.vehicles.optionals.models;
 
 import com.develhope.spring.vehicles.optionals.enums.TypeOfRim;
 import jakarta.persistence.*;
-import org.apache.logging.log4j.message.ReusableMessage;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Entity
 @Table(name = "Rim")
-public class AlloyWheels {
+public class Rims {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -20,11 +19,11 @@ public class AlloyWheels {
     private TypeOfRim typeOfRim;
 
     //Empty builder
-    public AlloyWheels() {
+    public Rims() {
     }
 
     //Full builder
-    public AlloyWheels(long id, BigDecimal price) {
+    public Rims(long id, BigDecimal price) {
         this.id = id;
         this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
@@ -51,7 +50,7 @@ public class AlloyWheels {
         this.price = price;
     }
 
-    public void setTypeOfRim(TypeOfRim typeOfRim) {
+    public void RimsType(TypeOfRim typeOfRim) {
         this.typeOfRim = typeOfRim;
     }
 }
