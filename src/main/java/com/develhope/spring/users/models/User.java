@@ -1,10 +1,9 @@
 package com.develhope.spring.users.models;
 
+import com.develhope.spring.users.models.exceptions.EmptyParameterException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-
-import java.util.Collections;
 
 @Entity
 @Table(name = "users")
@@ -29,18 +28,6 @@ public class User {
     @Column(nullable = false)
     private Roles roles;
 
-    public User() {
-    }
-
-    public User(long id, String name, String surname, long phoneNumber, String email, Roles roles) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.roles = roles;
-    }
-
     private void checkEmptyName(String name) throws EmptyParameterException {
         String validName = name.trim();
         if (validName.isEmpty()) {
@@ -60,6 +47,10 @@ public class User {
         this.email = email;
         this.roles = roles;
         this.phoneNumber = phoneNumber;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {
@@ -82,7 +73,11 @@ public class User {
         return surname;
     }
 
-    public void setEmail(String email)  {
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -90,7 +85,7 @@ public class User {
         this.roles = roles;
     }
 
-    public void setName(String name)  {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -99,19 +94,4 @@ public class User {
     }
 
 
-    public void setSurname(String surname) throws EmptyParameterException {
-        checkEmptySurname(surname);
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 }
