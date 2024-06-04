@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     public UserSavedDTO toUserSavedDTOFrom(User user) {
-        return new UserSavedDTO(user.getName(), user.getSurname(), user.getRoles());
+        return new UserSavedDTO(user.getId(), user.getName(), user.getSurname(), user.getRoles());
     }
 
     public User toEntityFrom(UserCreatorDTO userDTO) {
