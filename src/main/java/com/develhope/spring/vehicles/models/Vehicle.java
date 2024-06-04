@@ -218,6 +218,8 @@ public class Vehicle {
     public Vehicle(){}
 
 
+
+
     //Costruttori
     protected Vehicle(VehicleBuilder builder) {
         this.vehicleType = builder.getType();

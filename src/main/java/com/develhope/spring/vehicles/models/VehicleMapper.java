@@ -3,8 +3,6 @@ package com.develhope.spring.vehicles.models;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VehicleMapper {
 
-    public static VehicleCreatorDTO toVehicleCreatorDTOFrom(Vehicle vehicle) {
+    public VehicleCreatorDTO toVehicleCreatorDTOFrom(Vehicle vehicle) {
         return new VehicleCreatorDTO(
                 vehicle.getVehicleType(),
                 vehicle.getBrand(),
@@ -34,7 +32,7 @@ public class VehicleMapper {
         );
     }
 
-    public static Vehicle toVehicleFrom(VehicleCreatorDTO dto) {
+    public Vehicle toVehicleFrom(VehicleCreatorDTO dto) {
         Vehicle vehicle = new Vehicle();
         vehicle.setVehicleType(dto.getVehicleType());
         vehicle.setBrand(dto.getBrand());
@@ -54,7 +52,7 @@ public class VehicleMapper {
         return vehicle;
     }
 
-    public static VehicleStatusDTO toVehicleStatusDTOFrom(Vehicle vehicle) {
+    public VehicleStatusDTO toVehicleStatusDTOFrom(Vehicle vehicle) {
         VehicleStatusDTO statusDTO = new VehicleStatusDTO();
         statusDTO.setMarketStatus(vehicle.getMarketStatus());
         return statusDTO;

@@ -2,8 +2,8 @@ package com.develhope.spring.deals.models;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
+import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
-import com.develhope.spring.users.models.UserMapper;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.models.VehicleMapper;
@@ -35,7 +35,7 @@ public class OrderMapper {
 
     public OrderResponseDTO toResponseDTOFrom(Order order) {
         VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTOFrom(order.getVehicle());
-        UserOrderReturnerDTO userOrderReturnerDTO = UserMapper.toUserOrderReturnerDTOFrom(order.getUser());
+        UserOrderReturnerDTO userOrderReturnerDTO = userMapper.toUserOrderReturnerDTOFrom(order.getUser());
         return new OrderResponseDTO(
                 order.isDownPayment(),
                 vehicleOrderReturnerDTO,

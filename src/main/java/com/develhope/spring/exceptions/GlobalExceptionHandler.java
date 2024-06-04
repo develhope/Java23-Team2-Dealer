@@ -1,4 +1,4 @@
-package com.develhope.spring.deals.controllers;
+package com.develhope.spring.exceptions;
 
 import com.develhope.spring.deals.models.exceptions.OrderCreationException;
 import com.develhope.spring.users.models.exceptions.EmptyParameterException;

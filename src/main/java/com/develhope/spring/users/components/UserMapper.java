@@ -1,8 +1,11 @@
 package com.develhope.spring.users.components;
 
 import com.develhope.spring.users.dtos.UserCreatorDTO;
+import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.models.User;
+import com.develhope.spring.users.models.exceptions.EmptyParameterException;
+import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,5 +24,33 @@ public class UserMapper {
         user.setRoles(userDTO.getRoles());
 
         return user;
+    }
+
+    public UserOrderReturnerDTO toUserOrderReturnerDTOFrom(User user) {
+        return new UserOrderReturnerDTO(
+                user.getId(),
+                user.getName(),
+                user.getSurname(),
+                user.getEmail()
+        );
+    }
+
+    public User toUserFrom(UserCreatorDTO dto) throws EmptyParameterException, WrongEmailFormatException {
+        User user = new User();
+        user.setName(dto.getName());
+        user.setSurname(dto.getSurname());
+        user.setEmail(dto.getEmail());
+        user.setRoles(dto.getRoles());
+        return user;
+    }
+
+    public UserCreatorDTO toUserCreatorDTOFrom(User user) {
+        return new UserCreatorDTO(
+                user.getName(),
+                user.getSurname(),
+                user.getPhoneNumber(),
+                user.getEmail(),
+                user.getRoles()
+        );
     }
 }
