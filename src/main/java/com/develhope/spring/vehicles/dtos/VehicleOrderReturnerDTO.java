@@ -20,6 +20,9 @@ public class VehicleOrderReturnerDTO {
     public VehicleOrderReturnerDTO() {
     }
 
+    public VehicleOrderReturnerDTO(long id) {
+        this.id = id;
+    }
 
     public VehicleOrderReturnerDTO(long id, VehicleType vehicleType, String brand, String model, Colors colors, BigDecimal price, UsedFlag usedFlag, String engine) {
         this.id = id;
