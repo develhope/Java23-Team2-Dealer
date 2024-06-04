@@ -25,9 +25,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Roles roles;
-    //References
-    @OneToMany(mappedBy = "seller")
-    private List<Order> orders;
+
 
 
     private void checkEmptyName(String name) throws EmptyParameterException {
