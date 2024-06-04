@@ -1,11 +1,10 @@
 package com.develhope.spring.users.models;
 
-import com.develhope.spring.deals.models.Order;
-import com.develhope.spring.users.models.exceptions.EmptyParameterException;
-import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
-import jakarta.persistence.*;
 
-import java.util.List;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 
 @Entity
 @Table(name = "users")
@@ -15,11 +14,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
+    @NotBlank(message = "Name is mandatory")
     @Column(nullable = false)
     private String name;
+
+    @NotBlank(message = "Surname is mandatory")
     @Column(nullable = false)
     private String surname;
     private long phoneNumber;
+    @Email(message = "Wrong email format")
     @Column(unique = true, nullable = false)
     private String email;
     @Enumerated(EnumType.STRING)
@@ -27,37 +30,14 @@ public class User {
     private Roles roles;
 
 
-
-    private void checkEmptyName(String name) throws EmptyParameterException {
-        String validName = name.trim();
-        if (validName.isEmpty()) {
-            throw new EmptyParameterException("Name can't be empty");
-        } else {
-            this.name = validName;
-        }
+    public User() {
     }
 
-    private void checkEmptySurname(String surname) throws EmptyParameterException {
-        String validSurname = surname.trim();
-        if (validSurname.isEmpty()) {
-            throw new EmptyParameterException("Surname can't be empty");
-        } else {
-            this.surname = validSurname;
-        }
-    }
-
-    private void checkEmailFormat(String email) throws WrongEmailFormatException {
-        if (!(email.contains("@"))) {
-            throw new WrongEmailFormatException("Emails must be of the right format");
-        } else {
-            this.email = email;
-        }
-    }
-
-    public User(String name, String surname, long phoneNumber, String email, Roles roles) throws EmptyParameterException, WrongEmailFormatException {
-        checkEmptyName(name);
-        checkEmptySurname(surname);
-        checkEmailFormat(email);
+    public User(long id, String name, String surname, long phoneNumber, String email, Roles roles) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
         this.roles = roles;
         this.phoneNumber = phoneNumber;
     }
@@ -82,24 +62,24 @@ public class User {
         return surname;
     }
 
-    public void setEmail(String email) throws WrongEmailFormatException {
-        checkEmailFormat(email);
+    public void setEmail(String email)  {
+        this.email = email;
     }
 
     public void setRoles(Roles roles) {
         this.roles = roles;
     }
 
-    public void setName(String name) throws EmptyParameterException {
-        checkEmptyName(name);
+    public void setName(String name)  {
+        this.name = name;
     }
 
     public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setSurname(String surname) throws EmptyParameterException {
-        checkEmptySurname(surname);
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public long getId() {
@@ -109,5 +89,4 @@ public class User {
     public void setId(long id) {
         this.id = id;
     }
-
 }
