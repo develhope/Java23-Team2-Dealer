@@ -110,7 +110,4 @@ public class User {
         this.id = id;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
 }
