@@ -9,7 +9,6 @@ import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
-import com.develhope.spring.vehicles.responseStatus.VehicleNotFoundException;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,11 +48,15 @@ public class RentalService {
 
     private void checkValidRentalDates(RentalCreatorDTO rentalCreatorDTO) {
         checkValidArgument(rentalCreatorDTO);
-        Rental optionalRental = rentalRepository.findByVehicleId(rentalCreatorDTO.getVehicleId());
+        Optional<Rental> optionalRental = Optional.ofNullable(rentalRepository.findByVehicleId(rentalCreatorDTO.getVehicleId()));
+        if (optionalRental.isEmpty()) {
+            return;
+        }
+        Rental rental = optionalRental.get();
         if ((Math.min(
-                optionalRental.getEndDate().toEpochDay(),
+                rental.getEndDate().toEpochDay(),
                 rentalCreatorDTO.getEndDate().toEpochDay() -
-                        Math.max(optionalRental.getStartDate().toEpochDay(),
+                        Math.max(rental.getStartDate().toEpochDay(),
                                 rentalCreatorDTO.getStartDate().toEpochDay()))) >= 0
         ) {
             throw new RentalOverlappingDatesException(
