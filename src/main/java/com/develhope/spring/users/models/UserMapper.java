@@ -18,7 +18,7 @@ public class UserMapper {
         );
     }
 
-    public static User toUser(UserCreatorDTO dto) throws EmptyParameterException, WrongEmailFormatException {
+    public static User toUserFrom(UserCreatorDTO dto) throws EmptyParameterException, WrongEmailFormatException {
         User user = new User();
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
@@ -27,7 +27,7 @@ public class UserMapper {
         return user;
     }
 
-    public static UserCreatorDTO toUserCreatorDTO(User user) {
+    public static UserCreatorDTO toUserCreatorDTOFrom(User user) {
         return new UserCreatorDTO(
                 user.getName(),
                 user.getSurname(),
