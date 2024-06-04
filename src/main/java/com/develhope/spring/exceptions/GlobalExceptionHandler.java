@@ -1,6 +1,7 @@
 package com.develhope.spring.exceptions;
 
 import com.develhope.spring.deals.models.exceptions.OrderCreationException;
+import com.develhope.spring.deals.responsestatus.NotAvailableVehicleException;
 import com.develhope.spring.users.models.exceptions.EmptyParameterException;
 import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+
+import java.util.NoSuchElementException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -54,5 +57,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGlobalException(Exception ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<NoSuchElementException> getException(NoSuchElementException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+    }
+
+    @ExceptionHandler(NotAvailableVehicleException.class)
+    public ResponseEntity<NotAvailableVehicleException> getNotAvailavleVehicleExceptiion(NotAvailableVehicleException e){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
     }
 }

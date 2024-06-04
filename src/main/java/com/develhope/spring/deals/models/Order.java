@@ -27,22 +27,16 @@ public class Order {
     @ManyToOne
     private User user;
 
-
     public Order() {
     }
 
-    public Order(boolean downPayment, OrderStatus orderStatus, Vehicle vehicle) {
-        this.downPayment = downPayment;
-        this.orderStatus = orderStatus;
-        this.vehicle = vehicle;
-    }
-
-    public Order(long id, long vehicleId, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle) {
+    public Order(long id, long vehicleId, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle, User user) {
         this.id = id;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
         this.isPaid = isPaid;
         this.vehicle = vehicle;
+        this.user = user;
     }
 
 

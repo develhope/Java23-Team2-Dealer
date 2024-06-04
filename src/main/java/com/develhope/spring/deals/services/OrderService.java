@@ -7,8 +7,18 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderMapper;
 import com.develhope.spring.deals.models.exceptions.OrderCreationException;
 import com.develhope.spring.deals.repositories.OrderRepository;
+import com.develhope.spring.deals.responsestatus.NotAvailableVehicleException;
+import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.models.Vehicle;
+import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.services.VehicleService;
+import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+
+import javax.swing.text.html.Option;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Service
@@ -18,17 +28,16 @@ public class OrderService {
     private OrderMapper orderMapper;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private VehicleRepository vehicleRepository;
+
 
     public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
-
-        Order order = orderMapper.toEntityFrom(orderCreatorDTO);
-
-        try {
-            order = orderRepository.save(order);
-        } catch (Exception e) {
-            throw new OrderCreationException("Failed to create order");
+        Optional<Vehicle> vehicleOptional = vehicleRepository.findById(orderCreatorDTO.getVehicleId());
+        if (vehicleOptional.isPresent() && vehicleOptional.get().getMarketStatus() == MarketStatus.NOTAVAILABLE) {
+            throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
+        Order order = orderMapper.toEntityFrom(orderCreatorDTO);
         return orderMapper.toResponseDTOFrom(order);
-
     }
 }

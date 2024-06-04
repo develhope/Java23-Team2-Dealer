@@ -35,12 +35,13 @@ public class UserMapper {
         );
     }
 
-    public User toUserFrom(UserCreatorDTO dto) throws EmptyParameterException, WrongEmailFormatException {
+    public User toUserFrom(UserCreatorDTO userCreatorDTO) {
         User user = new User();
-        user.setName(dto.getName());
-        user.setSurname(dto.getSurname());
-        user.setEmail(dto.getEmail());
-        user.setRoles(dto.getRoles());
+        user.setName(userCreatorDTO.getName());
+        user.setSurname(userCreatorDTO.getSurname());
+        user.setPhoneNumber(userCreatorDTO.getPhoneNumber());
+        user.setEmail(userCreatorDTO.getEmail());
+        user.setRoles(userCreatorDTO.getRoles());
         return user;
     }
 

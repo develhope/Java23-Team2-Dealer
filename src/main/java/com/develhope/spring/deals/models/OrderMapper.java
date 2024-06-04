@@ -4,6 +4,7 @@ import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
+import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.models.VehicleMapper;
@@ -14,8 +15,6 @@ import org.springframework.stereotype.Component;
 public class OrderMapper {
 
     @Autowired
-    private static OrderMapper orderMapper;
-    @Autowired
     private VehicleMapper vehicleMapper;
     @Autowired
     private UserMapper userMapper;
@@ -23,13 +22,16 @@ public class OrderMapper {
     public Order toEntityFrom(OrderCreatorDTO orderCreatorDTO) {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(orderCreatorDTO.getVehicleId());
+        User user = new User();
+        user.setId(orderCreatorDTO.getUserId());
         return new Order(
                 0,
                 orderCreatorDTO.getVehicleId(),
                 orderCreatorDTO.isDownPayment(),
                 orderCreatorDTO.getOrderStatus(),
                 orderCreatorDTO.isPaid(),
-                vehicle
+                vehicle,
+                user
         );
     }
 
@@ -44,5 +46,17 @@ public class OrderMapper {
                 order.isPaid()
         );
     }
+
+    /*public Order toEntityFrom(OrderResponseDTO orderResponseDTO) {
+        Vehicle vehicle = vehicleMapper.toEntityFrom(orderResponseDTO.getVehicle());
+        User user = userMapper.toEntityFrom(orderResponseDTO.getBuyer());
+        return new Order(orderResponseDTO.getStartDate(),
+                orderResponseDTO.getEndDate(),
+                orderResponseDTO.getDailyCost(),
+                orderResponseDTO.isPaid(),
+                vehicle,
+                0,
+                user);
+    }*/
 }
 

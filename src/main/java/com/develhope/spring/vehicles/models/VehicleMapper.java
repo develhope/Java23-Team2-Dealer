@@ -32,23 +32,23 @@ public class VehicleMapper {
         );
     }
 
-    public Vehicle toVehicleFrom(VehicleCreatorDTO dto) {
+    public Vehicle toEntityFrom(VehicleCreatorDTO vehicleCreatorDTO) {
         Vehicle vehicle = new Vehicle();
-        vehicle.setVehicleType(dto.getVehicleType());
-        vehicle.setBrand(dto.getBrand());
-        vehicle.setModel(dto.getModel());
-        vehicle.setDisplacement(dto.getDisplacement());
-        vehicle.setColor(dto.getColor());
-        vehicle.setPower(dto.getPower());
-        vehicle.setGear(dto.getGear());
-        vehicle.setRegistrationYear(dto.getRegistrationYear());
-        vehicle.setPowerSupply(dto.getPowerSupply());
-        vehicle.setOriginalPrice(dto.getOriginalPrice());
-        vehicle.setDiscountedPrice(dto.getDiscountedPrice());
-        vehicle.setUsedFlag(dto.getUsedFlag());
-        vehicle.setMarketStatus(dto.getMarketStatus());
-        vehicle.setDiscountFlag(dto.isDiscountFlag());
-        vehicle.setEngine(dto.getEngine());
+        vehicle.setVehicleType(vehicleCreatorDTO.getVehicleType());
+        vehicle.setBrand(vehicleCreatorDTO.getBrand());
+        vehicle.setModel(vehicleCreatorDTO.getModel());
+        vehicle.setDisplacement(vehicleCreatorDTO.getDisplacement());
+        vehicle.setColor(vehicleCreatorDTO.getColor());
+        vehicle.setPower(vehicleCreatorDTO.getPower());
+        vehicle.setGear(vehicleCreatorDTO.getGear());
+        vehicle.setRegistrationYear(vehicleCreatorDTO.getRegistrationYear());
+        vehicle.setPowerSupply(vehicleCreatorDTO.getPowerSupply());
+        vehicle.setOriginalPrice(vehicleCreatorDTO.getOriginalPrice());
+        vehicle.setDiscountedPrice(vehicleCreatorDTO.getDiscountedPrice());
+        vehicle.setUsedFlag(vehicleCreatorDTO.getUsedFlag());
+        vehicle.setMarketStatus(vehicleCreatorDTO.getMarketStatus());
+        vehicle.setDiscountFlag(vehicleCreatorDTO.isDiscountFlag());
+        vehicle.setEngine(vehicleCreatorDTO.getEngine());
         return vehicle;
     }
 
@@ -58,7 +58,7 @@ public class VehicleMapper {
         return statusDTO;
     }
 
-    public static void updateVehicleMarketStatusFrom(Vehicle vehicle, VehicleStatusDTO statusDTO) {
+    public void updateVehicleMarketStatusFrom(Vehicle vehicle, VehicleStatusDTO statusDTO) {
         vehicle.setMarketStatus(statusDTO.getMarketStatus());
     }
 

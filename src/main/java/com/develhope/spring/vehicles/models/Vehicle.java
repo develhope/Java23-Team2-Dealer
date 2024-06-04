@@ -221,6 +221,12 @@ public class Vehicle {
 
 
     //Costruttori
+
+
+    public Vehicle(long id) {
+        this.id = id;
+    }
+
     protected Vehicle(VehicleBuilder builder) {
         this.vehicleType = builder.getType();
         this.brand = builder.getBrand();

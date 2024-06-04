@@ -22,6 +22,7 @@ public class OrderResponseDTO {
         this.isPaid = isPaid;
     }
 
+
     public boolean isDownPayment() {
         return downPayment;
     }
