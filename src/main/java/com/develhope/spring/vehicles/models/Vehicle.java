@@ -48,7 +48,7 @@ public class Vehicle {
     private MotorPowerSupply powerSupply;
 
     @Column(nullable = false)
-    private BigDecimal originalPrice;
+    private BigDecimal price;
     @Column
     private BigDecimal discountedPrice;
 
@@ -124,16 +124,16 @@ public class Vehicle {
         return color;
     }
 
-    public BigDecimal getOriginalPrice() {
-        return originalPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
     public long getId() {
         return id;
     }
 
-    // Setter
 
+    // Setter
     public void setId(long id) {
         this.id = id;
     }
@@ -174,12 +174,12 @@ public class Vehicle {
         this.powerSupply = powerSupply;
     }
 
-    public void setOriginalPrice(BigDecimal originalPrice) {
-        this.originalPrice = originalPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public void setDiscountedPrice(BigDecimal discountedPrice) {
-        this.discountedPrice = discountedPrice;
+        this.discountedPrice = discountedPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public void setUsedFlag(UsedFlag usedFlag) {
@@ -198,31 +198,29 @@ public class Vehicle {
         this.engine = engine;
     }
 
-    public Vehicle(){}
-
 
     //Costruttori
-    protected Vehicle(VehicleBuilder builder) {
-        this.vehicleType = builder.getType();
-        this.brand = builder.getBrand();
-        this.marketStatus = builder.getMarketStatus();
-        this.usedFlag = builder.getUsedFlag();
-        this.originalPrice = builder.getOriginalPrice();
-        this.discountedPrice = builder.getDiscountedPrice();
-        this.powerSupply = builder.getPowerSupply();
-        this.registrationYear = builder.getRegistrationYear();
-        this.gear = builder.getGear();
-        this.power = builder.getPower();
-        this.color = builder.getColor();
-        this.displacement = builder.getDisplacement();
-        this.id = builder.getId();
-        this.model = builder.getModel();
-        this.discountFlag = builder.isDiscountFlag();
-        this.engine = builder.getEngine();
-    }
+    public Vehicle(){}
 
-    public static VehicleBuilder builder(VehicleType type, String brand, String model, BigDecimal price, long id) {
-        return new VehicleBuilder(type, brand, model, price, id);
+    public Vehicle(long id, VehicleType vehicleType, String brand, String model, int displacement, Colors color, int power,
+                   Gears gear, int registrationYear, MotorPowerSupply powerSupply, BigDecimal price,
+                   UsedFlag usedFlag, MarketStatus marketStatus, String engine) {
+        this.id = id;
+        this.vehicleType = vehicleType;
+        this.brand = brand;
+        this.model = model;
+        this.displacement = displacement;
+        this.color = color;
+        this.power = power;
+        this.gear = gear;
+        this.registrationYear = registrationYear;
+        this.powerSupply = powerSupply;
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
+        this.discountedPrice = price.setScale(2, RoundingMode.HALF_EVEN);
+        this.usedFlag = usedFlag;
+        this.marketStatus = marketStatus;
+        this.discountFlag = false;
+        this.engine = engine;
     }
 
     /**
@@ -238,8 +236,8 @@ public class Vehicle {
             throw new ExcessiveParameterException("The discount percentage must be comprehended between 0 and 100");
         }
         BigDecimal discountRate = BigDecimal.valueOf(discountPercentage / 100).setScale(2, RoundingMode.HALF_EVEN);
-        BigDecimal removedPrice = originalPrice.multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
-        discountedPrice = originalPrice.subtract(removedPrice).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal removedPrice = price.multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
+        discountedPrice = price.subtract(removedPrice).setScale(2, RoundingMode.HALF_EVEN);
     }
 
     /**
@@ -261,7 +259,7 @@ public class Vehicle {
      */
     public void removeDiscount() {
         discountFlag = false;
-        discountedPrice = getOriginalPrice();
+        discountedPrice = getPrice();
     }
 
 }

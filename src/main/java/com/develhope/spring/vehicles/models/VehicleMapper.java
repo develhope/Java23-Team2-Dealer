@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.models;
 
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class VehicleMapper {
      * @param vehicle l'entità Vehicle da convertire
      * @return il VehicleDTO convertito
      */
-    public VehicleCreatorDTO toDTO(Vehicle vehicle) {
+    public VehicleCreatorDTO toCreatorDTOFrom(Vehicle vehicle) {
         return modelMapper.map(vehicle, VehicleCreatorDTO.class);
     }
 
@@ -32,18 +33,23 @@ public class VehicleMapper {
      * @param vehicleCreatorDTO il VehicleCreateDTO da convertire
      * @return l'entità Vehicle convertita
      */
-    public Vehicle toEntity(VehicleCreatorDTO vehicleCreatorDTO) {
+    public Vehicle toEntityFromCreator(VehicleCreatorDTO vehicleCreatorDTO) {
         return modelMapper.map(vehicleCreatorDTO, Vehicle.class);
     }
 
 
-    public VehicleStatusDTO statusToDo(Vehicle vehicle){
+    public VehicleStatusDTO toVehicleStatusDTOFrom(Vehicle vehicle) {
         return modelMapper.map(vehicle, VehicleStatusDTO.class);
     }
 
-    public Vehicle statusToEntity(VehicleStatusDTO vehicleStatusDTO){
+    public Vehicle toEntityFromStatus(VehicleStatusDTO vehicleStatusDTO) {
         return modelMapper.map(vehicleStatusDTO, Vehicle.class);
     }
 
+    public VehicleResponseDTO toResponseFrom(Vehicle vehicle){
+        return new VehicleResponseDTO(vehicle.getId(), vehicle.getVehicleType(), vehicle.getBrand(), vehicle.getModel(),
+                vehicle.getRegistrationYear(), vehicle.getPowerSupply(),vehicle.getPrice(),vehicle.getUsedFlag(),
+                vehicle.getEngine());
+    }
 
 }

@@ -2,6 +2,7 @@ package com.develhope.spring.vehicles.controllers;
 
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.responseStatus.VehicleNotFoundException;
@@ -36,7 +37,7 @@ public class VehicleController {
 
     @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public VehicleCreatorDTO create(@PathVariable long userId, @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
+    public VehicleResponseDTO create(@PathVariable long userId, @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
         return vehicleService.create(userId, vehicleCreatorDTO);
     }
 
