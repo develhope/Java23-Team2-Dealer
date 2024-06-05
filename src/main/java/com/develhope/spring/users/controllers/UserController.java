@@ -16,7 +16,7 @@ public class UserController {
 
 
 
-    @PostMapping
+    @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
     public UserSavedDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
        return userService.create(userCreatorDTO);
