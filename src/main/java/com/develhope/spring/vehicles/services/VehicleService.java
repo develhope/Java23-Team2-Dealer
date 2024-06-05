@@ -29,13 +29,7 @@ public class VehicleService {
     private VehicleMapper vehicleMapper;
 
     public VehicleCreatorDTO create(long userId, VehicleCreatorDTO vehicleCreatorDTO) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException("Nessun utente con questo ID: " + userId + " è presente");
-        }
-        if (!optionalUser.get().getRoles().equals(Roles.ADMIN)) {
-            throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato a inserire nuovi veicoli");
-        }
+        checkUserAuthorizationBy(userId);
 
         Vehicle vehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         return vehicleMapper.toDTO(vehicleRepository.save(vehicle));

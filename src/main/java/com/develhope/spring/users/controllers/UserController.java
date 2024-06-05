@@ -1,8 +1,9 @@
 package com.develhope.spring.users.controllers;
 
-import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserCreatorDTO;
-import com.develhope.spring.users.dtos.UserSavedDTO;
+import com.develhope.spring.users.dtos.UserResponseDTO;
+import com.develhope.spring.users.dtos.UserReworkedDTO;
+import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.users.services.UserService;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
@@ -28,16 +29,16 @@ public class UserController {
         return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
     }
 
-    @PutMapping ("/{userID}/{userToUpdateID}")
+    @PutMapping ("/{userID}")
     @ResponseStatus(HttpStatus.OK)
-    public UserCreatorDTO updateUser(@PathVariable long userID, @PathVariable long userToUpdateID,
-                                     @RequestBody UserCreatorDTO userCreatorDTO){
-        return userService.update(userID, userToUpdateID, userCreatorDTO);
+    public UserReworkedDTO updateUser(@PathVariable long userID,
+                                      @RequestBody UserUpdaterDTO userUpdaterDTO){
+        return userService.update(userID, userUpdaterDTO);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSavedDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
+    public UserResponseDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
        return userService.createUser(userCreatorDTO);
     }
 }
