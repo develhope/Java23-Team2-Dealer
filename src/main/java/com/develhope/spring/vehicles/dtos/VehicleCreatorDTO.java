@@ -15,7 +15,7 @@ public class VehicleCreatorDTO {
     private Gears gear;
     private int registrationYear;
     private MotorPowerSupply powerSupply;
-    private BigDecimal originalPrice;
+    private BigDecimal price;
     private UsedFlag usedFlag;
     private MarketStatus marketStatus;
     private String engine;
@@ -25,7 +25,7 @@ public class VehicleCreatorDTO {
 
     public VehicleCreatorDTO(VehicleType vehicleType, String brand, String model, int displacement, Colors color,
                              int power, Gears gear, int registrationYear, MotorPowerSupply powerSupply,
-                             BigDecimal originalPrice, UsedFlag usedFlag, MarketStatus marketStatus, String engine) {
+                             BigDecimal price, UsedFlag usedFlag, MarketStatus marketStatus, String engine) {
 
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -36,7 +36,7 @@ public class VehicleCreatorDTO {
         this.gear = gear;
         this.registrationYear = registrationYear;
         this.powerSupply = powerSupply;
-        this.originalPrice = originalPrice;
+        this.price = price;
         this.usedFlag = usedFlag;
         this.marketStatus = marketStatus;
         this.engine = engine;
@@ -114,12 +114,12 @@ public class VehicleCreatorDTO {
         this.powerSupply = powerSupply;
     }
 
-    public BigDecimal getOriginalPrice() {
-        return originalPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setOriginalPrice(BigDecimal originalPrice) {
-        this.originalPrice = originalPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public UsedFlag getUsedFlag() {

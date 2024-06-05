@@ -53,7 +53,7 @@ public class VehicleControllerTest {
     }
 
     @Test
-    void succsessfulVehicleModification_test() throws Exception {
+    void successfulVehicleModification_test() throws Exception {
         Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;
@@ -90,7 +90,7 @@ public class VehicleControllerTest {
      */
 
     @Test
-    void succsessfulStatusVehicleModification_test() throws Exception {
+    void successfulStatusVehicleModification_test() throws Exception {
         Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;
@@ -106,7 +106,7 @@ public class VehicleControllerTest {
     }
 
     @Test
-    void succsessfulColorVehicleModification_test() throws Exception {
+    void successfulColorVehicleModification_test() throws Exception {
         Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;

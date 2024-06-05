@@ -2,6 +2,7 @@ package com.develhope.spring.users.models;
 
 import com.develhope.spring.users.dtos.UserCreatorDTO;
 import com.develhope.spring.users.dtos.UserResponseDTO;
+import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,5 +21,24 @@ public class UserMapper {
         user.setRoles(userDTO.getRoles());
 
         return user;
+    }
+
+    public UserOrderReturnerDTO toUserOrderReturnerDTO(User user) {
+        return new UserOrderReturnerDTO(
+                user.getId(),
+                user.getName(),
+                user.getSurname(),
+                user.getEmail()
+        );
+    }
+
+    public UserCreatorDTO toCreatorDTO(User user) {
+        return new UserCreatorDTO(
+                user.getName(),
+                user.getSurname(),
+                user.getPhoneNumber(),
+                user.getEmail(),
+                user.getRoles()
+        );
     }
 }
