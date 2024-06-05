@@ -6,7 +6,7 @@ import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
-import com.develhope.spring.deals.responsestatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;

@@ -29,41 +29,17 @@ public class VehicleService {
     private VehicleMapper vehicleMapper;
 
     public VehicleCreatorDTO create(long userId, VehicleCreatorDTO vehicleCreatorDTO) {
-<<<<<<< HEAD
         checkUserAuthorizationBy(userId);
-        Vehicle vehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
-        return vehicleMapper.toCreatorDTO(vehicleRepository.save(vehicle));
-=======
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException("Nessun utente con questo ID: " + userId + " è presente");
-        }
-        if (!optionalUser.get().getRoles().equals(Roles.ADMIN)) {
-            throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato a inserire nuovi veicoli");
-        }
-
         Vehicle vehicle = vehicleMapper.toEntityFrom(vehicleCreatorDTO);
         return vehicleMapper.toVehicleCreatorDTOFrom(vehicleRepository.save(vehicle));
->>>>>>> 67297d4936b69f591c184ea4fd38ed81476a34a8
     }
-
-
 
     public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorizationBy(userId);
-        Vehicle existingVehicle = findVehicleBy(vehicleId);
-<<<<<<< HEAD
-        existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
-        existingVehicle.setId(vehicleId);
-        return vehicleMapper.toCreatorDTO(vehicleRepository.save(existingVehicle));
-=======
-
-
+        Vehicle existingVehicle;
         existingVehicle = vehicleMapper.toEntityFrom(vehicleCreatorDTO);
         existingVehicle.setId(vehicleId);
-
         return vehicleMapper.toVehicleCreatorDTOFrom(vehicleRepository.save(existingVehicle));
->>>>>>> 67297d4936b69f591c184ea4fd38ed81476a34a8
     }
 
     public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
