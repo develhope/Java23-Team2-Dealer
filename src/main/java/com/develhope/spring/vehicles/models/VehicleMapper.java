@@ -23,7 +23,7 @@ public class VehicleMapper {
      * @param vehicle l'entità Vehicle da convertire
      * @return il VehicleDTO convertito
      */
-    public VehicleCreatorDTO toCreatorDTOFrom(Vehicle vehicle) {
+    public VehicleCreatorDTO toCreatorDTO(Vehicle vehicle) {
         return modelMapper.map(vehicle, VehicleCreatorDTO.class);
     }
 
@@ -33,20 +33,20 @@ public class VehicleMapper {
      * @param vehicleCreatorDTO il VehicleCreateDTO da convertire
      * @return l'entità Vehicle convertita
      */
-    public Vehicle toEntityFromCreator(VehicleCreatorDTO vehicleCreatorDTO) {
+    public Vehicle toEntity(VehicleCreatorDTO vehicleCreatorDTO) {
         return modelMapper.map(vehicleCreatorDTO, Vehicle.class);
     }
 
 
-    public VehicleStatusDTO toVehicleStatusDTOFrom(Vehicle vehicle) {
+    public VehicleStatusDTO toStatusDTO(Vehicle vehicle) {
         return modelMapper.map(vehicle, VehicleStatusDTO.class);
     }
 
-    public Vehicle toEntityFromStatus(VehicleStatusDTO vehicleStatusDTO) {
+    public Vehicle toEntity(VehicleStatusDTO vehicleStatusDTO) {
         return modelMapper.map(vehicleStatusDTO, Vehicle.class);
     }
 
-    public VehicleResponseDTO toResponseFrom(Vehicle vehicle){
+    public VehicleResponseDTO toResponseDTO(Vehicle vehicle){
         return new VehicleResponseDTO(vehicle.getId(), vehicle.getVehicleType(), vehicle.getBrand(), vehicle.getModel(),
                 vehicle.getRegistrationYear(), vehicle.getPowerSupply(),vehicle.getPrice(),vehicle.getUsedFlag(),
                 vehicle.getEngine());

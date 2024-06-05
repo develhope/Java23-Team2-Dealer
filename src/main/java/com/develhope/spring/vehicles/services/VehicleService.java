@@ -38,8 +38,8 @@ public class VehicleService {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato a inserire nuovi veicoli");
         }
 
-        Vehicle vehicle = vehicleMapper.toEntityFromCreator(vehicleCreatorDTO);
-        return vehicleMapper.toResponseFrom(vehicleRepository.save(vehicle));
+        Vehicle vehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
+        return vehicleMapper.toResponseDTO(vehicleRepository.save(vehicle));
     }
 
     public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
@@ -47,10 +47,10 @@ public class VehicleService {
         Vehicle existingVehicle = findVehicleBy(vehicleId);
 
 
-        existingVehicle = vehicleMapper.toEntityFromCreator(vehicleCreatorDTO);
+        existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         existingVehicle.setId(vehicleId);
 
-        return vehicleMapper.toCreatorDTOFrom(vehicleRepository.save(existingVehicle));
+        return vehicleMapper.toCreatorDTO(vehicleRepository.save(existingVehicle));
     }
 
     public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
