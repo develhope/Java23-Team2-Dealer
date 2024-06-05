@@ -1,6 +1,5 @@
 package com.develhope.spring.users.models;
 
-import com.develhope.spring.users.models.exceptions.EmptyParameterException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -27,15 +26,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Roles roles;
-
-    private void checkEmptyName(String name) throws EmptyParameterException {
-        String validName = name.trim();
-        if (validName.isEmpty()) {
-            throw new EmptyParameterException("Name can't be empty");
-        } else {
-            this.name = validName;
-        }
-    }
 
     public User() {
     }

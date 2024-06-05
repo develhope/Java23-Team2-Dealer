@@ -4,8 +4,6 @@ import com.develhope.spring.users.dtos.UserCreatorDTO;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.models.User;
-import com.develhope.spring.users.models.exceptions.EmptyParameterException;
-import com.develhope.spring.users.models.exceptions.WrongEmailFormatException;
 import org.springframework.stereotype.Component;
 
 @Component

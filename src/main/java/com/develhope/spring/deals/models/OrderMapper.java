@@ -20,19 +20,17 @@ public class OrderMapper {
     private UserMapper userMapper;
 
     public Order toEntityFrom(OrderCreatorDTO orderCreatorDTO) {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setId(orderCreatorDTO.getVehicleId());
-        User user = new User();
-        user.setId(orderCreatorDTO.getUserId());
-        return new Order(
-                0,
-                orderCreatorDTO.getVehicleId(),
-                orderCreatorDTO.isDownPayment(),
-                orderCreatorDTO.getOrderStatus(),
-                orderCreatorDTO.isPaid(),
-                vehicle,
-                user
-        );
+        Vehicle vehicle = new Vehicle(orderCreatorDTO.getVehicleId());
+        User user = new User(orderCreatorDTO.getUserId());
+
+        Order order = new Order();
+        order.setVehicle(vehicle);
+        order.setUser(user);
+        order.setDownPayment(orderCreatorDTO.isDownPayment());
+        order.setOrderStatus(orderCreatorDTO.getOrderStatus());
+        order.setPaid(orderCreatorDTO.isPaid());
+
+        return order;
     }
 
     public OrderResponseDTO toResponseDTOFrom(Order order) {
@@ -46,17 +44,4 @@ public class OrderMapper {
                 order.isPaid()
         );
     }
-
-    /*public Order toEntityFrom(OrderResponseDTO orderResponseDTO) {
-        Vehicle vehicle = vehicleMapper.toEntityFrom(orderResponseDTO.getVehicle());
-        User user = userMapper.toEntityFrom(orderResponseDTO.getBuyer());
-        return new Order(orderResponseDTO.getStartDate(),
-                orderResponseDTO.getEndDate(),
-                orderResponseDTO.getDailyCost(),
-                orderResponseDTO.isPaid(),
-                vehicle,
-                0,
-                user);
-    }*/
 }
-
