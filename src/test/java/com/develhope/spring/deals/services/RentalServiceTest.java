@@ -49,7 +49,7 @@ public class RentalServiceTest {
     private RentalService rentalService;
 
     private static final LocalDate DEFAULT_RENTAL_START_DATE = LocalDate.of(2024, 6, 3);
-    private static final LocalDate DEFAULT_RENTAL_END_DATE = LocalDate.of(2024, 6, 5);
+    private static final LocalDate DEFAULT_RENTAL_END_DATE = LocalDate.of(2024, 6, 6);
     private static final BigDecimal DEFAULT_PRICE = BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN);
 
     private static final RentalCreatorDTO DEFAULT_RENTAL_CREATOR_DTO = new RentalCreatorDTO(
@@ -66,9 +66,10 @@ public class RentalServiceTest {
     private static final VehicleRentalReturnerDTO DEFAULT_VEHICLE_RENTAL_RETURNER_DTO = new VehicleRentalReturnerDTO(1);
     private static final BuyerRentalReturnerDto DEFAULT_BUYER_RENTAL_RETURNER_DTO = new BuyerRentalReturnerDto(1);
     private static final Rental DEFAULT_EXISTING_RENTAL = new Rental(
-            LocalDate.of(2024, 6, 6),
-            LocalDate.of(2024, 6, 8),
+            LocalDate.of(2024, 6, 7),
+            LocalDate.of(2024, 6, 10),
             DEFAULT_PRICE,
+            DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
             true,
             DEFAULT_VEHICLE,
             4,
@@ -76,9 +77,10 @@ public class RentalServiceTest {
     );
 
     private static final Rental DEFAULT_EXISTING_RENTAL2 = new Rental(
-            LocalDate.of(2024, 6, 10),
-            LocalDate.of(2024, 6, 15),
+            LocalDate.of(2024, 6, 11),
+            LocalDate.of(2024, 6, 14),
             DEFAULT_PRICE,
+            DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
             true,
             DEFAULT_VEHICLE,
             4,
@@ -91,6 +93,7 @@ public class RentalServiceTest {
     void createRental_successfulTest() {
 
         RentalReturnerDTO expected = new RentalReturnerDTO(
+                1,
                 DEFAULT_RENTAL_START_DATE,
                 DEFAULT_RENTAL_END_DATE,
                 DEFAULT_PRICE,
@@ -135,9 +138,10 @@ public class RentalServiceTest {
     @Test
     void createRental_overlappingDatesWithExistingRentalTest() {
         Rental existingRental = new Rental(
-                LocalDate.of(2024, 6, 4),
+                LocalDate.of(2024, 6, 5),
                 LocalDate.of(2024, 6, 8),
                 DEFAULT_PRICE,
+                DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
                 true,
                 DEFAULT_VEHICLE,
                 4,
@@ -145,9 +149,10 @@ public class RentalServiceTest {
         );
 
         Rental existingRental2 = new Rental(
-                LocalDate.of(2024, 6, 1),
+                LocalDate.of(2024, 5, 31),
                 LocalDate.of(2024, 6, 2),
                 DEFAULT_PRICE,
+                DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
                 true,
                 DEFAULT_VEHICLE,
                 4,

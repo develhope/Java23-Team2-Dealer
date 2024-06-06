@@ -31,7 +31,7 @@ public class Rental {
     @Column(nullable = false)
     private BigDecimal dailyCost;
 
-    @Column(nullable = false)
+
     private BigDecimal totalCost;
 
     @Column(nullable = false)
@@ -42,11 +42,6 @@ public class Rental {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
-
-    void calculateTotalCost() {
-        long rentalDays = startDate.until(endDate).getDays();
-        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
-    }
 
     public void setPaid(boolean paid) {
         this.paid = paid;
@@ -61,11 +56,11 @@ public class Rental {
         return paid;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, Vehicle vehicle, long id, User user) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
-        calculateTotalCost();
+        this.totalCost = totalCost;
         this.paid = paid;
         this.vehicle = vehicle;
         this.id = id;

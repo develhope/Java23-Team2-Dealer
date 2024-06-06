@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 
 public class RentalReturnerDTO {
-
+    private long id;
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal dailyCost;
@@ -25,7 +25,7 @@ public class RentalReturnerDTO {
         this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
     }
 
-    public RentalReturnerDTO(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer) {
+    public RentalReturnerDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
@@ -33,6 +33,15 @@ public class RentalReturnerDTO {
         this.vehicle = vehicle;
         this.buyer = buyer;
         calculateTotalCost();
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public BuyerRentalReturnerDto getBuyer() {

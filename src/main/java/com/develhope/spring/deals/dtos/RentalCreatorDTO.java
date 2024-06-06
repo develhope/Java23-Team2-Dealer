@@ -1,6 +1,7 @@
 package com.develhope.spring.deals.dtos;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 public class RentalCreatorDTO {
@@ -8,6 +9,7 @@ public class RentalCreatorDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal dailyCost;
+    private BigDecimal totalCost;
     private boolean paid;
     private long vehicleId;
     private long userId;
@@ -19,9 +21,23 @@ public class RentalCreatorDTO {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
+        calculateTotalCost();
         this.paid = paid;
         this.vehicleId = vehicleId;
         this.userId = userId;
+    }
+
+    void calculateTotalCost() {
+        long rentalDays = startDate.until(endDate).getDays();
+        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
+    }
+
+    public BigDecimal getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(BigDecimal totalCost) {
+        this.totalCost = totalCost;
     }
 
     public long getUserId() {
