@@ -19,7 +19,7 @@ public class OrderMapper {
     @Autowired
     private UserMapper userMapper;
 
-    public Order toEntityFrom(OrderCreatorDTO orderCreatorDTO) {
+    public Order toEntity(OrderCreatorDTO orderCreatorDTO) {
         Vehicle vehicle = new Vehicle(orderCreatorDTO.getVehicleId());
         User user = new User(orderCreatorDTO.getUserId());
 
@@ -33,9 +33,9 @@ public class OrderMapper {
         return order;
     }
 
-    public OrderResponseDTO toResponseDTOFrom(Order order) {
+    public OrderResponseDTO toResponseDTO(Order order) {
         VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTOFrom(order.getVehicle());
-        UserOrderReturnerDTO userOrderReturnerDTO = userMapper.toUserOrderReturnerDTOFrom(order.getUser());
+        UserOrderReturnerDTO userOrderReturnerDTO = userMapper.toUserOrderReturnerDTO(order.getUser());
         return new OrderResponseDTO(
                 order.isDownPayment(),
                 vehicleOrderReturnerDTO,

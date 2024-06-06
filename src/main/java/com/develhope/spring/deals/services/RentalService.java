@@ -13,6 +13,7 @@ import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import static java.lang.Math.min;
@@ -48,20 +49,26 @@ public class RentalService {
 
     private void checkValidRentalDates(RentalCreatorDTO rentalCreatorDTO) {
         checkValidArgument(rentalCreatorDTO);
-        Optional<Rental> optionalRental = Optional.ofNullable(rentalRepository.findByVehicleId(rentalCreatorDTO.getVehicleId()));
-        if (optionalRental.isEmpty()) {
+        Collection<Rental> rentals = rentalRepository.findByVehicleId(rentalCreatorDTO.getVehicleId());
+        if (rentals.isEmpty()) {
             return;
         }
-        Rental rental = optionalRental.get();
-        if ((Math.min(
-                rental.getEndDate().toEpochDay(),
-                rentalCreatorDTO.getEndDate().toEpochDay() -
-                        Math.max(rental.getStartDate().toEpochDay(),
-                                rentalCreatorDTO.getStartDate().toEpochDay()))) >= 0
-        ) {
-            throw new RentalOverlappingDatesException(
-                    "Selected vehicle is already rented during this periods. Please select new dates"
-            );
+        for (Rental rental : rentals) {
+            long endDate1 = rental.getEndDate().toEpochDay();
+            long endDate2 = rentalCreatorDTO.getEndDate().toEpochDay();
+            long startDate1 = rental.getStartDate().toEpochDay();
+            long startDate2 = rentalCreatorDTO.getStartDate().toEpochDay();
+            if ((Math.min(
+                    endDate1,
+                    endDate2) -
+                    Math.max(
+                            startDate1,
+                            startDate2)) >= 0
+            ) {
+                throw new RentalOverlappingDatesException(
+                        "Selected vehicle is already rented during this periods. Please select new dates"
+                );
+            }
         }
     }
 

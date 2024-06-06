@@ -6,8 +6,6 @@ public class NotAvailableVehicleException extends RuntimeException {
 
     private HttpStatus httpStatus;
 
-    private String message;
-
     public NotAvailableVehicleException() {
     }
 
@@ -18,10 +16,5 @@ public class NotAvailableVehicleException extends RuntimeException {
 
     public HttpStatus getHttpStatus() {
         return httpStatus;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
     }
 }

@@ -1,6 +1,6 @@
 package com.develhope.spring.vehicles.services;
 
-<<<<<<< HEAD
+
 import com.develhope.spring.users.dtos.UserCreatorDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
@@ -11,7 +11,7 @@ import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -67,12 +67,4 @@ public class VehicleServiceTest {
 //        VehicleCreatorDTO result = vehicleService.create(1L, vehicleCreatorDTO);
 //        assertEquals(expected.getBrand(), result.getBrand());
 //    }
-=======
-import org.springframework.beans.factory.annotation.Autowired;
-
-public class VehicleServiceTest {
-
-
-
->>>>>>> 67297d4936b69f591c184ea4fd38ed81476a34a8
 }

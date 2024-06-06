@@ -24,7 +24,14 @@ public class VehicleRentalReturnerDTO {
     public VehicleRentalReturnerDTO() {
     }
 
-    public VehicleRentalReturnerDTO(long id, VehicleType vehicleType, String brand, String model, Colors color, Gears gear, MotorPowerSupply motorPowerSupply) {
+    public VehicleRentalReturnerDTO(long id,
+                                    VehicleType vehicleType,
+                                    String brand,
+                                    String model,
+                                    Colors color,
+                                    Gears gear,
+                                    MotorPowerSupply motorPowerSupply
+    ) {
         this.id = id;
         this.vehicleType = vehicleType;
         this.brand = brand;

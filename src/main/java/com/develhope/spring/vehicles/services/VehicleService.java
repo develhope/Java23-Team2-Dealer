@@ -3,10 +3,8 @@ package com.develhope.spring.vehicles.services;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.develhope.spring.vehicles.responseStatus.VehicleNotFoundException;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,10 +62,7 @@ public class VehicleService {
 
     public Vehicle findVehicleBy(long vehicleId) {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
-        if (optionalVehicle.isEmpty()) {
-            throw new VehicleNotFoundException("Nessun veicolo con questo ID: " + vehicleId + " è presente");
-        }
-        return optionalVehicle.get();
+        return optionalVehicle.orElseThrow();
     }
 
 

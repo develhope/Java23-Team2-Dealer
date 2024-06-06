@@ -21,24 +21,6 @@ public class RentalController {
     @Autowired
     private RentalService rentalService;
 
-    @Autowired
-    private RentalRepository rentalRepository;
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<NoSuchElementException> getException(NoSuchElementException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
-    }
-
-    @ExceptionHandler(NotAvailableVehicleException.class)
-    public ResponseEntity<NotAvailableVehicleException> getException(NotAvailableVehicleException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(e);
-    }
-
-    @ExceptionHandler(RentalOverlappingDatesException.class)
-    public ResponseEntity<RentalOverlappingDatesException> getException(RentalOverlappingDatesException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(e);
-    }
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public RentalReturnerDTO create (@RequestBody RentalCreatorDTO rentalCreatorDTO) {

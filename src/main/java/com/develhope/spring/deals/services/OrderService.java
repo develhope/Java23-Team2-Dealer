@@ -28,11 +28,16 @@ public class OrderService {
 
 
     public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
+        checkValidVehicleMarketStatus(orderCreatorDTO);
+        Order insertedOrder = orderMapper.toEntity(orderCreatorDTO);
+        Order savedOrder = orderRepository.save(insertedOrder);
+        return orderMapper.toResponseDTO(savedOrder);
+    }
+
+    private void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {
         Optional<Vehicle> vehicleOptional = vehicleRepository.findById(orderCreatorDTO.getVehicleId());
-        if (vehicleOptional.isPresent() && vehicleOptional.get().getMarketStatus() == MarketStatus.NOTAVAILABLE) {
+        if (vehicleOptional.isPresent() && vehicleOptional.orElseThrow().getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
-        Order order = orderMapper.toEntityFrom(orderCreatorDTO);
-        return orderMapper.toResponseDTOFrom(order);
     }
 }

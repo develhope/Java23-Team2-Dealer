@@ -45,7 +45,7 @@ public class UserMapper {
         );
     }
 
-    public UserOrderReturnerDTO toUserOrderReturnerDTOFrom(User user) {
+    public UserOrderReturnerDTO toUserOrderReturnerDTO(User user) {
         return new UserOrderReturnerDTO(
                 user.getId(),
                 user.getName(),

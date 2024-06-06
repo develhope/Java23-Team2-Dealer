@@ -15,7 +15,12 @@ public class BuyerRentalReturnerDto {
     private long phoneNumber;
 
 
-    public BuyerRentalReturnerDto(long id, String name, String surname, String email, long phoneNumber) {
+    public BuyerRentalReturnerDto(long id,
+                                  String name,
+                                  String surname,
+                                  String email,
+                                  long phoneNumber
+    ) {
         this.name = name;
         this.surname = surname;
         this.email = email;

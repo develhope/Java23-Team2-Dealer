@@ -23,8 +23,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -76,8 +75,21 @@ public class RentalServiceTest {
             DEFAULT_USER
     );
 
+    private static final Rental DEFAULT_EXISTING_RENTAL2 = new Rental(
+            LocalDate.of(2024, 6, 10),
+            LocalDate.of(2024, 6, 15),
+            DEFAULT_PRICE,
+            true,
+            DEFAULT_VEHICLE,
+            4,
+            DEFAULT_USER
+    );
+
+    private static final Collection<Rental> DEFAULT_EXISTING_RENTALS = new ArrayList<>(List.of(DEFAULT_EXISTING_RENTAL, DEFAULT_EXISTING_RENTAL2));
+
     @Test
     void createRental_successfulTest() {
+
         RentalReturnerDTO expected = new RentalReturnerDTO(
                 DEFAULT_RENTAL_START_DATE,
                 DEFAULT_RENTAL_END_DATE,
@@ -88,7 +100,7 @@ public class RentalServiceTest {
         );
 
         when(rentalRepository.findByVehicleId(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
-                .thenReturn(DEFAULT_EXISTING_RENTAL);
+                .thenReturn(DEFAULT_EXISTING_RENTALS);
         when(vehicleRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         when(userRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getUserId()))
@@ -102,7 +114,7 @@ public class RentalServiceTest {
     void createRental_vehicleNotFoundIsThrown() {
 
         when(rentalRepository.findByVehicleId(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
-                .thenReturn(DEFAULT_EXISTING_RENTAL);
+                .thenReturn(DEFAULT_EXISTING_RENTALS);
         when(vehicleRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId())).thenThrow(NoSuchElementException.class);
 
         assertThrows(NoSuchElementException.class, () -> rentalService.create(DEFAULT_RENTAL_CREATOR_DTO));
@@ -114,7 +126,7 @@ public class RentalServiceTest {
         Vehicle vehicle = new Vehicle(1);
         vehicle.setMarketStatus(MarketStatus.NOTAVAILABLE);
         when(rentalRepository.findByVehicleId(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
-                .thenReturn(DEFAULT_EXISTING_RENTAL);
+                .thenReturn(DEFAULT_EXISTING_RENTALS);
         when(vehicleRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId())).thenReturn(Optional.of(vehicle));
 
         assertThrows(NotAvailableVehicleException.class, () -> rentalService.create(DEFAULT_RENTAL_CREATOR_DTO));
@@ -132,8 +144,20 @@ public class RentalServiceTest {
                 DEFAULT_USER
         );
 
+        Rental existingRental2 = new Rental(
+                LocalDate.of(2024, 6, 1),
+                LocalDate.of(2024, 6, 2),
+                DEFAULT_PRICE,
+                true,
+                DEFAULT_VEHICLE,
+                4,
+                DEFAULT_USER
+        );
+
+        Collection<Rental> rentals = new ArrayList<>(List.of(existingRental, existingRental2));
+
         when(rentalRepository.findByVehicleId(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
-                .thenReturn(existingRental);
+                .thenReturn(rentals);
 
         assertThrows(RentalOverlappingDatesException.class, () -> rentalService.create(DEFAULT_RENTAL_CREATOR_DTO));
     }

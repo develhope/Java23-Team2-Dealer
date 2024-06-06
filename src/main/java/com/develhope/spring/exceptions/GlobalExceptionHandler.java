@@ -1,6 +1,8 @@
 package com.develhope.spring.exceptions;
 
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
+import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,6 @@ import java.util.NoSuchElementException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
 
     @ExceptionHandler(NotAuthorizedOperationException.class)
     public ResponseEntity<String> handleNotAuthorizedOperationException(NotAuthorizedOperationException ex, WebRequest request) {
@@ -38,6 +39,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotAvailableVehicleException.class)
     public ResponseEntity<NotAvailableVehicleException> getNotAvailableVehicleException(NotAvailableVehicleException e){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+    }
+
+    @ExceptionHandler(RentalOverlappingDatesException.class)
+    public ResponseEntity<RentalOverlappingDatesException> getException(RentalOverlappingDatesException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(e);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> getException(UserNotFoundException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
     }
 }
 

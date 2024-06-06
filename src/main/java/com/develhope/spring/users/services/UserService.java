@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-
     @Autowired
     private UserRepository userRepository;
 
@@ -19,7 +18,7 @@ public class UserService {
     private UserMapper userMapper;
 
     public User getBy(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow();
     }
 
     public UserSavedDTO create(UserCreatorDTO userCreatorDTO) {

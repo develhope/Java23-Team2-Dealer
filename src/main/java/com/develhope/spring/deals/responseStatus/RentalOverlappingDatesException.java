@@ -6,8 +6,6 @@ public class RentalOverlappingDatesException extends RuntimeException {
 
     private HttpStatus httpStatus;
 
-    private String message;
-
     public RentalOverlappingDatesException(String message) {
         super(message);
         this.httpStatus = HttpStatus.CONFLICT;
@@ -24,12 +22,4 @@ public class RentalOverlappingDatesException extends RuntimeException {
         this.httpStatus = httpStatus;
     }
 
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

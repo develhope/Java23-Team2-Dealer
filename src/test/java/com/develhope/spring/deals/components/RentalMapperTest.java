@@ -45,11 +45,9 @@ public class RentalMapperTest {
                 1,
                 1);
 
-        Vehicle vehicle = new Vehicle();
-        vehicle.setId(1);
+        Vehicle vehicle = new Vehicle(1);
 
-        User user = new User();
-        user.setId(1);
+        User user = new User(1);
 
         Rental result = rentalMapper.toEntity(rentalCreatorDTO);
         Rental expected = new Rental(startDate, endDate, BigDecimal.valueOf(40), true, vehicle, 1, user);
@@ -69,11 +67,9 @@ public class RentalMapperTest {
                 1,
                 1);
 
-        Vehicle vehicle = new Vehicle();
-        vehicle.setId(1);
+        Vehicle vehicle = new Vehicle(1);
 
-        User user = new User();
-        user.setId(1);
+        User user = new User(1);
 
         Rental result = rentalMapper.toEntity(rentalCreatorDTO);
         Rental expected = new Rental(startDate, endDate, BigDecimal.valueOf(40), true, vehicle, 1, user);
@@ -85,8 +81,7 @@ public class RentalMapperTest {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(1);
 
-        User user = new User();
-        user.setId(1);
+        User user = new User(1);
 
         LocalDate startDate = LocalDate.now();
         LocalDate endDate= LocalDate.of(2024, 06, 5);

@@ -24,10 +24,8 @@ public class RentalMapper {
 
 
     public Rental toEntity(RentalCreatorDTO rentalCreatorDTO) {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setId(rentalCreatorDTO.getVehicleId());
-        User user = new User();
-        user.setId(rentalCreatorDTO.getUserId());
+        Vehicle vehicle = new Vehicle(1);
+        User user = new User(1);
         return new Rental(
                 rentalCreatorDTO.getStartDate(),
                 rentalCreatorDTO.getEndDate(),
