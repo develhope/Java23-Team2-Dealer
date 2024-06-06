@@ -1,7 +1,5 @@
 package com.develhope.spring.users.dtos;
 
-import com.develhope.spring.users.models.Roles;
-
 public class BuyerRentalReturnerDto {
 
     private long id;

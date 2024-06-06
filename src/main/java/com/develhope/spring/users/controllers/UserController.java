@@ -14,11 +14,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSavedDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
-       return userService.create(userCreatorDTO);
+    public UserSavedDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO) {
+        return userService.create(userCreatorDTO);
     }
 }

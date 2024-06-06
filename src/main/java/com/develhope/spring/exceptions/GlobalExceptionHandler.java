@@ -2,7 +2,6 @@ package com.develhope.spring.exceptions;
 
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
-import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.http.HttpStatus;
@@ -44,11 +43,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RentalOverlappingDatesException.class)
     public ResponseEntity<RentalOverlappingDatesException> getException(RentalOverlappingDatesException e) {
         return ResponseEntity.status(e.getHttpStatus()).body(e);
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> getException(UserNotFoundException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
     }
 }
 

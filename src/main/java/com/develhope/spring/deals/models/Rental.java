@@ -3,11 +3,8 @@ package com.develhope.spring.deals.models;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
@@ -18,10 +15,8 @@ public class Rental {
     private long id;
 
 
-
     @Column(nullable = false)
     private LocalDate startDate;
-
 
 
     @Column(nullable = false)

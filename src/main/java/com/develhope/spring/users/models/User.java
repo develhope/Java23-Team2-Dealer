@@ -27,7 +27,8 @@ public class User {
     @Column(nullable = false)
     private Roles roles;
 
-    public User() {}
+    public User() {
+    }
 
     public User(long id) {
         this.id = id;

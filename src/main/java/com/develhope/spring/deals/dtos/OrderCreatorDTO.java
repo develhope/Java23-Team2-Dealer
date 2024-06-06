@@ -1,4 +1,5 @@
 package com.develhope.spring.deals.dtos;
+
 import com.develhope.spring.deals.models.OrderStatus;
 
 public class OrderCreatorDTO {
@@ -8,7 +9,8 @@ public class OrderCreatorDTO {
     private OrderStatus orderStatus;
     private boolean isPaid;
 
-    public OrderCreatorDTO() {}
+    public OrderCreatorDTO() {
+    }
 
     public OrderCreatorDTO(boolean downPayment, long vehicleId, long userId, OrderStatus orderStatus, boolean isPaid) {
         this.downPayment = downPayment;
