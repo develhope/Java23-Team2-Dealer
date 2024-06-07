@@ -6,6 +6,7 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
@@ -38,4 +39,13 @@ public class OrderService {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
     }
+
+    public void delete(Long orderId) {
+        if (!orderRepository.existsById(orderId)) {
+            throw new OrderNotFoundException("Order with ID " + orderId + " not found");
+        }
+        orderRepository.deleteById(orderId);
+    }
+
+
 }
