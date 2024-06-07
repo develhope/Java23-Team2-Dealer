@@ -4,6 +4,7 @@ import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
+import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
@@ -87,4 +88,20 @@ public class OrderServiceTest {
         OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
         assertEquals(expected.getUserId(), result.getUserId());
     }
+
+    @Test
+    void deleteOrder_orderExists_shouldDeleteOrder() {
+        Long orderId = 1L;
+        when(orderRepository.existsById(orderId)).thenReturn(true);
+        orderService.delete(orderId);
+        verify(orderRepository, times(1)).deleteById(orderId);
+    }
+
+    @Test
+    void deleteOrder_orderDoesNotExist_shouldThrowException() {
+        Long orderId = 1L;
+        when(orderRepository.existsById(orderId)).thenReturn(false);
+        assertThrows(OrderNotFoundException.class, () -> orderService.delete(orderId));
+    }
 }
+

@@ -33,6 +33,13 @@ public class OrderService {
         return orderMapper.toResponseDTO(savedOrder);
     }
 
+    public void delete(Long orderId) {
+        if (!orderRepository.existsById(orderId)) {
+            throw new OrderNotFoundException("Order with ID " + orderId + " not found");
+        }
+        orderRepository.deleteById(orderId);
+    }
+
     private void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {
         Optional<Vehicle> vehicleOptional = vehicleRepository.findById(orderCreatorDTO.getVehicleId());
         if (vehicleOptional.isPresent() && vehicleOptional.orElseThrow().getMarketStatus() == MarketStatus.NOTAVAILABLE) {
@@ -40,12 +47,7 @@ public class OrderService {
         }
     }
 
-    public void delete(Long orderId) {
-        if (!orderRepository.existsById(orderId)) {
-            throw new OrderNotFoundException("Order with ID " + orderId + " not found");
-        }
-        orderRepository.deleteById(orderId);
-    }
+
 
 
 }
