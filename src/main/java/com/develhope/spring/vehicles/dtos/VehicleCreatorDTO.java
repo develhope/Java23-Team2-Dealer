@@ -25,7 +25,22 @@ public class VehicleCreatorDTO {
     public VehicleCreatorDTO() {
     }
 
-    public VehicleCreatorDTO(VehicleType vehicleType, String brand, String model, int displacement, Colors color, int power, Gears gear, int registrationYear, MotorPowerSupply powerSupply, BigDecimal originalPrice, BigDecimal discountedPrice, UsedFlag usedFlag, MarketStatus marketStatus, boolean discountFlag, String engine) {
+    public VehicleCreatorDTO(VehicleType vehicleType,
+                             String brand,
+                             String model,
+                             int displacement,
+                             Colors color,
+                             int power,
+                             Gears gear,
+                             int registrationYear,
+                             MotorPowerSupply powerSupply,
+                             BigDecimal originalPrice,
+                             BigDecimal discountedPrice,
+                             UsedFlag usedFlag,
+                             MarketStatus marketStatus,
+                             boolean discountFlag,
+                             String engine
+    ) {
 
         this.vehicleType = vehicleType;
         this.brand = brand;

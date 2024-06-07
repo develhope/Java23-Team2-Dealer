@@ -2,6 +2,7 @@ package com.develhope.spring.vehicles.models;
 
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
+import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import org.springframework.stereotype.Component;
 
@@ -76,4 +77,28 @@ public class VehicleMapper {
         );
     }
 
+
+    public VehicleRentalReturnerDTO toRentalReturnerDTO(Vehicle vehicle) {
+        return new VehicleRentalReturnerDTO(
+                vehicle.getId(),
+                vehicle.getVehicleType(),
+                vehicle.getBrand(),
+                vehicle.getModel(),
+                vehicle.getColor(),
+                vehicle.getGear(),
+                vehicle.getPowerSupply()
+        );
+    }
+
+    public Vehicle toEntity(VehicleRentalReturnerDTO vehicleRentalReturnerDTO) {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(vehicleRentalReturnerDTO.getId());
+        vehicle.setVehicleType(vehicleRentalReturnerDTO.getVehicleType());
+        vehicle.setBrand(vehicleRentalReturnerDTO.getBrand());
+        vehicle.setModel(vehicleRentalReturnerDTO.getModel());
+        vehicle.setColor(vehicleRentalReturnerDTO.getColor());
+        vehicle.setGear(vehicleRentalReturnerDTO.getGear());
+        vehicle.setPowerSupply(vehicleRentalReturnerDTO.getMotorPowerSupply());
+        return vehicle;
+    }
 }

@@ -3,13 +3,11 @@ package com.develhope.spring.vehicles.models;
 
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
-import com.develhope.spring.vehicles.responseStatus.VehicleNotFoundException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Optional;
 
 @Entity
 @Table(name = "vehicles")
@@ -52,6 +50,7 @@ public class Vehicle {
 
     @Column(nullable = false)
     private BigDecimal originalPrice;
+
     @Column
     private BigDecimal discountedPrice;
 
@@ -71,7 +70,6 @@ public class Vehicle {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-
 
 
     //Getters
@@ -215,13 +213,11 @@ public class Vehicle {
         this.orderStatus = orderStatus;
     }
 
-    public Vehicle(){}
-
-
-
 
     //Costruttori
 
+    public Vehicle() {
+    }
 
     public Vehicle(long id) {
         this.id = id;
