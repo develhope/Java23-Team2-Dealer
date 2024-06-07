@@ -32,7 +32,7 @@ public class StartAndStop {
     }
 
     public BigDecimal getPrice() {
-        return price.setScale(2, RoundingMode.HALF_EVEN);
+        return price;
     }
 
     public Vehicle getVehicle() {
@@ -45,11 +45,10 @@ public class StartAndStop {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
 }
-
