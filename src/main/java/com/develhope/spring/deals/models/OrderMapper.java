@@ -44,4 +44,14 @@ public class OrderMapper {
                 order.isPaid()
         );
     }
+    public OrderCreatorDTO toCreatorDTO(Order order){
+
+        return new OrderCreatorDTO(
+                order.isDownPayment(),
+                order.getVehicle().getId(),
+                order.getUser().getId(),
+                order.getOrderStatus(),
+                order.isPaid()
+        );
+    }
 }

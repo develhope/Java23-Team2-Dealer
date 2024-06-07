@@ -10,8 +10,8 @@ import com.develhope.spring.deals.responsestatus.NotAvailableVehicleException;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
@@ -32,7 +32,14 @@ public class OrderService {
         if (vehicleOptional.isPresent() && vehicleOptional.get().getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
-        Order order = orderMapper.toEntityFrom(orderCreatorDTO);
-        return orderMapper.toResponseDTOFrom(order);
+        Order orderToInsert = orderMapper.toEntityFrom(orderCreatorDTO);
+        Order savedOrder = orderRepository.save(orderToInsert);
+        return orderMapper.toResponseDTOFrom(savedOrder);
+    }
+
+    public OrderResponseDTO update(long idOrder, OrderCreatorDTO orderCreatorDTO) {
+        orderRepository.findById(idOrder).orElseThrow(NotAvailableVehicleException::new);
+        Order updatedOrder = orderMapper.toEntityFrom(orderCreatorDTO);
+        return orderMapper.toResponseDTOFrom(orderRepository.save(updatedOrder));
     }
 }

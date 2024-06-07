@@ -84,4 +84,7 @@ public class Order {
         return orderStatus;
     }
 
+    public Long getId() {
+        return id;
+    }
 }
