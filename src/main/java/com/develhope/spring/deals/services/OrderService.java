@@ -3,7 +3,7 @@ package com.develhope.spring.deals.services;
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.Order;
-import com.develhope.spring.deals.models.OrderMapper;
+import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
@@ -13,6 +13,7 @@ import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -34,10 +35,11 @@ public class OrderService {
     }
 
     public void delete(Long orderId) {
-        if (!orderRepository.existsById(orderId)) {
-            throw new OrderNotFoundException("Order with ID " + orderId + " not found");
+        try {
+            orderRepository.deleteById(orderId);
+        } catch (NoSuchElementException ex) {
+            throw new OrderNotFoundException("Order with ID " + orderId + " not found", ex);
         }
-        orderRepository.deleteById(orderId);
     }
 
     private void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {

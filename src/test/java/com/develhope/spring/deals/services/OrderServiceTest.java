@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -98,9 +99,9 @@ public class OrderServiceTest {
     }
 
     @Test
-    void deleteOrder_orderDoesNotExist_shouldThrowException() {
+    void deleteOrder_noSuchElementException_shouldThrowException() {
         Long orderId = 1L;
-        when(orderRepository.existsById(orderId)).thenReturn(false);
+        doThrow(NoSuchElementException.class).when(orderRepository).deleteById(orderId);
         assertThrows(OrderNotFoundException.class, () -> orderService.delete(orderId));
     }
 }
