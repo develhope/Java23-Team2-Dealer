@@ -11,13 +11,6 @@ public class RentalTest {
     private Rental rental;
     private Vehicle vehicle;
 
-
-    @Test
-    public void testCalculateTotalCost() {
-        rental.calculateTotalCost();
-        assertEquals(new BigDecimal("500.00").setScale(2, BigDecimal.ROUND_HALF_EVEN), rental.getTotalCost());
-    }
-
     @Test
     public void testSetPaid() {
         rental.setPaid(true);

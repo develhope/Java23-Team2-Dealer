@@ -32,8 +32,8 @@ public class OrderMapperTest {
 
     private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO();
     private static final Vehicle DEFAULT_VEHICLE = new Vehicle();
-    private static final User DEFAULT_USER = new User();
-    private static final Order DEFAULT_ORDER = new Order();
+    private static final User DEFAULT_USER = new User(1);
+    private static final Order DEFAULT_ORDER = new Order(1L);
     private static final VehicleOrderReturnerDTO DEFAULT_VEHICLE_ORDER_RETURNER_DTO = new VehicleOrderReturnerDTO();
     private static final UserOrderReturnerDTO DEFAULT_USER_ORDER_RETURNER_DTO = new UserOrderReturnerDTO();
 
@@ -44,9 +44,6 @@ public class OrderMapperTest {
         DEFAULT_ORDER_CREATOR_DTO.setDownPayment(true);
         DEFAULT_ORDER_CREATOR_DTO.setOrderStatus(OrderStatus.PAID);
         DEFAULT_ORDER_CREATOR_DTO.setPaid(true);
-
-        DEFAULT_VEHICLE.setId(1);
-        DEFAULT_USER.setId(1);
 
         DEFAULT_ORDER.setVehicle(DEFAULT_VEHICLE);
         DEFAULT_ORDER.setUser(DEFAULT_USER);
@@ -70,10 +67,10 @@ public class OrderMapperTest {
 
         when(vehicleMapper.toOrderReturnerDTOFrom(any(Vehicle.class)))
                 .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
-        when(userMapper.toUserOrderReturnerDTOFrom(any(User.class)))
+        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
                 .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
 
-        OrderResponseDTO result = orderMapper.toResponseDTOFrom(DEFAULT_ORDER);
+        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
 
         assertEquals(expected.getUserId(), result.getUserId());
         assertEquals(expected.getVehicle().getId(), result.getVehicle().getId());

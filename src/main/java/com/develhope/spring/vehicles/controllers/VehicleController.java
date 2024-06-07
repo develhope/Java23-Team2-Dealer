@@ -1,12 +1,9 @@
 package com.develhope.spring.vehicles.controllers;
 
-import com.develhope.spring.users.responseStatus.UserNotFoundException;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.develhope.spring.vehicles.responseStatus.VehicleNotFoundException;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,22 +17,7 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> getException(UserNotFoundException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-    }
-
-    @ExceptionHandler(NotAuthorizedOperationException.class)
-    public ResponseEntity<String> getException(NotAuthorizedOperationException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-    }
-
-    @ExceptionHandler(VehicleNotFoundException.class)
-    public ResponseEntity<String> handleVehicleNotFoundException(VehicleNotFoundException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-    }
-
-    @PostMapping("/{userId}")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public VehicleResponseDTO create(@PathVariable long userId, @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
         return vehicleService.create(userId, vehicleCreatorDTO);
@@ -43,7 +25,9 @@ public class VehicleController {
 
     @PutMapping("/{userId}/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
-    public VehicleCreatorDTO update(@PathVariable long userId, @PathVariable long vehicleId, @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
+    public VehicleCreatorDTO update(@PathVariable long userId,
+                                    @PathVariable long vehicleId,
+                                    @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
         return vehicleService.update(userId, vehicleId, vehicleCreatorDTO);
     }
 

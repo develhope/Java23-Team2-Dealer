@@ -2,14 +2,12 @@ package com.develhope.spring.vehicles.models;
 
 
 import com.develhope.spring.deals.models.OrderStatus;
-import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
-import com.develhope.spring.vehicles.responseStatus.VehicleNotFoundException;
+import com.develhope.spring.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Optional;
 
 @Entity
 @Table(name = "vehicles")
@@ -73,10 +71,7 @@ public class Vehicle {
     private OrderStatus orderStatus;
 
 
-
     //Getters
-
-
     public boolean isDiscountFlag() {
         return discountFlag;
     }
