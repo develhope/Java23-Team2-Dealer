@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private boolean downPayment;
@@ -30,7 +30,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id) {
+    public Order(long id) {
         this.id = id;
     }
 
@@ -43,6 +43,10 @@ public class Order {
         this.user = user;
     }
 
+
+    public long getId() {
+        return id;
+    }
 
     public boolean isDownPayment() {
         return downPayment;

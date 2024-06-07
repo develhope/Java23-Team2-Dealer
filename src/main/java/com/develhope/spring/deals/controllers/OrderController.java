@@ -2,6 +2,7 @@ package com.develhope.spring.deals.controllers;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,14 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponseDTO createOrder(@RequestBody OrderCreatorDTO orderCreatorDTO) {
         return orderService.create(orderCreatorDTO);
+    }
+
+    @PutMapping("/{userId}/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public OrderUpdatedDTO updateOrder (@PathVariable long userId,
+                                        @PathVariable long orderId,
+                                        @RequestBody OrderCreatorDTO orderCreatorDTO){
+        return orderService.update(orderCreatorDTO);
     }
 
 }

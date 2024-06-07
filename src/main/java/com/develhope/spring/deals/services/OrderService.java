@@ -3,6 +3,7 @@ package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
@@ -27,12 +28,24 @@ public class OrderService {
     private VehicleRepository vehicleRepository;
 
 
-    public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
+    public Optional<Vehicle>  checkIfVehicleIsAvailable(OrderCreatorDTO orderCreatorDTO){
         Optional<Vehicle> vehicleOptional = vehicleRepository.findById(orderCreatorDTO.getVehicleId());
         if (vehicleOptional.isPresent() && vehicleOptional.get().getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
-        Order order = orderMapper.toEntityFrom(orderCreatorDTO);
-        return orderMapper.toResponseDTOFrom(order);
+        return vehicleOptional;
+    }
+
+    public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
+        checkIfVehicleIsAvailable(orderCreatorDTO);
+        Order order = orderMapper.toEntity(orderCreatorDTO);
+        return orderMapper.toResponseDTO(order);
+    }
+
+    public OrderUpdatedDTO update (OrderCreatorDTO orderCreatorDTO){
+        checkIfVehicleIsAvailable(orderCreatorDTO);
+        Order orderToUpdate= orderMapper.toEntity(orderCreatorDTO);
+        Order newOrderSaved = orderRepository.save(orderToUpdate);
+        return orderMapper.toOrderUpdateDTO(newOrderSaved);
     }
 }

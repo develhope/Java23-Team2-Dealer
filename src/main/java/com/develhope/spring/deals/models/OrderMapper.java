@@ -2,6 +2,7 @@ package com.develhope.spring.deals.models;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.models.User;
@@ -19,7 +20,7 @@ public class OrderMapper {
     @Autowired
     private UserMapper userMapper;
 
-    public Order toEntityFrom(OrderCreatorDTO orderCreatorDTO) {
+    public Order toEntity(OrderCreatorDTO orderCreatorDTO) {
         Vehicle vehicle = new Vehicle(orderCreatorDTO.getVehicleId());
         User user = new User(orderCreatorDTO.getUserId());
 
@@ -33,7 +34,7 @@ public class OrderMapper {
         return order;
     }
 
-    public OrderResponseDTO toResponseDTOFrom(Order order) {
+    public OrderResponseDTO toResponseDTO(Order order) {
         VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTOFrom(order.getVehicle());
         UserOrderReturnerDTO userOrderReturnerDTO = userMapper.toUserOrderReturnerDTOFrom(order.getUser());
         return new OrderResponseDTO(
@@ -43,5 +44,13 @@ public class OrderMapper {
                 order.getOrderStatus(),
                 order.isPaid()
         );
+    }
+
+    public OrderUpdatedDTO toOrderUpdateDTO(Order order){
+        return new OrderUpdatedDTO(
+                order.getId(),
+                order.isDownPayment(),
+                order.getOrderStatus(),
+                order.isPaid());
     }
 }

@@ -73,7 +73,7 @@ public class OrderMapperTest {
         when(userMapper.toUserOrderReturnerDTOFrom(any(User.class)))
                 .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
 
-        OrderResponseDTO result = orderMapper.toResponseDTOFrom(DEFAULT_ORDER);
+        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
 
         assertEquals(expected.getUserId(), result.getUserId());
         assertEquals(expected.getVehicle().getId(), result.getVehicle().getId());
