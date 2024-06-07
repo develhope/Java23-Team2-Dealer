@@ -3,7 +3,7 @@ package com.develhope.spring.vehicles.services;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.users.responseStatus.UserNotFoundException;
+
 import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;

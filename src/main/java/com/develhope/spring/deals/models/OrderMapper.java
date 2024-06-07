@@ -37,6 +37,7 @@ public class OrderMapper {
         VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTO(order.getVehicle());
         UserOrderReturnerDTO userOrderReturnerDTO = userMapper.toUserOrderReturnerDTO(order.getUser());
         return new OrderResponseDTO(
+                order.getId(),
                 order.isDownPayment(),
                 vehicleOrderReturnerDTO,
                 userOrderReturnerDTO.getId(),
