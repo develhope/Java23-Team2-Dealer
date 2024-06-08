@@ -6,6 +6,7 @@ import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.repositories.RentalRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.RentalNotFoundException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class RentalService {
@@ -34,6 +36,14 @@ public class RentalService {
         rentalRepository.save(rental);
         return rentalMapper.toReturnerDTO(rental);
 
+    }
+
+    public void deleteRental(Long rentalId) {
+        if (rentalRepository.existsById(rentalId)) {
+            rentalRepository.deleteById(rentalId);
+        } else {
+            throw new RentalNotFoundException("Rental with id " + rentalId + " not found");
+        }
     }
 
     private static void checkValidArgument(RentalCreatorDTO rentalCreatorDTO) {

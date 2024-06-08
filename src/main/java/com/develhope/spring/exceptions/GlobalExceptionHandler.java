@@ -1,6 +1,7 @@
 package com.develhope.spring.exceptions;
 
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.RentalNotFoundException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
 import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
@@ -43,6 +44,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RentalOverlappingDatesException.class)
     public ResponseEntity<RentalOverlappingDatesException> getException(RentalOverlappingDatesException e) {
         return ResponseEntity.status(e.getHttpStatus()).body(e);
+    }
+
+
+    //Rental exception on delete not found
+
+    @ExceptionHandler(RentalNotFoundException.class)
+    public ResponseEntity<String> handleRentalNotFoundException(RentalNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
 

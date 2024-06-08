@@ -1,13 +1,27 @@
 package com.develhope.spring.deals.controllers;
 
+import com.develhope.spring.deals.models.Rental;
+import com.develhope.spring.deals.repositories.RentalRepository;
+import com.develhope.spring.deals.services.RentalService;
+import com.develhope.spring.users.services.UserService;
 import com.develhope.spring.vehicles.models.Vehicle;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
+import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -15,6 +29,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RentalControllerTest {
+
+    @Mock
+    private RentalRepository rentalRepository;
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -197,4 +215,23 @@ public class RentalControllerTest {
                 .andExpect(status().isConflict())
                 .andReturn();
     }
+
+    @Mock
+    RentalService rentalService;
+    @Test
+    public void testDeleteRental() {
+        // Setup
+        long rentalId = 1L;
+        Rental rental = new Rental();
+        rental.setId(rentalId);
+        when(rentalRepository.findById(rentalId)).thenReturn(Optional.of(rental));
+
+        // Execution
+        rentalService.deleteRental(rentalId);
+
+        // Verification
+        verify(rentalRepository, times(1)).findById(rentalId);
+        verify(rentalRepository, times(1)).delete(rental);
+    }
+
 }

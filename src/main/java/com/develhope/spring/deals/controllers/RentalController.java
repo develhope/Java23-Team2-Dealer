@@ -5,6 +5,7 @@ import com.develhope.spring.deals.dtos.RentalReturnerDTO;
 import com.develhope.spring.deals.services.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,4 +21,11 @@ public class RentalController {
     public RentalReturnerDTO create(@RequestBody RentalCreatorDTO rentalCreatorDTO) {
         return rentalService.create(rentalCreatorDTO);
     }
+
+    @DeleteMapping("/{rentalId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long rentalId) {
+        rentalService.deleteRental(rentalId);
+    }
+
 }

@@ -70,6 +70,11 @@ public class Rental {
         this.user = user;
     }
 
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Rental() {
     }
 
