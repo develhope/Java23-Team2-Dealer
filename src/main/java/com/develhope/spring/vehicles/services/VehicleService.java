@@ -7,7 +7,6 @@ import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
-import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
@@ -52,11 +51,6 @@ public class VehicleService {
     public void delete(long userId, long vehicleId) {
         checkUserAuthorizationBy(userId);
         vehicleRepository.deleteById(vehicleId);
-    }
-
-    public void updateStatusToNotAvailable(long id) {
-        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow();
-        vehicle.setMarketStatus(MarketStatus.NOTAVAILABLE);
     }
 
     private void checkUserAuthorizationBy(long userId) {
