@@ -70,7 +70,7 @@ public class RentalServiceTest {
     private static final Rental DEFAULT_RENTAL = new Rental();
 
     private static final VehicleRentalReturnerDTO DEFAULT_VEHICLE_RENTAL_RETURNER_DTO = new VehicleRentalReturnerDTO(1);
-    private static final BuyerRentalReturnerDto DEFAULT_BUYER_RENTAL_RETURNER_DTO = new BuyerRentalReturnerDto(1);
+    private static final BuyerRentalReturnerDto DEFAULT_BUYER_RENTAL_RETURNER_DTO = new BuyerRentalReturnerDto(2);
     private static final Rental DEFAULT_EXISTING_RENTAL = new Rental(
             LocalDate.of(2024, 6, 7),
             LocalDate.of(2024, 6, 10),
@@ -125,7 +125,7 @@ public class RentalServiceTest {
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         when(userRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getUserId()))
                 .thenReturn(Optional.of(DEFAULT_USER));
-        when(userRepository.save(any()))
+        when(rentalRepository.save(any()))
                 .thenReturn(rental);
 
         RentalReturnerDTO result = rentalService.create(DEFAULT_RENTAL_CREATOR_DTO);
