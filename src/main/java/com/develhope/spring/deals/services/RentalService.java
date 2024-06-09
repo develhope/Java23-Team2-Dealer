@@ -11,6 +11,7 @@ import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
+import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
@@ -46,10 +47,13 @@ public class RentalService {
         checkValidRentalDates(rentalUpdaterDTO);
         checkMarketStatus(rentalUpdaterDTO);
         Rental savedRental = rentalRepository.findById(rentalId).orElseThrow();
-        Rental rental = rentalMapper.toEntity(rentalUpdaterDTO);
-        rental.setId(rentalId);
-        rental.setUser(savedRental.getUser());
-        Rental updatedRental = rentalRepository.save(rental);
+        Vehicle vehicle = vehicleRepository.findById(rentalUpdaterDTO.getVehicleId()).orElseThrow();
+        savedRental.setStartDate(rentalUpdaterDTO.getStartDate());
+        savedRental.setEndDate(rentalUpdaterDTO.getEndDate());
+        savedRental.setPaid(rentalUpdaterDTO.isPaid());
+        savedRental.setVehicle(vehicle);
+        savedRental.setTotalCost(rentalUpdaterDTO.getTotalCost());
+        Rental updatedRental = rentalRepository.save(savedRental);
         return rentalMapper.toReturnerDTO(updatedRental);
     }
 
