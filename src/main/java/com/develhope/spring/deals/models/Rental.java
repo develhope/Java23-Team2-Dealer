@@ -32,10 +32,10 @@ public class Rental {
     @Column(nullable = false)
     private boolean paid;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Vehicle vehicle;
 
     public void setPaid(boolean paid) {
