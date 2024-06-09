@@ -15,7 +15,7 @@ public class RentalUpdaterDTO {
     public RentalUpdaterDTO(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, long vehicleId) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyCost = dailyCost;
+        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
         calculateTotalCost();
         this.paid = paid;
         this.vehicleId = vehicleId;
@@ -55,7 +55,7 @@ public class RentalUpdaterDTO {
     }
 
     public void setDailyCost(BigDecimal dailyCost) {
-        this.dailyCost = dailyCost;
+        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public boolean isPaid() {
