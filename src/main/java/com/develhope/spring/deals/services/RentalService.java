@@ -11,6 +11,10 @@ import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -34,6 +38,12 @@ public class RentalService {
         rentalRepository.save(rental);
         return rentalMapper.toReturnerDTO(rental);
 
+    }
+
+    public Page<Rental> getByUserId(long userId, int page, int size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return rentalRepository.findByUserId(userId,pageable);
     }
 
     private static void checkValidArgument(RentalCreatorDTO rentalCreatorDTO) {

@@ -6,14 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RentalControllerTest {
 
     @Autowired
@@ -195,6 +198,45 @@ public class RentalControllerTest {
                         """)
                 )
                 .andExpect(status().isConflict())
+                .andReturn();
+    }
+
+    @Test
+    void loadByUserId() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertVehicle();
+
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                        {
+                        "startDate": "2024-06-03",
+                        "endDate": "2024-06-05",
+                        "dailyCost": 40.00,
+                        "paid": true,
+                        "vehicleId": 1,
+                        "userId": 2
+                        }
+                        """)
+                )
+                .andReturn();
+
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                        {
+                        "startDate": "2024-06-06",
+                        "endDate": "2024-06-09",
+                        "dailyCost": 40.00,
+                        "paid": true,
+                        "vehicleId": 1,
+                        "userId": 2
+                        }
+                        """)
+                )
+                .andReturn();
+
+        this.mockMvc.perform(get("/v1/rentals?userId=2&page=0&size=5"))
+                .andExpect(status().isFound())
+                .andExpect(jsonPath("$[0].endDate", is("2024-06-05")))
+                .andExpect(jsonPath("$[1].startDate", is("2024-06-06")))
                 .andReturn();
     }
 }
