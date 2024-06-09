@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -102,12 +103,23 @@ public class RentalServiceTest {
                 DEFAULT_BUYER_RENTAL_RETURNER_DTO
         );
 
+        Rental rental = new Rental(
+                DEFAULT_RENTAL_START_DATE,
+                DEFAULT_RENTAL_END_DATE,
+                DEFAULT_PRICE,
+                DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
+                true,
+                DEFAULT_VEHICLE,
+                1,
+                DEFAULT_USER
+        );
+
         when(rentalRepository.findByVehicleId(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
                 .thenReturn(DEFAULT_EXISTING_RENTALS);
         when(vehicleRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
-        when(userRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getUserId()))
-                .thenReturn(Optional.of(DEFAULT_USER));
+        when(rentalRepository.save(any()))
+                .thenReturn(rental);
 
         RentalReturnerDTO result = rentalService.create(DEFAULT_RENTAL_CREATOR_DTO);
         assertEquals(expected.getBuyer().getId(), result.getBuyer().getId());

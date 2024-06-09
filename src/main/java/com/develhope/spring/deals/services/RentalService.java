@@ -35,8 +35,8 @@ public class RentalService {
         checkValidRentalDates(rentalCreatorDTO);
         checkMarketStatus(rentalCreatorDTO);
         Rental rental = rentalMapper.toEntity(rentalCreatorDTO);
-        rentalRepository.save(rental);
-        return rentalMapper.toReturnerDTO(rental);
+        Rental savedRental = rentalRepository.save(rental);
+        return rentalMapper.toReturnerDTO(savedRental);
 
     }
 

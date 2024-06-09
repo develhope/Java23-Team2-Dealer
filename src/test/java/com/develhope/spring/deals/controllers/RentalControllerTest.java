@@ -233,7 +233,7 @@ public class RentalControllerTest {
                 )
                 .andReturn();
 
-        this.mockMvc.perform(get("/v1/rentals?userId=2&page=0&size=5"))
+        this.mockMvc.perform(get("/v1/rentals"))
                 .andExpect(status().isFound())
                 .andExpect(jsonPath("$[0].endDate", is("2024-06-05")))
                 .andExpect(jsonPath("$[1].startDate", is("2024-06-06")))
