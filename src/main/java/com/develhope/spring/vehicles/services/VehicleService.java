@@ -7,6 +7,7 @@ import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
+import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
@@ -53,6 +54,11 @@ public class VehicleService {
         vehicleRepository.deleteById(vehicleId);
     }
 
+    public void updateStatusToNotAvailable(long id) {
+        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow();
+        vehicle.setMarketStatus(MarketStatus.NOTAVAILABLE);
+    }
+
     private void checkUserAuthorizationBy(long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty() || !optionalUser.get().getRoles().equals(Roles.ADMIN)) {
@@ -64,6 +70,4 @@ public class VehicleService {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
         return optionalVehicle.orElseThrow();
     }
-
-
 }
