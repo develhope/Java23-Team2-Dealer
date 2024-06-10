@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class RentalControllerTest {
 
     @Autowired
@@ -129,7 +129,7 @@ public class RentalControllerTest {
                                     "id": 1
                                     },
                         "buyer": {
-                                 "id": 1
+                                 "id": 2
                                  }
                         }
                         """)).andReturn();
@@ -188,7 +188,7 @@ public class RentalControllerTest {
 
         this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
                         {
-                        "startDate": "2024-06-04",
+                        "startDate": "2024-06-09",
                         "endDate": "2024-06-10",
                         "dailyCost": 40.00,
                         "paid": true,
@@ -199,6 +199,63 @@ public class RentalControllerTest {
                 )
                 .andExpect(status().isConflict())
                 .andReturn();
+    }
+
+    @Test
+    void updateRental_SuccessfulUpdatingTest() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertBuyer();
+        insertVehicle();
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-03",
+                "endDate": "2024-06-05",
+                "dailyCost": 40.00,
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 2
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-06",
+                "endDate": "2024-06-08",
+                "dailyCost": 40.00,
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 3
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(patch("/v1/rentals/1/1").contentType(MediaType.APPLICATION_JSON).content(
+                        """
+                                {
+                                    "startDate": "2024-06-09",
+                                    "endDate": "2024-06-12",
+                                    "dailyCost": 40.00,
+                                    "paid": false,
+                                    "vehicleId": 1
+                                }
+                                """
+                ))
+                .andExpect(status().isAccepted())
+                .andExpect(content().json("""
+                        {
+                        "startDate": "2024-06-09",
+                        "endDate": "2024-06-12",
+                        "dailyCost": 40.00,
+                        "totalCost": 120.00,
+                        "paid": false,
+                        "vehicle": {
+                                    "id": 1
+                                    },
+                        "buyer": {
+                                 "id": 2
+                                 }
+                        }
+                        """)).andReturn();
     }
 
     @Test
