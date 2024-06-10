@@ -67,6 +67,4 @@ public class VehicleService {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
         return optionalVehicle.orElseThrow();
     }
-
-
 }

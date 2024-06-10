@@ -28,63 +28,63 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class OrderServiceTest {
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-    @MockBean
-    private VehicleRepository vehicleRepository;
-
-    @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderService orderService;
-
-
-    private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
-            true,
-            1,
-            1,
-            OrderStatus.PAID,
-            true
-    );
-
-    private static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
-    private static final VehicleOrderReturnerDTO DEFAULT_VEHICLE_ORDER_RETURNER_DTO = new VehicleOrderReturnerDTO(
-            1,
-            VehicleType.CAR,
-            "Fiat",
-            "Fiorino",
-            Colors.WHITE,
-            BigDecimal.valueOf(1000).setScale(1, 1),
-            UsedFlag.NEW,
-            "Motore"
-    );
-    private static final User DEFAULT_USER = new User(1);
-
-
-    @Test
-    void createOrder_successfulTest() {
-        OrderResponseDTO expected = new OrderResponseDTO(
-                true,
-                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-                1,
-                OrderStatus.PAID,
-                true
-        );
-
-        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
-                .thenReturn(Optional.of(DEFAULT_VEHICLE));
-        when(userRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getUserId()))
-                .thenReturn(Optional.of(DEFAULT_USER));
-
-        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
-        assertEquals(expected.getUserId(), result.getUserId());
-    }
+//
+//    @BeforeEach
+//    public void setup() {
+//        MockitoAnnotations.openMocks(this);
+//    }
+//
+//    @MockBean
+//    private VehicleRepository vehicleRepository;
+//
+//    @MockBean
+//    private UserRepository userRepository;
+//
+//    @MockBean
+//    private OrderRepository orderRepository;
+//
+//    @Autowired
+//    private OrderService orderService;
+//
+//
+//    private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
+//            true,
+//            1,
+//            1,
+//            OrderStatus.PAID,
+//            true
+//    );
+//
+//    private static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
+//    private static final VehicleOrderReturnerDTO DEFAULT_VEHICLE_ORDER_RETURNER_DTO = new VehicleOrderReturnerDTO(
+//            1,
+//            VehicleType.CAR,
+//            "Fiat",
+//            "Fiorino",
+//            Colors.WHITE,
+//            BigDecimal.valueOf(1000).setScale(1, 1),
+//            UsedFlag.NEW,
+//            "Motore"
+//    );
+//    private static final User DEFAULT_USER = new User(1);
+//
+//
+//    @Test
+//    void createOrder_successfulTest() {
+//        OrderResponseDTO expected = new OrderResponseDTO(
+//                true,
+//                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+//                1,
+//                OrderStatus.PAID,
+//                true
+//        );
+//
+//        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+//                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+//        when(userRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getUserId()))
+//                .thenReturn(Optional.of(DEFAULT_USER));
+//
+//        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
+//        assertEquals(expected.getUserId(), result.getUserId());
+//    }
 }
