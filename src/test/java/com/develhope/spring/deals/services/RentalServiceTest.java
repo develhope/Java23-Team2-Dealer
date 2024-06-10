@@ -192,6 +192,8 @@ public class RentalServiceTest {
                 1,
                 "Gabriel",
                 "Dello",
+                "paneNutella",
+                "1234",
                 346777,
                 "hey@itsadmin.it",
                 Roles.ADMIN

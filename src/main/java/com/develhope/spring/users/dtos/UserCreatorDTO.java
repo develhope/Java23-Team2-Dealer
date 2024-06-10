@@ -6,6 +6,8 @@ public class UserCreatorDTO {
 
     private String name;
     private String surname;
+    private String username;
+    private String password;
     private long phoneNumber;
     private String email;
     private Roles roles;
@@ -14,12 +16,30 @@ public class UserCreatorDTO {
     public UserCreatorDTO() {
     }
 
-    public UserCreatorDTO(String name, String surname, long phoneNumber, String email, Roles roles) {
+    public UserCreatorDTO(String name, String surname, String username, String password, long phoneNumber, String email, Roles roles) {
         this.name = name;
         this.surname = surname;
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.roles = roles;
-        this.phoneNumber = phoneNumber;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     //getters

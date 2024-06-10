@@ -6,6 +6,7 @@ import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
+    @Secured("ADMIN")
     @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
     public VehicleCreatorDTO create(@PathVariable long userId,

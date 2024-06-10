@@ -43,6 +43,8 @@ public class VehicleServiceTest {
     private static final UserCreatorDTO DEFAULT_USER_USER_CREATOR_DTO = new UserCreatorDTO(
             "Gabriel",
             "Dello",
+            "paneNutella",
+            "12345",
             3467789L,
             "hey@itsadmin.com",
             Roles.ADMIN

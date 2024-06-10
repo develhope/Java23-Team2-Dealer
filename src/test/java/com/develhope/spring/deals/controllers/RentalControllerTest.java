@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,9 +22,6 @@ public class RentalControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private RentalController rentalController;
 
     private void insertAdmin() throws Exception {
         this.mockMvc.perform(post("/v1/users")

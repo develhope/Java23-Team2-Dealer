@@ -6,10 +6,15 @@ import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UserSavedDTO toUserSavedDTO(User user) {
         return new UserSavedDTO(user.getName(), user.getSurname(), user.getRoles());
@@ -19,6 +24,8 @@ public class UserMapper {
         User user = new User();
         user.setName(userCreatorDTO.getName());
         user.setSurname(userCreatorDTO.getSurname());
+        user.setUsername(userCreatorDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(userCreatorDTO.getPassword()));
         user.setPhoneNumber(userCreatorDTO.getPhoneNumber());
         user.setEmail(userCreatorDTO.getEmail());
         user.setRoles(userCreatorDTO.getRoles());
@@ -39,6 +46,8 @@ public class UserMapper {
                 buyerRentalReturnerDto.getId(),
                 buyerRentalReturnerDto.getName(),
                 buyerRentalReturnerDto.getSurname(),
+                "default",
+                "default",
                 buyerRentalReturnerDto.getPhoneNumber(),
                 buyerRentalReturnerDto.getEmail(),
                 Roles.BUYER
@@ -68,6 +77,8 @@ public class UserMapper {
         return new UserCreatorDTO(
                 user.getName(),
                 user.getSurname(),
+                user.getUsername(),
+                user.getPassword(),
                 user.getPhoneNumber(),
                 user.getEmail(),
                 user.getRoles()
