@@ -2,6 +2,7 @@ package com.develhope.spring.deals.controllers;
 
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
+import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.services.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,5 +20,11 @@ public class RentalController {
     @PostMapping
     public RentalReturnerDTO create(@RequestBody RentalCreatorDTO rentalCreatorDTO) {
         return rentalService.create(rentalCreatorDTO);
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PatchMapping("/{adminId}/{rentalId}")
+    public RentalReturnerDTO update(@PathVariable long adminId, @PathVariable long rentalId, @RequestBody RentalUpdaterDTO rentalUpdaterDTO) {
+        return rentalService.update(adminId, rentalId, rentalUpdaterDTO);
     }
 }
