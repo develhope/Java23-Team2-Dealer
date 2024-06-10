@@ -48,7 +48,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<String> handleOrderNotFoundException(OrderNotFoundException ex) {
-        return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());
+        return ResponseEntity.status(ex.getHttpStatus())
+                .body(ex.getMessage());
     }
 }
 

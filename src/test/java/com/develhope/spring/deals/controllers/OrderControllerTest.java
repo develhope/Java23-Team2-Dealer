@@ -1,26 +1,42 @@
 package com.develhope.spring.deals.controllers;
 
+import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
+import com.develhope.spring.deals.services.OrderService;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.NoSuchElementException;
+
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private OrderController orderController;
+    @MockBean
+    private OrderService orderService;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertVehicle();
+    }
 
     private void insertAdmin() throws Exception {
         this.mockMvc.perform(post("/v1/users")
@@ -74,35 +90,8 @@ public class OrderControllerTest {
                         """)).andReturn();
     }
 
-    private void insertVehicleNotAvailable() throws Exception {
-        this.mockMvc.perform(post("/v1/vehicles/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                         {
-                        "vehicleType": "CAR",
-                        "brand": "fiorino",
-                        "model": "top del top",
-                        "displacement": 4,
-                        "color": "WHITE",
-                        "power": 9999,
-                        "gear": "MANUAL",
-                        "registrationYear": 1700,
-                        "powerSupply": "DIESEL",
-                        "originalPrice": 54000.00,
-                        "discountedPrice": null,
-                        "usedFlag": "NEW",
-                        "marketStatus": "NOTAVAILABLE",
-                        "discountedFlag": false,
-                        "engine": "Al plasma"
-                         }
-                        """)).andReturn();
-    }
-
     @Test
     void createOrder_successfulTest() throws Exception {
-        insertAdmin();
-        insertBuyer();
-        insertVehicle();
         this.mockMvc.perform(post("/v1/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -119,9 +108,6 @@ public class OrderControllerTest {
 
     @Test
     void deleteOrder_successfulTest() throws Exception {
-        insertAdmin();
-        insertBuyer();
-        insertVehicle();
         MvcResult result = this.mockMvc.perform(post("/v1/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -132,11 +118,12 @@ public class OrderControllerTest {
                                 "orderStatus" : "PAID",
                                 "isPaid" : true
                                 }
-                                """)
-                ).andExpect(status().isCreated())
+                                """))
+                .andExpect(status().isCreated())
                 .andReturn();
+        doNothing().when(orderService).delete(1L);
 
-        this.mockMvc.perform(delete("/v1/orders/{orderId}", 1) // Assuming orderId is 1 in this case
+        this.mockMvc.perform(delete("/v1/orders/{orderId}", 1)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
@@ -144,9 +131,19 @@ public class OrderControllerTest {
                             "message": "Order deleted successfully"
                         }
                         """));
+
+        verify(orderService, times(1)).delete(1L);
     }
 
+    @Test
+    void deleteOrder_orderNotFoundTest() throws Exception {
+        doThrow(new OrderNotFoundException("Order with ID 1 not found", new NoSuchElementException()))
+                .when(orderService).delete(1L);
 
+        this.mockMvc.perform(delete("/v1/orders/{orderId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(orderService, times(1)).delete(1L);
+    }
 }
-
-
