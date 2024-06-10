@@ -1,19 +1,16 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.components.OrderMapper;
+import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
-import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.NoSuchElementException;
-
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -24,18 +21,9 @@ public class OrderServiceTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
     }
-
-    @MockBean
-    private VehicleRepository vehicleRepository;
-
-    @MockBean
-    private UserRepository userRepository;
-
     @MockBean
     private OrderRepository orderRepository;
 
-    @MockBean
-    private OrderMapper orderMapper;
 
     @Autowired
     private OrderService orderService;
@@ -43,6 +31,10 @@ public class OrderServiceTest {
     @Test
     void deleteOrder_ShouldDeleteOrder_WhenOrderExists() {
         Long orderId = 1L;
+
+        Order order = new Order();
+        order.setId(orderId);
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
         orderService.delete(orderId);
 

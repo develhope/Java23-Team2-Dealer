@@ -1,5 +1,6 @@
 package com.develhope.spring.deals.dtos;
 
+import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 
@@ -61,4 +62,5 @@ public class OrderResponseDTO {
     public void setPaid(boolean paid) {
         isPaid = paid;
     }
+
 }

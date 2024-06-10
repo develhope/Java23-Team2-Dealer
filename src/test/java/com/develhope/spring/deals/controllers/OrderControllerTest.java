@@ -1,8 +1,7 @@
 package com.develhope.spring.deals.controllers;
 
-import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
+
 import com.develhope.spring.deals.services.OrderService;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
-import java.util.NoSuchElementException;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -136,14 +133,12 @@ public class OrderControllerTest {
     }
 
     @Test
-    void deleteOrder_orderNotFoundTest() throws Exception {
-        doThrow(new OrderNotFoundException("Order with ID 1 not found", new NoSuchElementException()))
-                .when(orderService).delete(1L);
+    void deleteOrder_ValidInput_ReturnsOk() throws Exception {
+        Long orderId = 1L;
 
-        this.mockMvc.perform(delete("/v1/orders/{orderId}", 1)
+        mockMvc.perform(delete("/v1/orders/{orderId}", orderId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-
-        verify(orderService, times(1)).delete(1L);
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Order deleted successfully"));
     }
 }
