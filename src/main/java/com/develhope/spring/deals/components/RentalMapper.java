@@ -2,6 +2,7 @@ package com.develhope.spring.deals.components;
 
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
+import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
@@ -22,10 +23,9 @@ public class RentalMapper {
     private UserMapper userMapper;
 
 
-
     public Rental toEntity(RentalCreatorDTO rentalCreatorDTO) {
-        Vehicle vehicle = new Vehicle(1);
-        User user = new User(1);
+        Vehicle vehicle = new Vehicle(rentalCreatorDTO.getVehicleId());
+        User user = new User(rentalCreatorDTO.getUserId());
         return new Rental(
                 rentalCreatorDTO.getStartDate(),
                 rentalCreatorDTO.getEndDate(),
@@ -36,6 +36,20 @@ public class RentalMapper {
                 0,
                 user
         );
+    }
+
+    public Rental toEntity(RentalUpdaterDTO rentalUpdaterDTO) {
+        Vehicle vehicle = new Vehicle(rentalUpdaterDTO.getVehicleId());
+        User user = new User(0);
+        return new Rental(
+                rentalUpdaterDTO.getStartDate(),
+                rentalUpdaterDTO.getEndDate(),
+                rentalUpdaterDTO.getDailyCost(),
+                rentalUpdaterDTO.getTotalCost(),
+                rentalUpdaterDTO.isPaid(),
+                vehicle,
+                0,
+                user);
     }
 
     public RentalReturnerDTO toReturnerDTO(Rental rental) {
