@@ -1,9 +1,6 @@
 package com.develhope.spring.vehicles.models;
 
-import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
-import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
-import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
-import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
+import com.develhope.spring.vehicles.dtos.*;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,7 +22,6 @@ public class VehicleMapper {
                 vehicle.getRegistrationYear(),
                 vehicle.getPowerSupply(),
                 vehicle.getOriginalPrice(),
-                vehicle.getDiscountedPrice(),
                 vehicle.getUsedFlag(),
                 vehicle.getMarketStatus(),
                 vehicle.isDiscountFlag(),
@@ -100,5 +96,18 @@ public class VehicleMapper {
         vehicle.setGear(vehicleRentalReturnerDTO.getGear());
         vehicle.setPowerSupply(vehicleRentalReturnerDTO.getMotorPowerSupply());
         return vehicle;
+    }
+
+    public VehicleSavedDTO toSavedDTO(Vehicle vehicle) {
+        return new VehicleSavedDTO(
+                vehicle.getId(),
+                vehicle.getVehicleType(),
+                vehicle.getBrand(),
+                vehicle.getModel(),
+                vehicle.getColor(),
+                vehicle.getOriginalPrice(),
+                vehicle.getUsedFlag(),
+                vehicle.getMarketStatus()
+        );
     }
 }

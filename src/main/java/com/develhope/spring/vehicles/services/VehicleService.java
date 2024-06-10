@@ -3,6 +3,7 @@ package com.develhope.spring.vehicles.services;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
+import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.models.VehicleMapper;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -26,10 +28,11 @@ public class VehicleService {
     @Autowired
     private VehicleMapper vehicleMapper;
 
-    public VehicleCreatorDTO create(long userId, VehicleCreatorDTO vehicleCreatorDTO) {
+    public VehicleSavedDTO create(long userId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle vehicle = vehicleMapper.toEntityFrom(vehicleCreatorDTO);
-        return vehicleMapper.toVehicleCreatorDTOFrom(vehicleRepository.save(vehicle));
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
+        return vehicleMapper.toSavedDTO(savedVehicle);
     }
 
     public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
@@ -54,8 +57,8 @@ public class VehicleService {
     }
 
     private void checkUserAuthorizationBy(long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty() || !optionalUser.get().getRoles().equals(Roles.ADMIN)) {
+        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        if (!user.getRoles().equals(Roles.ADMIN)) {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
         }
     }

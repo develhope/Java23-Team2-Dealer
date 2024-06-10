@@ -68,10 +68,6 @@ public class Vehicle {
     @Column(nullable = false)
     private String engine;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
-
-
     //Getters
 
 
@@ -139,10 +135,6 @@ public class Vehicle {
         return id;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
     // Setter
 
     public void setId(long id) {
@@ -207,10 +199,6 @@ public class Vehicle {
 
     public void setEngine(String engine) {
         this.engine = engine;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
     }
 
 

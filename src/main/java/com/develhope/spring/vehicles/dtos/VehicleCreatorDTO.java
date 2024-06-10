@@ -35,7 +35,6 @@ public class VehicleCreatorDTO {
                              int registrationYear,
                              MotorPowerSupply powerSupply,
                              BigDecimal originalPrice,
-                             BigDecimal discountedPrice,
                              UsedFlag usedFlag,
                              MarketStatus marketStatus,
                              boolean discountFlag,
