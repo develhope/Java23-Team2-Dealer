@@ -1,6 +1,6 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.components.OrderMapper;
+import com.develhope.spring.deals.models.OrderMapper;
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.Order;
@@ -24,10 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-<<<<<<< HEAD
 import java.util.NoSuchElementException;
-=======
->>>>>>> 74f1e08457cd1eebc3a63a811009dd75e596466f
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,11 +32,6 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class OrderServiceTest {
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @MockBean
     private VehicleRepository vehicleRepository;
@@ -73,11 +65,7 @@ public class OrderServiceTest {
             "Fiat",
             "Fiorino",
             Colors.WHITE,
-<<<<<<< HEAD
             BigDecimal.valueOf(1000).setScale(1, RoundingMode.HALF_UP),
-=======
-            BigDecimal.valueOf(1000).setScale(2, RoundingMode.HALF_EVEN),
->>>>>>> 74f1e08457cd1eebc3a63a811009dd75e596466f
             UsedFlag.NEW,
             "Motore"
     );
@@ -87,6 +75,7 @@ public class OrderServiceTest {
     );
 
     private static final OrderResponseDTO DEFAULT_ORDER_RESPONSE_DTO = new OrderResponseDTO(
+            1L,
             true,
             DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
             1L,
@@ -94,20 +83,13 @@ public class OrderServiceTest {
             true
     );
 
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test
     void createOrder_successfulTest() {
-<<<<<<< HEAD
-=======
-        OrderResponseDTO expected = new OrderResponseDTO(
-                1,
-                true,
-                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-                1,
-                OrderStatus.PAID,
-                true
-        );
-
->>>>>>> 74f1e08457cd1eebc3a63a811009dd75e596466f
         when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         when(userRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getUserId()))
@@ -131,21 +113,7 @@ public class OrderServiceTest {
 
     @Test
     void deleteOrder_successfulTest() {
-        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
-                .thenReturn(Optional.of(DEFAULT_VEHICLE));
-        when(userRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getUserId()))
-                .thenReturn(Optional.of(DEFAULT_USER));
-        when(orderMapper.toEntity(DEFAULT_ORDER_CREATOR_DTO))
-                .thenReturn(DEFAULT_ORDER);
-        when(orderRepository.save(DEFAULT_ORDER))
-                .thenReturn(DEFAULT_ORDER);
-        when(orderMapper.toResponseDTO(DEFAULT_ORDER))
-                .thenReturn(DEFAULT_ORDER_RESPONSE_DTO);
-
-        OrderResponseDTO createdOrder = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
-        assertNotNull(createdOrder);
-
-        doNothing().when(orderRepository).deleteById(DEFAULT_ORDER.getId());
+        when(orderRepository.findById(DEFAULT_ORDER.getId())).thenReturn(Optional.of(DEFAULT_ORDER));
 
         assertDoesNotThrow(() -> orderService.delete(DEFAULT_ORDER.getId()));
 
@@ -154,21 +122,7 @@ public class OrderServiceTest {
 
     @Test
     void deleteOrder_orderNotFoundTest() {
-        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
-                .thenReturn(Optional.of(DEFAULT_VEHICLE));
-        when(userRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getUserId()))
-                .thenReturn(Optional.of(DEFAULT_USER));
-        when(orderMapper.toEntity(DEFAULT_ORDER_CREATOR_DTO))
-                .thenReturn(DEFAULT_ORDER);
-        when(orderRepository.save(DEFAULT_ORDER))
-                .thenReturn(DEFAULT_ORDER);
-        when(orderMapper.toResponseDTO(DEFAULT_ORDER))
-                .thenReturn(DEFAULT_ORDER_RESPONSE_DTO);
-
-        OrderResponseDTO createdOrder = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
-        assertNotNull(createdOrder);
-
-        doThrow(new NoSuchElementException()).when(orderRepository).deleteById(99L);
+        when(orderRepository.findById(99L)).thenReturn(Optional.empty());
 
         OrderNotFoundException exception = assertThrows(OrderNotFoundException.class, () -> {
             orderService.delete(99L);

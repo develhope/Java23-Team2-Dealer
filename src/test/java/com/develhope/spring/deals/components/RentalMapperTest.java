@@ -3,7 +3,6 @@ package com.develhope.spring.deals.components;
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
 import com.develhope.spring.deals.models.Rental;
-import com.develhope.spring.deals.models.RentalMapper;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.models.User;
@@ -14,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import com.develhope.spring.deals.models.RentalMapper;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

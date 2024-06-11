@@ -1,6 +1,5 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
 import com.develhope.spring.deals.dtos.RentalUpdaterDTO;

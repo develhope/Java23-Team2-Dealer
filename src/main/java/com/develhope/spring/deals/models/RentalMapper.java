@@ -1,4 +1,4 @@
-package com.develhope.spring.deals.components;
+package com.develhope.spring.deals.models;
 
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
