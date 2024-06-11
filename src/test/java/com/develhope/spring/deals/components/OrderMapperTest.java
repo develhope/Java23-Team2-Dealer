@@ -1,10 +1,8 @@
-package com.develhope.spring.deals.components;
+package com.develhope.spring.deals.models;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
-import com.develhope.spring.deals.models.Order;
-import com.develhope.spring.deals.models.OrderMapper;
-import com.develhope.spring.deals.models.OrderStatus;
+import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.models.User;
@@ -61,6 +59,7 @@ public class OrderMapperTest {
     @Test
     void createOrder_successfulTest() {
         OrderResponseDTO expected = new OrderResponseDTO(
+                1,
                 true,
                 DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
                 1,
@@ -68,7 +67,7 @@ public class OrderMapperTest {
                 true
         );
 
-        when(vehicleMapper.toOrderReturnerDTOFrom(any(Vehicle.class)))
+        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
                 .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
         when(userMapper.toUserOrderReturnerDTO(any(User.class)))
                 .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);

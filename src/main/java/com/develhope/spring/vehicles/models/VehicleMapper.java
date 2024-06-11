@@ -2,6 +2,7 @@ package com.develhope.spring.vehicles.models;
 
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
+import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VehicleMapper {
 
-    public VehicleCreatorDTO toVehicleCreatorDTOFrom(Vehicle vehicle) {
+    public VehicleCreatorDTO toCreatorDTO(Vehicle vehicle) {
         return new VehicleCreatorDTO(
                 vehicle.getVehicleType(),
                 vehicle.getBrand(),
@@ -24,16 +25,14 @@ public class VehicleMapper {
                 vehicle.getGear(),
                 vehicle.getRegistrationYear(),
                 vehicle.getPowerSupply(),
-                vehicle.getOriginalPrice(),
-                vehicle.getDiscountedPrice(),
+                vehicle.getPrice(),
                 vehicle.getUsedFlag(),
                 vehicle.getMarketStatus(),
-                vehicle.isDiscountFlag(),
                 vehicle.getEngine()
         );
     }
 
-    public Vehicle toEntityFrom(VehicleCreatorDTO vehicleCreatorDTO) {
+    public Vehicle toEntity(VehicleCreatorDTO vehicleCreatorDTO) {
         Vehicle vehicle = new Vehicle();
         vehicle.setVehicleType(vehicleCreatorDTO.getVehicleType());
         vehicle.setBrand(vehicleCreatorDTO.getBrand());
@@ -44,16 +43,14 @@ public class VehicleMapper {
         vehicle.setGear(vehicleCreatorDTO.getGear());
         vehicle.setRegistrationYear(vehicleCreatorDTO.getRegistrationYear());
         vehicle.setPowerSupply(vehicleCreatorDTO.getPowerSupply());
-        vehicle.setOriginalPrice(vehicleCreatorDTO.getOriginalPrice());
-        vehicle.setDiscountedPrice(vehicleCreatorDTO.getDiscountedPrice());
+        vehicle.setPrice(vehicleCreatorDTO.getPrice());
         vehicle.setUsedFlag(vehicleCreatorDTO.getUsedFlag());
         vehicle.setMarketStatus(vehicleCreatorDTO.getMarketStatus());
-        vehicle.setDiscountFlag(vehicleCreatorDTO.isDiscountFlag());
         vehicle.setEngine(vehicleCreatorDTO.getEngine());
         return vehicle;
     }
 
-    public VehicleStatusDTO toVehicleStatusDTOFrom(Vehicle vehicle) {
+    public VehicleStatusDTO toStatusDTO(Vehicle vehicle) {
         VehicleStatusDTO statusDTO = new VehicleStatusDTO();
         statusDTO.setMarketStatus(vehicle.getMarketStatus());
         return statusDTO;
@@ -63,15 +60,20 @@ public class VehicleMapper {
         vehicle.setMarketStatus(statusDTO.getMarketStatus());
     }
 
+    public VehicleResponseDTO toResponseDTO(Vehicle vehicle){
+        return new VehicleResponseDTO(vehicle.getId(), vehicle.getVehicleType(), vehicle.getBrand(), vehicle.getModel(),
+                vehicle.getRegistrationYear(), vehicle.getPowerSupply(),vehicle.getPrice(),vehicle.getUsedFlag(),
+                vehicle.getEngine());
+    }
 
-    public VehicleOrderReturnerDTO toOrderReturnerDTOFrom(Vehicle vehicle) {
+    public VehicleOrderReturnerDTO toOrderReturnerDTO(Vehicle vehicle) {
         return new VehicleOrderReturnerDTO(
                 vehicle.getId(),
                 vehicle.getVehicleType(),
                 vehicle.getBrand(),
                 vehicle.getModel(),
                 vehicle.getColor(),
-                vehicle.getOriginalPrice(),
+                vehicle.getPrice(),
                 vehicle.getUsedFlag(),
                 vehicle.getEngine()
         );

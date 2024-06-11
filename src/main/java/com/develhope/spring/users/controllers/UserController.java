@@ -2,7 +2,7 @@ package com.develhope.spring.users.controllers;
 
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserCreatorDTO;
-import com.develhope.spring.users.dtos.UserSavedDTO;
+import com.develhope.spring.users.dtos.UserResponseDTO;
 import com.develhope.spring.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +17,8 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSavedDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO) {
-        return userService.create(userCreatorDTO);
+    public UserResponseDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
+       return userService.createUser(userCreatorDTO);
     }
 
     @DeleteMapping("/{userID}/{userIDToDelete}")
