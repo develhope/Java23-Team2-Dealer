@@ -30,13 +30,6 @@ public class UserService {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare gli utenti");
         }
     }
-    private void checkIfUserExists(long userId){
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty()){
-            throw new UserNotFoundException("L'utente con l'ID \"" + userId + "\" non è stato trovato. Per favore," +
-                    "tentare di nuovo.");
-        }
-    }
 
     public UserSavedDTO createUser (UserCreatorDTO userCreatorDTO) {
         User userToRegister = userMapper.toEntityFrom(userCreatorDTO);
@@ -46,8 +39,7 @@ public class UserService {
 
     public void deleteUser (long userID, long userIDToDelete){
         checkUserAuthorizationBy(userID);
-        checkIfUserExists(userIDToDelete);
-        User userToDelete = userRepository.getReferenceById(userIDToDelete);
+        User userToDelete = userRepository.findById(userIDToDelete).orElseThrow();
         userRepository.delete(userToDelete);
     }
 }
