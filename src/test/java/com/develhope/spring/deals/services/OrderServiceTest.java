@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,7 +63,7 @@ public class OrderServiceTest {
             "Fiat",
             "Fiorino",
             Colors.WHITE,
-            BigDecimal.valueOf(1000).setScale(1, 1),
+            BigDecimal.valueOf(1000).setScale(2, RoundingMode.HALF_EVEN),
             UsedFlag.NEW,
             "Motore"
     );
@@ -72,6 +73,7 @@ public class OrderServiceTest {
     @Test
     void createOrder_successfulTest() {
         OrderResponseDTO expected = new OrderResponseDTO(
+                1,
                 true,
                 DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
                 1,
