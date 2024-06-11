@@ -22,9 +22,6 @@ public class OrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private OrderService orderService;
-
     @BeforeEach
     void setUp() throws Exception {
         insertAdmin();
