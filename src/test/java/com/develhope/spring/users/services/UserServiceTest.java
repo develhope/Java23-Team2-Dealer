@@ -20,6 +20,8 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class UserServiceTest {
 
+    public static final long DEFAULT_USER_ID = 1L;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
@@ -30,33 +32,35 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
+    
+    private User setupWithRole(Roles role){
+        User user = new User(DEFAULT_USER_ID);
+        user.setRoles(role);
+        return user;
+    }
 
     @Test
     void checkUserAuthorizationTestThrowsIfUserEmpty(){
-        when(userRepository.findById(1L))
+        when(userRepository.findById(DEFAULT_USER_ID))
                 .thenReturn(Optional.empty());
         assertThrows(NotAuthorizedOperationException.class,()->
-                userService.checkUserAuthorizationBy(1L));
+                userService.checkUserAuthorizationBy(DEFAULT_USER_ID));
     }
 
     @Test
     void checkUserAuthorizationTest_UserNotAuthorizedThrows(){
-        User user = new User(1L);
-        user.setRoles(Roles.BUYER);
-        when(userRepository.findById(1L))
+        User user = setupWithRole(Roles.BUYER);
+        when(userRepository.findById(DEFAULT_USER_ID))
                 .thenReturn(Optional.of(user));
-
         assertThrows(NotAuthorizedOperationException.class, () ->
-                userService.checkUserAuthorizationBy(1L));
+                userService.checkUserAuthorizationBy(DEFAULT_USER_ID));
     }
 
     @Test
     void checkUserAuthorizationTest_UserAuthorizedNotThrows(){
-        User user = new User(1L);
-        user.setRoles(Roles.ADMIN);
-        when(userRepository.findById(1L))
+        User user = setupWithRole(Roles.ADMIN);
+        when(userRepository.findById(DEFAULT_USER_ID))
                 .thenReturn(Optional.of(user));
-
-        assertDoesNotThrow(() -> userService.checkUserAuthorizationBy(1L));
+        assertDoesNotThrow(() -> userService.checkUserAuthorizationBy(DEFAULT_USER_ID));
     }
 }
