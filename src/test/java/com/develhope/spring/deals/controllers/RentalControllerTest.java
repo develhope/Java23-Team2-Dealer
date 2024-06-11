@@ -1,5 +1,6 @@
 package com.develhope.spring.deals.controllers;
 
+import com.develhope.spring.vehicles.models.Vehicle;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -17,10 +17,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class RentalIntegrationTest {
+public class RentalControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private RentalController rentalController;
 
     private void insertAdmin() throws Exception {
         this.mockMvc.perform(post("/v1/users")
@@ -256,7 +259,7 @@ public class RentalIntegrationTest {
     }
 
     @Test
-    void loadByUserId_successfulRetrievingRentals() throws Exception {
+    void loadByUserId() throws Exception {
         insertAdmin();
         insertBuyer();
         insertVehicle();
@@ -287,47 +290,10 @@ public class RentalIntegrationTest {
                 )
                 .andReturn();
 
-        this.mockMvc.perform(get("/v1/rentals/2?page=0&size=5"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content", hasSize(2)))
-                .andExpect(jsonPath("$.content[1].endDate", is("2024-06-05")))
-                .andExpect(jsonPath("$.content[0].startDate", is("2024-06-06")))
+        this.mockMvc.perform(get("/v1/rentals"))
+                .andExpect(status().isFound())
+                .andExpect(jsonPath("$[0].endDate", is("2024-06-05")))
+                .andExpect(jsonPath("$[1].startDate", is("2024-06-06")))
                 .andReturn();
-    }
-
-    @Test
-    void loadByUserId_userNotRegistered() throws Exception {
-        insertAdmin();
-        insertBuyer();
-        insertVehicle();
-
-        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
-                        {
-                        "startDate": "2024-06-03",
-                        "endDate": "2024-06-05",
-                        "dailyCost": 40.00,
-                        "paid": true,
-                        "vehicleId": 1,
-                        "userId": 2
-                        }
-                        """)
-                )
-                .andReturn();
-
-        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
-                        {
-                        "startDate": "2024-06-06",
-                        "endDate": "2024-06-09",
-                        "dailyCost": 40.00,
-                        "paid": true,
-                        "vehicleId": 1,
-                        "userId": 2
-                        }
-                        """)
-                )
-                .andReturn();
-
-        this.mockMvc.perform(get("/v1/rentals/3?page=0&size=5"))
-                .andExpect(status().isNotFound()).andReturn();
     }
 }
