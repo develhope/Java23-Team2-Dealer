@@ -5,7 +5,6 @@ import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 
 public class OrderResponseDTO {
 
-    private long id;
     private boolean downPayment;
     private VehicleOrderReturnerDTO vehicle;
     private long userId;
@@ -15,8 +14,7 @@ public class OrderResponseDTO {
     public OrderResponseDTO() {
     }
 
-    public OrderResponseDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, OrderStatus orderStatus, boolean isPaid) {
-        this.id = id;
+    public OrderResponseDTO(boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, OrderStatus orderStatus, boolean isPaid) {
         this.downPayment = downPayment;
         this.vehicle = vehicle;
         this.userId = userId;

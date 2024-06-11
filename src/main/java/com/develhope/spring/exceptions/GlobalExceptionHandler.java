@@ -2,6 +2,7 @@ package com.develhope.spring.exceptions;
 
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
+import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

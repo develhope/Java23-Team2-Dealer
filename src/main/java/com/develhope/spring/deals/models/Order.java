@@ -43,7 +43,7 @@ public class Order {
         this.user = user;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -86,4 +86,5 @@ public class Order {
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
+
 }
