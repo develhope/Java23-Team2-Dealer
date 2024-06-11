@@ -1,5 +1,8 @@
 package com.develhope.spring.users.models;
 
+import com.develhope.spring.deals.models.Order;
+import com.develhope.spring.deals.models.Rental;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,6 +10,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,6 +46,14 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Roles roles;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Order> orders;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Rental> rentals;
+
     public User() {
     }
 
@@ -54,6 +68,8 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.orders = new ArrayList<>();
+        this.rentals = new ArrayList<>();
         this.email = email;
         this.roles = roles;
     }
@@ -79,6 +95,22 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(roles);
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(List<Rental> rentals) {
+        this.rentals = rentals;
     }
 
     public String getName() {

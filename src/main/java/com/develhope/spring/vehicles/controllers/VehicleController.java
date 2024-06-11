@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.controllers;
 
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.services.VehicleService;
@@ -19,8 +20,8 @@ public class VehicleController {
     @Secured("ADMIN")
     @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public VehicleCreatorDTO create(@PathVariable long userId,
-                                    @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
+    public VehicleSavedDTO create(@PathVariable long userId,
+                                  @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
         return vehicleService.create(userId, vehicleCreatorDTO);
     }
 
