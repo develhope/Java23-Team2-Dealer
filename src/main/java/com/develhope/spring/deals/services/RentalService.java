@@ -4,7 +4,7 @@ import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
 import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.models.Rental;
-import com.develhope.spring.deals.models.RentalMapper;
+import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.repositories.RentalRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
