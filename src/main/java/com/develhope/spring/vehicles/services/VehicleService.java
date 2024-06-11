@@ -12,7 +12,7 @@ import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationExcept
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
-import com.develhope.spring.vehicles.models.VehicleMapper;
+import com.develhope.spring.vehicles.components.VehicleMapper;
 
 import java.util.Optional;
 

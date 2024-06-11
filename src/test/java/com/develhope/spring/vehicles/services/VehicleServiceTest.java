@@ -6,8 +6,10 @@ import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.vehicleEnums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,22 +52,25 @@ public class VehicleServiceTest {
     );
 
     private static VehicleCreatorDTO DEFAULT_VEHICLE_CREATOR_DTO() {
-        VehicleCreatorDTO vehicleCreatorDTO = new VehicleCreatorDTO();
-        vehicleCreatorDTO.setBrand("Gigi");
-        return vehicleCreatorDTO;
+
+        return new VehicleCreatorDTO(VehicleType.CAR,"Gigi","",1,
+                Colors.RED,1, Gears.MANUAL, 1, MotorPowerSupply.DIESEL,new BigDecimal(0),
+                UsedFlag.NEW,MarketStatus.AVAILABLE,"");
     }
 
 //    @Test
 //    void createVehicle_successfulTest() {
 //        User admin = new User(1, "Gabriel", "Dello", 3467789, "hey@itsadmin.com", Roles.ADMIN);
 //        VehicleCreatorDTO vehicleCreatorDTO = DEFAULT_VEHICLE_CREATOR_DTO();
-//        Vehicle expected = new Vehicle(1);
-//        expected.setBrand("Gigi");
+//        Vehicle expectedEntity = new Vehicle(1);
+//        expectedEntity.setBrand("Gigi");
 //        when(userRepository.findById(DEFAULT_USER.getId()))
 //                .thenReturn(Optional.of(admin));
 //        when(vehicleRepository.save(DEFAULT_VEHICLE))
-//                .thenReturn(expected);
-//        VehicleCreatorDTO result = vehicleService.create(1L, vehicleCreatorDTO);
+//                .thenReturn(expectedEntity);
+//        VehicleResponseDTO expected = new VehicleResponseDTO(1L);
+//        expected.setBrand("Gigi");
+//        VehicleResponseDTO result = vehicleService.create(1L, vehicleCreatorDTO);
 //        assertEquals(expected.getBrand(), result.getBrand());
 //    }
 }
