@@ -20,10 +20,10 @@ public class Order {
     @Column(nullable = false)
     private boolean isPaid;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Order() {
@@ -42,6 +42,9 @@ public class Order {
         this.user = user;
     }
 
+    public long getId() {
+        return id;
+    }
 
     public long getId() {
         return id;
@@ -86,5 +89,4 @@ public class Order {
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
-
 }

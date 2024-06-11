@@ -5,17 +5,17 @@ import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
-import com.develhope.spring.deals.models.OrderMapper;
+import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
-import com.develhope.spring.deals.responsestatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
-
 
 @Service
 public class OrderService {
@@ -28,22 +28,20 @@ public class OrderService {
     private VehicleRepository vehicleRepository;
 
 
-    public Optional<Vehicle>  checkIfVehicleIsAvailable(OrderCreatorDTO orderCreatorDTO){
-        Optional<Vehicle> vehicleOptional = vehicleRepository.findById(orderCreatorDTO.getVehicleId());
-        if (vehicleOptional.isPresent() && vehicleOptional.get().getMarketStatus() == MarketStatus.NOTAVAILABLE) {
+    public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
+        checkValidVehicleMarketStatus(orderCreatorDTO);
+        Order insertedOrder = orderMapper.toEntity(orderCreatorDTO);
+        Order savedOrder = orderRepository.save(insertedOrder);
+        return orderMapper.toResponseDTO(savedOrder);
+    }
+
+    private void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {
+        Vehicle vehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow(NoSuchElementException::new);
+        if (vehicle.getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
-        return vehicleOptional;
     }
-
-    public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
-        checkIfVehicleIsAvailable(orderCreatorDTO);
-        Order order = orderMapper.toEntity(orderCreatorDTO);
-        return orderMapper.toResponseDTO(order);
-    }
-
     public OrderUpdatedDTO update (OrderCreatorDTO orderCreatorDTO){
-        checkIfVehicleIsAvailable(orderCreatorDTO);
         Order orderToUpdate= orderMapper.toEntity(orderCreatorDTO);
         Order newOrderSaved = orderRepository.save(orderToUpdate);
         return orderMapper.toOrderUpdateDTO(newOrderSaved);

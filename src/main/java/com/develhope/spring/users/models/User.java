@@ -1,8 +1,14 @@
 package com.develhope.spring.users.models;
 
+import com.develhope.spring.deals.models.Order;
+import com.develhope.spring.deals.models.Rental;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -11,6 +17,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @NotBlank(message = "Name is mandatory")
     @Column(nullable = false)
     private String name;
@@ -20,12 +27,22 @@ public class User {
     private String surname;
 
     private long phoneNumber;
+
     @Email(message = "Wrong email format")
     @Column(unique = true, nullable = false)
     private String email;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Roles roles;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Order> orders;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Rental> rentals;
 
     public User() {
     }
@@ -41,14 +58,24 @@ public class User {
         this.email = email;
         this.roles = roles;
         this.phoneNumber = phoneNumber;
+        this.orders = new ArrayList<>();
+        this.rentals = new ArrayList<>();
     }
 
-    public long getId() {
-        return id;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(List<Rental> rentals) {
+        this.rentals = rentals;
     }
 
     public String getName() {
@@ -91,5 +118,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-
+    public long getId() {
+        return id;
+    }
 }

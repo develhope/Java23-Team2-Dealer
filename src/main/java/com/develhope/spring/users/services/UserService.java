@@ -10,15 +10,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserMapper userMapper;
 
+    public User getBy(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
 
-    public UserSavedDTO createUser (UserCreatorDTO userCreatorDTO) {
-        User userToRegister = userMapper.toEntityFrom(userCreatorDTO);
-        userRepository.save(userToRegister);
-        return userMapper.toUserSavedDTOFrom(userToRegister);
+    public UserSavedDTO create(UserCreatorDTO userCreatorDTO) {
+        User userToRegister = userMapper.toEntity(userCreatorDTO);
+        User userSaved = userRepository.save(userToRegister);
+        return userMapper.toUserSavedDTO(userSaved);
     }
 }
