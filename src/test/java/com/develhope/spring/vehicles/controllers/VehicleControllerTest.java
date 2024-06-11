@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -15,6 +17,8 @@ import static com.develhope.spring.users.models.Roles.ADMIN;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(VehicleController.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@SpringBootTest
 public class VehicleControllerTest {
 
     @Autowired
@@ -53,7 +57,7 @@ public class VehicleControllerTest {
     }
 
     @Test
-    void succsessfulVehicleModification_test() throws Exception {
+    void successfulVehicleModification_test() throws Exception {
         Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;
@@ -90,7 +94,7 @@ public class VehicleControllerTest {
      */
 
     @Test
-    void succsessfulStatusVehicleModification_test() throws Exception {
+    void successfulStatusVehicleModification_test() throws Exception {
         Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;
@@ -106,7 +110,7 @@ public class VehicleControllerTest {
     }
 
     @Test
-    void succsessfulColorVehicleModification_test() throws Exception {
+    void successfulColorVehicleModification_test() throws Exception {
         Roles roles = ADMIN;
         long userId = 1L;
         long vehicleId = 1L;

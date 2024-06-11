@@ -27,8 +27,11 @@ public class User {
     @Column(nullable = false)
     private Roles roles;
 
-
     public User() {
+    }
+
+    public User(long id) {
+        this.id = id;
     }
 
     public User(long id, String name, String surname, long phoneNumber, String email, Roles roles) {
@@ -60,7 +63,11 @@ public class User {
         return surname;
     }
 
-    public void setEmail(String email)  {
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -68,7 +75,7 @@ public class User {
         this.roles = roles;
     }
 
-    public void setName(String name)  {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -76,15 +83,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }

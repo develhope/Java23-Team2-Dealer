@@ -2,7 +2,7 @@ package com.develhope.spring.vehicles.responseStatus;
 
 import org.springframework.http.HttpStatus;
 
-public class NotAuthorizedOperationException extends RuntimeException{
+public class NotAuthorizedOperationException extends RuntimeException {
 
     private final HttpStatus httpStatus;
 
@@ -10,8 +10,9 @@ public class NotAuthorizedOperationException extends RuntimeException{
         return httpStatus;
     }
 
-   public NotAuthorizedOperationException(String message) {
+    public NotAuthorizedOperationException(String message) {
         super(message);
-        this.httpStatus = HttpStatus.FORBIDDEN;;
-   }
+        this.httpStatus = HttpStatus.FORBIDDEN;
+        ;
+    }
 }

@@ -1,34 +1,42 @@
 package com.develhope.spring.deals.models;
 
+import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
 public class Rental {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+
     @Column(nullable = false)
     private LocalDate startDate;
+
+
     @Column(nullable = false)
     private LocalDate endDate;
+
+
     @Column(nullable = false)
     private BigDecimal dailyCost;
-    @Column(nullable = false)
+
+
     private BigDecimal totalCost;
+
     @Column(nullable = false)
     private boolean paid;
-    @OneToOne(fetch = FetchType.EAGER)
-    private Vehicle vehicle;
 
-    void calculateTotalCost() {
-        long rentalDays = startDate.until(endDate).getDays();
-        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Vehicle vehicle;
 
     public void setPaid(boolean paid) {
         this.paid = paid;
@@ -43,7 +51,7 @@ public class Rental {
         return paid;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
@@ -51,9 +59,18 @@ public class Rental {
         this.paid = paid;
         this.vehicle = vehicle;
         this.id = id;
+        this.user = user;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, int vehicleId, boolean b) {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Rental() {
     }
 
     public LocalDate getStartDate() {
@@ -86,10 +103,6 @@ public class Rental {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public Vehicle getVehicle() {
