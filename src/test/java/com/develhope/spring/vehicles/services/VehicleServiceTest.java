@@ -67,7 +67,6 @@ public class VehicleServiceTest {
             BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN),
             UsedFlag.USED,
             MarketStatus.AVAILABLE,
-            false,
             "V8"
     );
 
@@ -82,10 +81,9 @@ public class VehicleServiceTest {
         vehicle.setGear(DEFAULT_VEHICLE_CREATOR_DTO.getGear());
         vehicle.setRegistrationYear(DEFAULT_VEHICLE_CREATOR_DTO.getRegistrationYear());
         vehicle.setPowerSupply(DEFAULT_VEHICLE_CREATOR_DTO.getPowerSupply());
-        vehicle.setOriginalPrice(DEFAULT_VEHICLE_CREATOR_DTO.getOriginalPrice());
+        vehicle.setPrice(DEFAULT_VEHICLE_CREATOR_DTO.getPrice());
         vehicle.setUsedFlag(DEFAULT_VEHICLE_CREATOR_DTO.getUsedFlag());
         vehicle.setMarketStatus(DEFAULT_VEHICLE_CREATOR_DTO.getMarketStatus());
-        vehicle.setDiscountFlag(DEFAULT_VEHICLE_CREATOR_DTO.isDiscountFlag());
         vehicle.setEngine(DEFAULT_VEHICLE_CREATOR_DTO.getEngine());
         return vehicle;
     }
@@ -105,7 +103,7 @@ public class VehicleServiceTest {
                 DEFAULT_VEHICLE().getBrand(),
                 DEFAULT_VEHICLE().getModel(),
                 DEFAULT_VEHICLE().getColor(),
-                DEFAULT_VEHICLE().getOriginalPrice(),
+                DEFAULT_VEHICLE().getPrice(),
                 DEFAULT_VEHICLE().getUsedFlag(),
                 DEFAULT_VEHICLE().getMarketStatus()
         );

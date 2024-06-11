@@ -66,10 +66,9 @@ public class VehicleIntegrationTest {
                                             "gear": "MANUAL",
                                             "registrationYear": 2022,
                                             "powerSupply": "METHANE",
-                                            "originalPrice": 15000,
+                                            "price": 15000,
                                             "usedFlag": "NEW",
                                             "marketStatus": "AVAILABLE",
-                                            "discountFlag": true,
                                             "engine": "4-cylinder"
                                         }
                                         """))

@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RentalTest {
 
-//    private Rental rental;
-//    private Vehicle vehicle;
-//
+    private Rental rental;
+    private Vehicle vehicle;
+
 //    @Test
 //    public void testSetPaid() {
 //        rental.setPaid(true);

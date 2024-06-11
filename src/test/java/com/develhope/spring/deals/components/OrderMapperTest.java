@@ -60,6 +60,7 @@ public class OrderMapperTest {
     @Test
     void createOrder_successfulTest() {
         OrderResponseDTO expected = new OrderResponseDTO(
+                1,
                 true,
                 DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
                 1,
@@ -67,7 +68,7 @@ public class OrderMapperTest {
                 true
         );
 
-        when(vehicleMapper.toOrderReturnerDTOFrom(any(Vehicle.class)))
+        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
                 .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
         when(userMapper.toUserOrderReturnerDTO(any(User.class)))
                 .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);

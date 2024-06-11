@@ -35,12 +35,23 @@ public class OrderMapper {
     }
 
     public OrderResponseDTO toResponseDTO(Order order) {
-        VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTOFrom(order.getVehicle());
+        VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTO(order.getVehicle());
         UserOrderReturnerDTO userOrderReturnerDTO = userMapper.toUserOrderReturnerDTO(order.getUser());
         return new OrderResponseDTO(
+                order.getId(),
                 order.isDownPayment(),
                 vehicleOrderReturnerDTO,
                 userOrderReturnerDTO.getId(),
+                order.getOrderStatus(),
+                order.isPaid()
+        );
+    }
+    public OrderCreatorDTO toCreatorDTO(Order order){
+
+        return new OrderCreatorDTO(
+                order.isDownPayment(),
+                order.getVehicle().getId(),
+                order.getUser().getId(),
                 order.getOrderStatus(),
                 order.isPaid()
         );
