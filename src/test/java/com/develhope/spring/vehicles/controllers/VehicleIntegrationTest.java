@@ -51,7 +51,7 @@ public class VehicleIntegrationTest {
     }
 
     @Test
-    void vehicleCreation_successfulCreateTest() throws Exception {
+    void createVehicle_successfulCreationTest() throws Exception {
         insertAdmin();
         this.mockMvc.perform(post("/v1/vehicles/1")
                                 .contentType(MediaType.APPLICATION_JSON)
