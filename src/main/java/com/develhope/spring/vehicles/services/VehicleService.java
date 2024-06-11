@@ -3,6 +3,8 @@ package com.develhope.spring.vehicles.services;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
+
+import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
@@ -26,18 +28,19 @@ public class VehicleService {
     @Autowired
     private VehicleMapper vehicleMapper;
 
-    public VehicleCreatorDTO create(long userId, VehicleCreatorDTO vehicleCreatorDTO) {
+    public VehicleResponseDTO create(long userId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorizationBy(userId);
-        Vehicle vehicle = vehicleMapper.toEntityFrom(vehicleCreatorDTO);
-        return vehicleMapper.toVehicleCreatorDTOFrom(vehicleRepository.save(vehicle));
+        Vehicle vehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
+        return vehicleMapper.toResponseDTO(vehicleRepository.save(vehicle));
     }
 
     public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle;
-        existingVehicle = vehicleMapper.toEntityFrom(vehicleCreatorDTO);
+        existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         existingVehicle.setId(vehicleId);
-        return vehicleMapper.toVehicleCreatorDTOFrom(vehicleRepository.save(existingVehicle));
+        Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
+        return vehicleMapper.toCreatorDTO(updatedVehicle);
     }
 
     public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
@@ -64,6 +67,4 @@ public class VehicleService {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
         return optionalVehicle.orElseThrow();
     }
-
-
 }
