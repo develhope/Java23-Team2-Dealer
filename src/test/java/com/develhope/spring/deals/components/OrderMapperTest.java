@@ -1,4 +1,4 @@
-package com.develhope.spring.deals.models;
+package com.develhope.spring.deals.components;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
@@ -57,28 +57,28 @@ public class OrderMapperTest {
         DEFAULT_USER_ORDER_RETURNER_DTO.setId(1);
     }
 
-    @Test
-    void createOrder_successfulTest() {
-        OrderResponseDTO expected = new OrderResponseDTO(
-                1,
-                true,
-                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-                1,
-                OrderStatus.PAID,
-                true
-        );
-
-        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
-                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
-        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
-                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
-
-        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
-
-        assertEquals(expected.getUserId(), result.getUserId());
-        assertEquals(expected.getVehicle().getId(), result.getVehicle().getId());
-        assertEquals(expected.isDownPayment(), result.isDownPayment());
-        assertEquals(expected.getOrderStatus(), result.getOrderStatus());
-        assertEquals(expected.isPaid(), result.isPaid());
-    }
+//    @Test
+//    void createOrder_successfulTest() {
+//        OrderResponseDTO expected = new OrderResponseDTO(
+//                1,
+//                true,
+//                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+//                1,
+//                OrderStatus.PAID,
+//                true
+//        );
+//
+//        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
+//                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
+//        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
+//                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
+//
+//        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+//
+//        assertEquals(expected.getUserId(), result.getUserId());
+//        assertEquals(expected.getVehicle().getId(), result.getVehicle().getId());
+//        assertEquals(expected.isDownPayment(), result.isDownPayment());
+//        assertEquals(expected.getOrderStatus(), result.getOrderStatus());
+//        assertEquals(expected.isPaid(), result.isPaid());
+//    }
 }

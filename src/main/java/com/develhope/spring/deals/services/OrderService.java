@@ -41,8 +41,14 @@ public class OrderService {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
     }
-    public OrderUpdatedDTO update (OrderCreatorDTO orderCreatorDTO){
-        Order orderToUpdate= orderMapper.toEntity(orderCreatorDTO);
+    public OrderUpdatedDTO update (long orderId, OrderCreatorDTO orderCreatorDTO){
+        checkValidVehicleMarketStatus(orderCreatorDTO);
+        Order orderToUpdate = orderRepository.findById(orderId).orElseThrow();
+        Vehicle newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow();
+        orderToUpdate.setDownPayment(orderCreatorDTO.isDownPayment());
+        orderToUpdate.setOrderStatus(orderCreatorDTO.getOrderStatus());
+        orderToUpdate.setPaid(orderCreatorDTO.isPaid());
+        orderToUpdate.setVehicle(newVehicle);
         Order newOrderSaved = orderRepository.save(orderToUpdate);
         return orderMapper.toOrderUpdateDTO(newOrderSaved);
     }
