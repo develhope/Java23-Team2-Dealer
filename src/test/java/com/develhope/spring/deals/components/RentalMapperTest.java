@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import com.develhope.spring.deals.models.RentalMapper;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

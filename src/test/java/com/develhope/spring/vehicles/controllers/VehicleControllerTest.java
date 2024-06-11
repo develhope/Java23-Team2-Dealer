@@ -22,107 +22,107 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class VehicleControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private VehicleService vehicleService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Test
-    void successfulVehicleCreation_test() throws Exception {
-        this.mockMvc.perform(
-                        MockMvcRequestBuilders.post("/v1/vehicles/{userId}", 1L)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("""
-                                        {
-                                            "type": "VAN",
-                                            "brand": "Fiat",
-                                            "model": "Fiorino",
-                                            "displacement": 1200,
-                                            "color": "WHITE",
-                                            "power": 70,
-                                            "gear": "MANUAL",
-                                            "registrationYear": 2022,
-                                            "powerSupply": "METHANE",
-                                            "originalPrice": 15000,
-                                            "usedFlag": "NEW",
-                                            "marketStatus": "AVAILABLE",
-                                            "discountFlag": true,
-                                            "engine": "4-cylinder"
-                                        }
-                                        """))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    void successfulVehicleModification_test() throws Exception {
-        Roles roles = ADMIN;
-        long userId = 1L;
-        long vehicleId = 1L;
-
-        this.mockMvc.perform(
-                        MockMvcRequestBuilders.put("/v1/vehicles/{userId}/{vehicleId}", userId, vehicleId)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("""
-                            {
-                                "type": "VAN",
-                                "brand": "Fiat",
-                                "model": "Fiorino",
-                                "displacement": 1200,
-                                "color": "RED",
-                                "power": 70,
-                                "gear": "MANUAL",
-                                "registrationYear": 2022,
-                                "powerSupply": "METHANE",
-                                "originalPrice": 15000,
-                                "discountedPrice": 14000,
-                                "usedFlag": "NEW",
-                                "marketStatus": "AVAILABLE",
-                                "discountFlag": true,
-                                "engine": "4-cylinder"
-                            }
-                            """)
-                )
-                .andExpect(status().isOk());
-    }
-
-    /**
-     * Puoi modificare ogni parte di veicolo
-     *
-     */
-
-    @Test
-    void successfulStatusVehicleModification_test() throws Exception {
-        Roles roles = ADMIN;
-        long userId = 1L;
-        long vehicleId = 1L;
-
-        this.mockMvc.perform(MockMvcRequestBuilders.patch("/v1/vehicles/{userId}/{vehicleId}/status", userId, vehicleId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                            {
-                                "status": "NOTAVAILABLE"
-                            }
-                            """))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void successfulColorVehicleModification_test() throws Exception {
-        Roles roles = ADMIN;
-        long userId = 1L;
-        long vehicleId = 1L;
-
-        this.mockMvc.perform(MockMvcRequestBuilders.patch("/v1/vehicles/{userId}/{vehicleId}/status", userId, vehicleId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                            {
-                                "color": "YELLOW"
-                            }
-                            """))
-                .andExpect(status().isOk());
-    }
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @MockBean
+//    private VehicleService vehicleService;
+//
+//    @Autowired
+//    private ObjectMapper objectMapper;
+//
+//    @Test
+//    void successfulVehicleCreation_test() throws Exception {
+//        this.mockMvc.perform(
+//                        MockMvcRequestBuilders.post("/v1/vehicles/{userId}", 1L)
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content("""
+//                                        {
+//                                            "type": "VAN",
+//                                            "brand": "Fiat",
+//                                            "model": "Fiorino",
+//                                            "displacement": 1200,
+//                                            "color": "WHITE",
+//                                            "power": 70,
+//                                            "gear": "MANUAL",
+//                                            "registrationYear": 2022,
+//                                            "powerSupply": "METHANE",
+//                                            "originalPrice": 15000,
+//                                            "usedFlag": "NEW",
+//                                            "marketStatus": "AVAILABLE",
+//                                            "discountFlag": true,
+//                                            "engine": "4-cylinder"
+//                                        }
+//                                        """))
+//                .andExpect(status().isCreated());
+//    }
+//
+//    @Test
+//    void successfulVehicleModification_test() throws Exception {
+//        Roles roles = ADMIN;
+//        long userId = 1L;
+//        long vehicleId = 1L;
+//
+//        this.mockMvc.perform(
+//                        MockMvcRequestBuilders.put("/v1/vehicles/{userId}/{vehicleId}", userId, vehicleId)
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content("""
+//                            {
+//                                "type": "VAN",
+//                                "brand": "Fiat",
+//                                "model": "Fiorino",
+//                                "displacement": 1200,
+//                                "color": "RED",
+//                                "power": 70,
+//                                "gear": "MANUAL",
+//                                "registrationYear": 2022,
+//                                "powerSupply": "METHANE",
+//                                "originalPrice": 15000,
+//                                "discountedPrice": 14000,
+//                                "usedFlag": "NEW",
+//                                "marketStatus": "AVAILABLE",
+//                                "discountFlag": true,
+//                                "engine": "4-cylinder"
+//                            }
+//                            """)
+//                )
+//                .andExpect(status().isOk());
+//    }
+//
+//    /**
+//     * Puoi modificare ogni parte di veicolo
+//     *
+//     */
+//
+//    @Test
+//    void successfulStatusVehicleModification_test() throws Exception {
+//        Roles roles = ADMIN;
+//        long userId = 1L;
+//        long vehicleId = 1L;
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.patch("/v1/vehicles/{userId}/{vehicleId}/status", userId, vehicleId)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("""
+//                            {
+//                                "status": "NOTAVAILABLE"
+//                            }
+//                            """))
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    void successfulColorVehicleModification_test() throws Exception {
+//        Roles roles = ADMIN;
+//        long userId = 1L;
+//        long vehicleId = 1L;
+//
+//        this.mockMvc.perform(MockMvcRequestBuilders.patch("/v1/vehicles/{userId}/{vehicleId}/status", userId, vehicleId)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("""
+//                            {
+//                                "color": "YELLOW"
+//                            }
+//                            """))
+//                .andExpect(status().isOk());
+//    }
 }

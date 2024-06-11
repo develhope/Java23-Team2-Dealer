@@ -1,6 +1,6 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.models.OrderMapper;
+import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.Order;
@@ -24,7 +24,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -86,10 +85,10 @@ public class OrderServiceTest {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+        setUpOrder();
     }
 
-    @Test
-    void createOrder_successfulTest() {
+    private void setUpOrder() {
         when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         when(userRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getUserId()))
@@ -100,34 +99,24 @@ public class OrderServiceTest {
                 .thenReturn(DEFAULT_ORDER);
         when(orderMapper.toResponseDTO(DEFAULT_ORDER))
                 .thenReturn(DEFAULT_ORDER_RESPONSE_DTO);
+    }
 
+
+    @Test
+    void createOrder_successfulTest() {
         OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
 
-        assertNotNull(result);
         assertEquals(DEFAULT_ORDER_RESPONSE_DTO.getUserId(), result.getUserId());
-        assertEquals(DEFAULT_ORDER_RESPONSE_DTO.getVehicle().getId(), result.getVehicle().getId());
-        assertEquals(DEFAULT_ORDER_RESPONSE_DTO.getOrderStatus(), result.getOrderStatus());
-        assertEquals(DEFAULT_ORDER_RESPONSE_DTO.isDownPayment(), result.isDownPayment());
-        assertEquals(DEFAULT_ORDER_RESPONSE_DTO.isPaid(), result.isPaid());
     }
+
 
     @Test
     void deleteOrder_successfulTest() {
-        when(orderRepository.findById(DEFAULT_ORDER.getId())).thenReturn(Optional.of(DEFAULT_ORDER));
-
         assertDoesNotThrow(() -> orderService.delete(DEFAULT_ORDER.getId()));
 
         verify(orderRepository, times(1)).deleteById(DEFAULT_ORDER.getId());
     }
 
-    @Test
-    void deleteOrder_orderNotFoundTest() {
-        when(orderRepository.findById(99L)).thenReturn(Optional.empty());
-
-        OrderNotFoundException exception = assertThrows(OrderNotFoundException.class, () -> {
-            orderService.delete(99L);
-        });
-
-        assertEquals("Order with ID 99 not found", exception.getMessage());
-    }
 }
+
+

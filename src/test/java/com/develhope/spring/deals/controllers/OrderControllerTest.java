@@ -135,7 +135,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    void deleteOrder_ValidInput_ReturnsOk() throws Exception {
+    void deleteOrder_validInput_returnsOk() throws Exception {
         Long orderId = 1L;
 
         mockMvc.perform(delete("/v1/orders/{orderId}", orderId)
@@ -167,6 +167,4 @@ public class OrderControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Order with ID 1 not found"));
     }
-
-
 }
