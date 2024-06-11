@@ -2,6 +2,7 @@ package com.develhope.spring.users.models;
 
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.Rental;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -35,9 +36,11 @@ public class User {
     @Column(nullable = false)
     private Roles roles;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
     private List<Order> orders;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Rental> rentals;
 

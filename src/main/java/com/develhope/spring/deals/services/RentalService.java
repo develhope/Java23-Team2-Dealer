@@ -16,13 +16,12 @@ import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -44,15 +43,13 @@ public class RentalService {
         Rental savedRental = rentalRepository.save(rental);
         return rentalMapper.toReturnerDTO(savedRental);
     }
-        Rental savedRental = rentalRepository.save(rental);
-        return rentalMapper.toReturnerDTO(savedRental);
 
     public RentalReturnerDTO update(long adminId, long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
         checkUserAuthorizationBy(adminId);
         checkValidRentalDates(rentalUpdaterDTO);
         checkMarketStatus(rentalUpdaterDTO);
-        Rental savedRental = rentalRepository.findById(rentalId).orElseThrow();
-        Vehicle vehicle = vehicleRepository.findById(rentalUpdaterDTO.getVehicleId()).orElseThrow();
+        Rental savedRental = rentalRepository.findById(rentalId).orElseThrow(NoSuchElementException::new);
+        Vehicle vehicle = vehicleRepository.findById(rentalUpdaterDTO.getVehicleId()).orElseThrow(NoSuchElementException::new);
         savedRental.setStartDate(rentalUpdaterDTO.getStartDate());
         savedRental.setEndDate(rentalUpdaterDTO.getEndDate());
         savedRental.setPaid(rentalUpdaterDTO.isPaid());
@@ -62,10 +59,14 @@ public class RentalService {
         return rentalMapper.toReturnerDTO(updatedRental);
     }
 
-    public Page<Rental> getByUserId(long userId, int page, int size) {
+    public Page<RentalReturnerDTO> getByUserId(long userId, int page, int size) {
+        if (!userRepository.existsById(userId)) {
+            throw new NoSuchElementException("User not registered");
+        }
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page, size, sort);
-        return rentalRepository.findByUserId(userId,pageable);
+        Page<Rental> foundRentals = rentalRepository.findByUserId(userId, pageable);
+        return foundRentals.map(rentalMapper::toReturnerDTO);
     }
 
     private static void checkValidArgument(RentalCreatorDTO rentalCreatorDTO) {
@@ -102,11 +103,8 @@ public class RentalService {
     }
 
     private void checkMarketStatus(RentalCreatorDTO rentalCreatorDTO) {
-        if (vehicleRepository.findById(rentalCreatorDTO.getVehicleId()).isPresent() &&
-                vehicleRepository.findById(
-                                rentalCreatorDTO.getVehicleId()).get()
-                        .getMarketStatus() == MarketStatus.NOTAVAILABLE
-        ) {
+        Vehicle vehicle = vehicleRepository.findById(rentalCreatorDTO.getVehicleId()).orElseThrow(NotAvailableVehicleException::new);
+        if (vehicle.getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle is no more available");
         }
     }
@@ -155,8 +153,8 @@ public class RentalService {
     }
 
     private void checkUserAuthorizationBy(long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty() || !optionalUser.get().getRoles().equals(Roles.ADMIN)) {
+        User admin = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        if (!admin.getRoles().equals(Roles.ADMIN)) {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
         }
     }
