@@ -17,7 +17,7 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
-    @PostMapping
+    @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
     public VehicleResponseDTO create(@PathVariable long userId, @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
         return vehicleService.create(userId, vehicleCreatorDTO);
