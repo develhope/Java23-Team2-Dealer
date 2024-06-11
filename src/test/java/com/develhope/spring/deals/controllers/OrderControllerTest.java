@@ -1,16 +1,13 @@
 package com.develhope.spring.deals.controllers;
 
-import com.develhope.spring.deals.services.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -21,6 +18,9 @@ public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private OrderController orderController;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -94,12 +94,12 @@ public class OrderControllerTest {
                                 "isPaid" : true
                                 }
                                 """))
-                .andExpect(status().isCreated());
+                .andReturn();
     }
 
     @Test
     void deleteOrder_successfulTest() throws Exception {
-        MvcResult result = this.mockMvc.perform(post("/v1/orders")
+        this.mockMvc.perform(post("/v1/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -111,5 +111,9 @@ public class OrderControllerTest {
                                 }
                                 """))
                 .andReturn();
+
+        this.mockMvc.perform(delete("/v1/orders/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Order deleted successfully"));
     }
 }

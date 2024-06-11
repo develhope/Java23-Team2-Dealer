@@ -6,7 +6,6 @@ import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
-import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
