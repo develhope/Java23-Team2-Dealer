@@ -8,14 +8,17 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.users.models.Roles;
+import com.develhope.spring.users.models.User;
+import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -26,7 +29,8 @@ public class OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private VehicleRepository vehicleRepository;
-
+    @Autowired
+    private UserRepository userRepository;
 
     public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
         checkValidVehicleMarketStatus(orderCreatorDTO);
@@ -41,8 +45,16 @@ public class OrderService {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
     }
-    public OrderUpdatedDTO update (long orderId, OrderCreatorDTO orderCreatorDTO){
+
+    void checkValidOperator (long userId){
+        User operator = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        if (operator.getRoles().equals(Roles.BUYER)){
+            throw new NotAuthorizedOperationException("Permesso negato. Non sei autorizzato ad effettuare questa operazione");
+        }
+    }
+    public OrderUpdatedDTO update (long operatorId, long orderId, OrderCreatorDTO orderCreatorDTO){
         checkValidVehicleMarketStatus(orderCreatorDTO);
+        checkValidOperator(operatorId);
         Order orderToUpdate = orderRepository.findById(orderId).orElseThrow();
         Vehicle newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow();
         orderToUpdate.setDownPayment(orderCreatorDTO.isDownPayment());

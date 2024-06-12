@@ -6,11 +6,13 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.Colors;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import com.develhope.spring.vehicles.vehicleEnums.UsedFlag;
@@ -52,6 +54,16 @@ public class OrderServiceTest {
 
 
     private static final long DEFAULT_ID = 1;
+    private static final long DEFAULT_ADMIN_ID = 2;
+
+    private static final User DEFAULT_ADMIN = new User(
+            2,
+            "",
+            "",
+            123,
+            "",
+            Roles.ADMIN
+    );
 
     private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
             true,
@@ -96,8 +108,24 @@ public class OrderServiceTest {
 //        assertEquals(expected.getUserId(), result.getUserId());
 //    }
     @Test
+    void checkValidOperatorTest(){
+        when(userRepository.findById(DEFAULT_ADMIN_ID))
+                .thenReturn(Optional.of(DEFAULT_ADMIN));
+        assertDoesNotThrow(()->orderService.checkValidOperator(DEFAULT_ADMIN_ID));
+    }
+
+    @Test
+    void checkValidOperatorTest_UserBuyer(){
+        User buyer = new User(DEFAULT_ID);
+        buyer.setRoles(Roles.BUYER);
+        when(userRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(buyer));
+        assertThrows(NotAuthorizedOperationException.class, ()->orderService.checkValidOperator(DEFAULT_ID));
+    }
+
+    @Test
     void checkValidVehicleMarketStatusTest(){
-        when(vehicleRepository.findById(1L))
+        when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         assertDoesNotThrow(()->orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
     }
@@ -106,13 +134,15 @@ public class OrderServiceTest {
     void checkValidVehicleMarketStatusTest_VehicleIsNotAvailable(){
         Vehicle vehicle = new Vehicle();
         vehicle.setMarketStatus(MarketStatus.NOTAVAILABLE);
-        when(vehicleRepository.findById(1L))
+        when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(vehicle));
         assertThrows(NotAvailableVehicleException.class, ()->orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
     }
 
     @Test
     void updateOrderTest() {
+        when(userRepository.findById(DEFAULT_ADMIN_ID))
+                .thenReturn(Optional.of(DEFAULT_ADMIN));
         when(orderRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_ORDER));
         when(vehicleRepository.findById(DEFAULT_ID))
@@ -133,12 +163,14 @@ public class OrderServiceTest {
                 OrderStatus.PAID,
                 true
         );
-        OrderUpdatedDTO result = orderService.update(DEFAULT_ID,DEFAULT_ORDER_CREATOR_DTO);
+        OrderUpdatedDTO result = orderService.update(DEFAULT_ADMIN_ID,DEFAULT_ID,DEFAULT_ORDER_CREATOR_DTO);
         assertEquals(expected.isDownPayment(), result.isDownPayment());
     }
 
     @Test
     void updateOrderTest_checkIfIdIsUnchanged() {
+        when(userRepository.findById(DEFAULT_ADMIN_ID))
+                .thenReturn(Optional.of(DEFAULT_ADMIN));
         when(orderRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_ORDER));
         when(vehicleRepository.findById(DEFAULT_ID))
@@ -159,7 +191,7 @@ public class OrderServiceTest {
                 OrderStatus.PAID,
                 true
         );
-        OrderUpdatedDTO result = orderService.update(DEFAULT_ID,DEFAULT_ORDER_CREATOR_DTO);
+        OrderUpdatedDTO result = orderService.update(DEFAULT_ADMIN_ID, DEFAULT_ID, DEFAULT_ORDER_CREATOR_DTO);
         assertEquals(expected.getId(), result.getId());
     }
 }

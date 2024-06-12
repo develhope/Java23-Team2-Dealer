@@ -22,11 +22,12 @@ public class OrderController {
         return orderService.create(orderCreatorDTO);
     }
 
-    @PatchMapping("/{orderId}")
+    @PatchMapping("/{operatorId}/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public OrderUpdatedDTO updateOrder (@PathVariable long orderId,
+    public OrderUpdatedDTO updateOrder (@PathVariable long operatorId,
+                                        @PathVariable long orderId,
                                         @RequestBody OrderCreatorDTO orderCreatorDTO){
-        return orderService.update(orderId, orderCreatorDTO);
+        return orderService.update(operatorId, orderId, orderCreatorDTO);
     }
 
 }

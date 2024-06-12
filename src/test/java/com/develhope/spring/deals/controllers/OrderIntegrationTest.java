@@ -79,7 +79,7 @@ public class OrderIntegrationTest {
         insertVehicle();
         insertOrder();
 
-        this.mockMvc.perform((patch("/v1/orders/1")
+        this.mockMvc.perform((patch("/v1/orders/1/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
