@@ -3,7 +3,7 @@ package com.develhope.spring.users.services;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserCreatorDTO;
 import com.develhope.spring.users.models.Roles;
-import com.develhope.spring.users.dtos.UserResponseDTO;
+import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
@@ -32,10 +32,10 @@ public class UserService {
         return userRepository.findById(id).orElseThrow();
     }
 
-    public UserResponseDTO createUser (UserCreatorDTO userCreatorDTO) {
+    public UserSavedDTO create(UserCreatorDTO userCreatorDTO) {
         User userToRegister = userMapper.toEntity(userCreatorDTO);
-        User savedUser = userRepository.save(userToRegister);
-        return userMapper.toResponseDTO(savedUser);
+        User userSaved = userRepository.save(userToRegister);
+        return userMapper.toUserSavedDTO(userSaved);
     }
 
 
