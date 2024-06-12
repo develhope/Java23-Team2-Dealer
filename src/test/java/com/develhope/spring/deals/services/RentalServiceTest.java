@@ -19,24 +19,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class RentalServiceTest {
 
-//    @BeforeEach
-//    public void setup() {
-//        MockitoAnnotations.openMocks(this);
-//    }
+
 
     @MockBean
     private VehicleRepository vehicleRepository;
@@ -93,6 +90,29 @@ public class RentalServiceTest {
 
     private final Collection<Rental> DEFAULT_EXISTING_RENTALS = new ArrayList<>(List.of(DEFAULT_EXISTING_RENTAL, DEFAULT_EXISTING_RENTAL2));
 
+    private List<RentalReturnerDTO> getRentalReturnerDTOS() {
+        RentalReturnerDTO rental1 = new RentalReturnerDTO(
+                DEFAULT_EXISTING_RENTAL.getId(),
+                DEFAULT_EXISTING_RENTAL.getStartDate(),
+                DEFAULT_EXISTING_RENTAL.getEndDate(),
+                DEFAULT_EXISTING_RENTAL.getDailyCost(),
+                DEFAULT_EXISTING_RENTAL.isPaid(),
+                DEFAULT_VEHICLE_RENTAL_RETURNER_DTO,
+                DEFAULT_BUYER_RENTAL_RETURNER_DTO
+        );
+
+        RentalReturnerDTO rental2 = new RentalReturnerDTO(
+                DEFAULT_EXISTING_RENTAL2.getId(),
+                DEFAULT_EXISTING_RENTAL2.getStartDate(),
+                DEFAULT_EXISTING_RENTAL2.getEndDate(),
+                DEFAULT_EXISTING_RENTAL2.getDailyCost(),
+                DEFAULT_EXISTING_RENTAL2.isPaid(),
+                DEFAULT_VEHICLE_RENTAL_RETURNER_DTO,
+                DEFAULT_BUYER_RENTAL_RETURNER_DTO
+        );
+        return new ArrayList<>(List.of(rental1, rental2));
+    }
+
     @Test
     void createRental_successfulCreationTest() {
 
@@ -138,7 +158,6 @@ public class RentalServiceTest {
         when(vehicleRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId())).thenThrow(NoSuchElementException.class);
 
         assertThrows(NoSuchElementException.class, () -> rentalService.create(DEFAULT_RENTAL_CREATOR_DTO));
-
     }
 
     @Test
@@ -182,6 +201,19 @@ public class RentalServiceTest {
                 .thenReturn(rentals);
 
         assertThrows(RentalOverlappingDatesException.class, () -> rentalService.create(DEFAULT_RENTAL_CREATOR_DTO));
+    }
+
+    @Test
+    void adminNotFound_exceptionIsThrown() {
+        RentalUpdaterDTO rentalUpdaterDTO = new RentalUpdaterDTO(
+                LocalDate.of(2024, 6, 15),
+                LocalDate.of(2024, 6, 18),
+                DEFAULT_PRICE,
+                false,
+                1);
+        when(userRepository.findById(1L))
+                .thenThrow(NoSuchElementException.class);
+        assertThrows(NoSuchElementException.class, () -> rentalService.update(1L, 1L, rentalUpdaterDTO));
     }
 
     @Test
@@ -258,6 +290,46 @@ public class RentalServiceTest {
                 updatedRental.getEndDate(), updatedRental.getDailyCost(), updatedRental.isPaid(),
                 DEFAULT_VEHICLE_RENTAL_RETURNER_DTO, DEFAULT_BUYER_RENTAL_RETURNER_DTO);
         assertEquals(expected.getTotalCost(), result.getTotalCost());
+    }
+
+    @Test
+    void getRentalsByUserId_successfulRetrievingTest() {
+        List<Rental> rentals = (List<Rental>) DEFAULT_EXISTING_RENTALS;
+        int page = 0;
+        int size = 5;
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(page, size, sort);
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), rentals.size());
+        List<Rental> pageContent = rentals.subList(start, end);
+        Page<Rental> rentalPage = new PageImpl<>(pageContent, pageable, rentals.size());
+
+        List<RentalReturnerDTO> rentalReturnerDTOS = getRentalReturnerDTOS();
+        int start2 = (int) pageable.getOffset();
+        int end2 = Math.min((start + pageable.getPageSize()), rentalReturnerDTOS.size());
+        List<RentalReturnerDTO> pageContent2 = rentalReturnerDTOS.subList(start2, end2);
+
+
+        when(userRepository.existsById(DEFAULT_USER.getId()))
+                .thenReturn(true);
+        when(rentalRepository.save(DEFAULT_RENTAL))
+                .thenReturn(DEFAULT_EXISTING_RENTAL);
+        when(rentalRepository.save(DEFAULT_RENTAL))
+                .thenReturn(DEFAULT_EXISTING_RENTAL2);
+        when(rentalRepository.findByUserId(DEFAULT_USER.getId(), pageable))
+                .thenReturn(rentalPage);
+
+        Page<RentalReturnerDTO> result = rentalService.getByUserId(2, page, size);
+        Page<RentalReturnerDTO> expect = new PageImpl<>(pageContent2, pageable, rentalReturnerDTOS.size());
+
+        assertEquals(expect.stream().findFirst().orElseThrow().getTotalCost(), result.stream().findFirst().orElseThrow().getTotalCost());
+    }
+
+    @Test
+    void getRentalsByUserId_userNotFound() {
+        when(userRepository.existsById(5L))
+                .thenReturn(false);
+        assertThrows(NoSuchElementException.class, () -> rentalService.getByUserId(5, 0, 5));
     }
 
     @Test
