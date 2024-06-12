@@ -124,6 +124,14 @@ public class OrderServiceTest {
     }
 
     @Test
+    void checkValidOperatorTest_UserRoleNull(){
+
+        when(userRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_USER));
+        assertThrows(NullPointerException.class, ()->orderService.checkValidOperator(DEFAULT_ID));
+    }
+
+    @Test
     void checkValidVehicleMarketStatusTest(){
         when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
