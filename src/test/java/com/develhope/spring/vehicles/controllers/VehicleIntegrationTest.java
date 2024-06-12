@@ -27,28 +27,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class VehicleIntegrationTest {
 
-
+    @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext context;
-
-    @BeforeEach
-    public void setup() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .apply(springSecurity())
-                .build();
-    }
-
     private void insertAdmin() throws Exception {
-        this.mockMvc.perform(post("/profile/registration")
+        this.mockMvc.perform(post("/v1/profile/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
                            "name": "Senior",
                            "surname":"Dello Iacovo",
-                           "userName": "panenutella",
+                           "username": "panenutella",
                            "password": "1234",
                            "matchingPassword": "1234",
                            "phoneNumber": 3467796292,
@@ -73,10 +62,10 @@ class VehicleIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "hey@itsadmin.com", password = "1234", roles = "ADMIN")
     void createVehicle_successfulCreationTest() throws Exception {
         insertAdmin();
         this.mockMvc.perform(post("/v1/vehicles")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -117,7 +106,8 @@ class VehicleIntegrationTest {
     void vehicleCreation_NotAuthorizedAndExpectErrorTest() throws Exception {
         insertAdmin();
         insertBuyer();
-        this.mockMvc.perform(post("/v1/vehicles/2")
+        this.mockMvc.perform(post("/v1/vehicles")
+                        .with(httpBasic("hey@itsadmin2.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -137,35 +127,7 @@ class VehicleIntegrationTest {
                                     "engine": "4-cylinder"
                                 }
                                 """))
-                .andExpect(status().isForbidden())
-                .andReturn();
-    }
-
-    @Test
-    void vehicleCreation_adminNotFoundAndExpectErrorTest() throws Exception {
-        insertAdmin();
-        insertBuyer();
-        this.mockMvc.perform(post("/v1/vehicles/4")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                    "vehicleType": "VAN",
-                                    "brand": "Fiat",
-                                    "model": "Fiorino",
-                                    "displacement": 1200,
-                                    "color": "WHITE",
-                                    "power": 70,
-                                    "gear": "MANUAL",
-                                    "registrationYear": 2022,
-                                    "powerSupply": "METHANE",
-                                    "originalPrice": 15000,
-                                    "usedFlag": "NEW",
-                                    "marketStatus": "AVAILABLE",
-                                    "discountFlag": true,
-                                    "engine": "4-cylinder"
-                                }
-                                """))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isUnauthorized())
                 .andReturn();
     }
 

@@ -112,22 +112,4 @@ public class VehicleServiceTest {
         );
         assertEquals(expected.getBrand(), result.getBrand());
     }
-
-    @Test
-    void createVehicle_NotAuthorizedSoExceptionIsThrown() {
-        User user = new User(4L);
-        user.setRoles(Roles.BUYER);
-        Vehicle vehicle = new Vehicle();
-        when(userRepository.findById(4L))
-                .thenReturn(Optional.of(user));
-        assertThrows(NotAuthorizedOperationException.class, () -> vehicleService.create(DEFAULT_VEHICLE_CREATOR_DTO));
-    }
-
-    @Test
-    void createVehicle_adminNotFoundSoExceptionIsThrown() {
-        Vehicle vehicle = new Vehicle();
-        when(userRepository.findById(4L))
-                .thenReturn(Optional.empty() );
-        assertThrows(NoSuchElementException.class, () -> vehicleService.create(DEFAULT_VEHICLE_CREATOR_DTO));
-    }
 }

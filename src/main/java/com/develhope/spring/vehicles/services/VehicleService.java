@@ -40,6 +40,7 @@ public class VehicleService {
         return vehicleMapper.toSavedDTO(savedVehicle);
     }
 
+    //TODO Convertire autorizzazione
     public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle;
@@ -49,6 +50,7 @@ public class VehicleService {
         return vehicleMapper.toCreatorDTO(updatedVehicle);
     }
 
+    //TODO Convertire autorizzazione
     public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle = findVehicleBy(vehicleId);
@@ -57,6 +59,7 @@ public class VehicleService {
         return existingVehicle;
     }
 
+    //TODO Convertire autorizzazione
     public void delete(long userId, long vehicleId) {
         checkUserAuthorizationBy(userId);
         vehicleRepository.deleteById(vehicleId);

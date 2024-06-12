@@ -27,6 +27,7 @@ public class VehicleController {
         return vehicleService.create(vehicleCreatorDTO);
     }
 
+    //TODO Convertire autorizzazione
     @PutMapping("/{userId}/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
     public VehicleCreatorDTO update(@PathVariable long userId,
@@ -35,6 +36,7 @@ public class VehicleController {
         return vehicleService.update(userId, vehicleId, vehicleCreatorDTO);
     }
 
+    //TODO Convertire autorizzazione
     @PatchMapping("/{userId}/{vehicleId}/status")
     @ResponseStatus(HttpStatus.OK)
     public Vehicle updateStatus(@PathVariable long userId, @PathVariable long vehicleId,
@@ -42,6 +44,7 @@ public class VehicleController {
         return vehicleService.updateStatus(userId, vehicleId, vehicleStatusDTO);
     }
 
+    //TODO Convertire autorizzazione
     @DeleteMapping("/{userId}/{vehicleId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void delete(@PathVariable long userId, @PathVariable long vehicleId) {
