@@ -19,9 +19,6 @@ public class OrderIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private OrderController orderController;
-
     @BeforeEach
     void setUp() throws Exception {
         insertAdmin();
@@ -94,6 +91,16 @@ public class OrderIntegrationTest {
                                 "isPaid" : true
                                 }
                                 """))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("""
+                        {
+                        "downPayment" : true,
+                        "vehicleId" : 1,
+                        "userId" : 1,
+                        "orderStatus" : "PAID",
+                        "isPaid" : true
+                        }
+                        """))
                 .andReturn();
     }
 
