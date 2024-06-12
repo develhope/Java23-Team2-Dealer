@@ -1,7 +1,7 @@
 package com.develhope.spring.users.components;
 
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
-import com.develhope.spring.users.dtos.UserCreatorDTO;
+import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.models.Roles;
@@ -17,18 +17,17 @@ public class UserMapper {
     private PasswordEncoder passwordEncoder;
 
     public UserSavedDTO toUserSavedDTO(User user) {
-        return new UserSavedDTO(user.getId(), user.getName(), user.getSurname(), user.getRoles());
+        return new UserSavedDTO(user.getId(), user.getName(), user.getSurname(), user.getUsername(),user.getRoles());
     }
 
-    public User toEntity(UserCreatorDTO userCreatorDTO) {
+    public User toEntity(UserRegistrationDTO userRegistrationDTO) {
         User user = new User();
-        user.setName(userCreatorDTO.getName());
-        user.setSurname(userCreatorDTO.getSurname());
-        user.setUsername(userCreatorDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(userCreatorDTO.getPassword()));
-        user.setPhoneNumber(userCreatorDTO.getPhoneNumber());
-        user.setEmail(userCreatorDTO.getEmail());
-        user.setRoles(userCreatorDTO.getRoles());
+        user.setName(userRegistrationDTO.getName());
+        user.setSurname(userRegistrationDTO.getSurname());
+        user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
+        user.setPhoneNumber(userRegistrationDTO.getPhoneNumber());
+        user.setEmail(userRegistrationDTO.getEmail());
+        user.setRoles(userRegistrationDTO.getRoles());
         return user;
     }
 
@@ -63,15 +62,15 @@ public class UserMapper {
         );
     }
 
-    public UserCreatorDTO toCreatorDTO(User user) {
-        return new UserCreatorDTO(
-                user.getName(),
-                user.getSurname(),
-                user.getUsername(),
-                user.getPassword(),
-                user.getPhoneNumber(),
-                user.getEmail(),
-                user.getRoles()
-        );
-    }
+//    public UserRegistrationDTO toRegistrationDTO(User user) {
+//        return new UserRegistrationDTO(
+//                user.getName(),
+//                user.getSurname(),
+//                user.getUsername(),
+//                user.getPassword(),
+//                user.getPhoneNumber(),
+//                user.getEmail(),
+//                user.getRoles()
+//        );
+//    }
 }

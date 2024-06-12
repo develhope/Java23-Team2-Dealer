@@ -1,6 +1,6 @@
 package com.develhope.spring.users.controllers;
 
-import com.develhope.spring.users.dtos.UserCreatorDTO;
+import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserSavedDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
-       return userService.create(userCreatorDTO);
-    }
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public UserSavedDTO registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO){
+//       return userService.create(userRegistrationDTO);
+//    }
 }

@@ -1,5 +1,6 @@
 package com.develhope.spring.vehicles.controllers;
 
+import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
@@ -8,6 +9,8 @@ import com.develhope.spring.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,11 +21,10 @@ public class VehicleController {
     private VehicleService vehicleService;
 
     @Secured("ADMIN")
-    @PostMapping("/{userId}")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public VehicleSavedDTO create(@PathVariable long userId,
-                                  @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
-        return vehicleService.create(userId, vehicleCreatorDTO);
+    public VehicleSavedDTO create(@RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
+        return vehicleService.create(vehicleCreatorDTO);
     }
 
     @PutMapping("/{userId}/{vehicleId}")
