@@ -29,6 +29,8 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/user/registration").permitAll()
+                        .requestMatchers("/v1/rentals").permitAll()
+                        .requestMatchers("/v1/orders").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());

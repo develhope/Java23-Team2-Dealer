@@ -33,8 +33,8 @@ public class RentalController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{userId}")
-    public Page<RentalReturnerDTO> loadByUserId(@AuthenticationPrincipal User userDetails, int page, int size) {
+    @GetMapping
+    public Page<RentalReturnerDTO> loadByUserId(@AuthenticationPrincipal User userDetails, @RequestParam int page, @RequestParam int size) {
         return rentalService.getByUserId(userDetails, page, size);
     }
 }

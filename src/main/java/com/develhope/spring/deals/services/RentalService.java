@@ -150,11 +150,4 @@ public class RentalService {
             );
         }
     }
-
-    private void checkUserAuthorizationBy(long userId) {
-        User admin = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        if (!admin.getRoles().equals(Roles.ADMIN)) {
-            throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
-        }
-    }
 }
