@@ -1,6 +1,8 @@
 package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
+import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
+import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
@@ -24,8 +26,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -49,6 +51,8 @@ public class OrderServiceTest {
     private OrderService orderService;
 
 
+    private static final long DEFAULT_ID = 1;
+
     private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
             true,
             1,
@@ -56,6 +60,7 @@ public class OrderServiceTest {
             OrderStatus.PAID,
             true
     );
+    private static final Order DEFAULT_ORDER = new Order(1);
 
     private static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
     private static final VehicleOrderReturnerDTO DEFAULT_VEHICLE_ORDER_RETURNER_DTO = new VehicleOrderReturnerDTO(
@@ -106,4 +111,55 @@ public class OrderServiceTest {
         assertThrows(NotAvailableVehicleException.class, ()->orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
     }
 
+    @Test
+    void updateOrderTest() {
+        when(orderRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_ORDER));
+        when(vehicleRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        Order updatedRental = new Order(
+                DEFAULT_ORDER.getId(),
+                DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
+                DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
+                DEFAULT_ORDER_CREATOR_DTO.isPaid(),
+                DEFAULT_VEHICLE,
+                DEFAULT_USER
+                );
+        when(orderRepository.save(any()))
+                .thenReturn(updatedRental);
+        OrderUpdatedDTO expected = new OrderUpdatedDTO(
+                1L,
+                true,
+                OrderStatus.PAID,
+                true
+        );
+        OrderUpdatedDTO result = orderService.update(DEFAULT_ID,DEFAULT_ORDER_CREATOR_DTO);
+        assertEquals(expected.isDownPayment(), result.isDownPayment());
+    }
+
+    @Test
+    void updateOrderTest_checkIfIdIsUnchanged() {
+        when(orderRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_ORDER));
+        when(vehicleRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        Order updatedRental = new Order(
+                DEFAULT_ORDER.getId(),
+                DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
+                DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
+                DEFAULT_ORDER_CREATOR_DTO.isPaid(),
+                DEFAULT_VEHICLE,
+                DEFAULT_USER
+        );
+        when(orderRepository.save(any()))
+                .thenReturn(updatedRental);
+        OrderUpdatedDTO expected = new OrderUpdatedDTO(
+                1L,
+                true,
+                OrderStatus.PAID,
+                true
+        );
+        OrderUpdatedDTO result = orderService.update(DEFAULT_ID,DEFAULT_ORDER_CREATOR_DTO);
+        assertEquals(expected.getId(), result.getId());
+    }
 }

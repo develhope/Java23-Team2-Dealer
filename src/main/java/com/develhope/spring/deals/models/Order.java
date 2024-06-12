@@ -33,7 +33,8 @@ public class Order {
         this.id = id;
     }
 
-    public Order(long id, long vehicleId, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle, User user) {
+    public Order(long id, boolean downPayment, OrderStatus orderStatus,
+                 boolean isPaid, Vehicle vehicle, User user) {
         this.id = id;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
