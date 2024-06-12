@@ -1,20 +1,20 @@
 package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
-import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
+import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.Colors;
+import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import com.develhope.spring.vehicles.vehicleEnums.UsedFlag;
 import com.develhope.spring.vehicles.vehicleEnums.VehicleType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,8 +24,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class OrderServiceTest {
@@ -89,5 +90,20 @@ public class OrderServiceTest {
 //        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
 //        assertEquals(expected.getUserId(), result.getUserId());
 //    }
+    @Test
+    void checkValidVehicleMarketStatusTest(){
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        assertDoesNotThrow(()->orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
+    }
+
+    @Test
+    void checkValidVehicleMarketStatusTest_VehicleIsNotAvailable(){
+        Vehicle vehicle = new Vehicle();
+        vehicle.setMarketStatus(MarketStatus.NOTAVAILABLE);
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(vehicle));
+        assertThrows(NotAvailableVehicleException.class, ()->orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
+    }
 
 }

@@ -35,7 +35,7 @@ public class OrderService {
         return orderMapper.toResponseDTO(savedOrder);
     }
 
-    private void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {
+    void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {
         Vehicle vehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow(NoSuchElementException::new);
         if (vehicle.getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle not orderable.");

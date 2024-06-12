@@ -22,7 +22,7 @@ public class OrderController {
         return orderService.create(orderCreatorDTO);
     }
 
-    @PutMapping("/{orderId}")
+    @PatchMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public OrderUpdatedDTO updateOrder (@PathVariable long orderId,
                                         @RequestBody OrderCreatorDTO orderCreatorDTO){
