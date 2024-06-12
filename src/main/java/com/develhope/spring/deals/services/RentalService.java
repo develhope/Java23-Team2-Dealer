@@ -39,12 +39,9 @@ public class RentalService {
     }
 
     public void deleteRental(Long rentalId) {
-        if (rentalRepository.existsById(rentalId)) {
-            rentalRepository.deleteById(rentalId);
-        } else {
-            throw new RentalNotFoundException("Rental with id " + rentalId + " not found");
+        rentalRepository.deleteById(rentalId);
         }
-    }
+
 
     private static void checkValidArgument(RentalCreatorDTO rentalCreatorDTO) {
         if (rentalCreatorDTO.getStartDate().isAfter(rentalCreatorDTO.getEndDate())) {

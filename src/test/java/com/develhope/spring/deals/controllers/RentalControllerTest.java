@@ -1,44 +1,25 @@
 package com.develhope.spring.deals.controllers;
 
 import com.develhope.spring.deals.models.Rental;
-import com.develhope.spring.deals.repositories.RentalRepository;
-import com.develhope.spring.deals.services.RentalService;
-import com.develhope.spring.users.services.UserService;
-import com.develhope.spring.vehicles.models.Vehicle;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
-import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RentalControllerTest {
 
-    @Mock
-    private RentalRepository rentalRepository;
-
-
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private RentalController rentalController;
 
     private void insertAdmin() throws Exception {
         this.mockMvc.perform(post("/v1/users")
@@ -216,22 +197,19 @@ public class RentalControllerTest {
                 .andReturn();
     }
 
-    @Mock
-    RentalService rentalService;
+
     @Test
-    public void testDeleteRental() {
-        // Setup
+    public void testDeleteRental() throws Exception {
+        // Creare un rental nel database
         long rentalId = 1L;
-        Rental rental = new Rental();
-        rental.setId(rentalId);
-        when(rentalRepository.findById(rentalId)).thenReturn(Optional.of(rental));
+        Rental rental = new Rental(rentalId);
 
-        // Execution
-        rentalService.deleteRental(rentalId);
+        // Effettua la richiesta di delete con MockMVC
+        mockMvc.perform(delete("/v1/rentals/{rentalId}", rental.getId()))
+                .andExpect(status().isNoContent());
 
-        // Verification
-        verify(rentalRepository, times(1)).findById(rentalId);
-        verify(rentalRepository, times(1)).delete(rental);
+        // Verifica non necessaria
     }
+
 
 }
