@@ -74,7 +74,7 @@ public class OrderIntegrationTest {
     }
 
     @Test
-    void OrderUpdateTest() throws Exception {
+    void orderUpdateTest() throws Exception {
         insertAdmin();
         insertVehicle();
         insertOrder();
@@ -95,6 +95,7 @@ public class OrderIntegrationTest {
                 .andExpect(content().json(
                         """
                         {
+                        "id": 1,
                         "downPayment": true,
                         "orderStatus": "PENDING",
                         "paid": false

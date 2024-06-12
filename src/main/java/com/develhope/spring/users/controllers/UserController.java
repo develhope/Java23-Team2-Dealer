@@ -17,7 +17,7 @@ public class UserController {
     private UserService userService;
 
 
-    @PutMapping ("/{userID}")
+    @PatchMapping ("/{userID}")
     @ResponseStatus(HttpStatus.OK)
     public UserReworkedDTO updateUser(@PathVariable long userID,
                                       @RequestBody UserUpdaterDTO userUpdaterDTO){
