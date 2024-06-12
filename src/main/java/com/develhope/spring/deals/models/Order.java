@@ -18,7 +18,7 @@ public class Order {
     private OrderStatus orderStatus;
 
     @Column(nullable = false)
-    private boolean isPaid;
+    private boolean paid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
@@ -34,11 +34,11 @@ public class Order {
     }
 
     public Order(long id, boolean downPayment, OrderStatus orderStatus,
-                 boolean isPaid, Vehicle vehicle, User user) {
+                 boolean paid, Vehicle vehicle, User user) {
         this.id = id;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
-        this.isPaid = isPaid;
+        this.paid = paid;
         this.vehicle = vehicle;
         this.user = user;
     }
@@ -57,11 +57,11 @@ public class Order {
     }
 
     public void setPaid(boolean paid) {
-        isPaid = paid;
+        this.paid = paid;
     }
 
     public boolean isPaid() {
-        return isPaid;
+        return paid;
     }
 
     public Vehicle getVehicle() {

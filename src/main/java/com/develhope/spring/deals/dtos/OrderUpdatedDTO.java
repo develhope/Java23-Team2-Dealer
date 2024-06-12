@@ -7,7 +7,7 @@ public class OrderUpdatedDTO {
     private Long id;
     private boolean downPayment;
     private OrderStatus orderStatus;
-    private boolean isPaid;
+    private boolean paid;
 
     //getters
     public Long getId() {
@@ -23,7 +23,7 @@ public class OrderUpdatedDTO {
     }
 
     public boolean isPaid() {
-        return isPaid;
+        return paid;
     }
 
 
@@ -43,17 +43,17 @@ public class OrderUpdatedDTO {
     }
 
     public void setPaid(boolean paid) {
-        isPaid = paid;
+        this.paid = paid;
     }
 
 
 
     //constructors
-    public OrderUpdatedDTO(Long id, boolean downPayment, OrderStatus orderStatus, boolean isPaid) {
+    public OrderUpdatedDTO(Long id, boolean downPayment, OrderStatus orderStatus, boolean paid) {
         this.id = id;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
-        this.isPaid = isPaid;
+        this.paid = paid;
     }
 
     public OrderUpdatedDTO(){}
