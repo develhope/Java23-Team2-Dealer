@@ -2,8 +2,8 @@ package com.develhope.spring.users.services;
 
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserCreatorDTO;
-import com.develhope.spring.users.dtos.UserResponseDTO;
 import com.develhope.spring.users.dtos.UserReworkedDTO;
+import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
@@ -16,11 +16,16 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserMapper userMapper;
 
+    public User getBy(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
     private void checkUserAuthorizationBy(long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty() || !optionalUser.get().getRoles().equals(Roles.ADMIN)) {
@@ -28,10 +33,10 @@ public class UserService {
         }
     }
 
-    public UserResponseDTO createUser (UserCreatorDTO userCreatorDTO) {
+    public UserSavedDTO create(UserCreatorDTO userCreatorDTO) {
         User userToRegister = userMapper.toEntity(userCreatorDTO);
-        userRepository.save(userToRegister);
-        return userMapper.toResponseDTO(userToRegister);
+        User userSaved = userRepository.save(userToRegister);
+        return userMapper.toUserSavedDTO(userSaved);
     }
 
     public UserReworkedDTO update(long userId, UserUpdaterDTO userUpdaterDTO) {
