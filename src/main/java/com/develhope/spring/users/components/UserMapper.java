@@ -2,7 +2,7 @@ package com.develhope.spring.users.components;
 
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.dtos.UserCreatorDTO;
-import com.develhope.spring.users.dtos.UserResponseDTO;
+import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public UserResponseDTO toResponseDTO(User user) {
-        return new UserResponseDTO(user.getId(), user.getName(), user.getSurname(), user.getRoles());
+    public UserSavedDTO toUserSavedDTO(User user) {
+        return new UserSavedDTO(user.getId(), user.getName(), user.getSurname(), user.getRoles());
     }
 
     public User toEntity(UserCreatorDTO userCreatorDTO) {

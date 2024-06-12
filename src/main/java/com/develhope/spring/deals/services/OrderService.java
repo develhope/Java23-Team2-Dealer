@@ -12,6 +12,7 @@ import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -37,8 +38,8 @@ public class OrderService {
     }
 
     private void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {
-        Optional<Vehicle> vehicleOptional = vehicleRepository.findById(orderCreatorDTO.getVehicleId());
-        if (vehicleOptional.isPresent() && vehicleOptional.orElseThrow().getMarketStatus() == MarketStatus.NOTAVAILABLE) {
+        Vehicle vehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow(NoSuchElementException::new);
+        if (vehicle.getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
     }
