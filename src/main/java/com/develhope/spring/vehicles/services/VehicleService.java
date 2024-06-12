@@ -35,21 +35,21 @@ public class VehicleService {
         return vehicleMapper.toSavedDTO(savedVehicle);
     }
 
-    public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
+    public VehicleSavedDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle;
         existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         existingVehicle.setId(vehicleId);
         Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
-        return vehicleMapper.toCreatorDTO(updatedVehicle);
+        return vehicleMapper.toSavedDTO(updatedVehicle);
     }
 
-    public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
+    public VehicleSavedDTO updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle = findVehicleBy(vehicleId);
         existingVehicle.setMarketStatus(vehicleStatusDTO.getMarketStatus());
-        vehicleRepository.save(existingVehicle);
-        return existingVehicle;
+        Vehicle savedVehicle =  vehicleRepository.save(existingVehicle);
+        return vehicleMapper.toSavedDTO(savedVehicle);
     }
 
     public void delete(long userId, long vehicleId) {
