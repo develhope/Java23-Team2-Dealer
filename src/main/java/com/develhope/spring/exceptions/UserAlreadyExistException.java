@@ -1,4 +1,4 @@
-package com.develhope.spring.users.components;
+package com.develhope.spring.exceptions;
 
 import org.springframework.http.HttpStatus;
 

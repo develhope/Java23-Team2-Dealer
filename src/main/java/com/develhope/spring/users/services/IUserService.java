@@ -1,4 +1,4 @@
-package com.develhope.spring.users.components;
+package com.develhope.spring.users.services;
 
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;

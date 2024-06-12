@@ -1,7 +1,6 @@
 package com.develhope.spring.users.services;
 
-import com.develhope.spring.users.components.IUserService;
-import com.develhope.spring.users.components.UserAlreadyExistException;
+import com.develhope.spring.exceptions.UserAlreadyExistException;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
