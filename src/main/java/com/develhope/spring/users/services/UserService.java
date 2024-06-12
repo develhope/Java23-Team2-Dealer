@@ -36,9 +36,14 @@ public class UserService {
 
     public UserReworkedDTO update(long userId, UserUpdaterDTO userUpdaterDTO) {
         checkUserAuthorizationBy(userId);
-        User userToUpdate = userMapper.toEntity(userUpdaterDTO);
-        userToUpdate.setId(userUpdaterDTO.getId());
+        User userToUpdate = userRepository.findById(userId).orElseThrow();
+        userToUpdate.setName(userUpdaterDTO.getName());
+        userToUpdate.setSurname(userUpdaterDTO.getSurname());
+        userToUpdate.setEmail(userUpdaterDTO.getEmail());
+        userToUpdate.setRoles(userUpdaterDTO.getRoles());
+        userToUpdate.setPhoneNumber(userUpdaterDTO.getPhoneNumber());
+        User newUser = userRepository.save(userToUpdate);
 
-        return userMapper.toReworkedDTO(userRepository.save(userToUpdate));
+        return userMapper.toReworkedDTO(newUser);
     }
 }
