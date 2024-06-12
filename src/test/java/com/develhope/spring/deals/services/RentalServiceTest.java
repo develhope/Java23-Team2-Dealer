@@ -1,6 +1,5 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
 import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
@@ -16,9 +15,7 @@ import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,17 +25,18 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class RentalServiceTest {
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
+//    @BeforeEach
+//    public void setup() {
+//        MockitoAnnotations.openMocks(this);
+//    }
 
     @MockBean
     private VehicleRepository vehicleRepository;
@@ -52,11 +50,11 @@ public class RentalServiceTest {
     @Autowired
     private RentalService rentalService;
 
-    private static final LocalDate DEFAULT_RENTAL_START_DATE = LocalDate.of(2024, 6, 3);
-    private static final LocalDate DEFAULT_RENTAL_END_DATE = LocalDate.of(2024, 6, 6);
-    private static final BigDecimal DEFAULT_PRICE = BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN);
+    private final LocalDate DEFAULT_RENTAL_START_DATE = LocalDate.of(2024, 6, 3);
+    private final LocalDate DEFAULT_RENTAL_END_DATE = LocalDate.of(2024, 6, 6);
+    private final BigDecimal DEFAULT_PRICE = BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN);
 
-    private static final RentalCreatorDTO DEFAULT_RENTAL_CREATOR_DTO = new RentalCreatorDTO(
+    private final RentalCreatorDTO DEFAULT_RENTAL_CREATOR_DTO = new RentalCreatorDTO(
             DEFAULT_RENTAL_START_DATE,
             DEFAULT_RENTAL_END_DATE,
             DEFAULT_PRICE,
@@ -64,14 +62,14 @@ public class RentalServiceTest {
             1,
             1);
 
-    private static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
-    private static final User DEFAULT_USER = new User(2);
+    private final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
+    private final User DEFAULT_USER = new User(2);
 
-    private static final Rental DEFAULT_RENTAL = new Rental();
+    private final Rental DEFAULT_RENTAL = new Rental();
 
-    private static final VehicleRentalReturnerDTO DEFAULT_VEHICLE_RENTAL_RETURNER_DTO = new VehicleRentalReturnerDTO(1);
-    private static final BuyerRentalReturnerDto DEFAULT_BUYER_RENTAL_RETURNER_DTO = new BuyerRentalReturnerDto(2);
-    private static final Rental DEFAULT_EXISTING_RENTAL = new Rental(
+    private final VehicleRentalReturnerDTO DEFAULT_VEHICLE_RENTAL_RETURNER_DTO = new VehicleRentalReturnerDTO(1);
+    private final BuyerRentalReturnerDto DEFAULT_BUYER_RENTAL_RETURNER_DTO = new BuyerRentalReturnerDto(2);
+    private final Rental DEFAULT_EXISTING_RENTAL = new Rental(
             LocalDate.of(2024, 6, 7),
             LocalDate.of(2024, 6, 10),
             DEFAULT_PRICE,
@@ -82,7 +80,7 @@ public class RentalServiceTest {
             DEFAULT_USER
     );
 
-    private static final Rental DEFAULT_EXISTING_RENTAL2 = new Rental(
+    private final Rental DEFAULT_EXISTING_RENTAL2 = new Rental(
             LocalDate.of(2024, 6, 11),
             LocalDate.of(2024, 6, 14),
             DEFAULT_PRICE,
@@ -93,7 +91,7 @@ public class RentalServiceTest {
             DEFAULT_USER
     );
 
-    private static final Collection<Rental> DEFAULT_EXISTING_RENTALS = new ArrayList<>(List.of(DEFAULT_EXISTING_RENTAL, DEFAULT_EXISTING_RENTAL2));
+    private final Collection<Rental> DEFAULT_EXISTING_RENTALS = new ArrayList<>(List.of(DEFAULT_EXISTING_RENTAL, DEFAULT_EXISTING_RENTAL2));
 
     @Test
     void createRental_successfulCreationTest() {
