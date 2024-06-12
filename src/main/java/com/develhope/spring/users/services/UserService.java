@@ -40,8 +40,7 @@ public class UserService {
 
 
 
-    public void deleteUser (long userID, long userIDToDelete){
-        checkUserAuthorizationBy(userID);
+    public void deleteUser ( long userIDToDelete){
         userRepository.deleteById(userIDToDelete);
     }
 }

@@ -1,6 +1,5 @@
 package com.develhope.spring.users.controllers;
 
-import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserCreatorDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.services.UserService;
@@ -21,9 +20,9 @@ public class UserController {
        return userService.create(userCreatorDTO);
     }
 
-    @DeleteMapping("/{userID}/{userIDToDelete}")
+    @DeleteMapping("/{userID}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@PathVariable long userID, @PathVariable long userIDToDelete){
-        userService.deleteUser(userID, userIDToDelete);
+    public void deleteUser(@PathVariable long userID){
+        userService.deleteUser(userID);
     }
 }
