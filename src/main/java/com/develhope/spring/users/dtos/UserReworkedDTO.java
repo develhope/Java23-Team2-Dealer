@@ -8,7 +8,6 @@ public class UserReworkedDTO {
     private String surname;
     private long phoneNumber;
     private String email;
-    private Roles roles;
 
 
     public  UserReworkedDTO(long id){
@@ -18,12 +17,11 @@ public class UserReworkedDTO {
     public UserReworkedDTO() {
     }
 
-    public UserReworkedDTO(long id, String name, String surname, long phoneNumber, String email, Roles roles) {
+    public UserReworkedDTO(long id, String name, String surname, long phoneNumber, String email) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.roles = roles;
         this.phoneNumber = phoneNumber;
     }
 
@@ -40,10 +38,6 @@ public class UserReworkedDTO {
         return phoneNumber;
     }
 
-    public Roles getRoles() {
-        return roles;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -52,7 +46,6 @@ public class UserReworkedDTO {
         return surname;
     }
 
-
     //setters
     public void setId(long id) {
         this.id = id;
@@ -60,10 +53,6 @@ public class UserReworkedDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setRoles(Roles roles) {
-        this.roles = roles;
     }
 
     public void setName(String name) {

@@ -26,7 +26,7 @@ public class UserService {
     public User getBy(Long id) {
         return userRepository.findById(id).orElseThrow();
     }
-    private void checkUserAuthorizationBy(long userId) {
+    void checkUserAuthorizationBy(long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty() || !optionalUser.get().getRoles().equals(Roles.ADMIN)) {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare gli utenti");
@@ -45,7 +45,6 @@ public class UserService {
         userToUpdate.setName(userUpdaterDTO.getName());
         userToUpdate.setSurname(userUpdaterDTO.getSurname());
         userToUpdate.setEmail(userUpdaterDTO.getEmail());
-        userToUpdate.setRoles(userUpdaterDTO.getRoles());
         userToUpdate.setPhoneNumber(userUpdaterDTO.getPhoneNumber());
         User newUser = userRepository.save(userToUpdate);
 

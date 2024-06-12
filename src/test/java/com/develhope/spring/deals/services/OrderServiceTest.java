@@ -155,7 +155,7 @@ public class OrderServiceTest {
                 .thenReturn(Optional.of(DEFAULT_ORDER));
         when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
-        Order updatedRental = new Order(
+        Order updatedOrder = new Order(
                 DEFAULT_ORDER.getId(),
                 DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
                 DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
@@ -164,7 +164,7 @@ public class OrderServiceTest {
                 DEFAULT_USER
                 );
         when(orderRepository.save(any()))
-                .thenReturn(updatedRental);
+                .thenReturn(updatedOrder);
         OrderUpdatedDTO expected = new OrderUpdatedDTO(
                 1L,
                 true,

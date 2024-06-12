@@ -15,8 +15,8 @@ public class UserMapper {
 
 
     public UserUpdaterDTO toUserUpdaterDTO (User user) {
-        return new UserUpdaterDTO(user.getId(), user.getName(), user.getSurname(), user.getPhoneNumber(),
-                user.getEmail(), user.getRoles());
+        return new UserUpdaterDTO(user.getName(), user.getSurname(), user.getPhoneNumber(),
+                user.getEmail());
     }
     public UserSavedDTO toUserSavedDTO(User user) {
         return new UserSavedDTO(user.getId(), user.getName(), user.getSurname(), user.getRoles());
@@ -77,12 +77,11 @@ public class UserMapper {
         user.setSurname(userDTO.getSurname());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setEmail(userDTO.getEmail());
-        user.setRoles(userDTO.getRoles());
 
         return user;
     }
     public UserReworkedDTO toReworkedDTO (User user){
         return new UserReworkedDTO(user.getId(), user.getName(), user.getSurname(), user.getPhoneNumber(),
-                user.getEmail(), user.getRoles());
+                user.getEmail());
     }
 }
