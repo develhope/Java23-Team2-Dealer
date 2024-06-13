@@ -52,9 +52,8 @@ public class OrderService {
             throw new NotAuthorizedOperationException("Permesso negato. Non sei autorizzato ad effettuare questa operazione");
         }
     }
-    public OrderUpdatedDTO update (long operatorId, long orderId, OrderCreatorDTO orderCreatorDTO){
+    public OrderUpdatedDTO update (long orderId, OrderCreatorDTO orderCreatorDTO){
         checkValidVehicleMarketStatus(orderCreatorDTO);
-        checkValidOperator(operatorId);
         Order orderToUpdate = orderRepository.findById(orderId).orElseThrow();
         Vehicle newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow();
         orderToUpdate.setDownPayment(orderCreatorDTO.isDownPayment());

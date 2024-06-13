@@ -7,6 +7,7 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,13 +22,12 @@ public class OrderController {
     public OrderResponseDTO createOrder(@RequestBody OrderCreatorDTO orderCreatorDTO) {
         return orderService.create(orderCreatorDTO);
     }
-
-    @PatchMapping("/{operatorId}/{orderId}")
+    @Secured({"ADMIN", "SALESPERSON"})
+    @PatchMapping("{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public OrderUpdatedDTO updateOrder (@PathVariable long operatorId,
-                                        @PathVariable long orderId,
+    public OrderUpdatedDTO updateOrder (@PathVariable long orderId,
                                         @RequestBody OrderCreatorDTO orderCreatorDTO){
-        return orderService.update(operatorId, orderId, orderCreatorDTO);
+        return orderService.update(orderId, orderCreatorDTO);
     }
 
 }

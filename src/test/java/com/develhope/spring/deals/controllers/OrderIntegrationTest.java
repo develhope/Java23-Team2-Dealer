@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -16,11 +17,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class OrderIntegrationTest {
+
     @Autowired
     private MockMvc mockMvc;
 
+    private void insertAdmin() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "name": "Senior",
+                            "surname":"Dello Iacovo",
+                            "username": "panenutella",
+                            "password": "1234",
+                            "matchingPassword": "1234",
+                            "phoneNumber": 3467796292,
+                            "email":"hey@itsadmin.com",
+                            "roles":"ADMIN"
+                         }
+                        """)).andReturn();
+    }
+
     private void insertVehicle() throws Exception {
-        this.mockMvc.perform(post("/v1/vehicles/1")
+        this.mockMvc.perform(post("/v1/vehicles")
+                .with(httpBasic("hey@itsadmin.com", "1234"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                          {
@@ -43,32 +63,18 @@ public class OrderIntegrationTest {
                         """)).andReturn();
     }
 
-    private void insertAdmin() throws Exception {
-        this.mockMvc.perform(post("/v1/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                        "name": "gabriel",
-                        "surname": "dello",
-                        "phoneNumber": 3467796,
-                        "email": "hey@itsadmin.it",
-                        "roles": "ADMIN"
-                        }
-                        """)).andReturn();
-    }
-
     private void insertOrder() throws Exception {
         this.mockMvc.perform(post("/v1/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "downPayment": true,
-                        "vehicleId": 1,
-                        "userId": 1,
-                        "orderStatus": "PAID",
-                        "paid": true
-                        }
-                        """))
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 1,
+                                "orderStatus": "PAID",
+                                "paid": true
+                                }
+                                """))
                 .andExpect(status().isCreated())
                 .andReturn();
     }
@@ -79,27 +85,28 @@ public class OrderIntegrationTest {
         insertVehicle();
         insertOrder();
 
-        this.mockMvc.perform((patch("/v1/orders/1/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                        "downPayment": true,
-                        "vehicleId": 1,
-                        "userId": 1,
-                        "orderStatus": "PENDING",
-                        "paid": false
-                        }
-                        """)))
+        this.mockMvc.perform((patch("/v1/orders/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 1,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         """
-                        {
-                        "downPayment": true,
-                        "orderStatus": "PENDING",
-                        "paid": false
-                        }
-                        """
+                                {
+                                "downPayment": true,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """
                 )).andReturn();
     }
 }
