@@ -6,7 +6,6 @@ public class OrderCreatorDTO {
     private boolean downPayment;
     private long vehicleId;
     private long userId;
-    private long optUserId;
     private OrderStatus orderStatus;
     private boolean paid;
 
@@ -59,13 +58,5 @@ public class OrderCreatorDTO {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
-    }
-
-    public long getOptUserId() {
-        return optUserId;
-    }
-
-    public void setOptUserId(long optUserId) {
-        this.optUserId = optUserId;
     }
 }

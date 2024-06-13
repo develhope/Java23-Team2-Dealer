@@ -65,11 +65,4 @@ public class OrderResponseDTO {
         this.paid = paid;
     }
 
-    public long getOptUserId() {
-        return optUserId;
-    }
-
-    public void setOptUserId(long optUserId) {
-        this.optUserId = optUserId;
-    }
 }
