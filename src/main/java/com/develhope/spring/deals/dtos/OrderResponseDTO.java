@@ -9,7 +9,6 @@ public class OrderResponseDTO {
     private boolean downPayment;
     private VehicleOrderReturnerDTO vehicle;
     private long userId;
-    private long optUserId;
     private OrderStatus orderStatus;
     private boolean paid;
 
