@@ -33,12 +33,6 @@ public class UserService implements IUserService {
         return userMapper.toUserSavedDTO(savedUser);
     }
 
-//    public UserSavedDTO create(UserRegistrationDTO userRegistrationDTO) {
-//        User userToRegister = userMapper.toEntity(userRegistrationDTO);
-//        User userSaved = userRepository.save(userToRegister);
-//        return userMapper.toUserSavedDTO(userSaved);
-//    }
-
     private boolean emailExists(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
