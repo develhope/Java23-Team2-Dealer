@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,24 +20,47 @@ public class UserIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private void insertUser() throws Exception {
-        this.mockMvc.perform(post("/v1/users")
+    private void insertAdmin() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                        {
-                        "name": "Sio",
-                        "surname": "Worro",
-                        "phoneNumber": 123,
-                        "email": "user@email.it",
-                        "roles": "ADMIN"
-                        }
-                        """)).andReturn();
+                                {
+                                   "name": "Alessio",
+                                   "surname":"Delle Donne",
+                                   "username": "ilGrandeWorro",
+                                   "password": "1234",
+                                   "matchingPassword": "1234",
+                                   "phoneNumber": 1234567890,
+                                   "email":"mail@itsadmin.com",
+                                   "roles":"ADMIN"
+                                }
+                                """)).andReturn();
+    }
+
+
+    private void insertBuyer() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                                {
+                                   "name": "Giovanni",
+                                   "surname":"Giorgio",
+                                   "username": "Giorgio",
+                                   "password": "1234",
+                                   "matchingPassword": "1234",
+                                   "phoneNumber": 1234567890,
+                                   "email":"mail@itsbuyer.com",
+                                   "roles":"BUYER"
+                                }
+                                """)).andReturn();
     }
 
     @Test
     void deleteUserTest() throws Exception {
-        insertUser();
-        this.mockMvc.perform(delete("/v1/users/1"))
+        insertAdmin();
+        insertBuyer();
+        this.mockMvc.perform(delete("/v1/users/2")
+                        .with(httpBasic("mail@itsadmin.com", "1234")))
                 .andExpect(status().isOk())
                 .andReturn();
     }

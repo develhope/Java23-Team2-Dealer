@@ -38,29 +38,4 @@ public class UserServiceTest {
         user.setRoles(role);
         return user;
     }
-
-    @Test
-    void checkUserAuthorizationTestThrowsIfUserEmpty(){
-        when(userRepository.findById(DEFAULT_USER_ID))
-                .thenReturn(Optional.empty());
-        assertThrows(NotAuthorizedOperationException.class,()->
-                userService.checkUserAuthorizationBy(DEFAULT_USER_ID));
-    }
-
-    @Test
-    void checkUserAuthorizationTest_UserNotAuthorizedThrows(){
-        User user = setupWithRole(Roles.BUYER);
-        when(userRepository.findById(DEFAULT_USER_ID))
-                .thenReturn(Optional.of(user));
-        assertThrows(NotAuthorizedOperationException.class, () ->
-                userService.checkUserAuthorizationBy(DEFAULT_USER_ID));
-    }
-
-    @Test
-    void checkUserAuthorizationTest_UserAuthorizedNotThrows(){
-        User user = setupWithRole(Roles.ADMIN);
-        when(userRepository.findById(DEFAULT_USER_ID))
-                .thenReturn(Optional.of(user));
-        assertDoesNotThrow(() -> userService.checkUserAuthorizationBy(DEFAULT_USER_ID));
-    }
 }
