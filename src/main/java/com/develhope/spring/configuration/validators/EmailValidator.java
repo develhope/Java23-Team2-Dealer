@@ -1,4 +1,4 @@
-package com.develhope.spring.configuration.authorization;
+package com.develhope.spring.configuration.validators;
 
 
 import jakarta.validation.ConstraintValidator;

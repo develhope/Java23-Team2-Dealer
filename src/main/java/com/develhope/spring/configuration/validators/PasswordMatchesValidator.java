@@ -1,5 +1,5 @@
-package com.develhope.spring.configuration.authorization;
-import com.develhope.spring.configuration.authorization.CustomAnnotation.PasswordMatches;
+package com.develhope.spring.configuration.validators;
+import com.develhope.spring.configuration.validators.CustomAnnotation.PasswordMatches;
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
