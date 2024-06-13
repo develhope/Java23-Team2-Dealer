@@ -69,14 +69,14 @@ public class OrderIntegrationTest {
                         "gear": "MANUAL",
                         "registrationYear": 1700,
                         "powerSupply": "DIESEL",
-                        "originalPrice": 54000.00,
+                        "price": 54000.00,
                         "discountedPrice": null,
                         "usedFlag": "NEW",
                         "marketStatus": "AVAILABLE",
                         "discountedFlag": false,
                         "engine": "Al plasma"
                          }
-                        """)).andReturn();
+                        """)).andExpect(status().isCreated());
     }
 
     /*@Test
@@ -104,6 +104,7 @@ public class OrderIntegrationTest {
                         """))
                 .andReturn();
     }*/
+
 
     @Test
     void deleteOrder_successfulTest() throws Exception {

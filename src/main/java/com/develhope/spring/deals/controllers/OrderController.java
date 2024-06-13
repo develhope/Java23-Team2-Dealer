@@ -1,6 +1,5 @@
 package com.develhope.spring.deals.controllers;
 
-import com.develhope.spring.deals.dtos.DeleteOrderResponseDTO;
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
@@ -24,11 +23,8 @@ public class OrderController {
 
     @DeleteMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public DeleteOrderResponseDTO deleteOrder(@PathVariable Long orderId) {
+    public void deleteOrder(@PathVariable Long orderId) {
         orderService.delete(orderId);
-        return new DeleteOrderResponseDTO("Order deleted successfully");
-
-
     }
 
     @PatchMapping("/{operatorId}/{orderId}")

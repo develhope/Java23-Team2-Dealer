@@ -34,8 +34,12 @@ public class OrderService {
 
     public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
         checkValidVehicleMarketStatus(orderCreatorDTO);
-        Order insertedOrder = orderMapper.toEntity(orderCreatorDTO);
-        Order savedOrder = orderRepository.save(insertedOrder);
+        Order order = orderMapper.toEntity(orderCreatorDTO);
+        Order savedOrder = orderRepository.save(order);
+        Vehicle vehicle = vehicleRepository.findById(order.getVehicle().getId())
+                .orElseThrow(NoSuchElementException::new);
+        savedOrder.setVehicle(vehicle);
+
         return orderMapper.toResponseDTO(savedOrder);
     }
 
