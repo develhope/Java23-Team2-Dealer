@@ -2,6 +2,7 @@ package com.develhope.spring.vehicles.controllers;
 
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleReworkedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
@@ -27,21 +28,20 @@ public class VehicleController {
         return vehicleService.create(vehicleCreatorDTO);
     }
 
-    //TODO Convertire autorizzazione
+    @Secured("ADMIN")
     @PutMapping("/{userId}/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
-    public VehicleCreatorDTO update(@PathVariable long userId,
-                                    @PathVariable long vehicleId,
-                                    @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
-        return vehicleService.update(userId, vehicleId, vehicleCreatorDTO);
+    public VehicleReworkedDTO update(@PathVariable long vehicleId,
+                                     @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
+        return vehicleService.update(vehicleId, vehicleCreatorDTO);
     }
 
-    //TODO Convertire autorizzazione
+    @Secured({"ADMIN"})
     @PatchMapping("/{userId}/{vehicleId}/status")
     @ResponseStatus(HttpStatus.OK)
-    public Vehicle updateStatus(@PathVariable long userId, @PathVariable long vehicleId,
+    public VehicleReworkedDTO updateStatus( @PathVariable long vehicleId,
                                 @RequestBody VehicleStatusDTO vehicleStatusDTO) {
-        return vehicleService.updateStatus(userId, vehicleId, vehicleStatusDTO);
+        return vehicleService.updateStatus(vehicleId, vehicleStatusDTO);
     }
 
     //TODO Convertire autorizzazione

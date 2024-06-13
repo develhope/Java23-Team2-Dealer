@@ -1,15 +1,15 @@
 package com.develhope.spring.deals.components;
 
-import com.develhope.spring.deals.dtos.OrderCreatorDTO;
-import com.develhope.spring.deals.dtos.OrderResponseDTO;
-import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
+import com.develhope.spring.deals.dtos.ordersDtos.OrderCreatorDTO;
+import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.ordersDtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.develhope.spring.vehicles.models.VehicleMapper;
+import com.develhope.spring.vehicles.components.VehicleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
