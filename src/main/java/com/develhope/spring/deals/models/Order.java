@@ -26,6 +26,10 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @Column
+    @OneToMany
+    private User optionalUser;
+
     public Order() {
     }
 

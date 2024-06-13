@@ -1,19 +1,19 @@
 package com.develhope.spring.users.dtos;
 
-import com.develhope.spring.users.models.Roles;
-
 public class UserUpdaterDTO {
     private String name;
     private String surname;
+    private String username;
     private long phoneNumber;
     private String email;
 
     public UserUpdaterDTO() {
     }
 
-    public UserUpdaterDTO( String name, String surname, long phoneNumber, String email) {
+    public UserUpdaterDTO(String name, String surname, String username, long phoneNumber, String email) {
         this.name = name;
         this.surname = surname;
+        this.username = username;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
@@ -36,6 +36,9 @@ public class UserUpdaterDTO {
         return surname;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
     //setters
 
@@ -53,5 +56,9 @@ public class UserUpdaterDTO {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -9,6 +9,7 @@ public class OrderResponseDTO {
     private boolean downPayment;
     private VehicleOrderReturnerDTO vehicle;
     private long userId;
+    private long optUserId;
     private OrderStatus orderStatus;
     private boolean paid;
 
@@ -62,5 +63,13 @@ public class OrderResponseDTO {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public long getOptUserId() {
+        return optUserId;
+    }
+
+    public void setOptUserId(long optUserId) {
+        this.optUserId = optUserId;
     }
 }

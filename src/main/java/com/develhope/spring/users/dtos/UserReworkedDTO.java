@@ -6,6 +6,7 @@ public class UserReworkedDTO {
     private long id;
     private String name;
     private String surname;
+    private String username;
     private long phoneNumber;
     private String email;
 
@@ -17,10 +18,11 @@ public class UserReworkedDTO {
     public UserReworkedDTO() {
     }
 
-    public UserReworkedDTO(long id, String name, String surname, long phoneNumber, String email) {
+    public UserReworkedDTO(long id, String name, String surname, String username, long phoneNumber, String email) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.username = username;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
@@ -46,6 +48,10 @@ public class UserReworkedDTO {
         return surname;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     //setters
     public void setId(long id) {
         this.id = id;
@@ -65,5 +71,9 @@ public class UserReworkedDTO {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -24,18 +24,18 @@ public class UserServiceTest {
 
     private long DEFAULT_ID = 1;
 
-    private User DEFAULT_BUYER = new User(1, "", "", 123, "", Roles.BUYER);
+    private User DEFAULT_BUYER = new User(1,"Alessio", "Delle Donne", "ilGrandeWorro", "password1", 123, "indirizzo@email.com", Roles.BUYER);
 
-    private User DEFAULT_ADMIN = new User(2, "", "", 123, "", Roles.ADMIN);
+    private User DEFAULT_ADMIN = new User(2, "Don", "Matteo", "DetectiveConan","password2", 123, "altra@email.com", Roles.ADMIN);
 
 
 
     private UserUpdaterDTO DEFAULT_UPDATER_DTO = new UserUpdaterDTO(
             "Sio",
-            "Worro",
+            "Asburgo",
+            "coriandolo",
             123321,
             "ciao@bello.com"
-
     );
 
     @BeforeEach
@@ -57,6 +57,8 @@ public class UserServiceTest {
                 DEFAULT_BUYER.getId(),
                 DEFAULT_UPDATER_DTO.getName(),
                 DEFAULT_UPDATER_DTO.getSurname(),
+                DEFAULT_UPDATER_DTO.getUsername(),
+                DEFAULT_BUYER.getPassword(),
                 DEFAULT_UPDATER_DTO.getPhoneNumber(),
                 DEFAULT_UPDATER_DTO.getEmail(),
                 DEFAULT_BUYER.getRoles()
@@ -66,7 +68,8 @@ public class UserServiceTest {
         UserReworkedDTO expected = new UserReworkedDTO(
                 1L,
                 "Sio",
-                "Worro",
+                "Asburgo",
+                "coriandolo",
                 123321,
                 "ciao@bello.com"
         );
@@ -82,6 +85,8 @@ public class UserServiceTest {
                 DEFAULT_BUYER.getId(),
                 DEFAULT_UPDATER_DTO.getName(),
                 DEFAULT_UPDATER_DTO.getSurname(),
+                DEFAULT_UPDATER_DTO.getUsername(),
+                DEFAULT_BUYER.getPassword(),
                 DEFAULT_UPDATER_DTO.getPhoneNumber(),
                 DEFAULT_UPDATER_DTO.getEmail(),
                 DEFAULT_BUYER.getRoles()
@@ -91,7 +96,8 @@ public class UserServiceTest {
         UserReworkedDTO expected = new UserReworkedDTO(
                 1L,
                 "Sio",
-                "Worro",
+                "Asburgo",
+                "coriandolo",
                 123321,
                 "ciao@bello.com"
         );

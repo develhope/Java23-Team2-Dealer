@@ -1,6 +1,6 @@
 package com.develhope.spring.users.controllers;
 
-import com.develhope.spring.users.dtos.UserCreatorDTO;
+import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserReworkedDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.dtos.UserUpdaterDTO;
@@ -26,7 +26,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSavedDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
-       return userService.create(userCreatorDTO);
+    public UserSavedDTO registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO){
+       return userService.registerNewUserAccount(userRegistrationDTO);
     }
 }

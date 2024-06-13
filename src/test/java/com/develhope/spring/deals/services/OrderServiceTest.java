@@ -60,6 +60,8 @@ public class OrderServiceTest {
             2,
             "",
             "",
+            "",
+            "1234",
             123,
             "",
             Roles.ADMIN
@@ -149,8 +151,6 @@ public class OrderServiceTest {
 
     @Test
     void updateOrderTest() {
-        when(userRepository.findById(DEFAULT_ADMIN_ID))
-                .thenReturn(Optional.of(DEFAULT_ADMIN));
         when(orderRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_ORDER));
         when(vehicleRepository.findById(DEFAULT_ID))
@@ -171,14 +171,12 @@ public class OrderServiceTest {
                 OrderStatus.PAID,
                 true
         );
-        OrderUpdatedDTO result = orderService.update(DEFAULT_ADMIN_ID,DEFAULT_ID,DEFAULT_ORDER_CREATOR_DTO);
+        OrderUpdatedDTO result = orderService.update(DEFAULT_ID,DEFAULT_ORDER_CREATOR_DTO);
         assertEquals(expected.isDownPayment(), result.isDownPayment());
     }
 
     @Test
     void updateOrderTest_checkIfIdIsUnchanged() {
-        when(userRepository.findById(DEFAULT_ADMIN_ID))
-                .thenReturn(Optional.of(DEFAULT_ADMIN));
         when(orderRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_ORDER));
         when(vehicleRepository.findById(DEFAULT_ID))
@@ -199,7 +197,7 @@ public class OrderServiceTest {
                 OrderStatus.PAID,
                 true
         );
-        OrderUpdatedDTO result = orderService.update(DEFAULT_ADMIN_ID, DEFAULT_ID, DEFAULT_ORDER_CREATOR_DTO);
+        OrderUpdatedDTO result = orderService.update(DEFAULT_ID, DEFAULT_ORDER_CREATOR_DTO);
         assertEquals(expected.getId(), result.getId());
     }
 }

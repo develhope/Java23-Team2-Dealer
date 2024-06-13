@@ -38,11 +38,11 @@ public class Rental {
     @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
 
-    public void setPaid(boolean paid) {
-        this.paid = paid;
-    }
+    @Column(nullable = true)
+    @OneToMany
+    private User optionalUser;
 
-    // Getters
+
     public BigDecimal getTotalCost() {
         return totalCost;
     }
@@ -112,5 +112,9 @@ public class Rental {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+
 }
 
