@@ -10,18 +10,18 @@ public class OrderResponseDTO {
     private VehicleOrderReturnerDTO vehicle;
     private long userId;
     private OrderStatus orderStatus;
-    private boolean isPaid;
+    private boolean paid;
 
     public OrderResponseDTO() {
     }
 
-    public OrderResponseDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, OrderStatus orderStatus, boolean isPaid) {
+    public OrderResponseDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, OrderStatus orderStatus, boolean paid) {
         this.id = id;
         this.downPayment = downPayment;
         this.vehicle = vehicle;
         this.userId = userId;
         this.orderStatus = orderStatus;
-        this.isPaid = isPaid;
+        this.paid = paid;
     }
 
     public boolean isDownPayment() {
@@ -57,10 +57,10 @@ public class OrderResponseDTO {
     }
 
     public boolean isPaid() {
-        return isPaid;
+        return paid;
     }
 
     public void setPaid(boolean paid) {
-        isPaid = paid;
+        this.paid = paid;
     }
 }
