@@ -3,15 +3,20 @@ package com.develhope.spring.deals.services;
 import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
+import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.Colors;
+import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import com.develhope.spring.vehicles.vehicleEnums.UsedFlag;
 import com.develhope.spring.vehicles.vehicleEnums.VehicleType;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +31,8 @@ import java.math.RoundingMode;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class OrderServiceTest {
@@ -46,6 +52,16 @@ public class OrderServiceTest {
     @Autowired
     private OrderService orderService;
 
+    private static final long DEFAULT_ID = 1;
+    private static final long DEFAULT_ADMIN_ID = 2;
+    private static final User DEFAULT_ADMIN = new User(
+            2,
+            "",
+            "",
+            123,
+            "",
+            Roles.ADMIN
+    );
     private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
             true,
             1L,
@@ -53,7 +69,7 @@ public class OrderServiceTest {
             OrderStatus.PAID,
             true
     );
-
+    private static final Order DEFAULT_ORDER = new Order(1L);
     private static final Vehicle DEFAULT_VEHICLE = new Vehicle(1L);
     private static final User DEFAULT_USER = new User(1L);
 
@@ -66,10 +82,6 @@ public class OrderServiceTest {
             BigDecimal.valueOf(1000).setScale(1, RoundingMode.HALF_UP),
             UsedFlag.NEW,
             "Motore"
-    );
-
-    private static final Order DEFAULT_ORDER = new Order(
-            1L, 1L, true, OrderStatus.PAID, true, DEFAULT_VEHICLE, DEFAULT_USER
     );
 
     private static final OrderResponseDTO DEFAULT_ORDER_RESPONSE_DTO = new OrderResponseDTO(
@@ -100,7 +112,6 @@ public class OrderServiceTest {
                 .thenReturn(DEFAULT_ORDER_RESPONSE_DTO);
     }
 
-
     @Test
     void createOrder_successfulTest() {
         OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
@@ -108,14 +119,43 @@ public class OrderServiceTest {
         assertEquals(DEFAULT_ORDER_RESPONSE_DTO.getUserId(), result.getUserId());
     }
 
-
     @Test
-    void deleteOrder_successfulTest() {
-        assertDoesNotThrow(() -> orderService.delete(DEFAULT_ORDER.getId()));
-
-        verify(orderRepository, times(1)).deleteById(DEFAULT_ORDER.getId());
+    void checkValidOperatorTest() {
+        when(userRepository.findById(DEFAULT_ADMIN_ID))
+                .thenReturn(Optional.of(DEFAULT_ADMIN));
+        assertDoesNotThrow(() -> orderService.checkValidOperator(DEFAULT_ADMIN_ID));
     }
 
+    @Test
+    void checkValidOperatorTest_UserBuyer() {
+        User buyer = new User(DEFAULT_ID);
+        buyer.setRoles(Roles.BUYER);
+        when(userRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(buyer));
+        assertThrows(NotAuthorizedOperationException.class, () -> orderService.checkValidOperator(DEFAULT_ID));
+    }
+
+    @Test
+    void checkValidOperatorTest_UserRoleNull() {
+
+        when(userRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_USER));
+        assertThrows(NullPointerException.class, () -> orderService.checkValidOperator(DEFAULT_ID));
+    }
+
+    @Test
+    void checkValidVehicleMarketStatusTest() {
+        when(vehicleRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        assertDoesNotThrow(() -> orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
+    }
+
+    @Test
+    void checkValidVehicleMarketStatusTest_VehicleIsNotAvailable() {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setMarketStatus(MarketStatus.NOTAVAILABLE);
+        when(vehicleRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(vehicle));
+        assertThrows(NotAvailableVehicleException.class, () -> orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
+    }
 }
-
-

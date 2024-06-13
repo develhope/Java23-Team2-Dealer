@@ -109,7 +109,7 @@ public class OrderMapperTest {
         assertFalse(result.isPaid());
     }
 
-    /*@Test
+    @Test
     void toResponseDTO_MapsOrderToDTO() {
 
         Order order = new Order();
@@ -140,5 +140,5 @@ public class OrderMapperTest {
         OrderResponseDTO result = orderMapper.toResponseDTO(order);
 
         assertEquals(userDTO.getId(), result.getUserId());
-    }*/
+    }
 }
