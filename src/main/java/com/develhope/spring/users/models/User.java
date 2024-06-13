@@ -116,7 +116,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-
     public List<Order> getOrders() {
         return orders;
     }
