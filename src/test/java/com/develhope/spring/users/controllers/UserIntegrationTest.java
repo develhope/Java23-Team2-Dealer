@@ -1,6 +1,5 @@
 package com.develhope.spring.users.controllers;
 
-import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,7 +19,7 @@ public class UserIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private void insertAdmin() throws Exception {
+    private void insertUser() throws Exception {
         this.mockMvc.perform(post("/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
@@ -29,13 +28,13 @@ public class UserIntegrationTest {
                         "surname": "Worro",
                         "phoneNumber": 123,
                         "email": "ciao@bello.it",
-                        "roles": "ADMIN"
+                        "roles": "BUYER"
                         }
                         """)).andReturn();
     }
     @Test
     void userUpdateTest() throws Exception {
-        insertAdmin();
+        insertUser();
         this.mockMvc.perform(patch("/v1/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""

@@ -26,12 +26,6 @@ public class UserService {
     public User getBy(Long id) {
         return userRepository.findById(id).orElseThrow();
     }
-    void checkUserAuthorizationBy(long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty() || !optionalUser.get().getRoles().equals(Roles.ADMIN)) {
-            throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare gli utenti");
-        }
-    }
 
     public UserSavedDTO create(UserCreatorDTO userCreatorDTO) {
         User userToRegister = userMapper.toEntity(userCreatorDTO);
@@ -40,7 +34,6 @@ public class UserService {
     }
 
     public UserReworkedDTO update(long userId, UserUpdaterDTO userUpdaterDTO) {
-        checkUserAuthorizationBy(userId);
         User userToUpdate = userRepository.findById(userId).orElseThrow();
         userToUpdate.setName(userUpdaterDTO.getName());
         userToUpdate.setSurname(userUpdaterDTO.getSurname());
