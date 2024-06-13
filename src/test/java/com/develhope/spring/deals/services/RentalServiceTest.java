@@ -213,7 +213,7 @@ public class RentalServiceTest {
                 1);
         when(userRepository.findById(1L))
                 .thenThrow(NoSuchElementException.class);
-        assertThrows(NoSuchElementException.class, () -> rentalService.update(1L, 1L, rentalUpdaterDTO));
+        assertThrows(NoSuchElementException.class, () -> rentalService.update(1L, rentalUpdaterDTO));
     }
 
     @Test
@@ -259,6 +259,8 @@ public class RentalServiceTest {
                 1,
                 "Gabriel",
                 "Dello",
+                "paneNutella",
+                "1234",
                 346777,
                 "hey@itsadmin.it",
                 Roles.ADMIN
@@ -285,7 +287,7 @@ public class RentalServiceTest {
                 DEFAULT_VEHICLE, DEFAULT_EXISTING_RENTAL.getId(), DEFAULT_EXISTING_RENTAL.getUser());
         when(rentalRepository.save(any()))
                 .thenReturn(updatedRental);
-        RentalReturnerDTO result = rentalService.update(1, 1, rentalUpdaterDTO);
+        RentalReturnerDTO result = rentalService.update(1, rentalUpdaterDTO);
         RentalReturnerDTO expected = new RentalReturnerDTO(updatedRental.getId(), updatedRental.getStartDate(),
                 updatedRental.getEndDate(), updatedRental.getDailyCost(), updatedRental.isPaid(),
                 DEFAULT_VEHICLE_RENTAL_RETURNER_DTO, DEFAULT_BUYER_RENTAL_RETURNER_DTO);
@@ -319,7 +321,7 @@ public class RentalServiceTest {
         when(rentalRepository.findByUserId(DEFAULT_USER.getId(), pageable))
                 .thenReturn(rentalPage);
 
-        Page<RentalReturnerDTO> result = rentalService.getByUserId(2, page, size);
+        Page<RentalReturnerDTO> result = rentalService.getByUserId(DEFAULT_USER, page, size);
         Page<RentalReturnerDTO> expect = new PageImpl<>(pageContent2, pageable, rentalReturnerDTOS.size());
 
         assertEquals(expect.stream().findFirst().orElseThrow().getTotalCost(), result.stream().findFirst().orElseThrow().getTotalCost());
@@ -329,7 +331,7 @@ public class RentalServiceTest {
     void getRentalsByUserId_userNotFound() {
         when(userRepository.existsById(5L))
                 .thenReturn(false);
-        assertThrows(NoSuchElementException.class, () -> rentalService.getByUserId(5, 0, 5));
+        assertThrows(NoSuchElementException.class, () -> rentalService.getByUserId(DEFAULT_USER, 0, 5));
     }
 
     @Test
@@ -338,6 +340,8 @@ public class RentalServiceTest {
                 1,
                 "Gabriel",
                 "Dello",
+                "paneNutella",
+                "1234",
                 346777,
                 "hey@itsadmin.it",
                 Roles.ADMIN
@@ -364,7 +368,7 @@ public class RentalServiceTest {
                 DEFAULT_VEHICLE, DEFAULT_EXISTING_RENTAL.getId(), DEFAULT_EXISTING_RENTAL.getUser());
         when(rentalRepository.save(any()))
                 .thenReturn(updatedRental);
-        RentalReturnerDTO result = rentalService.update(1, 1, rentalUpdaterDTO);
+        RentalReturnerDTO result = rentalService.update(1, rentalUpdaterDTO);
         RentalReturnerDTO expected = new RentalReturnerDTO(updatedRental.getId(), updatedRental.getStartDate(),
                 updatedRental.getEndDate(), updatedRental.getDailyCost(), updatedRental.isPaid(),
                 DEFAULT_VEHICLE_RENTAL_RETURNER_DTO, DEFAULT_BUYER_RENTAL_RETURNER_DTO);

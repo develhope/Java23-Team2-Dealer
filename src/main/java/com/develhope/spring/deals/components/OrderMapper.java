@@ -2,6 +2,7 @@ package com.develhope.spring.deals.components;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
@@ -55,5 +56,13 @@ public class OrderMapper {
                 order.getOrderStatus(),
                 order.isPaid()
         );
+    }
+
+    public OrderUpdatedDTO toOrderUpdateDTO(Order order){
+        return new OrderUpdatedDTO(
+                order.getId(),
+                order.isDownPayment(),
+                order.getOrderStatus(),
+                order.isPaid());
     }
 }

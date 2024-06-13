@@ -1,7 +1,7 @@
 package com.develhope.spring.vehicles.services;
 
 
-import com.develhope.spring.users.dtos.UserCreatorDTO;
+import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
@@ -50,9 +50,12 @@ public class VehicleServiceTest {
 
     private static final Vehicle DEFAULT_VEHICLE = new Vehicle();
     private static final User DEFAULT_USER = new User(1);
-    private static final UserCreatorDTO DEFAULT_USER_USER_CREATOR_DTO = new UserCreatorDTO(
+    private static final UserRegistrationDTO DEFAULT_USER_USER_CREATOR_DTO = new UserRegistrationDTO(
             "Gabriel",
             "Dello",
+            "paneNutella",
+            "12345",
+            "12345",
             3467789L,
             "hey@itsadmin.com",
             Roles.ADMIN
@@ -95,12 +98,12 @@ public class VehicleServiceTest {
     @Test
     void createVehicle_successfulCreationTest() {
         Vehicle vehicle = new Vehicle();
-        User admin = new User(1L, "Gabriel", "Dello", 3467789, "hey@itsadmin.com", Roles.ADMIN);
+        User admin = new User(1L, "Gabriel", "Dello", "panenutella", "1234", 3467789, "hey@itsadmin.com", Roles.ADMIN);
         when(userRepository.findById(admin.getId()))
                 .thenReturn(Optional.of(admin));
         when(vehicleRepository.save(any()))
                 .thenReturn(DEFAULT_VEHICLE());
-        VehicleSavedDTO result = vehicleService.create(1L, DEFAULT_VEHICLE_CREATOR_DTO);
+        VehicleSavedDTO result = vehicleService.create(DEFAULT_VEHICLE_CREATOR_DTO);
         VehicleSavedDTO expected = new VehicleSavedDTO(
                 DEFAULT_VEHICLE().getId(),
                 DEFAULT_VEHICLE().getVehicleType(),
@@ -112,38 +115,5 @@ public class VehicleServiceTest {
                 DEFAULT_VEHICLE().getMarketStatus()
         );
         assertEquals(expected.getBrand(), result.getBrand());
-    }
-
-    @Test
-    void createVehicle_NotAuthorizedSoExceptionIsThrown() {
-        User user = new User(4L);
-        user.setRoles(Roles.BUYER);
-        Vehicle vehicle = new Vehicle();
-        when(userRepository.findById(4L))
-                .thenReturn(Optional.of(user));
-        assertThrows(NotAuthorizedOperationException.class, () -> vehicleService.create(4L, DEFAULT_VEHICLE_CREATOR_DTO));
-    }
-
-//    @Test
-//    void createVehicle_successfulTest() {
-//        User admin = new User(1, "Gabriel", "Dello", 3467789, "hey@itsadmin.com", Roles.ADMIN);
-//        VehicleCreatorDTO vehicleCreatorDTO = DEFAULT_VEHICLE_CREATOR_DTO();
-//        Vehicle expectedEntity = new Vehicle(1);
-//        expectedEntity.setBrand("Gigi");
-//        when(userRepository.findById(DEFAULT_USER.getId()))
-//                .thenReturn(Optional.of(admin));
-//        when(vehicleRepository.save(DEFAULT_VEHICLE))
-//                .thenReturn(expectedEntity);
-//        VehicleResponseDTO expected = new VehicleResponseDTO(1L);
-//        expected.setBrand("Gigi");
-//        VehicleResponseDTO result = vehicleService.create(1L, vehicleCreatorDTO);
-//        assertEquals(expected.getBrand(), result.getBrand());
-//    }
-    @Test
-    void createVehicle_adminNotFoundSoExceptionIsThrown() {
-        Vehicle vehicle = new Vehicle();
-        when(userRepository.findById(4L))
-                .thenReturn(Optional.empty() );
-        assertThrows(NoSuchElementException.class, () -> vehicleService.create(4L, DEFAULT_VEHICLE_CREATOR_DTO));
     }
 }

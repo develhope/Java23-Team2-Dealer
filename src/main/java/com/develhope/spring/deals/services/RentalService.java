@@ -44,8 +44,7 @@ public class RentalService {
         return rentalMapper.toReturnerDTO(savedRental);
     }
 
-    public RentalReturnerDTO update(long adminId, long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
-        checkUserAuthorizationBy(adminId);
+    public RentalReturnerDTO update(long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
         checkValidRentalDates(rentalUpdaterDTO);
         checkMarketStatus(rentalUpdaterDTO);
         Rental savedRental = rentalRepository.findById(rentalId).orElseThrow(NoSuchElementException::new);
@@ -59,13 +58,13 @@ public class RentalService {
         return rentalMapper.toReturnerDTO(updatedRental);
     }
 
-    public Page<RentalReturnerDTO> getByUserId(long userId, int page, int size) {
-        if (!userRepository.existsById(userId)) {
+    public Page<RentalReturnerDTO> getByUserId(User userDetails, int page, int size) {
+        if (!userRepository.existsById(userDetails.getId())) {
             throw new NoSuchElementException("User not registered");
         }
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page, size, sort);
-        Page<Rental> foundRentals = rentalRepository.findByUserId(userId, pageable);
+        Page<Rental> foundRentals = rentalRepository.findByUserId(userDetails.getId(), pageable);
         return foundRentals.map(rentalMapper::toReturnerDTO);
     }
 
@@ -149,13 +148,6 @@ public class RentalService {
             throw new IllegalArgumentException(
                     "Starting Date of the rental can't be later than ending date. Please select new dates"
             );
-        }
-    }
-
-    private void checkUserAuthorizationBy(long userId) {
-        User admin = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        if (!admin.getRoles().equals(Roles.ADMIN)) {
-            throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
         }
     }
 }

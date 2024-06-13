@@ -24,10 +24,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGlobalException(Exception ex, WebRequest request) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<String> handleGlobalException(Exception ex, WebRequest request) {
+//        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<NoSuchElementException> getException(NoSuchElementException e) {
@@ -43,5 +43,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<RentalOverlappingDatesException> getException(RentalOverlappingDatesException e) {
         return ResponseEntity.status(e.getHttpStatus()).body(e);
     }
+
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<UserAlreadyExistException> getException(UserAlreadyExistException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(e);
+    }
+
 }
 
