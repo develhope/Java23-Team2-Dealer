@@ -6,7 +6,7 @@ public class UserSavedDTO {
     private long id;
     private String name;
     private String surname;
-    private String userName;
+    private String username;
     private Roles roles;
 
 
@@ -14,11 +14,11 @@ public class UserSavedDTO {
 
     public UserSavedDTO(){}
 
-    public UserSavedDTO(long id, String name, String surname, String userName, Roles roles) {
+    public UserSavedDTO(long id, String name, String surname, String username, Roles roles) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.userName = userName;
+        this.username = username;
         this.roles = roles;
     }
 
@@ -40,15 +40,15 @@ public class UserSavedDTO {
         return surname;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
 
 //setters
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setId(long id) {

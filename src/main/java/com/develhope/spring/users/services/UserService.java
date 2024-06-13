@@ -46,6 +46,7 @@ public class UserService implements IUserService {
         userToUpdate.setName(userUpdaterDTO.getName());
         userToUpdate.setSurname(userUpdaterDTO.getSurname());
         userToUpdate.setEmail(userUpdaterDTO.getEmail());
+        userToUpdate.setUsername(userUpdaterDTO.getUsername());
         userToUpdate.setPhoneNumber(userUpdaterDTO.getPhoneNumber());
         User newUser = userRepository.save(userToUpdate);
 

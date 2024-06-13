@@ -23,8 +23,8 @@ public class UserReworkedDTO {
         this.name = name;
         this.surname = surname;
         this.username = username;
-        this.email = email;
         this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
     //getters

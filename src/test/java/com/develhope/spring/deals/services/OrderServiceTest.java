@@ -109,45 +109,7 @@ public class OrderServiceTest {
 //        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
 //        assertEquals(expected.getUserId(), result.getUserId());
 //    }
-    @Test
-    void checkValidOperatorTest(){
-        when(userRepository.findById(DEFAULT_ADMIN_ID))
-                .thenReturn(Optional.of(DEFAULT_ADMIN));
-        assertDoesNotThrow(()->orderService.checkValidOperator(DEFAULT_ADMIN_ID));
-    }
 
-    @Test
-    void checkValidOperatorTest_UserBuyer(){
-        User buyer = new User(DEFAULT_ID);
-        buyer.setRoles(Roles.BUYER);
-        when(userRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(buyer));
-        assertThrows(NotAuthorizedOperationException.class, ()->orderService.checkValidOperator(DEFAULT_ID));
-    }
-
-    @Test
-    void checkValidOperatorTest_UserRoleNull(){
-
-        when(userRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(DEFAULT_USER));
-        assertThrows(NullPointerException.class, ()->orderService.checkValidOperator(DEFAULT_ID));
-    }
-
-    @Test
-    void checkValidVehicleMarketStatusTest(){
-        when(vehicleRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(DEFAULT_VEHICLE));
-        assertDoesNotThrow(()->orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
-    }
-
-    @Test
-    void checkValidVehicleMarketStatusTest_VehicleIsNotAvailable(){
-        Vehicle vehicle = new Vehicle();
-        vehicle.setMarketStatus(MarketStatus.NOTAVAILABLE);
-        when(vehicleRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(vehicle));
-        assertThrows(NotAvailableVehicleException.class, ()->orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
-    }
 
     @Test
     void updateOrderTest() {

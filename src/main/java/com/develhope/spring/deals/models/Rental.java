@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collection;
 
 @Entity
 public class Rental {
@@ -37,10 +38,6 @@ public class Rental {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
-
-    @Column(nullable = true)
-    @OneToMany
-    private User optionalUser;
 
 
     public BigDecimal getTotalCost() {
