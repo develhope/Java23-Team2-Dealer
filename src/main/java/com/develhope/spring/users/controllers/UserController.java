@@ -1,8 +1,6 @@
 package com.develhope.spring.users.controllers;
 
-import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserReworkedDTO;
-import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
