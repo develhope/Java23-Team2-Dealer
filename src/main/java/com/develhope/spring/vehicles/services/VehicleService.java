@@ -9,10 +9,8 @@ import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.models.VehicleMapper;
@@ -67,7 +65,7 @@ public class VehicleService {
 
     private void checkUserAuthorizationBy(long userId) {
         User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        if (!user.getRoles().equals(Roles.ADMIN)) {
+        if (!user.getRole().equals(Roles.ADMIN)) {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
         }
     }

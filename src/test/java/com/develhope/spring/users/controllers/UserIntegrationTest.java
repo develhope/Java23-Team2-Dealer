@@ -71,7 +71,8 @@ public class UserIntegrationTest {
                                 "surname": "Mastrota",
                                 "username": "Inox",
                                 "phoneNumber": 123,
-                                "email": "altra@email.it"
+                                "email": "altra@email.it",
+                                "role": "SALESPERSON"
                                 }
                                 """))
                 .andDo(print())
@@ -83,7 +84,8 @@ public class UserIntegrationTest {
                         "surname": "Mastrota",
                         "username": "Inox",
                         "phoneNumber": 123,
-                        "email": "altra@email.it"
+                        "email": "altra@email.it",
+                        "role": "SALESPERSON"
                         }
                         """)).andReturn();
     }

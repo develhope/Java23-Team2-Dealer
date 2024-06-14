@@ -5,7 +5,6 @@ import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -35,7 +34,8 @@ public class UserServiceTest {
             "Asburgo",
             "coriandolo",
             123321,
-            "ciao@bello.com"
+            "ciao@bello.com",
+            Roles.SALESPERSON
     );
 
     @BeforeEach
@@ -61,7 +61,7 @@ public class UserServiceTest {
                 DEFAULT_BUYER.getPassword(),
                 DEFAULT_UPDATER_DTO.getPhoneNumber(),
                 DEFAULT_UPDATER_DTO.getEmail(),
-                DEFAULT_BUYER.getRoles()
+                DEFAULT_BUYER.getRole()
         );
         when(userRepository.save(any()))
                 .thenReturn(updatedUser);
@@ -71,7 +71,8 @@ public class UserServiceTest {
                 "Asburgo",
                 "coriandolo",
                 123321,
-                "ciao@bello.com"
+                "ciao@bello.com",
+                Roles.SALESPERSON
         );
         UserReworkedDTO result = userService.update(DEFAULT_ID, DEFAULT_UPDATER_DTO);
         assertEquals(expected.getName(), result.getName());
@@ -89,7 +90,7 @@ public class UserServiceTest {
                 DEFAULT_BUYER.getPassword(),
                 DEFAULT_UPDATER_DTO.getPhoneNumber(),
                 DEFAULT_UPDATER_DTO.getEmail(),
-                DEFAULT_BUYER.getRoles()
+                DEFAULT_BUYER.getRole()
         );
         when(userRepository.save(any()))
                 .thenReturn(updatedUser);
@@ -99,10 +100,40 @@ public class UserServiceTest {
                 "Asburgo",
                 "coriandolo",
                 123321,
-                "ciao@bello.com"
+                "ciao@bello.com",
+                Roles.SALESPERSON
         );
         UserReworkedDTO result = userService.update(DEFAULT_ID, DEFAULT_UPDATER_DTO);
         assertEquals(expected.getId(), result.getId());
+    }
+
+    @Test
+    void updateUserTest_checkIfRoleIsUpdated() {
+        when(userRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_BUYER));
+        User updatedUser = new User(
+                DEFAULT_BUYER.getId(),
+                DEFAULT_UPDATER_DTO.getName(),
+                DEFAULT_UPDATER_DTO.getSurname(),
+                DEFAULT_UPDATER_DTO.getUsername(),
+                DEFAULT_BUYER.getPassword(),
+                DEFAULT_UPDATER_DTO.getPhoneNumber(),
+                DEFAULT_UPDATER_DTO.getEmail(),
+                DEFAULT_UPDATER_DTO.getRole()
+        );
+        when(userRepository.save(any()))
+                .thenReturn(updatedUser);
+        UserReworkedDTO expected = new UserReworkedDTO(
+                1L,
+                "Sio",
+                "Asburgo",
+                "coriandolo",
+                123321,
+                "ciao@bello.com",
+                Roles.SALESPERSON
+        );
+        UserReworkedDTO result = userService.update(DEFAULT_ID, DEFAULT_UPDATER_DTO);
+        assertEquals(result.getRole(), expected.getRole());
     }
 }
 

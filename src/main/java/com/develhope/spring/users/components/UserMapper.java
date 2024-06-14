@@ -21,10 +21,10 @@ public class UserMapper {
 
     public UserUpdaterDTO toUserUpdaterDTO (User user) {
         return new UserUpdaterDTO(user.getName(), user.getSurname(), user.getUsername(), user.getPhoneNumber(),
-                user.getEmail(), user.getRoles());
+                user.getEmail(), user.getRole());
     }
     public UserSavedDTO toUserSavedDTO(User user) {
-        return new UserSavedDTO(user.getId(), user.getName(), user.getSurname(), user.getUsername(),user.getRoles());
+        return new UserSavedDTO(user.getId(), user.getName(), user.getSurname(), user.getUsername(),user.getRole());
     }
 
     public User toEntity(UserRegistrationDTO userRegistrationDTO) {
@@ -35,7 +35,7 @@ public class UserMapper {
         user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         user.setPhoneNumber(userRegistrationDTO.getPhoneNumber());
         user.setEmail(userRegistrationDTO.getEmail());
-        user.setRoles(userRegistrationDTO.getRoles());
+        user.setRole(userRegistrationDTO.getRoles());
         return user;
     }
 
@@ -77,12 +77,12 @@ public class UserMapper {
         user.setUsername(userDTO.getUsername());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setEmail(userDTO.getEmail());
-        user.setRoles(userDTO.getRole());
+        user.setRole(userDTO.getRole());
 
         return user;
     }
     public UserReworkedDTO toReworkedDTO (User user){
         return new UserReworkedDTO(user.getId(), user.getName(), user.getSurname(), user.getUsername(), user.getPhoneNumber(),
-                user.getEmail());
+                user.getEmail(),user.getRole());
     }
 }

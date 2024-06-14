@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -49,6 +48,7 @@ public class UserService implements IUserService {
         userToUpdate.setEmail(userUpdaterDTO.getEmail());
         userToUpdate.setUsername(userUpdaterDTO.getUsername());
         userToUpdate.setPhoneNumber(userUpdaterDTO.getPhoneNumber());
+        userToUpdate.setRole(userUpdaterDTO.getRole());
         User newUser = userRepository.save(userToUpdate);
 
         return userMapper.toReworkedDTO(newUser);
