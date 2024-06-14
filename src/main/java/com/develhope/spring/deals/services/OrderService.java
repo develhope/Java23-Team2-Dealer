@@ -63,4 +63,8 @@ public class OrderService {
         Order newOrderSaved = orderRepository.save(orderToUpdate);
         return orderMapper.toOrderUpdateDTO(newOrderSaved);
     }
+
+    public void delete(Long orderId) {
+        orderRepository.deleteById(orderId);
+    }
 }
