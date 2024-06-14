@@ -29,7 +29,7 @@ public class VehicleController {
     }
 
     @Secured("ADMIN")
-    @PutMapping("/{userId}/{vehicleId}")
+    @PutMapping("/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
     public VehicleReworkedDTO update(@PathVariable long vehicleId,
                                      @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
@@ -37,7 +37,7 @@ public class VehicleController {
     }
 
     @Secured({"ADMIN"})
-    @PatchMapping("/{userId}/{vehicleId}/status")
+    @PatchMapping("/{vehicleId}/status")
     @ResponseStatus(HttpStatus.OK)
     public VehicleReworkedDTO updateStatus( @PathVariable long vehicleId,
                                 @RequestBody VehicleStatusDTO vehicleStatusDTO) {
