@@ -3,7 +3,8 @@ package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
-import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
+import com.develhope.spring.deals.dtos.OrderReworkedDTO;
+import com.develhope.spring.deals.dtos.OrderUpdaterDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
@@ -32,13 +33,6 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
-    public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
-        checkValidVehicleMarketStatus(orderCreatorDTO);
-        Order insertedOrder = orderMapper.toEntity(orderCreatorDTO);
-        Order savedOrder = orderRepository.save(insertedOrder);
-        return orderMapper.toResponseDTO(savedOrder);
-    }
-
     void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {
         Vehicle vehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow(NoSuchElementException::new);
         if (vehicle.getMarketStatus() == MarketStatus.NOTAVAILABLE) {
@@ -46,21 +40,22 @@ public class OrderService {
         }
     }
 
-    void checkValidOperator (long userId){
-        User operator = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        if (operator.getRoles().equals(Roles.BUYER)){
-            throw new NotAuthorizedOperationException("Permesso negato. Non sei autorizzato ad effettuare questa operazione");
-        }
-    }
-    public OrderUpdatedDTO update (long orderId, OrderCreatorDTO orderCreatorDTO){
+
+    public OrderResponseDTO create(OrderCreatorDTO orderCreatorDTO) {
         checkValidVehicleMarketStatus(orderCreatorDTO);
+        Order insertedOrder = orderMapper.toEntity(orderCreatorDTO);
+        Order savedOrder = orderRepository.save(insertedOrder);
+        return orderMapper.toResponseDTO(savedOrder);
+    }
+
+    public OrderReworkedDTO update (long orderId, OrderUpdaterDTO orderUpdaterDTO){
         Order orderToUpdate = orderRepository.findById(orderId).orElseThrow();
-        Vehicle newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow();
-        orderToUpdate.setDownPayment(orderCreatorDTO.isDownPayment());
-        orderToUpdate.setOrderStatus(orderCreatorDTO.getOrderStatus());
-        orderToUpdate.setPaid(orderCreatorDTO.isPaid());
-        orderToUpdate.setVehicle(newVehicle);
+
+        orderToUpdate.setDownPayment(orderUpdaterDTO.isDownPayment());
+        orderToUpdate.setOrderStatus(orderUpdaterDTO.getOrderStatus());
+        orderToUpdate.setPaid(orderUpdaterDTO.isPaid());
+
         Order newOrderSaved = orderRepository.save(orderToUpdate);
-        return orderMapper.toOrderUpdateDTO(newOrderSaved);
+        return orderMapper.toReworkedDTO(newOrderSaved);
     }
 }

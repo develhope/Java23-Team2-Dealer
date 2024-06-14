@@ -56,8 +56,8 @@ public class Rental {
         return paid;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost,
-                  boolean paid, Vehicle vehicle, long id, User user, List<User> sellers) {
+    public Rental(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost,
+                  boolean paid, Vehicle vehicle, User user, List<User> sellers) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;

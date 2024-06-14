@@ -2,7 +2,7 @@ package com.develhope.spring.deals.dtos;
 
 import com.develhope.spring.deals.models.OrderStatus;
 
-public class OrderUpdatedDTO {
+public class OrderReworkedDTO {
 
     private Long id;
     private boolean downPayment;
@@ -49,12 +49,12 @@ public class OrderUpdatedDTO {
 
 
     //constructors
-    public OrderUpdatedDTO(Long id, boolean downPayment, OrderStatus orderStatus, boolean paid) {
+    public OrderReworkedDTO(Long id, boolean downPayment, OrderStatus orderStatus, boolean paid) {
         this.id = id;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
         this.paid = paid;
     }
 
-    public OrderUpdatedDTO(){}
+    public OrderReworkedDTO(){}
 }

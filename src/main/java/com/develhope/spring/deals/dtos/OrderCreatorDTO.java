@@ -16,7 +16,8 @@ public class OrderCreatorDTO {
     public OrderCreatorDTO() {
     }
 
-    public OrderCreatorDTO(boolean downPayment, long vehicleId, long userId, OrderStatus orderStatus, boolean paid, List<User> sellers) {
+    public OrderCreatorDTO(boolean downPayment, long vehicleId, long userId, OrderStatus orderStatus,
+                           boolean paid, List<User> sellers) {
         this.downPayment = downPayment;
         this.vehicleId = vehicleId;
         this.userId = userId;

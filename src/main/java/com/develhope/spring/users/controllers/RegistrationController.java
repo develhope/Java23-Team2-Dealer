@@ -1,7 +1,7 @@
 package com.develhope.spring.users.controllers;
 
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
-import com.develhope.spring.users.dtos.UserSavedDTO;
+import com.develhope.spring.users.dtos.UserResponseDTO;
 import com.develhope.spring.users.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class RegistrationController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/profile/registration")
-    public UserSavedDTO registerUserAccount(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
+    public UserResponseDTO registerUserAccount(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
         return userService.registerNewUserAccount(userRegistrationDTO);
     }
 }

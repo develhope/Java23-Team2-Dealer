@@ -1,9 +1,11 @@
 package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
-import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
+import com.develhope.spring.deals.dtos.OrderReworkedDTO;
+import com.develhope.spring.deals.dtos.OrderUpdaterDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
+import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.users.models.Roles;
@@ -26,6 +28,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,10 +57,14 @@ public class OrderServiceTest {
     private OrderService orderService;
 
 
-    private static final long DEFAULT_ID = 1;
-    private static final long DEFAULT_ADMIN_ID = 2;
+    private final long DEFAULT_ID = 1;
+    private final long DEFAULT_ADMIN_ID = 2;
+    private final List<User> DEFAULT_SELLERS_LIST = new ArrayList<>();
+    private final Order DEFAULT_ORDER = new Order(1);
+    private final Rental DEFAULT_RENTAL = new Rental(1);
+    private final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
 
-    private static final User DEFAULT_ADMIN = new User(
+    private final User DEFAULT_ADMIN = new User(
             2,
             "",
             "",
@@ -64,20 +72,27 @@ public class OrderServiceTest {
             "1234",
             123,
             "",
-            Roles.ADMIN
+            Roles.ADMIN,
+            DEFAULT_RENTAL,
+            DEFAULT_ORDER
     );
 
-    private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
+    private final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
             true,
             1,
             1,
             OrderStatus.PAID,
-            true
+            true,
+            DEFAULT_SELLERS_LIST
     );
-    private static final Order DEFAULT_ORDER = new Order(1);
 
-    private static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
-    private static final VehicleOrderReturnerDTO DEFAULT_VEHICLE_ORDER_RETURNER_DTO = new VehicleOrderReturnerDTO(
+    private final OrderUpdaterDTO DEFAULT_ORDER_UPDATER_DTO = new OrderUpdaterDTO(
+            false,
+            OrderStatus.PENDING,
+            false
+    );
+
+    private final VehicleOrderReturnerDTO DEFAULT_VEHICLE_ORDER_RETURNER_DTO = new VehicleOrderReturnerDTO(
             1,
             VehicleType.CAR,
             "Fiat",
@@ -109,29 +124,6 @@ public class OrderServiceTest {
 //        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
 //        assertEquals(expected.getUserId(), result.getUserId());
 //    }
-    @Test
-    void checkValidOperatorTest(){
-        when(userRepository.findById(DEFAULT_ADMIN_ID))
-                .thenReturn(Optional.of(DEFAULT_ADMIN));
-        assertDoesNotThrow(()->orderService.checkValidOperator(DEFAULT_ADMIN_ID));
-    }
-
-    @Test
-    void checkValidOperatorTest_UserBuyer(){
-        User buyer = new User(DEFAULT_ID);
-        buyer.setRoles(Roles.BUYER);
-        when(userRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(buyer));
-        assertThrows(NotAuthorizedOperationException.class, ()->orderService.checkValidOperator(DEFAULT_ID));
-    }
-
-    @Test
-    void checkValidOperatorTest_UserRoleNull(){
-
-        when(userRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(DEFAULT_USER));
-        assertThrows(NullPointerException.class, ()->orderService.checkValidOperator(DEFAULT_ID));
-    }
 
     @Test
     void checkValidVehicleMarketStatusTest(){
@@ -161,17 +153,18 @@ public class OrderServiceTest {
                 DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
                 DEFAULT_ORDER_CREATOR_DTO.isPaid(),
                 DEFAULT_VEHICLE,
-                DEFAULT_USER
+                DEFAULT_USER,
+                DEFAULT_SELLERS_LIST
                 );
         when(orderRepository.save(any()))
                 .thenReturn(updatedRental);
-        OrderUpdatedDTO expected = new OrderUpdatedDTO(
+        OrderReworkedDTO expected = new OrderReworkedDTO(
                 1L,
                 true,
                 OrderStatus.PAID,
                 true
         );
-        OrderUpdatedDTO result = orderService.update(DEFAULT_ID,DEFAULT_ORDER_CREATOR_DTO);
+        OrderReworkedDTO result = orderService.update(DEFAULT_ID,DEFAULT_ORDER_UPDATER_DTO);
         assertEquals(expected.isDownPayment(), result.isDownPayment());
     }
 
@@ -187,17 +180,18 @@ public class OrderServiceTest {
                 DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
                 DEFAULT_ORDER_CREATOR_DTO.isPaid(),
                 DEFAULT_VEHICLE,
-                DEFAULT_USER
+                DEFAULT_USER,
+                DEFAULT_SELLERS_LIST
         );
         when(orderRepository.save(any()))
                 .thenReturn(updatedRental);
-        OrderUpdatedDTO expected = new OrderUpdatedDTO(
+        OrderReworkedDTO expected = new OrderReworkedDTO(
                 1L,
                 true,
                 OrderStatus.PAID,
                 true
         );
-        OrderUpdatedDTO result = orderService.update(DEFAULT_ID, DEFAULT_ORDER_CREATOR_DTO);
+        OrderReworkedDTO result = orderService.update(DEFAULT_ID, DEFAULT_ORDER_UPDATER_DTO);
         assertEquals(expected.getId(), result.getId());
     }
 }

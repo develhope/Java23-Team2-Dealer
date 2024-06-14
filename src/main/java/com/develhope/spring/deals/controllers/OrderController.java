@@ -2,8 +2,8 @@ package com.develhope.spring.deals.controllers;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
-import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
-import com.develhope.spring.deals.models.Order;
+import com.develhope.spring.deals.dtos.OrderReworkedDTO;
+import com.develhope.spring.deals.dtos.OrderUpdaterDTO;
 import com.develhope.spring.deals.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +25,9 @@ public class OrderController {
     @Secured({"ADMIN", "SALESPERSON"})
     @PatchMapping("{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public OrderUpdatedDTO updateOrder (@PathVariable long orderId,
-                                        @RequestBody OrderCreatorDTO orderCreatorDTO){
-        return orderService.update(orderId, orderCreatorDTO);
+    public OrderReworkedDTO updateOrder (@PathVariable long orderId,
+                                         @RequestBody OrderUpdaterDTO orderUpdaterDTO){
+        return orderService.update(orderId, orderUpdaterDTO);
     }
 
 }

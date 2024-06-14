@@ -55,7 +55,7 @@ public class User implements UserDetails {
     private List<Rental> rentals;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Vehicle soldVehicle;
+    private Rental soldRental;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Order soldOrder;
@@ -68,7 +68,7 @@ public class User implements UserDetails {
     }
 
     public User(long id, String name, String surname, String username, String password,
-                long phoneNumber, String email, Roles roles, Vehicle soldVehicle, Order soldOrder) {
+                long phoneNumber, String email, Roles roles, Rental soldRental, Order soldOrder) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -79,7 +79,7 @@ public class User implements UserDetails {
         this.rentals = new ArrayList<>();
         this.email = email;
         this.roles = roles;
-        this.soldVehicle = soldVehicle;
+        this.soldRental = soldRental;
         this.soldOrder = soldOrder;
     }
 
@@ -186,12 +186,12 @@ public class User implements UserDetails {
         return id;
     }
 
-    public Vehicle getSoldVehicle() {
-        return soldVehicle;
+    public Rental getSoldRental() {
+        return soldRental;
     }
 
-    public void setSoldVehicle(Vehicle soldVehicle) {
-        this.soldVehicle = soldVehicle;
+    public void setSoldRental(Rental soldRental) {
+        this.soldRental = soldRental;
     }
 
     public Order getSoldOrder() {
