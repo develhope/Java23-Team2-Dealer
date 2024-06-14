@@ -81,6 +81,6 @@ public class VehicleService {
 
     public Vehicle findVehicleBy(long vehicleId) {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
-        return optionalVehicle.orElseThrow();
+        return optionalVehicle.orElseThrow(NoSuchElementException::new);
     }
 }
