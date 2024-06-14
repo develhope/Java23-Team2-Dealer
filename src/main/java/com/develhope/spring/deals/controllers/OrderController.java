@@ -7,6 +7,9 @@ import com.develhope.spring.deals.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,14 +24,23 @@ public class OrderController {
     public OrderResponseDTO createOrder(@RequestBody OrderCreatorDTO orderCreatorDTO) {
         return orderService.create(orderCreatorDTO);
     }
+
     @Secured({"ADMIN", "SALESPERSON"})
     @PatchMapping("{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public OrderUpdatedDTO updateOrder (@PathVariable long orderId,
-                                        @RequestBody OrderCreatorDTO orderCreatorDTO){
+    public OrderUpdatedDTO updateOrder(@PathVariable long orderId,
+                                       @RequestBody OrderCreatorDTO orderCreatorDTO) {
         return orderService.update(orderId, orderCreatorDTO);
     }
 
+    @Secured({"ADMIN"})
+    @DeleteMapping("/admin/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteOrderByAdmin(@PathVariable Long orderId) {
+        orderService.deleteByAdmin(orderId);
+    }
+
+    @Secured({"ADMIN", "SALESPERSON", "BUYER"})
     @DeleteMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteOrder(@PathVariable Long orderId) {

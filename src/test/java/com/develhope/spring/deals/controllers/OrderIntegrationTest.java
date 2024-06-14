@@ -1,15 +1,13 @@
 package com.develhope.spring.deals.controllers;
 
-import com.develhope.spring.deals.dtos.OrderResponseDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -68,6 +66,7 @@ public class OrderIntegrationTest {
 
     private void insertOrder() throws Exception {
         this.mockMvc.perform(post("/v1/orders")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -113,8 +112,9 @@ public class OrderIntegrationTest {
                 )).andReturn();
     }
 
+
     @Test
-    void createAndDeleteOrder_successfulTest() throws Exception {
+    void createOrderAndDeletedByADMIN_successfulTest() throws Exception {
         insertAdmin();
         insertVehicle();
         insertOrder();
@@ -123,21 +123,48 @@ public class OrderIntegrationTest {
                         .with(httpBasic("hey@itsadmin.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                        {
-                        "downPayment": true,
-                        "vehicleId": 1,
-                        "userId": 1,
-                        "orderStatus": "PAID",
-                        "paid": true
-                        }
-                        """))
-                .andExpect(status().isCreated())
-                .andReturn();
+                            {
+                            "downPayment": true,
+                            "vehicleId": 1,
+                            "userId": 1,
+                            "orderStatus": "PAID",
+                            "paid": true
+                            }
+                            """))
+                .andExpect(status().isCreated());
 
-        this.mockMvc.perform(delete("/v1/orders/1")
-                        .with(httpBasic("hey@itsadmin.com", "1234")))
+        this.mockMvc.perform(delete("/v1/orders/admin/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
     }
 
+    @Test
+    void createAndDeleteOrder_successfulTest() throws Exception{
+    insertAdmin();
+    insertVehicle();
+    insertOrder();
+
+    this.mockMvc.perform(post("/v1/orders")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+            .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                            "downPayment": true,
+                            "vehicleId": 1,
+                            "userId": 1,
+                            "orderStatus": "PAID",
+                            "paid": true
+                            }
+                            """))
+            .andExpect(status().isCreated());
+
+        this.mockMvc.perform(delete("/v1/orders/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+    }
 }
