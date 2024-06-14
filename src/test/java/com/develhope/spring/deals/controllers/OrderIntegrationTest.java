@@ -117,8 +117,12 @@ public class OrderIntegrationTest {
     void createAndDeleteOrder_successfulTest() throws Exception {
         insertAdmin();
         insertVehicle();
+        insertOrder();
 
-        this.mockMvc.perform(post("/v1/orders").contentType(MediaType.APPLICATION_JSON).content("""
+        this.mockMvc.perform(post("/v1/orders")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
                         {
                         "downPayment": true,
                         "vehicleId": 1,
@@ -130,12 +134,10 @@ public class OrderIntegrationTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        this.mockMvc.perform(delete("/v1/orders/1"))
-                .andExpect(status().isOk());
-
-        //NON è completo, è solo la logica di quello che voglio fare, mancano ancora tutti gli elementi per farlo.
-        //Ma non riesco a capire cosa mi manca o non trovo proprio l'errore
-
+        this.mockMvc.perform(delete("/v1/orders/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234")))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 
 }
