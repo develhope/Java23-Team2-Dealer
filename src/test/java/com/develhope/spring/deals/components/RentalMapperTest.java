@@ -1,9 +1,8 @@
 package com.develhope.spring.deals.components;
 
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalReturnerDTO;
+import com.develhope.spring.deals.dtos.RentalResponseDTO;
 import com.develhope.spring.deals.models.Rental;
-import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.models.User;
@@ -78,7 +77,7 @@ public class RentalMapperTest {
     }
 
     @Test
-    void toReturnerDTO_From_testSuccessfulSameTotalPrice() {
+    void toResponseDTO_From_testSuccessfulSameTotalPrice() {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(1);
 
@@ -95,8 +94,8 @@ public class RentalMapperTest {
         BuyerRentalReturnerDto buyerRentalReturnerDto = new BuyerRentalReturnerDto();
         buyerRentalReturnerDto.setEmail(rental.getUser().getEmail());
 
-        RentalReturnerDTO result = rentalMapper.toReturnerDTO(rental);
-        RentalReturnerDTO expected = new RentalReturnerDTO(1, startDate, endDate, dailyCost, false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
+        RentalResponseDTO result = rentalMapper.toResponseDTO(rental);
+        RentalResponseDTO expected = new RentalResponseDTO(1, startDate, endDate, dailyCost, false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
         assertEquals(expected.getTotalCost(), result.getTotalCost());
     }
 }

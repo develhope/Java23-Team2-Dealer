@@ -1,6 +1,9 @@
 package com.develhope.spring.deals.dtos;
 
 import com.develhope.spring.deals.models.OrderStatus;
+import com.develhope.spring.users.models.User;
+
+import java.util.List;
 
 public class OrderCreatorDTO {
     private boolean downPayment;
@@ -8,16 +11,18 @@ public class OrderCreatorDTO {
     private long userId;
     private OrderStatus orderStatus;
     private boolean paid;
+    private List<User> sellers;
 
     public OrderCreatorDTO() {
     }
 
-    public OrderCreatorDTO(boolean downPayment, long vehicleId, long userId, OrderStatus orderStatus, boolean paid) {
+    public OrderCreatorDTO(boolean downPayment, long vehicleId, long userId, OrderStatus orderStatus, boolean paid, List<User> sellers) {
         this.downPayment = downPayment;
         this.vehicleId = vehicleId;
         this.userId = userId;
         this.orderStatus = orderStatus;
         this.paid = paid;
+        this.sellers = sellers;
     }
 
     public boolean isDownPayment() {
@@ -58,5 +63,13 @@ public class OrderCreatorDTO {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public List<User> getSellers() {
+        return sellers;
+    }
+
+    public void setSellers(List<User> sellers) {
+        this.sellers = sellers;
     }
 }

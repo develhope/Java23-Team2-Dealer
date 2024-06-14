@@ -1,28 +1,24 @@
 package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalReturnerDTO;
+import com.develhope.spring.deals.dtos.RentalResponseDTO;
 import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.repositories.RentalRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
-import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class RentalService {
@@ -36,15 +32,15 @@ public class RentalService {
     @Autowired
     private RentalMapper rentalMapper;
 
-    public RentalReturnerDTO create(RentalCreatorDTO rentalCreatorDTO) {
+    public RentalResponseDTO create(RentalCreatorDTO rentalCreatorDTO) {
         checkValidRentalDates(rentalCreatorDTO);
         checkMarketStatus(rentalCreatorDTO);
         Rental rental = rentalMapper.toEntity(rentalCreatorDTO);
         Rental savedRental = rentalRepository.save(rental);
-        return rentalMapper.toReturnerDTO(savedRental);
+        return rentalMapper.toResponseDTO(savedRental);
     }
 
-    public RentalReturnerDTO update(long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
+    public RentalResponseDTO update(long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
         checkValidRentalDates(rentalUpdaterDTO);
         checkMarketStatus(rentalUpdaterDTO);
         Rental savedRental = rentalRepository.findById(rentalId).orElseThrow(NoSuchElementException::new);
@@ -55,17 +51,17 @@ public class RentalService {
         savedRental.setVehicle(vehicle);
         savedRental.setTotalCost(rentalUpdaterDTO.getTotalCost());
         Rental updatedRental = rentalRepository.save(savedRental);
-        return rentalMapper.toReturnerDTO(updatedRental);
+        return rentalMapper.toResponseDTO(updatedRental);
     }
 
-    public Page<RentalReturnerDTO> getByUserId(User userDetails, int page, int size) {
+    public Page<RentalResponseDTO> getByUserId(User userDetails, int page, int size) {
         if (!userRepository.existsById(userDetails.getId())) {
             throw new NoSuchElementException("User not registered");
         }
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Rental> foundRentals = rentalRepository.findByUserId(userDetails.getId(), pageable);
-        return foundRentals.map(rentalMapper::toReturnerDTO);
+        return foundRentals.map(rentalMapper::toResponseDTO);
     }
 
     private static void checkValidArgument(RentalCreatorDTO rentalCreatorDTO) {

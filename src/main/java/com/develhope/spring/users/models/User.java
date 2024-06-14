@@ -1,17 +1,18 @@
 package com.develhope.spring.users.models;
 
+import com.develhope.spring.configuration.validators.CustomAnnotation.ValidEmail;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.Rental;
-import com.develhope.spring.configuration.validators.CustomAnnotation.ValidEmail;
+import com.develhope.spring.vehicles.models.Vehicle;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ArrayList;
 
 
 @Entity
@@ -53,6 +54,12 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Rental> rentals;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Vehicle soldVehicle;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order soldOrder;
+
     public User() {
     }
 
@@ -60,7 +67,8 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public User(long id, String name, String surname, String username, String password, long phoneNumber, String email, Roles roles) {
+    public User(long id, String name, String surname, String username, String password,
+                long phoneNumber, String email, Roles roles, Vehicle soldVehicle, Order soldOrder) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -71,6 +79,8 @@ public class User implements UserDetails {
         this.rentals = new ArrayList<>();
         this.email = email;
         this.roles = roles;
+        this.soldVehicle = soldVehicle;
+        this.soldOrder = soldOrder;
     }
 
     @Override
@@ -174,5 +184,21 @@ public class User implements UserDetails {
 
     public long getId() {
         return id;
+    }
+
+    public Vehicle getSoldVehicle() {
+        return soldVehicle;
+    }
+
+    public void setSoldVehicle(Vehicle soldVehicle) {
+        this.soldVehicle = soldVehicle;
+    }
+
+    public Order getSoldOrder() {
+        return soldOrder;
+    }
+
+    public void setSoldOrder(Order soldOrder) {
+        this.soldOrder = soldOrder;
     }
 }

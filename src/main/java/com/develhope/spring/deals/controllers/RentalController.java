@@ -1,7 +1,7 @@
 package com.develhope.spring.deals.controllers;
 
 import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalReturnerDTO;
+import com.develhope.spring.deals.dtos.RentalResponseDTO;
 import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.services.RentalService;
 import com.develhope.spring.users.models.User;
@@ -21,20 +21,20 @@ public class RentalController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public RentalReturnerDTO create(@RequestBody RentalCreatorDTO rentalCreatorDTO) {
+    public RentalResponseDTO create(@RequestBody RentalCreatorDTO rentalCreatorDTO) {
         return rentalService.create(rentalCreatorDTO);
     }
 
     @Secured({"ADMIN", "SALESPERSON"})
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PatchMapping("/{rentalId}")
-    public RentalReturnerDTO update(@PathVariable long rentalId, @RequestBody RentalUpdaterDTO rentalUpdaterDTO) {
+    public RentalResponseDTO update(@PathVariable long rentalId, @RequestBody RentalUpdaterDTO rentalUpdaterDTO) {
         return rentalService.update(rentalId, rentalUpdaterDTO);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public Page<RentalReturnerDTO> loadByUserId(@AuthenticationPrincipal User userDetails, @RequestParam int page, @RequestParam int size) {
+    public Page<RentalResponseDTO> loadByUserId(@AuthenticationPrincipal User userDetails, @RequestParam int page, @RequestParam int size) {
         return rentalService.getByUserId(userDetails, page, size);
     }
 }

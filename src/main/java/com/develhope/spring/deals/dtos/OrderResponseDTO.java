@@ -1,8 +1,15 @@
 package com.develhope.spring.deals.dtos;
 
 import com.develhope.spring.deals.models.OrderStatus;
+import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 
+import java.util.List;
+
+/**
+ * This is the DTO that you get as response when you create an Order
+ * not usable for GET requests.
+ */
 public class OrderResponseDTO {
 
     private long id;

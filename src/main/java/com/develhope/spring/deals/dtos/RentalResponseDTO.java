@@ -6,8 +6,11 @@ import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-
-public class RentalReturnerDTO {
+/**
+ * This is the DTO that you get as response when you create a Rental
+ * not usable for GET requests.
+ */
+public class RentalResponseDTO {
     private long id;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -17,7 +20,7 @@ public class RentalReturnerDTO {
     private VehicleRentalReturnerDTO vehicle;
     private BuyerRentalReturnerDto buyer;
 
-    public RentalReturnerDTO() {
+    public RentalResponseDTO() {
     }
 
     void calculateTotalCost() {
@@ -25,7 +28,7 @@ public class RentalReturnerDTO {
         this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
     }
 
-    public RentalReturnerDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer) {
+    public RentalResponseDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;

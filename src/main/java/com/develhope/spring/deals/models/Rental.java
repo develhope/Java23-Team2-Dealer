@@ -2,10 +2,12 @@ package com.develhope.spring.deals.models;
 
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Rental {
@@ -38,11 +40,14 @@ public class Rental {
     @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<User> sellers;
+
     public void setPaid(boolean paid) {
         this.paid = paid;
     }
 
-    // Getters
     public BigDecimal getTotalCost() {
         return totalCost;
     }
@@ -51,15 +56,28 @@ public class Rental {
         return paid;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost,
+                  boolean paid, Vehicle vehicle, long id, User user, List<User> sellers) {
+        this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
         this.totalCost = totalCost;
         this.paid = paid;
         this.vehicle = vehicle;
-        this.id = id;
         this.user = user;
+        this.sellers = sellers;
+    }
+    public Rental(long id){
+        this.id = id;
+    }
+
+    public List<User> getSellers() {
+        return sellers;
+    }
+
+    public void setSellers(List<User> sellers) {
+        this.sellers = sellers;
     }
 
     public User getUser() {

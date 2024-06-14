@@ -2,8 +2,11 @@ package com.develhope.spring.deals.models;
 
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-    
+
+import java.util.List;
+
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -26,6 +29,10 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<User> sellers;
+
     public Order() {
     }
 
@@ -34,13 +41,14 @@ public class Order {
     }
 
     public Order(long id, boolean downPayment, OrderStatus orderStatus,
-                 boolean paid, Vehicle vehicle, User user) {
+                 boolean paid, Vehicle vehicle, User user, List<User> sellers) {
         this.id = id;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
         this.paid = paid;
         this.vehicle = vehicle;
         this.user = user;
+        this.sellers=sellers;
     }
 
 
@@ -86,5 +94,13 @@ public class Order {
 
     public OrderStatus getOrderStatus() {
         return orderStatus;
+    }
+
+    public List<User> getSellers() {
+        return sellers;
+    }
+
+    public void setSellers(List<User> sellers) {
+        this.sellers = sellers;
     }
 }

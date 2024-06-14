@@ -1,6 +1,7 @@
 package com.develhope.spring.deals.components;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
+import com.develhope.spring.deals.dtos.OrderGetterDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
@@ -21,19 +22,7 @@ public class OrderMapper {
     @Autowired
     private UserMapper userMapper;
 
-    public Order toEntity(OrderCreatorDTO orderCreatorDTO) {
-        Vehicle vehicle = new Vehicle(orderCreatorDTO.getVehicleId());
-        User user = new User(orderCreatorDTO.getUserId());
 
-        Order order = new Order();
-        order.setVehicle(vehicle);
-        order.setUser(user);
-        order.setDownPayment(orderCreatorDTO.isDownPayment());
-        order.setOrderStatus(orderCreatorDTO.getOrderStatus());
-        order.setPaid(orderCreatorDTO.isPaid());
-
-        return order;
-    }
 
     public OrderResponseDTO toResponseDTO(Order order) {
         VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTO(order.getVehicle());
@@ -47,14 +36,18 @@ public class OrderMapper {
                 order.isPaid()
         );
     }
-    public OrderCreatorDTO toCreatorDTO(Order order){
 
-        return new OrderCreatorDTO(
+    public OrderGetterDTO toGetterDTO(Order order) {
+        VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTO(order.getVehicle());
+        UserOrderReturnerDTO userOrderReturnerDTO = userMapper.toUserOrderReturnerDTO(order.getUser());
+        return new OrderGetterDTO(
+                order.getId(),
                 order.isDownPayment(),
-                order.getVehicle().getId(),
-                order.getUser().getId(),
+                vehicleOrderReturnerDTO,
+                userOrderReturnerDTO.getId(),
                 order.getOrderStatus(),
-                order.isPaid()
+                order.isPaid(),
+                order.getSellers()
         );
     }
 
@@ -64,5 +57,21 @@ public class OrderMapper {
                 order.isDownPayment(),
                 order.getOrderStatus(),
                 order.isPaid());
+    }
+
+    //toEntity();
+    public Order toEntity(OrderCreatorDTO orderCreatorDTO) {
+        Vehicle vehicle = new Vehicle(orderCreatorDTO.getVehicleId());
+        User user = new User(orderCreatorDTO.getUserId());
+
+        Order order = new Order();
+        order.setDownPayment(orderCreatorDTO.isDownPayment());
+        order.setOrderStatus(orderCreatorDTO.getOrderStatus());
+        order.setPaid(orderCreatorDTO.isPaid());
+        order.setVehicle(vehicle);
+        order.setUser(user);
+        order.setSellers(orderCreatorDTO.getSellers());
+
+        return order;
     }
 }
