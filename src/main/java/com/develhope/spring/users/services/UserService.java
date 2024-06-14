@@ -2,12 +2,15 @@ package com.develhope.spring.users.services;
 
 import com.develhope.spring.exceptions.UserAlreadyExistException;
 import com.develhope.spring.users.components.UserMapper;
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -35,5 +38,11 @@ public class UserService implements IUserService {
 
     private boolean emailExists(String email) {
         return userRepository.findByEmail(email).isPresent();
+    }
+
+
+
+    public void deleteUser ( long userIDToDelete){
+        userRepository.deleteById(userIDToDelete);
     }
 }
