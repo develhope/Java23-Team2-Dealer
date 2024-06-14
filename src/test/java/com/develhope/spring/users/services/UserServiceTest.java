@@ -5,6 +5,7 @@ import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
+import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -16,6 +17,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -48,6 +51,12 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
+
+    private User setupWithRole(Roles role){
+        User user = new User(DEFAULT_ID);
+        user.setRole(role);
+        return user;
+    }
 
     @Test
     void updateUserTest() {

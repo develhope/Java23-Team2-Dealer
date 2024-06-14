@@ -23,4 +23,10 @@ public class UserController {
                                       @RequestBody UserUpdaterDTO userUpdaterDTO){
         return userService.update(userID, userUpdaterDTO);
     }
+    @Secured("ADMIN")
+    @DeleteMapping("/{userID}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable long userID){
+        userService.deleteUser(userID);
+    }
 }

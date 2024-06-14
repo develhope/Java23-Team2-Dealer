@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -21,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
-
 
     private void insertAdmin() throws Exception {
         this.mockMvc.perform(post("/v1/profile/registration")
@@ -58,7 +58,7 @@ public class UserIntegrationTest {
                                 """)).andReturn();
     }
 
-    @Test
+
     void userUpdateTest() throws Exception {
         insertAdmin();
         insertBuyer();
@@ -76,7 +76,7 @@ public class UserIntegrationTest {
                                 }
                                 """))
                 .andDo(print())
-                .andExpect(status().isOk())
+        .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
                         "id": 2,
@@ -88,5 +88,14 @@ public class UserIntegrationTest {
                         "role": "SALESPERSON"
                         }
                         """)).andReturn();
+    }
+    @Test
+    void deleteUserTest() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        this.mockMvc.perform(delete("/v1/users/2")
+                        .with(httpBasic("mail@itsadmin.com", "1234")))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }
