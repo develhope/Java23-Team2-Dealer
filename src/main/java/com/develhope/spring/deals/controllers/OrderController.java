@@ -3,7 +3,6 @@ package com.develhope.spring.deals.controllers;
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
-import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +27,12 @@ public class OrderController {
     public OrderUpdatedDTO updateOrder (@PathVariable long orderId,
                                         @RequestBody OrderCreatorDTO orderCreatorDTO){
         return orderService.update(orderId, orderCreatorDTO);
+    }
+
+    @DeleteMapping("/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteOrder(@PathVariable Long orderId) {
+        orderService.delete(orderId);
     }
 
 }

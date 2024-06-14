@@ -81,4 +81,219 @@ public class OrderMapperTest {
 //        assertEquals(expected.getOrderStatus(), result.getOrderStatus());
 //        assertEquals(expected.isPaid(), result.isPaid());
 //    }
+
+    @Test
+    void createOrder_successfulTest_userId() {
+        OrderResponseDTO expected = new OrderResponseDTO(
+                1,
+                true,
+                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+                1,
+                OrderStatus.PAID,
+                true
+        );
+
+        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
+                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
+        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
+                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+
+        assertEquals(expected.getUserId(), result.getUserId());
+    }
+
+    @Test
+    void createOrder_successfulTest_vehicleId() {
+        OrderResponseDTO expected = new OrderResponseDTO(
+                1,
+                true,
+                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+                1,
+                OrderStatus.PAID,
+                true
+        );
+
+        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
+                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
+        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
+                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+
+        assertEquals(expected.getVehicle().getId(), result.getVehicle().getId());
+    }
+
+    @Test
+    void createOrder_successfulTest_downPayment() {
+        OrderResponseDTO expected = new OrderResponseDTO(
+                1,
+                true,
+                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+                1,
+                OrderStatus.PAID,
+                true
+        );
+
+        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
+                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
+        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
+                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+
+        assertEquals(expected.isDownPayment(), result.isDownPayment());
+    }
+
+    @Test
+    void createOrder_successfulTest_orderStatus() {
+        OrderResponseDTO expected = new OrderResponseDTO(
+                1,
+                true,
+                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+                1,
+                OrderStatus.PAID,
+                true
+        );
+
+        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
+                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
+        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
+                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+
+        assertEquals(expected.getOrderStatus(), result.getOrderStatus());
+    }
+
+    @Test
+    void createOrder_successfulTest_paid() {
+        OrderResponseDTO expected = new OrderResponseDTO(
+                1,
+                true,
+                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+                1,
+                OrderStatus.PAID,
+                true
+        );
+
+        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
+                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
+        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
+                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+
+        assertEquals(expected.isPaid(), result.isPaid());
+    }
+    @Test
+    void toEntity_SetsDownPaymentCorrectly() {
+        OrderCreatorDTO orderCreatorDTO = new OrderCreatorDTO();
+        orderCreatorDTO.setDownPayment(true);
+        Order result = orderMapper.toEntity(orderCreatorDTO);
+        assertTrue(result.isDownPayment());
+    }
+
+    @Test
+    void toEntity_SetsOrderStatusCorrectly() {
+        OrderCreatorDTO orderCreatorDTO = new OrderCreatorDTO();
+        orderCreatorDTO.setOrderStatus(OrderStatus.PENDING);
+
+        Order result = orderMapper.toEntity(orderCreatorDTO);
+
+        assertEquals(OrderStatus.PENDING, result.getOrderStatus());
+    }
+
+    @Test
+    void toEntity_SetsPaidCorrectly() {
+        OrderCreatorDTO orderCreatorDTO = new OrderCreatorDTO();
+        orderCreatorDTO.setPaid(false);
+        Order result = orderMapper.toEntity(orderCreatorDTO);
+
+        assertFalse(result.isPaid());
+    }
+
+    @Test
+    void toResponseDTO_MapsOrderToDTO_notNull() {
+        Order order = new Order();
+        order.setDownPayment(true);
+        order.setOrderStatus(OrderStatus.PENDING);
+        order.setPaid(false);
+
+        VehicleOrderReturnerDTO vehicleDTO = new VehicleOrderReturnerDTO();
+        when(vehicleMapper.toOrderReturnerDTO(any())).thenReturn(vehicleDTO);
+
+        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
+        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(order);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    void toResponseDTO_MapsOrderToDTO_downPayment() {
+        Order order = new Order();
+        order.setDownPayment(true);
+        order.setOrderStatus(OrderStatus.PENDING);
+        order.setPaid(false);
+
+        VehicleOrderReturnerDTO vehicleDTO = new VehicleOrderReturnerDTO();
+        when(vehicleMapper.toOrderReturnerDTO(any())).thenReturn(vehicleDTO);
+
+        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
+        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(order);
+
+        assertEquals(true, result.isDownPayment());
+    }
+
+    @Test
+    void toResponseDTO_MapsOrderToDTO_orderStatus() {
+        Order order = new Order();
+        order.setDownPayment(true);
+        order.setOrderStatus(OrderStatus.PENDING);
+        order.setPaid(false);
+
+        VehicleOrderReturnerDTO vehicleDTO = new VehicleOrderReturnerDTO();
+        when(vehicleMapper.toOrderReturnerDTO(any())).thenReturn(vehicleDTO);
+
+        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
+        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(order);
+
+        assertEquals(OrderStatus.PENDING, result.getOrderStatus());
+    }
+
+    @Test
+    void toResponseDTO_MapsOrderToDTO_paid() {
+        Order order = new Order();
+        order.setDownPayment(true);
+        order.setOrderStatus(OrderStatus.PENDING);
+        order.setPaid(false);
+
+        VehicleOrderReturnerDTO vehicleDTO = new VehicleOrderReturnerDTO();
+        when(vehicleMapper.toOrderReturnerDTO(any())).thenReturn(vehicleDTO);
+
+        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
+        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(order);
+
+        assertEquals(false, result.isPaid());
+    }
+
+    @Test
+    void toResponseDTO_SetsUserIdCorrectly() {
+        Order order = new Order();
+        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
+        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
+
+        OrderResponseDTO result = orderMapper.toResponseDTO(order);
+
+        assertEquals(userDTO.getId(), result.getUserId());
+    }
 }
+
