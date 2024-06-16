@@ -22,7 +22,7 @@ public class RegistrationController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/profile/registration")
     public UserSavedDTO registerUserAccount(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
-        logger.info("Ricevuta richiesta registrazione " + userRegistrationDTO);
+        logger.info("Registration request received " + userRegistrationDTO);
         return userService.registerNewUserAccount(userRegistrationDTO);
     }
 }
