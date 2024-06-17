@@ -8,7 +8,6 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
-import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
@@ -17,14 +16,9 @@ import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.*;
 
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -76,7 +70,7 @@ public class OrderService {
     }
 
     public void deleteOrderByIdAndUserId(long orderId, User userDetails) {
-        orderRepository.deleteByIdWhereUserIdLike(orderId, userDetails.getId());
+        orderRepository.deleteByIdAndUserId(orderId, userDetails.getId());
     }
 
     public boolean checkOrderId (long orderId, User userDetails){
