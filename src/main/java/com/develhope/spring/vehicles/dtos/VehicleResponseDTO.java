@@ -11,7 +11,7 @@ public class VehicleResponseDTO {
     private String model;
     private int registrationYear;
     private MotorPowerSupply powerSupply;
-    private BigDecimal originalPrice;
+    private BigDecimal price;
     private UsedFlag usedFlag;
     private String engine;
 
@@ -41,8 +41,8 @@ public class VehicleResponseDTO {
         return powerSupply;
     }
 
-    public BigDecimal getOriginalPrice() {
-        return originalPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
     public UsedFlag getUsedFlag() {
@@ -78,8 +78,8 @@ public class VehicleResponseDTO {
         this.powerSupply = powerSupply;
     }
 
-    public void setOriginalPrice(BigDecimal originalPrice) {
-        this.originalPrice = originalPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public void setUsedFlag(UsedFlag usedFlag) {
@@ -92,17 +92,19 @@ public class VehicleResponseDTO {
 
     //Costruttori
     public VehicleResponseDTO(long id, VehicleType vehicleType, String brand, String model, int registrationYear,
-                              MotorPowerSupply powerSupply, BigDecimal originalPrice, UsedFlag usedFlag, String engine) {
+                              MotorPowerSupply powerSupply, BigDecimal price, UsedFlag usedFlag, String engine) {
         this.id = id;
         this.vehicleType = vehicleType;
         this.brand = brand;
         this.model = model;
         this.registrationYear = registrationYear;
         this.powerSupply = powerSupply;
-        this.originalPrice = originalPrice;
+        this.price = price;
         this.usedFlag = usedFlag;
         this.engine = engine;
     }
 
     public VehicleResponseDTO(){}
+
+    public VehicleResponseDTO(long id){}
 }

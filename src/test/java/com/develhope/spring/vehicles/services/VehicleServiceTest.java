@@ -1,15 +1,19 @@
 package com.develhope.spring.vehicles.services;
 
 
+import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.dtos.VehicleReworkedDTO;
+import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.vehicleEnums.*;
+import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +23,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.NoSuchElementException;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,6 +61,18 @@ public class VehicleServiceTest {
             UsedFlag.NEW,
             MarketStatus.ORDERABLE,
             "motore a curvatura"
+    );
+
+    private static final User DEFAULT_USER = new User(1);
+    private static final UserRegistrationDTO DEFAULT_USER_USER_CREATOR_DTO = new UserRegistrationDTO(
+            "Gabriel",
+            "Dello",
+            "paneNutella",
+            "12345",
+            "12345",
+            3467789L,
+            "hey@itsadmin.com",
+            Roles.ADMIN
     );
 
     private  final VehicleCreatorDTO DEFAULT_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(

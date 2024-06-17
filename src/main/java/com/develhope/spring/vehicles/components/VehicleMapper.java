@@ -1,5 +1,6 @@
 package com.develhope.spring.vehicles.components;
 
+import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.dtos.*;
 import com.develhope.spring.vehicles.models.Vehicle;
 import org.springframework.stereotype.Component;
