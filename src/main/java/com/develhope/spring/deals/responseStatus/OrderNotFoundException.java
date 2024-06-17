@@ -4,11 +4,12 @@ import org.springframework.http.HttpStatus;
 
 import java.util.NoSuchElementException;
 
-public class OrderNotFoundException extends RuntimeException{
+public class OrderNotFoundException extends RuntimeException {
 
     private HttpStatus httpStatus;
 
-    public OrderNotFoundException(NoSuchElementException e) {
+    public OrderNotFoundException(String message) {
+        super(message);
         this.httpStatus = HttpStatus.BAD_REQUEST;
     }
 

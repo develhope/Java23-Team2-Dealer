@@ -211,7 +211,7 @@ public class OrderServiceTest {
 
         when(orderRepository.findById(DEFAULT_ORDER_ID.getId())).thenReturn(Optional.of(mockOrder));
 
-        orderService.deleteByAdmin(DEFAULT_ORDER_ID.getId());
+        orderService.deleteBy(DEFAULT_ORDER_ID.getId());
 
         verify(orderRepository, times(1)).deleteById(DEFAULT_ORDER_ID.getId());
     }
@@ -233,7 +233,7 @@ public class OrderServiceTest {
         when(orderRepository.findById(DEFAULT_ORDER_ID.getId())).thenReturn(Optional.of(mockOrder));
 
         NotAuthorizedOperationException exception = assertThrows(NotAuthorizedOperationException.class,
-                () -> orderService.deleteByAdmin(DEFAULT_ORDER_ID.getId()));
+                () -> orderService.deleteBy(DEFAULT_ORDER_ID.getId()));
         assertEquals("You do not have permission to cancel this order", exception.getMessage());
 
         verify(orderRepository, never()).deleteById(anyLong());
