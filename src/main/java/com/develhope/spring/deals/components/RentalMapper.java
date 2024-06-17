@@ -1,9 +1,6 @@
 package com.develhope.spring.deals.components;
 
-import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalGetterDTO;
-import com.develhope.spring.deals.dtos.RentalResponseDTO;
-import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
+import com.develhope.spring.deals.dtos.*;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
@@ -27,7 +24,7 @@ public class RentalMapper {
     public RentalResponseDTO toResponseDTO(Rental rental) {
 
         VehicleRentalReturnerDTO vehicleRentalResponseDTO = vehicleMapper.toRentalReturnerDTO(rental.getVehicle());
-        BuyerRentalReturnerDto buyerResponseDto = userMapper.toRentalBuyerDTO(rental.getUser());
+        BuyerRentalReturnerDto buyerResponseDto = userMapper.toRentalBuyerDTO(rental.getBuyer());
 
         return new RentalResponseDTO(
                 rental.getId(),
@@ -36,14 +33,15 @@ public class RentalMapper {
                 rental.getDailyCost(),
                 rental.isPaid(),
                 vehicleRentalResponseDTO,
-                buyerResponseDto
+                buyerResponseDto,
+                rental.getSellers()
         );
     }
 
     public RentalGetterDTO toGetterDTO(Rental rental){
 
         VehicleRentalReturnerDTO vehicleRentalResponseDTO = vehicleMapper.toRentalReturnerDTO(rental.getVehicle());
-        BuyerRentalReturnerDto buyerResponseDto = userMapper.toRentalBuyerDTO(rental.getUser());
+        BuyerRentalReturnerDto buyerResponseDto = userMapper.toRentalBuyerDTO(rental.getBuyer());
 
         return new RentalGetterDTO(
                 rental.getId(),
@@ -57,6 +55,21 @@ public class RentalMapper {
         );
     }
 
+    public RentalReworkedDTO toReworkedDTO(Rental rental){
+        VehicleRentalReturnerDTO vehicleRentalResponseDTO = vehicleMapper.toRentalReturnerDTO(rental.getVehicle());
+        BuyerRentalReturnerDto buyerResponseDto = userMapper.toRentalBuyerDTO(rental.getBuyer());
+
+        return new RentalReworkedDTO(
+                rental.getId(),
+                rental.getStartDate(),
+                rental.getEndDate(),
+                rental.getDailyCost(),
+                rental.isPaid(),
+                rental.getVehicle().getId()
+        );
+
+    }
+
     //ToEntity();
     public Rental toEntity(RentalCreatorDTO rentalCreatorDTO) {
         Vehicle vehicle = new Vehicle(rentalCreatorDTO.getVehicleId());
@@ -68,7 +81,7 @@ public class RentalMapper {
         rental.setTotalCost(rentalCreatorDTO.getTotalCost());
         rental.setPaid(rentalCreatorDTO.isPaid());
         rental.setVehicle(vehicle);
-        rental.setUser(user);
+        rental.setBuyer(user);
         rental.setSellers(rentalCreatorDTO.getSellers());
 
         return rental;
@@ -84,7 +97,7 @@ public class RentalMapper {
         rental.setTotalCost(rentalUpdaterDTO.getTotalCost());
         rental.setPaid(rentalUpdaterDTO.isPaid());
         rental.setVehicle(vehicle);
-        rental.setUser(user);
+        rental.setBuyer(user);
         return rental;
     }
 }

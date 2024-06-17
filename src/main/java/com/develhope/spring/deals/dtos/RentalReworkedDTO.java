@@ -1,36 +1,26 @@
 package com.develhope.spring.deals.dtos;
 
-import com.develhope.spring.users.models.User;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.List;
 
-public class RentalCreatorDTO {
-
+public class RentalReworkedDTO {
+    private long id;
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal dailyCost;
     private BigDecimal totalCost;
     private boolean paid;
     private long vehicleId;
-    private long userId;
-    private List<User> sellers;
 
-    public RentalCreatorDTO() {
-    }
-
-    public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid,
-                            long vehicleId, long userId, List<User> sellers) {
+    public RentalReworkedDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, long vehicleId) {
+        this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyCost = dailyCost;
+        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
         calculateTotalCost();
         this.paid = paid;
         this.vehicleId = vehicleId;
-        this.userId = userId;
-        this.sellers = sellers;
     }
 
     void calculateTotalCost() {
@@ -40,18 +30,6 @@ public class RentalCreatorDTO {
 
     public BigDecimal getTotalCost() {
         return totalCost;
-    }
-
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 
     public LocalDate getStartDate() {
@@ -75,7 +53,7 @@ public class RentalCreatorDTO {
     }
 
     public void setDailyCost(BigDecimal dailyCost) {
-        this.dailyCost = dailyCost;
+        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public boolean isPaid() {
@@ -94,11 +72,11 @@ public class RentalCreatorDTO {
         this.vehicleId = vehicleId;
     }
 
-    public List<User> getSellers() {
-        return sellers;
+    public long getId() {
+        return id;
     }
 
-    public void setSellers(List<User> sellers) {
-        this.sellers = sellers;
+    public void setId(long id) {
+        this.id = id;
     }
 }

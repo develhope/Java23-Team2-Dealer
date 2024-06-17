@@ -1,9 +1,7 @@
 
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalResponseDTO;
-import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
+import com.develhope.spring.deals.dtos.*;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.deals.repositories.RentalRepository;
@@ -77,8 +75,8 @@ public class RentalServiceTest {
     private final BuyerRentalReturnerDto DEFAULT_BUYER_RENTAL_RETURNER_DTO = new BuyerRentalReturnerDto(2);
     private final Rental DEFAULT_EXISTING_RENTAL = new Rental(
             1,
-            DEFAULT_RENTAL_START_DATE,
-            DEFAULT_RENTAL_END_DATE,
+            LocalDate.of(2024, 6, 7),
+            LocalDate.of(2024, 6, 10),
             DEFAULT_PRICE,
             DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
             true,
@@ -101,25 +99,27 @@ public class RentalServiceTest {
 
     private final Collection<Rental> DEFAULT_EXISTING_RENTALS = new ArrayList<>(List.of(DEFAULT_EXISTING_RENTAL, DEFAULT_EXISTING_RENTAL2));
 
-    private List<RentalResponseDTO> getRentalReturnerDTOS() {
-        RentalResponseDTO rental1 = new RentalResponseDTO(
+    private List<RentalGetterDTO> getRentalGettersDTOs() {
+        RentalGetterDTO rental1 = new RentalGetterDTO(
                 DEFAULT_EXISTING_RENTAL.getId(),
                 DEFAULT_EXISTING_RENTAL.getStartDate(),
                 DEFAULT_EXISTING_RENTAL.getEndDate(),
                 DEFAULT_EXISTING_RENTAL.getDailyCost(),
                 DEFAULT_EXISTING_RENTAL.isPaid(),
                 DEFAULT_VEHICLE_RENTAL_RETURNER_DTO,
-                DEFAULT_BUYER_RENTAL_RETURNER_DTO
+                DEFAULT_BUYER_RENTAL_RETURNER_DTO,
+                DEFAULT_SELLERS_LIST
         );
 
-        RentalResponseDTO rental2 = new RentalResponseDTO(
+        RentalGetterDTO rental2 = new RentalGetterDTO(
                 DEFAULT_EXISTING_RENTAL2.getId(),
                 DEFAULT_EXISTING_RENTAL2.getStartDate(),
                 DEFAULT_EXISTING_RENTAL2.getEndDate(),
                 DEFAULT_EXISTING_RENTAL2.getDailyCost(),
                 DEFAULT_EXISTING_RENTAL2.isPaid(),
                 DEFAULT_VEHICLE_RENTAL_RETURNER_DTO,
-                DEFAULT_BUYER_RENTAL_RETURNER_DTO
+                DEFAULT_BUYER_RENTAL_RETURNER_DTO,
+                DEFAULT_SELLERS_LIST
         );
         return new ArrayList<>(List.of(rental1, rental2));
     }
@@ -134,7 +134,8 @@ public class RentalServiceTest {
                 DEFAULT_PRICE,
                 true,
                 DEFAULT_VEHICLE_RENTAL_RETURNER_DTO,
-                DEFAULT_BUYER_RENTAL_RETURNER_DTO
+                DEFAULT_BUYER_RENTAL_RETURNER_DTO,
+                DEFAULT_SELLERS_LIST
         );
 
         Rental rental = new Rental(
@@ -270,12 +271,19 @@ public class RentalServiceTest {
                 rentalUpdaterDTO.getTotalCost(),
                 rentalUpdaterDTO.isPaid(),
                 DEFAULT_VEHICLE,
-                DEFAULT_EXISTING_RENTAL.getUser(),
+                DEFAULT_EXISTING_RENTAL.getBuyer(),
                 DEFAULT_EXISTING_RENTAL.getSellers());
         when(rentalRepository.save(any()))
                 .thenReturn(updatedRental);
-        RentalResponseDTO result = rentalService.update(1, rentalUpdaterDTO);
-        RentalResponseDTO expected = new RentalResponseDTO(updatedRental.getId(), updatedRental.getStartDate(), updatedRental.getEndDate(), updatedRental.getDailyCost(), updatedRental.isPaid(), DEFAULT_VEHICLE_RENTAL_RETURNER_DTO, DEFAULT_BUYER_RENTAL_RETURNER_DTO);
+        RentalReworkedDTO result = rentalService.update(1, rentalUpdaterDTO);
+        RentalReworkedDTO expected = new RentalReworkedDTO(
+                updatedRental.getId(),
+                updatedRental.getStartDate(),
+                updatedRental.getEndDate(),
+                updatedRental.getDailyCost(),
+                updatedRental.isPaid(),
+                updatedRental.getVehicle().getId());
+
         assertEquals(expected.getTotalCost(), result.getTotalCost());
     }
 
@@ -291,10 +299,10 @@ public class RentalServiceTest {
         List<Rental> pageContent = rentals.subList(start, end);
         Page<Rental> rentalPage = new PageImpl<>(pageContent, pageable, rentals.size());
 
-        List<RentalResponseDTO> rentalResponseDTOS = getRentalReturnerDTOS();
+        List<RentalGetterDTO> rentalGettersDTOs = getRentalGettersDTOs();
         int start2 = (int) pageable.getOffset();
-        int end2 = Math.min((start + pageable.getPageSize()), rentalResponseDTOS.size());
-        List<RentalResponseDTO> pageContent2 = rentalResponseDTOS.subList(start2, end2);
+        int end2 = Math.min((start + pageable.getPageSize()), rentalGettersDTOs.size());
+        List<RentalGetterDTO> pageContent2 = rentalGettersDTOs.subList(start2, end2);
 
 
         when(userRepository.existsById(DEFAULT_USER.getId()))
@@ -306,8 +314,8 @@ public class RentalServiceTest {
         when(rentalRepository.findByUserId(DEFAULT_USER.getId(), pageable))
                 .thenReturn(rentalPage);
 
-        Page<RentalResponseDTO> result = rentalService.getByUserId(DEFAULT_USER, page, size);
-        Page<RentalResponseDTO> expect = new PageImpl<>(pageContent2, pageable, rentalResponseDTOS.size());
+        Page<RentalGetterDTO> result = rentalService.getByUserId(DEFAULT_USER, page, size);
+        Page<RentalGetterDTO> expect = new PageImpl<>(pageContent2, pageable, rentalGettersDTOs.size());
 
         assertEquals(expect.stream().findFirst().orElseThrow().getTotalCost(), result.stream().findFirst().orElseThrow().getTotalCost());
     }

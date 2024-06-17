@@ -80,7 +80,7 @@ public class RentalMapperTest {
 
         Rental result = rentalMapper.toEntity(rentalCreatorDTO);
         Rental expected = new Rental(1, startDate, endDate, BigDecimal.valueOf(40), BigDecimal.valueOf(80), true, vehicle, user, DEFAULT_SELLERS_LIST);
-        assertEquals(expected.getUser().getId(), result.getUser().getId());
+        assertEquals(expected.getBuyer().getId(), result.getBuyer().getId());
     }
 
     @Test
@@ -99,10 +99,10 @@ public class RentalMapperTest {
         vehicleRentalReturnerDTO.setId(rental.getVehicle().getId());
 
         BuyerRentalReturnerDto buyerRentalReturnerDto = new BuyerRentalReturnerDto();
-        buyerRentalReturnerDto.setEmail(rental.getUser().getEmail());
+        buyerRentalReturnerDto.setEmail(rental.getBuyer().getEmail());
 
         RentalResponseDTO result = rentalMapper.toResponseDTO(rental);
-        RentalResponseDTO expected = new RentalResponseDTO(1, startDate, endDate, dailyCost, false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
+        RentalResponseDTO expected = new RentalResponseDTO(1, startDate, endDate, dailyCost, false, vehicleRentalReturnerDTO, buyerRentalReturnerDto,DEFAULT_SELLERS_LIST);
         assertEquals(expected.getTotalCost(), result.getTotalCost());
     }
 }

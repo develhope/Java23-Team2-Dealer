@@ -51,12 +51,12 @@ public class User implements UserDetails {
     private List<Order> orders;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Rental> rentals;
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Rental soldRental;
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Order soldOrder;
 

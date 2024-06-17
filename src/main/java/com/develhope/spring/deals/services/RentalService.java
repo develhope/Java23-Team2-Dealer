@@ -1,8 +1,6 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalResponseDTO;
-import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
+import com.develhope.spring.deals.dtos.*;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.repositories.RentalRepository;
@@ -40,7 +38,7 @@ public class RentalService {
         return rentalMapper.toResponseDTO(savedRental);
     }
 
-    public RentalResponseDTO update(long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
+    public RentalReworkedDTO update(long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
         checkValidRentalDates(rentalUpdaterDTO);
         checkMarketStatus(rentalUpdaterDTO);
         Rental savedRental = rentalRepository.findById(rentalId).orElseThrow(NoSuchElementException::new);
@@ -51,17 +49,17 @@ public class RentalService {
         savedRental.setVehicle(vehicle);
         savedRental.setTotalCost(rentalUpdaterDTO.getTotalCost());
         Rental updatedRental = rentalRepository.save(savedRental);
-        return rentalMapper.toResponseDTO(updatedRental);
+        return rentalMapper.toReworkedDTO(updatedRental);
     }
 
-    public Page<RentalResponseDTO> getByUserId(User userDetails, int page, int size) {
+    public Page<RentalGetterDTO> getByUserId(User userDetails, int page, int size) {
         if (!userRepository.existsById(userDetails.getId())) {
             throw new NoSuchElementException("User not registered");
         }
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Rental> foundRentals = rentalRepository.findByUserId(userDetails.getId(), pageable);
-        return foundRentals.map(rentalMapper::toResponseDTO);
+        return foundRentals.map(rentalMapper::toGetterDTO);
     }
 
     private static void checkValidArgument(RentalCreatorDTO rentalCreatorDTO) {
