@@ -13,6 +13,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/vehicles")
 public class VehicleController {
@@ -25,6 +27,11 @@ public class VehicleController {
     @ResponseStatus(HttpStatus.CREATED)
     public VehicleSavedDTO create(@RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
         return vehicleService.create(vehicleCreatorDTO);
+    }
+
+    @GetMapping
+    public List<Vehicle> search(@RequestParam(value = "search") String search) {
+        return vehicleService.search(search);
     }
 
     //TODO Convertire autorizzazione
