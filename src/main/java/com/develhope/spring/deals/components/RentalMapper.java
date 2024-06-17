@@ -7,7 +7,7 @@ import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.develhope.spring.vehicles.models.VehicleMapper;
+import com.develhope.spring.vehicles.components.VehicleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

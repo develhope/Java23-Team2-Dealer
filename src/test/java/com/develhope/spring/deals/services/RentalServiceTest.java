@@ -3,6 +3,8 @@ package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.dtos.*;
 import com.develhope.spring.deals.models.Order;
+import com.develhope.spring.deals.dtos.RentalCreatorDTO;
+import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.deals.repositories.RentalRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
@@ -15,9 +17,7 @@ import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,10 +35,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class RentalServiceTest {
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
+
 
     @MockBean
     private VehicleRepository vehicleRepository;
@@ -199,7 +196,7 @@ public class RentalServiceTest {
         );
 
         Rental existingRental2 = new Rental(
-                4,
+                5,
                 LocalDate.of(2024, 5, 31),
                 LocalDate.of(2024, 6, 2),
                 DEFAULT_PRICE,
@@ -325,5 +322,48 @@ public class RentalServiceTest {
         when(userRepository.existsById(5L))
                 .thenReturn(false);
         assertThrows(NoSuchElementException.class, () -> rentalService.getByUserId(DEFAULT_USER, 0, 5));
+    }
+
+    @Test
+    void updateRental_returnIDTest() {
+        User admin = new User(
+                1,
+                "Gabriel",
+                "Dello",
+                "paneNutella",
+                "1234",
+                346777,
+                "hey@itsadmin.it",
+                Roles.ADMIN,
+                DEFAULT_RENTAL,
+                DEFAULT_ORDER
+        );
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.of(admin));
+
+        RentalUpdaterDTO rentalUpdaterDTO = new RentalUpdaterDTO(
+                LocalDate.of(2024, 6, 15),
+                LocalDate.of(2024, 6, 18),
+                DEFAULT_PRICE,
+                false,
+                1);
+
+        when(rentalRepository.findByVehicleId(rentalUpdaterDTO.getVehicleId()))
+                .thenReturn(DEFAULT_EXISTING_RENTALS);
+        when(vehicleRepository.findById(rentalUpdaterDTO.getVehicleId()))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(rentalRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_EXISTING_RENTAL));
+        Rental updatedRental = new Rental(DEFAULT_EXISTING_RENTAL.getId(), rentalUpdaterDTO.getStartDate(), rentalUpdaterDTO.getEndDate(),
+                rentalUpdaterDTO.getDailyCost(), rentalUpdaterDTO.getTotalCost(), rentalUpdaterDTO.isPaid(),
+                DEFAULT_VEHICLE, DEFAULT_EXISTING_RENTAL.getBuyer(), DEFAULT_SELLERS_LIST);
+        when(rentalRepository.save(any()))
+                .thenReturn(updatedRental);
+        RentalReworkedDTO result = rentalService.update(1, rentalUpdaterDTO);
+        RentalReworkedDTO expected = new RentalReworkedDTO(updatedRental.getId(), updatedRental.getStartDate(),
+                updatedRental.getEndDate(), updatedRental.getDailyCost(), updatedRental.isPaid(),
+                DEFAULT_VEHICLE_RENTAL_RETURNER_DTO.getId());
+        assertEquals(expected.getId(), result.getId());
     }
 }

@@ -2,10 +2,14 @@ package com.develhope.spring.users.services;
 
 import com.develhope.spring.exceptions.UserAlreadyExistException;
 import com.develhope.spring.users.components.UserMapper;
+import com.develhope.spring.users.controllers.RegistrationController;
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserResponseDTO;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +21,8 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public User getBy(Long id) {
         return userRepository.findById(id).orElseThrow();
