@@ -13,7 +13,7 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     Collection<Rental> findByVehicleId(long vehicleId);
 
-    Collection<Rental> findByUserId(long userId);
+    Collection<Rental> findByBuyerId(long userId);
 
-    Page<Rental> findByUserId(long userId, Pageable pageable);
+    Page<Rental> findByBuyerId(long userId, Pageable pageable);
 }

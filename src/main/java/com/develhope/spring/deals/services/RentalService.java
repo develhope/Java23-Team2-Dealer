@@ -58,7 +58,7 @@ public class RentalService {
         }
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page, size, sort);
-        Page<Rental> foundRentals = rentalRepository.findByUserId(userDetails.getId(), pageable);
+        Page<Rental> foundRentals = rentalRepository.findByBuyerId(userDetails.getId(), pageable);
         return foundRentals.map(rentalMapper::toGetterDTO);
     }
 

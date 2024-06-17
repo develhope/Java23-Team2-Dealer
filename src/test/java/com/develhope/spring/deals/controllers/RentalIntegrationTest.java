@@ -1,22 +1,18 @@
 package com.develhope.spring.deals.controllers;
 
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-
-import org.springframework.test.web.servlet.MockMvc;
-
 import org.springframework.test.annotation.DirtiesContext;
-
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 
 @SpringBootTest
@@ -259,17 +255,15 @@ public class RentalIntegrationTest {
         this.mockMvc.perform(patch("/v1/rentals/1")
                         .with(httpBasic("hey@itsadmin.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(
-                                """
-                                        {
-                                            "startDate": "2024-06-09",
-                                            "endDate": "2024-06-12",
-                                            "dailyCost": 40.00,
-                                            "paid": false,
-                                            "vehicleId": 1
-                                        }
-                                        """
-                        ))
+                        .content("""
+                                {
+                                "startDate": "2024-06-09",
+                                "endDate": "2024-06-12",
+                                "dailyCost": 40.00,
+                                "paid": false,
+                                "vehicleId": 1
+                                }
+                                """))
                 .andExpect(status().isAccepted())
                 .andExpect(content().json("""
                         {
@@ -278,12 +272,7 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "totalCost": 120.00,
                         "paid": false,
-                        "vehicle": {
-                                    "id": 1
-                                    },
-                        "buyer": {
-                                 "id": 2
-                                 }
+                        "vehicleId": 1
                         }
                         """)).andReturn();
     }

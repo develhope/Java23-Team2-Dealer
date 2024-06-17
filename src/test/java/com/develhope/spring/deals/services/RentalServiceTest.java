@@ -311,7 +311,7 @@ public class RentalServiceTest {
                 .thenReturn(DEFAULT_EXISTING_RENTAL);
         when(rentalRepository.save(DEFAULT_RENTAL))
                 .thenReturn(DEFAULT_EXISTING_RENTAL2);
-        when(rentalRepository.findByUserId(DEFAULT_USER.getId(), pageable))
+        when(rentalRepository.findByBuyerId(DEFAULT_USER.getId(), pageable))
                 .thenReturn(rentalPage);
 
         Page<RentalGetterDTO> result = rentalService.getByUserId(DEFAULT_USER, page, size);
