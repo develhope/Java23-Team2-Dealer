@@ -33,7 +33,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -196,47 +195,33 @@ public class OrderServiceTest {
         assertEquals(expected.getId(), result.getId());
     }
 
+
     @Test
-    void deleteByAdmin_OrderOwner_SuccessfullyDeletesOrder() {
-        Authentication userAuth = new UsernamePasswordAuthenticationToken(
-                USER_USERNAME, "password", Collections.singleton(new SimpleGrantedAuthority("ADMIN")));
-        SecurityContext securityContext = mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(userAuth);
-        SecurityContextHolder.setContext(securityContext);
+    void deleteOrderByIdAndUserId_OrderNotFound() {
+        when(orderRepository.findByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER.getId()))
+                .thenReturn(Optional.empty());
+        Exception exception = assertThrows(OrderNotFoundException.class, () -> orderService.deleteOrderByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER));
+        assertEquals("Order Not Found!", exception.getMessage());
+        verify(orderRepository, times(1)).findByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER.getId());
+        verify(orderRepository, never()).deleteById(anyLong());
+    }
 
-        Order mockOrder = new Order();
-        mockOrder.setUser(DEFAULT_ORDER_ID.getUser());
-        mockOrder.setUser(new User());
-        mockOrder.getUser().setEmail(USER_USERNAME);
-
-        when(orderRepository.findById(DEFAULT_ORDER_ID.getId())).thenReturn(Optional.of(mockOrder));
-
-        orderService.deleteBy(DEFAULT_ORDER_ID.getId());
-
+    @Test
+    void deleteOrderByIdAndUserId_OrderFound() {
+        when(orderRepository.findByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER.getId()))
+                .thenReturn(Optional.of(DEFAULT_ORDER));
+        assertDoesNotThrow(() -> orderService.deleteOrderByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER));
+        verify(orderRepository, times(1)).findByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER.getId());
         verify(orderRepository, times(1)).deleteById(DEFAULT_ORDER_ID.getId());
     }
 
     @Test
-    void deleteByAdmin_NonAdminUserNotOrderOwner_ThrowsNotAuthorizedOperationException() {
-        Authentication userAuth = new UsernamePasswordAuthenticationToken(
-                USER_USERNAME, "password", Collections.singleton(new SimpleGrantedAuthority("BUYER")));
-        SecurityContext securityContext = mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(userAuth);
-        SecurityContextHolder.setContext(securityContext);
-
-
-        Order mockOrder = new Order();
-        mockOrder.setUser(DEFAULT_ORDER_ID.getUser());
-        mockOrder.setUser(new User());
-        mockOrder.getUser().setEmail("otheruser@example.com");
-
-        when(orderRepository.findById(DEFAULT_ORDER_ID.getId())).thenReturn(Optional.of(mockOrder));
-
-        NotAuthorizedOperationException exception = assertThrows(NotAuthorizedOperationException.class,
-                () -> orderService.deleteBy(DEFAULT_ORDER_ID.getId()));
-        assertEquals("You do not have permission to cancel this order", exception.getMessage());
-
-        verify(orderRepository, never()).deleteById(anyLong());
+    void deleteByTest_OrderFound() {
+        Order dummyOrder = new Order(DEFAULT_ORDER_ID.getId());
+        when(orderRepository.findById(DEFAULT_ORDER_ID.getId()))
+                .thenReturn(java.util.Optional.of(dummyOrder));
+        assertDoesNotThrow(() -> orderService.deleteBy(DEFAULT_ORDER_ID.getId()));
+        verify(orderRepository, times(1)).deleteById(DEFAULT_ORDER_ID.getId());
     }
 
 }

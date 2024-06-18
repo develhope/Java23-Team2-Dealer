@@ -133,11 +133,12 @@ public class OrderIntegrationTest {
                             """))
                 .andExpect(status().isCreated());
 
-        this.mockMvc.perform(delete("/v1/orders/admin/1")
+        this.mockMvc.perform(delete("/v1/orders/1")
                         .with(httpBasic("hey@itsadmin.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
+
     }
 
     @Test
@@ -167,4 +168,6 @@ public class OrderIntegrationTest {
                 .andReturn();
 
     }
+
+
 }

@@ -4,14 +4,13 @@ import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.services.OrderService;
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
+import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,12 +38,15 @@ public class OrderController {
     @DeleteMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteOrderByAdmin(@PathVariable Long orderId, @AuthenticationPrincipal User userDetails) {
-        if (orderService.checkOrderId(orderId, userDetails)) {
-            orderService.deleteOrderByIdAndUserId(orderId, userDetails);
+        boolean isAdmin = userDetails.getRoles().equals(Roles.ADMIN);
+        if (isAdmin) {
+            orderService.deleteBy(orderId);
+        } else {
+            if (orderService.checkOrderId(orderId, userDetails)) {
+                orderService.deleteOrderByIdAndUserId(orderId, userDetails);
+            } else {
+                throw new NotAuthorizedOperationException("You are not authorized to cancel this order.");
+            }
         }
-        orderService.deleteBy(orderId);
     }
-
-
-
 }

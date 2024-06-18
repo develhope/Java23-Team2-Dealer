@@ -8,6 +8,7 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
@@ -70,10 +71,13 @@ public class OrderService {
     }
 
     public void deleteOrderByIdAndUserId(long orderId, User userDetails) {
-        orderRepository.deleteByIdAndUserId(orderId, userDetails.getId());
+        if (orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isEmpty()) {
+            throw new OrderNotFoundException("Order Not Found!");
+        }
+        orderRepository.deleteById(orderId);
     }
 
-    public boolean checkOrderId (long orderId, User userDetails){
+    public boolean checkOrderId(long orderId, User userDetails) {
         return orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isPresent();
     }
 }
