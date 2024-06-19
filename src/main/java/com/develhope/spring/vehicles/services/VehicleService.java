@@ -3,7 +3,6 @@ package com.develhope.spring.vehicles.services;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.vehicles.components.specifications.SearchCriteria;
 import com.develhope.spring.vehicles.components.specifications.VehicleSpecificationsBuilder;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
@@ -12,15 +11,12 @@ import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.components.VehicleMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -52,7 +48,7 @@ public class VehicleService {
         Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
         Matcher matcher = pattern.matcher(search + ",");
         while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(4), matcher.group(3), matcher.group(5));
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3), "", "");
         }
         Specification<Vehicle> spec = builder.build();
         return vehicleRepository.findAll(spec);
