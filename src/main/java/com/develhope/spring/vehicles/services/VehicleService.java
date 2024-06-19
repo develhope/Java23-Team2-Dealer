@@ -45,10 +45,10 @@ public class VehicleService {
 
     public List<Vehicle> search(String search) {
         VehicleSpecificationsBuilder builder = new VehicleSpecificationsBuilder();
-        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+        Pattern pattern = Pattern.compile("(\\p{Punct}?)(\\w+?)(:|<|>)(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
         Matcher matcher = pattern.matcher(search + ",");
         while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(3), "", "");
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(4), matcher.group(6));
         }
         Specification<Vehicle> spec = builder.build();
         return vehicleRepository.findAll(spec);

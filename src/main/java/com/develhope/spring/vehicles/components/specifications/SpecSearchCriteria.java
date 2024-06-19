@@ -26,10 +26,11 @@ public class SpecSearchCriteria {
         this.value = value;
     }
 
-    public SpecSearchCriteria(String key, String operation, String prefix, String value, String suffix) {
+    public SpecSearchCriteria(String orPredicate, String key, String operation, String prefix, String value, String suffix) {
+       this.orPredicate = orPredicate != null && orPredicate.equals(SearchOperation.OR_PREDICATE_FLAG);
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
-            if (op == SearchOperation.EQUALITY) { // the operation may be complex operation
+            if (op == SearchOperation.EQUALITY) {
                 final boolean startWithAsterisk = prefix != null && prefix.contains(SearchOperation.ZERO_OR_MORE_REGEX);
                 final boolean endWithAsterisk = suffix != null && suffix.contains(SearchOperation.ZERO_OR_MORE_REGEX);
 
