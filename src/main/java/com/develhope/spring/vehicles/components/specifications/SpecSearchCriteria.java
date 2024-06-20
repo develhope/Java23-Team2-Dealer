@@ -11,6 +11,13 @@ public class SpecSearchCriteria {
 
     }
 
+    /**
+     *
+     * @param orPredicate this param allows us to pass a "'" to the start of the query to implement an Or predicate if desired
+     * @param key this param is the key that it will be looked for in the database
+     * @param operation this param represent the operation the service is doing with the key inside the database
+     * @param value this param represent the value of the key researched for the operation
+     */
     public SpecSearchCriteria(final String orPredicate, final String key, final SearchOperation operation, final Object value) {
         super();
         this.orPredicate = orPredicate != null && orPredicate.equals(SearchOperation.OR_PREDICATE_FLAG);

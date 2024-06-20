@@ -1,5 +1,8 @@
 package com.develhope.spring.vehicles.components.specifications;
 
+/**
+ * Enum that allows to recognize which type of operation the query is calling
+ */
 public enum SearchOperation {
     EQUALITY, NEGATION, GREATER_THAN, LESS_THAN, LIKE, STARTS_WITH, ENDS_WITH, CONTAINS;
 

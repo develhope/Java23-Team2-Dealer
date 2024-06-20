@@ -21,6 +21,13 @@ public class VehicleSpecification implements Specification<Vehicle> {
         return criteria;
     }
 
+    /**
+     *
+     * @param root this param represent the table we are working with
+     * @param query this is the query
+     * @param builder criteria representing our search logic
+     * @return
+     */
     @Override
     public Predicate toPredicate(final Root<Vehicle> root, final CriteriaQuery<?> query, final CriteriaBuilder builder) {
         return switch (criteria.getOperation()) {
