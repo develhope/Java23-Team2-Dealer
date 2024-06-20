@@ -23,25 +23,16 @@ public class VehicleSpecification implements Specification<Vehicle> {
 
     @Override
     public Predicate toPredicate(final Root<Vehicle> root, final CriteriaQuery<?> query, final CriteriaBuilder builder) {
-        switch (criteria.getOperation()) {
-            case EQUALITY:
-                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
-            case NEGATION:
-                return builder.notEqual(root.get(criteria.getKey()), criteria.getValue());
-            case GREATER_THAN:
-                return builder.greaterThan(root.get(criteria.getKey()), criteria.getValue().toString());
-            case LESS_THAN:
-                return builder.lessThan(root.get(criteria.getKey()), criteria.getValue().toString());
-            case LIKE:
-                return builder.like(root.get(criteria.getKey()), criteria.getValue().toString());
-            case STARTS_WITH:
-                return builder.like(root.get(criteria.getKey()), criteria.getValue() + "%");
-            case ENDS_WITH:
-                return builder.like(root.get(criteria.getKey()), "%" + criteria.getValue());
-            case CONTAINS:
-                return builder.like(root.get(criteria.getKey()), "%" + criteria.getValue() + "%");
-            default:
-                return null;
-        }
+        return switch (criteria.getOperation()) {
+            case EQUALITY -> builder.equal(root.get(criteria.getKey()), criteria.getValue());
+            case NEGATION -> builder.notEqual(root.get(criteria.getKey()), criteria.getValue());
+            case GREATER_THAN -> builder.greaterThan(root.get(criteria.getKey()), criteria.getValue().toString());
+            case LESS_THAN -> builder.lessThan(root.get(criteria.getKey()), criteria.getValue().toString());
+            case LIKE -> builder.like(root.get(criteria.getKey()), criteria.getValue().toString());
+            case STARTS_WITH -> builder.like(root.get(criteria.getKey()), criteria.getValue() + "%");
+            case ENDS_WITH -> builder.like(root.get(criteria.getKey()), "%" + criteria.getValue());
+            case CONTAINS -> builder.like(root.get(criteria.getKey()), "%" + criteria.getValue() + "%");
+            default -> null;
+        };
     }
 }

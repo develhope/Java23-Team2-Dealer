@@ -30,40 +30,10 @@ public class VehicleController {
         return vehicleService.create(vehicleCreatorDTO);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<Vehicle> search(VehicleFilterDTO vehicleFilterDTO) {
-        return vehicleService.search("");
-    }
-
-    @GetMapping("/ciao")
-    public List<Vehicle> search(@RequestParam(required = false, value = "filter1") String filter1,
-                                @RequestParam(required = false, value = "filter2") String filter2,
-                                @RequestParam(required = false, value = "filter3") String filter3,
-                                @RequestParam(required = false, value = "filter4") String filter4,
-                                @RequestParam(required = false, value = "filter5") String filter5,
-                                @RequestParam(required = false, value = "filter6") String filter6,
-                                @RequestParam(required = false, value = "filter7") String filter7,
-                                @RequestParam(required = false, value = "filter8") String filter8,
-                                @RequestParam(required = false, value = "filter9") String filter9,
-                                @RequestParam(required = false, value = "filter10") String filter10,
-                                @RequestParam(required = false, value = "filter11") String filter11) {
-        StringBuilder searchString = new StringBuilder();
-        if (filter1 != null) searchString.append(filter1).append(",");
-        if (filter2 != null) searchString.append(filter2).append(",");
-        if (filter3 != null) searchString.append(filter3).append(",");
-        if (filter4 != null) searchString.append(filter4).append(",");
-        if (filter5 != null) searchString.append(filter5).append(",");
-        if (filter6 != null) searchString.append(filter6).append(",");
-        if (filter7 != null) searchString.append(filter7).append(",");
-        if (filter8 != null) searchString.append(filter8).append(",");
-        if (filter9 != null) searchString.append(filter9).append(",");
-        if (filter10 != null) searchString.append(filter10).append(",");
-        if (filter11 != null) searchString.append(filter11).append(",");
-
-        if (!searchString.isEmpty() && searchString.charAt(searchString.length() - 1) == ',') {
-            searchString.setLength(searchString.length() - 1);
-        }
-        return vehicleService.search(searchString.toString());
+        return vehicleService.search(vehicleFilterDTO);
     }
 
     //TODO Convertire autorizzazione

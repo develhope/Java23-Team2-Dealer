@@ -2,151 +2,166 @@ package com.develhope.spring.vehicles.dtos;
 
 public class VehicleFilterDTO {
 
-    private String vehicleType;
+    private final String id;
 
-    private String brand;
+    private final String vehicleType;
 
-    private String displacement;
+    private final String brand;
 
-    private String color;
+    private final String displacement;
 
-    private String power;
+    private final String displacementOver;
 
-    private String gear;
+    private final String displacementBelow;
 
-    private String year;
+    private final String color;
 
-    private String powerSupply;
+    private final String power;
 
-    private String priceOver;
+    private final String gear;
 
-    private String priceBelow;
+    private final String year;
 
-    private String usedFlag;
+    private final String yearOver;
 
-    private String discountedFlag;
+    private final String yearBelow;
+
+    private final String powerSupply;
+
+    private final String priceOver;
+
+    private final String priceBelow;
+
+    private final String usedFlag;
+
+    private final String marketStatus;
 
     public VehicleFilterDTO(
+            String id,
             String vehicleType,
             String brand,
             String displacement,
+            String displacementOver,
+            String displacementBelow,
             String color,
             String power,
             String gear,
             String year,
+            String yearOver,
+            String yearBelow,
             String powerSupply,
             String priceOver,
             String priceBelow,
             String usedFlag,
-            String discountedFlag
+            String marketStatus
     ) {
-        this.vehicleType = "vehicleType:" + vehicleType;
-        this.brand = "brand:" + brand;
-        this.displacement = "displacement:" + displacement;
-        this.color = "color:" + color;
-        this.power = "power:" + power;
-        this.gear = "gear:" + gear;
-        this.year = "registrationYear:" + year;
-        this.powerSupply = "powerSupply:" + powerSupply;
-        this.priceOver = "price>" + priceOver;
-        this.priceBelow = "price<" + priceBelow;
-        this.usedFlag = "usedFlag:" + usedFlag;
-        this.discountedFlag = "discountedFlag:" + discountedFlag;
+        this.id = id;
+        this.vehicleType = vehicleType;
+        this.brand = brand;
+        this.displacement = displacement;
+        this.displacementOver = displacementOver;
+        this.displacementBelow = displacementBelow;
+        this.color = color;
+        this.power = power;
+        this.gear = gear;
+        this.year = year;
+        this.yearBelow = yearBelow;
+        this.yearOver = yearOver;
+        this.powerSupply = powerSupply;
+        this.priceOver = priceOver;
+        this.priceBelow = priceBelow;
+        this.usedFlag = usedFlag;
+        this.marketStatus = marketStatus;
+    }
+
+    public String getDisplacementOver() {
+        return displacementOver;
+    }
+
+    public String getDisplacementBelow() {
+        return displacementBelow;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getMarketStatus() {
+        return marketStatus;
     }
 
     public String getVehicleType() {
         return vehicleType;
     }
 
-    public void setVehicleType(String vehicleType) {
-        this.vehicleType = vehicleType;
-    }
-
     public String getBrand() {
         return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
     }
 
     public String getDisplacement() {
         return displacement;
     }
 
-    public void setDisplacement(String displacement) {
-        this.displacement = displacement;
-    }
-
     public String getColor() {
         return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public String getPower() {
         return power;
     }
 
-    public void setPower(String power) {
-        this.power = power;
-    }
-
     public String getGear() {
         return gear;
-    }
-
-    public void setGear(String gear) {
-        this.gear = gear;
     }
 
     public String getYear() {
         return year;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public String getYearOver() {
+        return yearOver;
+    }
+
+    public String getYearBelow() {
+        return yearBelow;
     }
 
     public String getPowerSupply() {
         return powerSupply;
     }
 
-    public void setPowerSupply(String powerSupply) {
-        this.powerSupply = powerSupply;
-    }
-
     public String getPriceOver() {
         return priceOver;
-    }
-
-    public void setPriceOver(String priceOver) {
-        this.priceOver = priceOver;
     }
 
     public String getPriceBelow() {
         return priceBelow;
     }
 
-    public void setPriceBelow(String priceBelow) {
-        this.priceBelow = priceBelow;
-    }
-
     public String getUsedFlag() {
         return usedFlag;
     }
 
-    public void setUsedFlag(String usedFlag) {
-        this.usedFlag = usedFlag;
-    }
+    public String DTOToString() {
+        StringBuilder searchString = new StringBuilder();
+        if (this.id != null) searchString.append("id:").append(getId()).append(",");
+        if (this.vehicleType != null) searchString.append("vehicleType:").append(getVehicleType()).append(",");
+        if (this.brand != null) searchString.append("brand:").append(getBrand()).append(",");
+        if (this.gear != null) searchString.append("gear:").append(getGear()).append(",");
+        if (this.color != null) searchString.append("color:").append(getColor()).append(",");
+        if (this.displacement != null) searchString.append("displacement:").append(getDisplacement()).append(",");
+        if (this.displacementOver != null) searchString.append("displacement>").append(getDisplacementOver()).append(",");
+        if (this.displacementBelow != null) searchString.append("displacement<").append(getDisplacementBelow()).append(",");
+        if (this.power != null) searchString.append("power:").append(getPower()).append(",");
+        if (this.powerSupply != null) searchString.append("powerSupply:").append(getPowerSupply()).append(",");
+        if (this.priceBelow != null) searchString.append("price<").append(getPriceBelow()).append(",");
+        if (this.priceOver != null) searchString.append("price>").append(getPriceOver()).append(",");
+        if (this.year != null) searchString.append("registrationYear:").append(getYear()).append(",");
+        if (this.yearOver != null) searchString.append("registrationYear>").append(getYearOver()).append(",");
+        if (this.yearBelow != null) searchString.append("registrationYear<").append(getYearBelow()).append(",");
+        if (this.usedFlag != null) searchString.append("usedFlag:").append(getUsedFlag()).append(",");
+        if (this.marketStatus != null) searchString.append("marketStatus:").append(getMarketStatus()).append(",");
 
-    public String getDiscountedFlag() {
-        return discountedFlag;
-    }
-
-    public void setDiscountedFlag(String discountedFlag) {
-        this.discountedFlag = discountedFlag;
+        return searchString.toString();
     }
 }

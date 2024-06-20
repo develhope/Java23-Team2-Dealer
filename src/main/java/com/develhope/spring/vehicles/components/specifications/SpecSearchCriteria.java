@@ -11,13 +11,6 @@ public class SpecSearchCriteria {
 
     }
 
-    public SpecSearchCriteria(final String key, final SearchOperation operation, final Object value) {
-        super();
-        this.key = key;
-        this.operation = operation;
-        this.value = value;
-    }
-
     public SpecSearchCriteria(final String orPredicate, final String key, final SearchOperation operation, final Object value) {
         super();
         this.orPredicate = orPredicate != null && orPredicate.equals(SearchOperation.OR_PREDICATE_FLAG);

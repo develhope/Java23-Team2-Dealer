@@ -14,11 +14,6 @@ public class VehicleSpecificationsBuilder {
         params = new ArrayList<>();
     }
 
-    public final VehicleSpecificationsBuilder with(String key, String operation, Object value,
-                                                   String prefix, String suffix) {
-        return with(null, key, operation, value, prefix, suffix);
-    }
-
     public final VehicleSpecificationsBuilder with(String orPredicate, String key, String operation,
                                                    Object value, String prefix, String suffix) {
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
@@ -55,15 +50,5 @@ public class VehicleSpecificationsBuilder {
         }
 
         return result;
-    }
-
-    public final VehicleSpecificationsBuilder with(VehicleSpecification spec) {
-        params.add(spec.getCriteria());
-        return this;
-    }
-
-    public final VehicleSpecificationsBuilder with(SpecSearchCriteria criteria) {
-        params.add(criteria);
-        return this;
     }
 }

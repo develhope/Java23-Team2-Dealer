@@ -4,6 +4,7 @@ import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.components.specifications.VehicleSpecificationsBuilder;
+import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
@@ -43,7 +44,8 @@ public class VehicleService {
         return vehicleMapper.toSavedDTO(savedVehicle);
     }
 
-    public List<Vehicle> search(String search) {
+    public List<Vehicle> search(VehicleFilterDTO vehicleFilterDTO) {
+        String search = vehicleFilterDTO.DTOToString();
         VehicleSpecificationsBuilder builder = new VehicleSpecificationsBuilder();
         Pattern pattern = Pattern.compile("(\\p{Punct}?)(\\w+?)(:|<|>)(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
         Matcher matcher = pattern.matcher(search + ",");
