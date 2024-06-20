@@ -2,6 +2,7 @@ package com.develhope.spring.vehicles.controllers;
 
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
@@ -30,6 +31,11 @@ public class VehicleController {
     }
 
     @GetMapping
+    public List<Vehicle> search(VehicleFilterDTO vehicleFilterDTO) {
+        return vehicleService.search("");
+    }
+
+    @GetMapping("/ciao")
     public List<Vehicle> search(@RequestParam(required = false, value = "filter1") String filter1,
                                 @RequestParam(required = false, value = "filter2") String filter2,
                                 @RequestParam(required = false, value = "filter3") String filter3,

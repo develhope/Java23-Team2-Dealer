@@ -53,4 +53,100 @@ public class VehicleFilterDTO {
         this.usedFlag = "usedFlag:" + usedFlag;
         this.discountedFlag = "discountedFlag:" + discountedFlag;
     }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getDisplacement() {
+        return displacement;
+    }
+
+    public void setDisplacement(String displacement) {
+        this.displacement = displacement;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
+
+    public String getGear() {
+        return gear;
+    }
+
+    public void setGear(String gear) {
+        this.gear = gear;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getPowerSupply() {
+        return powerSupply;
+    }
+
+    public void setPowerSupply(String powerSupply) {
+        this.powerSupply = powerSupply;
+    }
+
+    public String getPriceOver() {
+        return priceOver;
+    }
+
+    public void setPriceOver(String priceOver) {
+        this.priceOver = priceOver;
+    }
+
+    public String getPriceBelow() {
+        return priceBelow;
+    }
+
+    public void setPriceBelow(String priceBelow) {
+        this.priceBelow = priceBelow;
+    }
+
+    public String getUsedFlag() {
+        return usedFlag;
+    }
+
+    public void setUsedFlag(String usedFlag) {
+        this.usedFlag = usedFlag;
+    }
+
+    public String getDiscountedFlag() {
+        return discountedFlag;
+    }
+
+    public void setDiscountedFlag(String discountedFlag) {
+        this.discountedFlag = discountedFlag;
+    }
 }
