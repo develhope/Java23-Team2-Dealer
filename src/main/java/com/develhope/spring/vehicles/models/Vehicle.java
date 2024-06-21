@@ -1,7 +1,5 @@
 package com.develhope.spring.vehicles.models;
 
-
-import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
