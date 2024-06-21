@@ -1,6 +1,7 @@
 package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
+import com.develhope.spring.deals.dtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
@@ -13,10 +14,7 @@ import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
-import com.develhope.spring.vehicles.vehicleEnums.Colors;
-import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
-import com.develhope.spring.vehicles.vehicleEnums.UsedFlag;
-import com.develhope.spring.vehicles.vehicleEnums.VehicleType;
+import com.develhope.spring.vehicles.vehicleEnums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -53,31 +51,37 @@ public class OrderServiceTest {
     private OrderService orderService;
 
 
-    private static final long DEFAULT_ID = 1;
-    private static final long DEFAULT_ADMIN_ID = 2;
+    private final long DEFAULT_ID = 1;
+    private final long DEFAULT_ADMIN_ID = 2;
 
-    private static final User DEFAULT_ADMIN = new User(
+    private final User DEFAULT_ADMIN = new User(
             2,
-            "",
-            "",
-            "",
+            "Admin",
+            "Super",
+            "Figo",
             "1234",
             123,
-            "",
+            "mail@admin.com",
             Roles.ADMIN
     );
 
-    private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
-            true,
+    private final Vehicle DEFAULT_VEHICLE = new Vehicle(
             1,
-            1,
-            OrderStatus.PAID,
-            true
+            VehicleType.CAR,
+            "Fiat",
+            "Fiorino",
+            2100,
+            Colors.WHITE,
+            3000,
+            Gears.MANUAL,
+            2004,
+            MotorPowerSupply.GASOLINE,
+            BigDecimal.valueOf(1000).setScale(2, RoundingMode.HALF_EVEN),
+            UsedFlag.NEW,
+            MarketStatus.AVAILABLE,
+            "Motore"
     );
-    private static final Order DEFAULT_ORDER = new Order(1);
-
-    private static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
-    private static final VehicleOrderReturnerDTO DEFAULT_VEHICLE_ORDER_RETURNER_DTO = new VehicleOrderReturnerDTO(
+    private final VehicleOrderReturnerDTO DEFAULT_VEHICLE_ORDER_RETURNER_DTO = new VehicleOrderReturnerDTO(
             1,
             VehicleType.CAR,
             "Fiat",
@@ -87,28 +91,58 @@ public class OrderServiceTest {
             UsedFlag.NEW,
             "Motore"
     );
-    private static final User DEFAULT_USER = new User(1);
+    private final User DEFAULT_USER = new User(
+            1,
+            "Altro",
+            "Tizio",
+            "A caso",
+            "1234",
+            123,
+            "mail@buyer.com",
+            Roles.BUYER);
 
+    private final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
+            true,
+            1,
+            1,
+            OrderStatus.PAID,
+            true
+    );
+    private final Order DEFAULT_ORDER = new Order(
+            1,
+            true,
+            OrderStatus.PAID,
+            true,
+            DEFAULT_VEHICLE,
+            DEFAULT_USER
+    );
+    private final OrderResponseDTO DEFAULT_ORDER_RESPONSE_DTO = new OrderResponseDTO(
+            1,
+            true,
+            DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+            1,
+            OrderStatus.PAID,
+            true
+    );
 
-//    @Test
-//    void createOrder_successfulTest() {
-//        OrderResponseDTO expected = new OrderResponseDTO(
-//                1,
-//                true,
-//                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-//                1,
-//                OrderStatus.PAID,
-//                true
-//        );
-//
-//        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
-//                .thenReturn(Optional.of(DEFAULT_VEHICLE));
-//        when(userRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getUserId()))
-//                .thenReturn(Optional.of(DEFAULT_USER));
-//
-//        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
-//        assertEquals(expected.getUserId(), result.getUserId());
-//    }
+    @Test
+    void createOrder(){
+        OrderResponseDTO expected = new OrderResponseDTO(
+                1,
+                true,
+                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+                1,
+                OrderStatus.PAID,
+                true
+        );
+        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(orderRepository.save(any()))
+                .thenReturn(DEFAULT_ORDER);
+        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
+        assertEquals(expected.getUserId(),result.getUserId());
+    }
+
     @Test
     void checkValidOperatorTest(){
         when(userRepository.findById(DEFAULT_ADMIN_ID))
