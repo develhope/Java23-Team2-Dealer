@@ -9,6 +9,9 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
+import com.develhope.spring.users.models.Roles;
+import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
@@ -54,5 +57,20 @@ public class OrderService {
 
         Order newOrderSaved = orderRepository.save(orderToUpdate);
         return orderMapper.toReworkedDTO(newOrderSaved);
+    }
+
+    public void deleteBy(long orderId) {
+        orderRepository.deleteById(orderId);
+    }
+
+    public void deleteOrderByIdAndUserId(long orderId, User userDetails) {
+        if (orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isEmpty()) {
+            throw new OrderNotFoundException("Order Not Found!");
+        }
+        orderRepository.deleteById(orderId);
+    }
+
+    public boolean checkOrderId(long orderId, User userDetails) {
+        return orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isPresent();
     }
 }
