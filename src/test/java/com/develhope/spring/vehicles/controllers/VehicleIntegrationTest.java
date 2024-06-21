@@ -41,18 +41,20 @@ class VehicleIntegrationTest {
                         }
                         """)).andReturn();
     }
-
     private void insertBuyer() throws Exception {
-        this.mockMvc.perform(post("/profile/registration")
+        this.mockMvc.perform(post("/v1/profile/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
-                        "name": "gigi",
-                        "surname": "delpiero",
-                        "phoneNumber": 3467796,
-                        "email": "hey@itsme.it",
-                        "roles": "BUYER"
-                        }
+                            "name": "Pietro",
+                            "surname":"Pacciani",
+                            "username": "MostroDiFirenze",
+                            "password": "12345",
+                            "matchingPassword": "12345",
+                            "phoneNumber": 34427796292,
+                            "email":"hey@itsbuyer.com",
+                            "roles":"BUYER"
+                         }
                         """)).andReturn();
     }
 
@@ -224,5 +226,46 @@ class VehicleIntegrationTest {
                                     "engine": "4-cylinder"
                                 }
                                 """)).andReturn();
+    }
+    @Test
+    void vehicleUpdateTestForbidden() throws Exception {
+        insertVehicle();
+        insertBuyer();
+        this.mockMvc.perform(put("/v1/vehicles/1")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "vehicleType": "CAR",
+                                    "brand": "Ferrari",
+                                    "model": "boh",
+                                    "displacement": 51,
+                                    "color": "RED",
+                                    "power": 70000,
+                                    "gear": "AUTOMATIC",
+                                    "registrationYear": 2024,
+                                    "powerSupply": "GPL",
+                                    "price": 9000,
+                                    "usedFlag": "NEW",
+                                    "marketStatus": "AVAILABLE",
+                                    "engine": "uno a caso"
+                                }
+                                """))
+                .andExpect(status().isForbidden()).andReturn();
+    }
+
+    @Test
+    void vehicleUpdateStatusTestForbidden() throws Exception {
+        insertVehicle();
+        insertBuyer();
+        this.mockMvc.perform(patch("/v1/vehicles/1/status")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "marketStatus": "ORDERABLE"
+                                }
+                                """))
+                .andExpect(status().isForbidden()).andReturn();
     }
 }

@@ -180,7 +180,7 @@ public class OrderIntegrationTest {
     }
 
     @Test
-    void OrderUpdateTestBuyerUnauthorized() throws Exception {
+    void OrderUpdateTestBuyerForbidden() throws Exception {
         insertBuyer();
         insertAdmin();
         insertVehicle();

@@ -367,7 +367,7 @@ public class RentalIntegrationTest {
     }
 
     @Test
-    void buyerUpdateRental() throws Exception {
+    void buyerUpdateRentalForbidden() throws Exception {
         insertAdmin();
         insertBuyer();
         insertBuyer2();
