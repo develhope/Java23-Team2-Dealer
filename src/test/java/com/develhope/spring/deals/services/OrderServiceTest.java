@@ -359,8 +359,6 @@ public class OrderServiceTest {
 
         assertEquals(expected.isPaid(), result.isPaid());
     }
-
-
 }
 
 
