@@ -1,10 +1,9 @@
 package com.develhope.spring.users.controllers;
 
-import com.develhope.spring.users.dtos.UserCreatorDTO;
-import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,9 +13,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserSavedDTO registerUser(@RequestBody UserCreatorDTO userCreatorDTO){
-       return userService.create(userCreatorDTO);
+    @Secured("ADMIN")
+    @DeleteMapping("/{userID}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable long userID){
+        userService.deleteUser(userID);
     }
 }

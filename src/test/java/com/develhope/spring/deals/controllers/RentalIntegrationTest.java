@@ -1,17 +1,22 @@
 package com.develhope.spring.deals.controllers;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
+
 import org.springframework.test.web.servlet.MockMvc;
+
+import org.springframework.test.annotation.DirtiesContext;
+
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 
 @SpringBootTest
@@ -23,35 +28,59 @@ public class RentalIntegrationTest {
     private MockMvc mockMvc;
 
     private void insertAdmin() throws Exception {
-        this.mockMvc.perform(post("/v1/users")
+        this.mockMvc.perform(post("/v1/profile/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
-                        "name": "gabriel",
-                        "surname": "dello",
-                        "phoneNumber": 3467796,
-                        "email": "hey@itsadmin.it",
-                        "roles": "ADMIN"
+                           "name": "Senior",
+                           "surname":"Dello Iacovo",
+                           "username": "panenutella",
+                           "password": "1234",
+                           "matchingPassword": "1234",
+                           "phoneNumber": 3467796292,
+                           "email":"hey@itsadmin.com",
+                           "roles":"ADMIN"
                         }
                         """)).andReturn();
     }
 
     private void insertBuyer() throws Exception {
-        this.mockMvc.perform(post("/v1/users")
+        this.mockMvc.perform(post("/v1/profile/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
-                        "name": "gigi",
-                        "surname": "dello",
-                        "phoneNumber": 3467796,
-                        "email": "hey@itme.it",
-                        "roles": "BUYER"
+                            "name": "utente",
+                            "surname":"Dello Iacovo",
+                            "username": "frank",
+                            "password": "1234",
+                            "matchingPassword": "1234",
+                            "phoneNumber": 3467796292,
+                            "email":"hey@itsbuyer.com",
+                            "roles":"BUYER"
+                        }
+                        """)).andReturn();
+    }
+
+    private void insertBuyer2() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "name": "utente",
+                            "surname":"Dello Iacovo",
+                            "username": "frankuzzo",
+                            "password": "1234",
+                            "matchingPassword": "1234",
+                            "phoneNumber": 3467796292,
+                            "email":"hey@itsbuyer2.com",
+                            "roles":"BUYER"
                         }
                         """)).andReturn();
     }
 
     private void insertVehicle() throws Exception {
-        this.mockMvc.perform(post("/v1/vehicles/1")
+        this.mockMvc.perform(post("/v1/vehicles")
+                .with(httpBasic("hey@itsadmin.com", "1234"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                          {
@@ -75,7 +104,8 @@ public class RentalIntegrationTest {
     }
 
     private void insertVehicleNotAvailable() throws Exception {
-        this.mockMvc.perform(post("/v1/vehicles/1")
+        this.mockMvc.perform(post("/v1/vehicles")
+                .with(httpBasic("hey@itsadmin.com", "1234"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                          {
@@ -202,7 +232,7 @@ public class RentalIntegrationTest {
     void updateRental_SuccessfulUpdatingTest() throws Exception {
         insertAdmin();
         insertBuyer();
-        insertBuyer();
+        insertBuyer2();
         insertVehicle();
         this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
                 {
@@ -226,17 +256,20 @@ public class RentalIntegrationTest {
                 }
                 """).contentType(MediaType.APPLICATION_JSON)).andReturn();
 
-        this.mockMvc.perform(patch("/v1/rentals/1/1").contentType(MediaType.APPLICATION_JSON).content(
-                        """
-                                {
-                                    "startDate": "2024-06-09",
-                                    "endDate": "2024-06-12",
-                                    "dailyCost": 40.00,
-                                    "paid": false,
-                                    "vehicleId": 1
-                                }
+        this.mockMvc.perform(patch("/v1/rentals/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(
                                 """
-                ))
+                                        {
+                                            "startDate": "2024-06-09",
+                                            "endDate": "2024-06-12",
+                                            "dailyCost": 40.00,
+                                            "paid": false,
+                                            "vehicleId": 1
+                                        }
+                                        """
+                        ))
                 .andExpect(status().isAccepted())
                 .andExpect(content().json("""
                         {
@@ -287,7 +320,8 @@ public class RentalIntegrationTest {
                 )
                 .andReturn();
 
-        this.mockMvc.perform(get("/v1/rentals/2?page=0&size=5"))
+        this.mockMvc.perform(get("/v1/rentals?page=0&size=5")
+                        .with(httpBasic("hey@itsbuyer.com", "1234")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content", hasSize(2)))
                 .andExpect(jsonPath("$.content[1].endDate", is("2024-06-05")))
@@ -327,7 +361,8 @@ public class RentalIntegrationTest {
                 )
                 .andReturn();
 
-        this.mockMvc.perform(get("/v1/rentals/3?page=0&size=5"))
-                .andExpect(status().isNotFound()).andReturn();
+        this.mockMvc.perform(get("/v1/rentals?page=0&size=5")
+                        .with(httpBasic("hey@itsbuyer2.com", "1234")))
+                .andExpect(status().isUnauthorized()).andReturn();
     }
 }
