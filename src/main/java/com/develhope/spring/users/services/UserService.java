@@ -3,8 +3,6 @@ package com.develhope.spring.users.services;
 import com.develhope.spring.exceptions.UserAlreadyExistException;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserReworkedDTO;
-import com.develhope.spring.users.controllers.RegistrationController;
-import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.dtos.UserUpdaterDTO;
@@ -16,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-
-import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -64,7 +60,9 @@ public class UserService implements IUserService {
         return userMapper.toReworkedDTO(newUser);
     }
 
-
+    public boolean checkIfItsUserOwnID(long userID, User userDetails) {
+        return userID==userDetails.getId();
+    }
 
     public void deleteUser ( long userIDToDelete){
         userRepository.deleteById(userIDToDelete);

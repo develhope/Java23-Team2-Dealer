@@ -40,6 +40,23 @@ public class UserIntegrationTest {
                                 """)).andReturn();
     }
 
+    private void insertSeller() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                                {
+                                   "name": "Oscar",
+                                   "surname":"Afaggio",
+                                   "username": "Lady",
+                                   "password": "1234",
+                                   "matchingPassword": "1234",
+                                   "phoneNumber": 1234567890,
+                                   "email":"mail@itsseller.com",
+                                   "roles": "SALESPERSON"
+                                }
+                                """)).andReturn();
+    }
+
 
     private void insertBuyer() throws Exception {
         this.mockMvc.perform(post("/v1/profile/registration")
@@ -58,8 +75,25 @@ public class UserIntegrationTest {
                                 """)).andReturn();
     }
 
+    private void insertBuyer2() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "name": "Pietro",
+                            "surname":"Pacciani",
+                            "username": "MostroDiFirenze",
+                            "password": "12345",
+                            "matchingPassword": "12345",
+                            "phoneNumber": 34427796292,
+                            "email":"hey@itsbuyer.com",
+                            "roles":"BUYER"
+                         }
+                        """)).andReturn();
+    }
 
-    void userUpdateTest() throws Exception {
+@Test
+    void adminUserUpdateTest() throws Exception {
         insertAdmin();
         insertBuyer();
         this.mockMvc.perform(patch("/v1/users/2")
@@ -89,6 +123,100 @@ public class UserIntegrationTest {
                         }
                         """)).andReturn();
     }
+
+    @Test
+    void userSelfUpdateTest() throws Exception {
+        insertBuyer();
+        this.mockMvc.perform(patch("/v1/users/1")
+                        .with(httpBasic("mail@itsbuyer.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "name": "Giorgio",
+                                "surname": "Mastrota",
+                                "username": "Inox",
+                                "phoneNumber": 123,
+                                "email": "altra@email.it",
+                                "role": "SALESPERSON"
+                                }
+                                """))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                        "id": 1,
+                        "name": "Giorgio",
+                        "surname": "Mastrota",
+                        "username": "Inox",
+                        "phoneNumber": 123,
+                        "email": "altra@email.it",
+                        "role": "SALESPERSON"
+                        }
+                        """)).andReturn();
+    }
+
+    @Test
+    void userUpdateOtherTestForbidden() throws Exception {
+        insertBuyer();
+        insertBuyer2();
+        this.mockMvc.perform(patch("/v1/users/2")
+                        .with(httpBasic("mail@itsbuyer.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "name": "Giorgio",
+                                "surname": "Mastrota",
+                                "username": "Inox",
+                                "phoneNumber": 123,
+                                "email": "altra@email.it",
+                                "role": "SALESPERSON"
+                                }
+                                """))
+                .andDo(print())
+                .andExpect(status().isForbidden()).andReturn();
+    }
+
+    @Test
+    void sellerUpdateOtherTestForbidden() throws Exception {
+        insertBuyer();
+        insertSeller();
+        this.mockMvc.perform(patch("/v1/users/1")
+                        .with(httpBasic("mail@itsseller.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "name": "Giorgio",
+                                "surname": "Mastrota",
+                                "username": "Inox",
+                                "phoneNumber": 123,
+                                "email": "altra@email.it",
+                                "role": "SALESPERSON"
+                                }
+                                """))
+                .andDo(print())
+                .andExpect(status().isForbidden()).andReturn();
+    }
+
+    @Test
+    void sellerUpdateSelfTestForbidden() throws Exception {
+        insertSeller();
+        this.mockMvc.perform(patch("/v1/users/1")
+                        .with(httpBasic("mail@itsseller.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "name": "Giorgio",
+                                "surname": "Mastrota",
+                                "username": "Inox",
+                                "phoneNumber": 123,
+                                "email": "altra@email.it",
+                                "role": "SALESPERSON"
+                                }
+                                """))
+                .andDo(print())
+                .andExpect(status().isForbidden()).andReturn();
+    }
+
     @Test
     void deleteUserTest() throws Exception {
         insertAdmin();
