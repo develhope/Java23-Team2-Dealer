@@ -46,7 +46,7 @@ public class User implements UserDetails {
     private Roles roles;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Order> orders;
 
     @JsonIgnore
