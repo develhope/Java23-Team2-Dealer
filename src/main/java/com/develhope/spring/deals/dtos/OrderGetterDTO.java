@@ -17,20 +17,20 @@ public class OrderGetterDTO {
     private long userId;
     private OrderStatus orderStatus;
     private boolean paid;
-    private List<User> sellers;
+    private User seller;
 
     public OrderGetterDTO() {
     }
 
     public OrderGetterDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle,
-                          long userId, OrderStatus orderStatus, boolean paid, List<User> sellers) {
+                          long userId, OrderStatus orderStatus, boolean paid, User seller) {
         this.id = id;
         this.downPayment = downPayment;
         this.vehicle = vehicle;
         this.userId = userId;
         this.orderStatus = orderStatus;
         this.paid = paid;
-        this.sellers = sellers;
+        this.seller = seller;
     }
 
     public boolean isDownPayment() {
@@ -73,11 +73,11 @@ public class OrderGetterDTO {
         this.paid = paid;
     }
 
-    public List<User> getSellers() {
-        return sellers;
+    public User getSeller() {
+        return seller;
     }
 
-    public void setSellers(List<User> sellers) {
-        this.sellers = sellers;
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 }

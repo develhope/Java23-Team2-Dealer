@@ -1,7 +1,7 @@
 package com.develhope.spring.users.controllers;
 
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
-import com.develhope.spring.users.dtos.UserResponseDTO;
+import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.services.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class RegistrationController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/profile/registration")
-    public UserResponseDTO registerUserAccount(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
+    public UserSavedDTO registerUserAccount(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
         return userService.registerNewUserAccount(userRegistrationDTO);
     }
 }

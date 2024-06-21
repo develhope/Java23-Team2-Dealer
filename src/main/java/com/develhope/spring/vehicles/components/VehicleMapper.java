@@ -58,12 +58,6 @@ public class VehicleMapper {
         vehicle.setMarketStatus(statusDTO.getMarketStatus());
     }
 
-    public VehicleResponseDTO toResponseDTO(Vehicle vehicle){
-        return new VehicleResponseDTO(vehicle.getId(), vehicle.getVehicleType(), vehicle.getBrand(), vehicle.getModel(),
-                vehicle.getRegistrationYear(), vehicle.getPowerSupply(),vehicle.getPrice(),vehicle.getUsedFlag(),
-                vehicle.getEngine());
-    }
-
     public VehicleOrderReturnerDTO toOrderReturnerDTO(Vehicle vehicle) {
         return new VehicleOrderReturnerDTO(
                 vehicle.getId(),

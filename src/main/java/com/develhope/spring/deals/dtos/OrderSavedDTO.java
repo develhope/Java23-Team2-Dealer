@@ -1,16 +1,13 @@
 package com.develhope.spring.deals.dtos;
 
 import com.develhope.spring.deals.models.OrderStatus;
-import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
-
-import java.util.List;
 
 /**
  * This is the DTO that you get as response when you create an Order
  * not usable for GET requests.
  */
-public class OrderResponseDTO {
+public class OrderSavedDTO {
 
     private long id;
     private boolean downPayment;
@@ -19,10 +16,10 @@ public class OrderResponseDTO {
     private OrderStatus orderStatus;
     private boolean paid;
 
-    public OrderResponseDTO() {
+    public OrderSavedDTO() {
     }
 
-    public OrderResponseDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, OrderStatus orderStatus, boolean paid) {
+    public OrderSavedDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, OrderStatus orderStatus, boolean paid) {
         this.id = id;
         this.downPayment = downPayment;
         this.vehicle = vehicle;

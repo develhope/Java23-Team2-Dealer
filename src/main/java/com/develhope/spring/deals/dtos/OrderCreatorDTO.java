@@ -11,19 +11,19 @@ public class OrderCreatorDTO {
     private long userId;
     private OrderStatus orderStatus;
     private boolean paid;
-    private List<User> sellers;
+    private User seller;
 
     public OrderCreatorDTO() {
     }
 
     public OrderCreatorDTO(boolean downPayment, long vehicleId, long userId, OrderStatus orderStatus,
-                           boolean paid, List<User> sellers) {
+                           boolean paid, User seller) {
         this.downPayment = downPayment;
         this.vehicleId = vehicleId;
         this.userId = userId;
         this.orderStatus = orderStatus;
         this.paid = paid;
-        this.sellers = sellers;
+        this.seller = seller;
     }
 
     public boolean isDownPayment() {
@@ -66,11 +66,11 @@ public class OrderCreatorDTO {
         this.paid = paid;
     }
 
-    public List<User> getSellers() {
-        return sellers;
+    public User getSeller() {
+        return seller;
     }
 
-    public void setSellers(List<User> sellers) {
-        this.sellers = sellers;
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 }

@@ -53,12 +53,6 @@ public class User implements UserDetails {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
     private List<Rental> rentals;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Rental soldRental;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Order soldOrder;
 
     public User() {
     }
@@ -79,8 +73,6 @@ public class User implements UserDetails {
         this.rentals = new ArrayList<>();
         this.email = email;
         this.roles = roles;
-        this.soldRental = soldRental;
-        this.soldOrder = soldOrder;
     }
 
     @Override
@@ -184,21 +176,5 @@ public class User implements UserDetails {
 
     public long getId() {
         return id;
-    }
-
-    public Rental getSoldRental() {
-        return soldRental;
-    }
-
-    public void setSoldRental(Rental soldRental) {
-        this.soldRental = soldRental;
-    }
-
-    public Order getSoldOrder() {
-        return soldOrder;
-    }
-
-    public void setSoldOrder(Order soldOrder) {
-        this.soldOrder = soldOrder;
     }
 }

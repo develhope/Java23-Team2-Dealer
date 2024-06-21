@@ -30,7 +30,7 @@ public class RentalService {
     @Autowired
     private RentalMapper rentalMapper;
 
-    public RentalResponseDTO create(RentalCreatorDTO rentalCreatorDTO) {
+    public RentalSavedDTO create(RentalCreatorDTO rentalCreatorDTO) {
         checkValidRentalDates(rentalCreatorDTO);
         checkMarketStatus(rentalCreatorDTO);
         Rental rental = rentalMapper.toEntity(rentalCreatorDTO);

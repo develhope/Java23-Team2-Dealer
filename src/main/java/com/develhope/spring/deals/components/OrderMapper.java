@@ -2,7 +2,7 @@ package com.develhope.spring.deals.components;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.OrderGetterDTO;
-import com.develhope.spring.deals.dtos.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.OrderSavedDTO;
 import com.develhope.spring.deals.dtos.OrderReworkedDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.users.components.UserMapper;
@@ -24,10 +24,10 @@ public class OrderMapper {
 
 
 
-    public OrderResponseDTO toResponseDTO(Order order) {
+    public OrderSavedDTO toResponseDTO(Order order) {
         VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTO(order.getVehicle());
         UserOrderReturnerDTO userOrderReturnerDTO = userMapper.toUserOrderReturnerDTO(order.getUser());
-        return new OrderResponseDTO(
+        return new OrderSavedDTO(
                 order.getId(),
                 order.isDownPayment(),
                 vehicleOrderReturnerDTO,
@@ -47,7 +47,7 @@ public class OrderMapper {
                 userOrderReturnerDTO.getId(),
                 order.getOrderStatus(),
                 order.isPaid(),
-                order.getSellers()
+                order.getSeller()
         );
     }
 
@@ -70,7 +70,7 @@ public class OrderMapper {
         order.setPaid(orderCreatorDTO.isPaid());
         order.setVehicle(vehicle);
         order.setUser(user);
-        order.setSellers(orderCreatorDTO.getSellers());
+        order.setSeller(orderCreatorDTO.getSeller());
 
         return order;
     }

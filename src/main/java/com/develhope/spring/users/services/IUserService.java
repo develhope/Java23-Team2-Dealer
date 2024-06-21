@@ -1,9 +1,9 @@
 package com.develhope.spring.users.services;
 
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
-import com.develhope.spring.users.dtos.UserResponseDTO;
+import com.develhope.spring.users.dtos.UserSavedDTO;
 
 public interface IUserService {
 
-    UserResponseDTO registerNewUserAccount(UserRegistrationDTO userRegistrationDTO);
+    UserSavedDTO registerNewUserAccount(UserRegistrationDTO userRegistrationDTO);
 }

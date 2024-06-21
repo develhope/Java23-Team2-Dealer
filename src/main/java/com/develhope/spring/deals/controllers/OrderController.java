@@ -1,7 +1,7 @@
 package com.develhope.spring.deals.controllers;
 
 import com.develhope.spring.deals.dtos.OrderCreatorDTO;
-import com.develhope.spring.deals.dtos.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.OrderSavedDTO;
 import com.develhope.spring.deals.dtos.OrderReworkedDTO;
 import com.develhope.spring.deals.dtos.OrderUpdaterDTO;
 import com.develhope.spring.deals.services.OrderService;
@@ -19,7 +19,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderResponseDTO createOrder(@RequestBody OrderCreatorDTO orderCreatorDTO) {
+    public OrderSavedDTO createOrder(@RequestBody OrderCreatorDTO orderCreatorDTO) {
         return orderService.create(orderCreatorDTO);
     }
     @Secured({"ADMIN", "SALESPERSON"})

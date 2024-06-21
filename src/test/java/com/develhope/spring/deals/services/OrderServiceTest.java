@@ -59,11 +59,11 @@ public class OrderServiceTest {
 
     private final long DEFAULT_ID = 1;
     private final long DEFAULT_ADMIN_ID = 2;
-    private final List<User> DEFAULT_SELLERS_LIST = new ArrayList<>();
     private final Order DEFAULT_ORDER = new Order(1);
     private final Rental DEFAULT_RENTAL = new Rental(1);
     private final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
 
+    private  final User DEFAULT_USER = new User(1);
     private final User DEFAULT_ADMIN = new User(
             2,
             "",
@@ -71,8 +71,20 @@ public class OrderServiceTest {
             "",
             "1234",
             123,
-            "",
+            "email@admin.it",
             Roles.ADMIN,
+            DEFAULT_RENTAL,
+            DEFAULT_ORDER
+    );
+    private final User DEFAULT_SELLER =  new User(
+            3,
+            "",
+            "",
+            "",
+            "1234",
+            54321,
+            "email@seller.it",
+            Roles.SALESPERSON,
             DEFAULT_RENTAL,
             DEFAULT_ORDER
     );
@@ -83,7 +95,7 @@ public class OrderServiceTest {
             1,
             OrderStatus.PAID,
             true,
-            DEFAULT_SELLERS_LIST
+            DEFAULT_SELLER
     );
 
     private final OrderUpdaterDTO DEFAULT_ORDER_UPDATER_DTO = new OrderUpdaterDTO(
@@ -102,7 +114,7 @@ public class OrderServiceTest {
             UsedFlag.NEW,
             "Motore"
     );
-    private static final User DEFAULT_USER = new User(1);
+
 
 
 //    @Test
@@ -154,7 +166,7 @@ public class OrderServiceTest {
                 DEFAULT_ORDER_CREATOR_DTO.isPaid(),
                 DEFAULT_VEHICLE,
                 DEFAULT_USER,
-                DEFAULT_SELLERS_LIST
+                DEFAULT_SELLER
                 );
         when(orderRepository.save(any()))
                 .thenReturn(updatedRental);
@@ -181,7 +193,7 @@ public class OrderServiceTest {
                 DEFAULT_ORDER_CREATOR_DTO.isPaid(),
                 DEFAULT_VEHICLE,
                 DEFAULT_USER,
-                DEFAULT_SELLERS_LIST
+                DEFAULT_SELLER
         );
         when(orderRepository.save(any()))
                 .thenReturn(updatedRental);

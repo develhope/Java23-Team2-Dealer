@@ -21,12 +21,12 @@ public class RentalMapper {
     private UserMapper userMapper;
 
     //ToDTO();
-    public RentalResponseDTO toResponseDTO(Rental rental) {
+    public RentalSavedDTO toResponseDTO(Rental rental) {
 
         VehicleRentalReturnerDTO vehicleRentalResponseDTO = vehicleMapper.toRentalReturnerDTO(rental.getVehicle());
         BuyerRentalReturnerDto buyerResponseDto = userMapper.toRentalBuyerDTO(rental.getBuyer());
 
-        return new RentalResponseDTO(
+        return new RentalSavedDTO(
                 rental.getId(),
                 rental.getStartDate(),
                 rental.getEndDate(),

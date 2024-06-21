@@ -19,7 +19,7 @@ public class RentalController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public RentalResponseDTO create(@RequestBody RentalCreatorDTO rentalCreatorDTO) {
+    public RentalSavedDTO create(@RequestBody RentalCreatorDTO rentalCreatorDTO) {
         return rentalService.create(rentalCreatorDTO);
     }
 

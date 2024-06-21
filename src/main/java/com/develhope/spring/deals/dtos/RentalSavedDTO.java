@@ -13,7 +13,7 @@ import java.util.List;
  * This is the DTO that you get as response when you create a Rental
  * not usable for GET requests.
  */
-public class RentalResponseDTO {
+public class RentalSavedDTO {
     private long id;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -24,7 +24,7 @@ public class RentalResponseDTO {
     private BuyerRentalReturnerDto buyer;
     private List<User> sellers;
 
-    public RentalResponseDTO() {
+    public RentalSavedDTO() {
     }
 
     void calculateTotalCost() {
@@ -32,7 +32,7 @@ public class RentalResponseDTO {
         this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
     }
 
-    public RentalResponseDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer, List<User> sellers) {
+    public RentalSavedDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer, List<User> sellers) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;

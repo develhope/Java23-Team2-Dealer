@@ -2,7 +2,7 @@ package com.develhope.spring.users.dtos;
 
 import com.develhope.spring.users.models.Roles;
 
-public class UserResponseDTO {
+public class UserSavedDTO {
     private long id;
     private String name;
     private String surname;
@@ -10,10 +10,10 @@ public class UserResponseDTO {
     private Roles roles;
 
 
-    public UserResponseDTO() {
+    public UserSavedDTO() {
     }
 
-    public UserResponseDTO(long id, String name, String surname, String userName, Roles roles) {
+    public UserSavedDTO(long id, String name, String surname, String userName, Roles roles) {
         this.id = id;
         this.name = name;
         this.surname = surname;

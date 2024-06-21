@@ -124,7 +124,7 @@ public class RentalServiceTest {
     @Test
     void createRental_successfulCreationTest() {
 
-        RentalResponseDTO expected = new RentalResponseDTO(
+        RentalSavedDTO expected = new RentalSavedDTO(
                 1,
                 DEFAULT_RENTAL_START_DATE,
                 DEFAULT_RENTAL_END_DATE,
@@ -156,7 +156,7 @@ public class RentalServiceTest {
         when(rentalRepository.save(any()))
                 .thenReturn(rental);
 
-        RentalResponseDTO result = rentalService.create(DEFAULT_RENTAL_CREATOR_DTO);
+        RentalSavedDTO result = rentalService.create(DEFAULT_RENTAL_CREATOR_DTO);
         assertEquals(expected.getBuyer().getId(), result.getBuyer().getId());
     }
 
