@@ -38,6 +38,9 @@ public class Rental {
     @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User seller;
+
     public void setPaid(boolean paid) {
         this.paid = paid;
     }
@@ -51,7 +54,7 @@ public class Rental {
         return paid;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user, User seller) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
@@ -60,6 +63,7 @@ public class Rental {
         this.vehicle = vehicle;
         this.id = id;
         this.user = user;
+        this.seller = seller;
     }
 
     public User getUser() {
@@ -111,6 +115,14 @@ public class Rental {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public User getSeller() {
+        return seller;
     }
 }
 

@@ -1,6 +1,6 @@
 package com.develhope.spring.users.components;
 
-import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
+import com.develhope.spring.users.dtos.UserRentalReturnerDto;
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
@@ -32,8 +32,8 @@ public class UserMapper {
         return user;
     }
 
-    public BuyerRentalReturnerDto toRentalBuyerDTO(User user) {
-        return new BuyerRentalReturnerDto(
+    public UserRentalReturnerDto toUserBuyerDTO(User user) {
+        return new UserRentalReturnerDto(
                 user.getId(),
                 user.getName(),
                 user.getSurname(),
@@ -41,15 +41,15 @@ public class UserMapper {
                 user.getPhoneNumber());
     }
 
-    public User toEntity(BuyerRentalReturnerDto buyerRentalReturnerDto) {
+    public User toEntity(UserRentalReturnerDto userRentalReturnerDto) {
         return new User(
-                buyerRentalReturnerDto.getId(),
-                buyerRentalReturnerDto.getName(),
-                buyerRentalReturnerDto.getSurname(),
+                userRentalReturnerDto.getId(),
+                userRentalReturnerDto.getName(),
+                userRentalReturnerDto.getSurname(),
                 "default",
                 "default",
-                buyerRentalReturnerDto.getPhoneNumber(),
-                buyerRentalReturnerDto.getEmail(),
+                userRentalReturnerDto.getPhoneNumber(),
+                userRentalReturnerDto.getEmail(),
                 Roles.BUYER
         );
     }

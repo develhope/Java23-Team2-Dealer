@@ -141,7 +141,8 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """))
                 .andExpect(status().isCreated())
@@ -157,6 +158,9 @@ public class RentalIntegrationTest {
                                     },
                         "buyer": {
                                  "id": 2
+                                 },
+                        "seller": {
+                                 "id": 1
                                  }
                         }
                         """)).andReturn();
@@ -174,7 +178,8 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -194,7 +199,8 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -207,7 +213,8 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -220,7 +227,8 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -241,7 +249,8 @@ public class RentalIntegrationTest {
                 "dailyCost": 40.00,
                 "paid": true,
                 "vehicleId": 1,
-                "userId": 2
+                "userId": 2,
+                "sellerId": 1
                 }
                 """).contentType(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -252,7 +261,8 @@ public class RentalIntegrationTest {
                 "dailyCost": 40.00,
                 "paid": true,
                 "vehicleId": 1,
-                "userId": 3
+                "userId": 3,
+                "sellerId": 1
                 }
                 """).contentType(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -283,7 +293,10 @@ public class RentalIntegrationTest {
                                     },
                         "buyer": {
                                  "id": 2
-                                 }
+                                 },
+                        "seller":{
+                                  "id": 1
+                                  }
                         }
                         """)).andReturn();
     }
@@ -301,7 +314,8 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -314,7 +328,8 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -342,7 +357,8 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -355,7 +371,8 @@ public class RentalIntegrationTest {
                         "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
