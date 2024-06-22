@@ -8,6 +8,7 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.components.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
@@ -46,13 +47,14 @@ public class OrderService {
         }
     }
 
-    void checkValidOperator (long userId){
+    void checkValidOperator(long userId) {
         User operator = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        if (operator.getRoles().equals(Roles.BUYER)){
+        if (operator.getRole().equals(Roles.BUYER)){
             throw new NotAuthorizedOperationException("Permesso negato. Non sei autorizzato ad effettuare questa operazione");
         }
     }
-    public OrderUpdatedDTO update (long orderId, OrderCreatorDTO orderCreatorDTO){
+
+    public OrderUpdatedDTO update(long orderId, OrderCreatorDTO orderCreatorDTO) {
         checkValidVehicleMarketStatus(orderCreatorDTO);
         Order orderToUpdate = orderRepository.findById(orderId).orElseThrow();
         Vehicle newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow();
@@ -62,5 +64,20 @@ public class OrderService {
         orderToUpdate.setVehicle(newVehicle);
         Order newOrderSaved = orderRepository.save(orderToUpdate);
         return orderMapper.toOrderUpdateDTO(newOrderSaved);
+    }
+
+    public void deleteBy(long orderId) {
+        orderRepository.deleteById(orderId);
+    }
+
+    public void deleteOrderByIdAndUserId(long orderId, User userDetails) {
+        if (orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isEmpty()) {
+            throw new OrderNotFoundException("Order Not Found!");
+        }
+        orderRepository.deleteById(orderId);
+    }
+
+    public boolean checkOrderId(long orderId, User userDetails) {
+        return orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isPresent();
     }
 }

@@ -29,6 +29,7 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     private User seller;
 
+
     public Order() {
     }
 
@@ -37,7 +38,7 @@ public class Order {
     }
 
     public Order(long id, boolean downPayment, OrderStatus orderStatus,
-                 boolean paid, Vehicle vehicle, User seller, User user) {
+                 boolean paid, Vehicle vehicle, User user, User seller) {
         this.id = id;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;

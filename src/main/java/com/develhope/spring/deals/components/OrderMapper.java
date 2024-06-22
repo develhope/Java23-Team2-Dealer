@@ -9,7 +9,7 @@ import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.develhope.spring.vehicles.models.VehicleMapper;
+import com.develhope.spring.vehicles.components.VehicleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,8 +45,8 @@ public class OrderMapper {
                 order.getId(),
                 order.isDownPayment(),
                 vehicleOrderReturnerDTO,
-                sellerOrderReturnerDTO.getId(),
                 userOrderReturnerDTO.getId(),
+                sellerOrderReturnerDTO.getId(),
                 order.getOrderStatus(),
                 order.isPaid()
         );

@@ -16,7 +16,7 @@ public class OrderResponseDTO {
     public OrderResponseDTO() {
     }
 
-    public OrderResponseDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle, long sellerId, long userId, OrderStatus orderStatus, boolean paid) {
+    public OrderResponseDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, long sellerId, OrderStatus orderStatus, boolean paid) {
         this.id = id;
         this.downPayment = downPayment;
         this.vehicle = vehicle;
