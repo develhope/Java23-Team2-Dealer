@@ -38,6 +38,40 @@ public class OrderIntegrationTest {
                         """)).andReturn();
     }
 
+    private void insertSeller() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "name": "Matthew",
+                            "surname":"Littlesavings",
+                            "username": "ilCapitone",
+                            "password": "1234",
+                            "matchingPassword": "1234",
+                            "phoneNumber": 3467796292,
+                            "email":"hey@itsseller.com",
+                            "roles":"SALESPERSON"
+                         }
+                        """)).andReturn();
+    }
+
+    private void insertBuyer() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "name": "Paolo",
+                            "surname":"Brosio",
+                            "username": "acquasanta&suore",
+                            "password": "1234",
+                            "matchingPassword": "1234",
+                            "phoneNumber": 3467796292,
+                            "email":"hey@itsbuyer.com",
+                            "roles":"BUYER"
+                         }
+                        """)).andReturn();
+    }
+
     private void insertVehicle() throws Exception {
         this.mockMvc.perform(post("/v1/vehicles")
                 .with(httpBasic("hey@itsadmin.com", "1234"))
@@ -70,7 +104,8 @@ public class OrderIntegrationTest {
                                 {
                                 "downPayment": true,
                                 "vehicleId": 1,
-                                "userId": 1,
+                                "sellerId": 1,
+                                "userId": 2,
                                 "orderStatus": "PAID",
                                 "paid": true
                                 }
@@ -82,6 +117,7 @@ public class OrderIntegrationTest {
     @Test
     void OrderUpdateTest() throws Exception {
         insertAdmin();
+        insertBuyer();
         insertVehicle();
         insertOrder();
 
@@ -92,7 +128,8 @@ public class OrderIntegrationTest {
                                 {
                                 "downPayment": true,
                                 "vehicleId": 1,
-                                "userId": 1,
+                                "sellerId": 1,
+                                "userId": 2,
                                 "orderStatus": "PENDING",
                                 "paid": false
                                 }

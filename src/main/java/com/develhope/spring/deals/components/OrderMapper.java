@@ -24,9 +24,11 @@ public class OrderMapper {
     public Order toEntity(OrderCreatorDTO orderCreatorDTO) {
         Vehicle vehicle = new Vehicle(orderCreatorDTO.getVehicleId());
         User user = new User(orderCreatorDTO.getUserId());
+        User seller = new User(orderCreatorDTO.getSellerId());
 
         Order order = new Order();
         order.setVehicle(vehicle);
+        order.setSeller(seller);
         order.setUser(user);
         order.setDownPayment(orderCreatorDTO.isDownPayment());
         order.setOrderStatus(orderCreatorDTO.getOrderStatus());
@@ -38,10 +40,12 @@ public class OrderMapper {
     public OrderResponseDTO toResponseDTO(Order order) {
         VehicleOrderReturnerDTO vehicleOrderReturnerDTO = vehicleMapper.toOrderReturnerDTO(order.getVehicle());
         UserOrderReturnerDTO userOrderReturnerDTO = userMapper.toUserOrderReturnerDTO(order.getUser());
+        UserOrderReturnerDTO sellerOrderReturnerDTO = userMapper.toUserOrderReturnerDTO(order.getSeller());
         return new OrderResponseDTO(
                 order.getId(),
                 order.isDownPayment(),
                 vehicleOrderReturnerDTO,
+                sellerOrderReturnerDTO.getId(),
                 userOrderReturnerDTO.getId(),
                 order.getOrderStatus(),
                 order.isPaid()
@@ -52,6 +56,7 @@ public class OrderMapper {
         return new OrderCreatorDTO(
                 order.isDownPayment(),
                 order.getVehicle().getId(),
+                order.getSeller().getId(),
                 order.getUser().getId(),
                 order.getOrderStatus(),
                 order.isPaid()

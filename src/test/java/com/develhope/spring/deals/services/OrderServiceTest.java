@@ -67,10 +67,22 @@ public class OrderServiceTest {
             Roles.ADMIN
     );
 
+    private static final User DEFAULT_SELLER = new User(
+            3,
+            "",
+            "",
+            "",
+            "1234",
+            123,
+            "",
+            Roles.SALESPERSON
+    );
+
     private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
             true,
             1,
             1,
+            2,
             OrderStatus.PAID,
             true
     );
@@ -161,7 +173,8 @@ public class OrderServiceTest {
                 DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
                 DEFAULT_ORDER_CREATOR_DTO.isPaid(),
                 DEFAULT_VEHICLE,
-                DEFAULT_USER
+                DEFAULT_USER,
+                DEFAULT_SELLER
                 );
         when(orderRepository.save(any()))
                 .thenReturn(updatedRental);
@@ -187,7 +200,8 @@ public class OrderServiceTest {
                 DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
                 DEFAULT_ORDER_CREATOR_DTO.isPaid(),
                 DEFAULT_VEHICLE,
-                DEFAULT_USER
+                DEFAULT_USER,
+                DEFAULT_SELLER
         );
         when(orderRepository.save(any()))
                 .thenReturn(updatedRental);
