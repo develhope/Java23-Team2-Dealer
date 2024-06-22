@@ -49,7 +49,7 @@ public class OrderService {
 
     void checkValidOperator(long userId) {
         User operator = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        if (operator.getRoles().equals(Roles.BUYER)) {
+        if (operator.getRole().equals(Roles.BUYER)){
             throw new NotAuthorizedOperationException("Permesso negato. Non sei autorizzato ad effettuare questa operazione");
         }
     }

@@ -38,7 +38,7 @@ public class OrderController {
     @DeleteMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteOrderByAdmin(@PathVariable Long orderId, @AuthenticationPrincipal User userDetails) {
-        boolean isAdmin = userDetails.getRoles().equals(Roles.ADMIN);
+        boolean isAdmin = userDetails.getRole().equals(Roles.ADMIN);
         if (isAdmin) {
             orderService.deleteBy(orderId);
         } else {
