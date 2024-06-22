@@ -365,4 +365,64 @@ public class RentalIntegrationTest {
                         .with(httpBasic("hey@itsbuyer2.com", "1234")))
                 .andExpect(status().isUnauthorized()).andReturn();
     }
+
+    @Test
+    void updateRental_UpdateDailyCostTest() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertBuyer2();
+        insertVehicle();
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-03",
+                "endDate": "2024-06-05",
+                "dailyCost": 40.00,
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 2
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-06",
+                "endDate": "2024-06-08",
+                "dailyCost": 40.00,
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 3
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(patch("/v1/rentals/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(
+                                """
+                                        {
+                                            "startDate": "2024-06-09",
+                                            "endDate": "2024-06-12",
+                                            "dailyCost": 10.00,
+                                            "paid": false,
+                                            "vehicleId": 1
+                                        }
+                                        """
+                        ))
+                .andExpect(status().isAccepted())
+                .andExpect(content().json("""
+                        {
+                        "startDate": "2024-06-09",
+                        "endDate": "2024-06-12",
+                        "dailyCost": 10.00,
+                        "totalCost": 30.00,
+                        "paid": false,
+                        "vehicle": {
+                                    "id": 1
+                                    },
+                        "buyer": {
+                                 "id": 2
+                                 }
+                        }
+                        """)).andReturn();
+    }
 }

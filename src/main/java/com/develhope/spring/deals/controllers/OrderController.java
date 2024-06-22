@@ -1,8 +1,8 @@
 package com.develhope.spring.deals.controllers;
 
-import com.develhope.spring.deals.dtos.OrderCreatorDTO;
-import com.develhope.spring.deals.dtos.OrderResponseDTO;
-import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
+import com.develhope.spring.deals.dtos.orders.OrderCreatorDTO;
+import com.develhope.spring.deals.dtos.orders.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.orders.OrderUpdatedDTO;
 import com.develhope.spring.deals.services.OrderService;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;

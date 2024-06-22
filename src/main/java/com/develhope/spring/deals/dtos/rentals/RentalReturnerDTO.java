@@ -1,4 +1,4 @@
-package com.develhope.spring.deals.dtos;
+package com.develhope.spring.deals.dtos.rentals;
 
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
@@ -20,19 +20,14 @@ public class RentalReturnerDTO {
     public RentalReturnerDTO() {
     }
 
-    void calculateTotalCost() {
-        long rentalDays = startDate.until(endDate).getDays();
-        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
-    }
-
-    public RentalReturnerDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer) {
+    public RentalReturnerDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost;
+        this.totalCost = totalCost;
         this.paid = paid;
         this.vehicle = vehicle;
         this.buyer = buyer;
-        calculateTotalCost();
         this.id = id;
     }
 
@@ -77,7 +72,7 @@ public class RentalReturnerDTO {
     }
 
     public BigDecimal getDailyCost() {
-        return dailyCost;
+        return dailyCost.setScale(2,RoundingMode.HALF_EVEN);
     }
 
     public void setDailyCost(BigDecimal dailyCost) {

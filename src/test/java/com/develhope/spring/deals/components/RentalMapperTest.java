@@ -1,7 +1,7 @@
 package com.develhope.spring.deals.components;
 
-import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalReturnerDTO;
+import com.develhope.spring.deals.dtos.rentals.RentalCreatorDTO;
+import com.develhope.spring.deals.dtos.rentals.RentalReturnerDTO;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
@@ -86,7 +86,8 @@ public class RentalMapperTest {
         LocalDate startDate = LocalDate.of(2024, 06, 3);
         LocalDate endDate = LocalDate.of(2024, 06, 5);
         BigDecimal dailyCost = BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN);
-        Rental rental = new Rental(startDate, endDate, dailyCost, BigDecimal.valueOf(80),false, vehicle, 1, user);
+        BigDecimal totalCost = BigDecimal.valueOf(80).setScale(2, RoundingMode.HALF_EVEN);
+        Rental rental = new Rental(startDate, endDate, dailyCost, BigDecimal.valueOf(80).setScale(2,RoundingMode.HALF_EVEN),false, vehicle, 1, user);
 
         VehicleRentalReturnerDTO vehicleRentalReturnerDTO = new VehicleRentalReturnerDTO();
         vehicleRentalReturnerDTO.setId(rental.getVehicle().getId());
@@ -95,7 +96,7 @@ public class RentalMapperTest {
         buyerRentalReturnerDto.setEmail(rental.getUser().getEmail());
 
         RentalReturnerDTO result = rentalMapper.toReturnerDTO(rental);
-        RentalReturnerDTO expected = new RentalReturnerDTO(1, startDate, endDate, dailyCost, false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
+        RentalReturnerDTO expected = new RentalReturnerDTO(1, startDate, endDate, dailyCost, totalCost, false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
         assertEquals(expected.getTotalCost(), result.getTotalCost());
     }
 }

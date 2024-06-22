@@ -1,4 +1,4 @@
-package com.develhope.spring.deals.dtos;
+package com.develhope.spring.deals.dtos.rentals;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,7 +23,7 @@ public class RentalUpdaterDTO {
 
     void calculateTotalCost() {
         long rentalDays = startDate.until(endDate).getDays();
-        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
+        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays));
     }
 
     public BigDecimal getTotalCost() {
