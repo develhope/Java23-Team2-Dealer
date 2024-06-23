@@ -138,12 +138,13 @@ public class OrderIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         """
-                                {
-                                "downPayment": true,
-                                "orderStatus": "PENDING",
-                                "paid": false
-                                }
-                                """
+                        {
+                        "id": 1,
+                        "downPayment": true,
+                        "orderStatus": "PENDING",
+                        "paid": false
+                        }
+                        """
                 )).andReturn();
     }
 
