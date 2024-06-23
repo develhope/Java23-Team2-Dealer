@@ -3,7 +3,8 @@ package com.develhope.spring.deals.models;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
-    
+
+
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -25,6 +26,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
 
     public Order() {
     }

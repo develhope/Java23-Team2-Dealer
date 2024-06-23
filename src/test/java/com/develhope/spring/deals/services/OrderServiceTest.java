@@ -178,7 +178,7 @@ public class OrderServiceTest {
     @Test
     void checkValidOperatorTest_UserBuyer() {
         User buyer = new User(DEFAULT_ID);
-        buyer.setRoles(Roles.BUYER);
+        buyer.setRole(Roles.BUYER);
         when(userRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(buyer));
         assertThrows(NotAuthorizedOperationException.class, () -> orderService.checkValidOperator(DEFAULT_ID));
@@ -207,6 +207,26 @@ User user = new User(2);
                 .thenReturn(Optional.of(vehicle));
         assertThrows(NotAvailableVehicleException.class, () -> orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
     }
+//    @Test
+//    void createOrder_successfulTest() {
+//        OrderResponseDTO expected = new OrderResponseDTO(
+//                1,
+//                true,
+//                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+//                1,
+//                OrderStatus.PAID,
+//                true
+//        );
+//
+//        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+//                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+//        when(userRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getUserId()))
+//                .thenReturn(Optional.of(DEFAULT_USER));
+//
+//        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
+//        assertEquals(expected.getUserId(), result.getUserId());
+//    }
+
 
     @Test
     void updateOrderTest() {
@@ -214,7 +234,7 @@ User user = new User(2);
                 .thenReturn(Optional.of(DEFAULT_ORDER));
         when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
-        Order updatedRental = new Order(
+        Order updatedOrder = new Order(
                 DEFAULT_ORDER.getId(),
                 DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
                 DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
@@ -223,7 +243,7 @@ User user = new User(2);
                 DEFAULT_USER
         );
         when(orderRepository.save(any()))
-                .thenReturn(updatedRental);
+                .thenReturn(updatedOrder);
         OrderUpdatedDTO expected = new OrderUpdatedDTO(
                 1L,
                 true,
