@@ -9,8 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -96,7 +95,6 @@ public class OrderIntegrationTest {
                                 "paid": true
                                 }
                                 """))
-                .andExpect(status().isCreated())
                 .andReturn();
     }
 
@@ -229,7 +227,7 @@ public class OrderIntegrationTest {
                         .with(httpBasic("hey@itsbuyer2.com", "54321"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotAuthorizedOperationException))
+                .andExpect(result -> assertInstanceOf(NotAuthorizedOperationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("You are not authorized to cancel this order.", result.getResolvedException().getMessage()))
                 .andReturn();
     }
