@@ -1,5 +1,6 @@
 package com.develhope.spring.deals.controllers;
 
+import com.develhope.spring.deals.models.Rental;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -365,4 +366,19 @@ public class RentalIntegrationTest {
                         .with(httpBasic("hey@itsbuyer2.com", "1234")))
                 .andExpect(status().isUnauthorized()).andReturn();
     }
+
+
+
+//    @Test
+//    public void testDeleteRental() throws Exception {
+//        // Creare un rental nel database
+//        long rentalId = 1L;
+//        Rental rental = new Rental(rentalId);
+//
+//        // Effettua la richiesta di delete con MockMVC
+//        mockMvc.perform(delete("/v1/rentals/{rentalId}", rental.getId()))
+//                .andExpect(status().isNoContent());
+//
+//        // Verifica non necessaria
+//    }
 }

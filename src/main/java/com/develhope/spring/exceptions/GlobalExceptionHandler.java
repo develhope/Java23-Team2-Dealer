@@ -1,6 +1,7 @@
 package com.develhope.spring.exceptions;
 
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.RentalNotFoundException;
 import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
@@ -45,6 +46,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getHttpStatus()).body(e);
     }
 
+
+    //Rental exception on delete not found
+
+    @ExceptionHandler(RentalNotFoundException.class)
+    public ResponseEntity<String> handleRentalNotFoundException(RentalNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity<UserAlreadyExistException> getException(UserAlreadyExistException e) {
         return ResponseEntity.status(e.getHttpStatus()).body(e);

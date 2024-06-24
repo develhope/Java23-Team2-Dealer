@@ -7,6 +7,8 @@ import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.deals.components.RentalMapper;
 import com.develhope.spring.deals.repositories.RentalRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
+import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
+import com.develhope.spring.deals.responseStatus.RentalNotFoundException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+
 import java.util.NoSuchElementException;
 
 @Service
@@ -62,6 +65,17 @@ public class RentalService {
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Rental> foundRentals = rentalRepository.findByUserId(userDetails.getId(), pageable);
         return foundRentals.map(rentalMapper::toReturnerDTO);
+    }
+
+    public void deleteRental(Long rentalId) {
+        rentalRepository.deleteById(rentalId);
+        }
+
+    public void deleteRentalByIdAndUserId(long rentalId, User userDetails) {
+        if (rentalRepository.findByIdAndUserId(rentalId, userDetails.getId()).isEmpty()) {
+            throw new NoSuchElementException("Rental Not Found!");
+        }
+        rentalRepository.deleteById(rentalId);
     }
 
     private static void checkValidArgument(RentalCreatorDTO rentalCreatorDTO) {
@@ -145,5 +159,9 @@ public class RentalService {
                     "Starting Date of the rental can't be later than ending date. Please select new dates"
             );
         }
+    }
+
+    public boolean checkRentalId(long rentalId, User userDetails) {
+        return rentalRepository.findByIdAndUserId(rentalId, userDetails.getId()).isPresent();
     }
 }

@@ -4,10 +4,13 @@ import com.develhope.spring.deals.dtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.RentalReturnerDTO;
 import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.services.RentalService;
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
+import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ public class RentalController {
         return rentalService.create(rentalCreatorDTO);
     }
 
+
     @Secured({"ADMIN", "SALESPERSON"})
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PatchMapping("/{rentalId}")
@@ -36,5 +40,23 @@ public class RentalController {
     @GetMapping
     public Page<RentalReturnerDTO> loadByUserId(@AuthenticationPrincipal User userDetails, @RequestParam int page, @RequestParam int size) {
         return rentalService.getByUserId(userDetails, page, size);
+    }
+
+
+    @Secured({"ADMIN", "SALESPERSON", "BUYER"})
+    @DeleteMapping("/{rentalId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteRentalByAdmin(@PathVariable Long rentalId, @AuthenticationPrincipal User userDetails) {
+        boolean isAdmin = userDetails.getRole().equals(Roles.ADMIN);
+        boolean isSeller = userDetails.getRole().equals(Roles.SALESPERSON);
+        if (isAdmin || isSeller) {
+            rentalService.deleteRental(rentalId);
+        } else {
+            if (rentalService.checkRentalId(rentalId, userDetails)) {
+                rentalService.deleteRentalByIdAndUserId(rentalId, userDetails);
+            } else {
+                throw new NotAuthorizedOperationException("You are not authorized to cancel this rental.");
+            }
+        }
     }
 }

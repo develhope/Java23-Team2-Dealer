@@ -58,6 +58,8 @@ public class Rental {
         this.user = user;
     }
 
+    public Rental (long id){this.id = id;}
+
     public User getUser() {
         return user;
     }
@@ -65,6 +67,7 @@ public class Rental {
     public void setUser(User user) {
         this.user = user;
     }
+
 
     public Rental() {
     }
