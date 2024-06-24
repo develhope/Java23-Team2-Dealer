@@ -24,6 +24,10 @@ public class OrderResponseDTO {
         this.paid = paid;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public boolean isDownPayment() {
         return downPayment;
     }

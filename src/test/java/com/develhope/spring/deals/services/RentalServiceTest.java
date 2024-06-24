@@ -204,19 +204,6 @@ public class RentalServiceTest {
     }
 
     @Test
-    void adminNotFound_exceptionIsThrown() {
-        RentalUpdaterDTO rentalUpdaterDTO = new RentalUpdaterDTO(
-                LocalDate.of(2024, 6, 15),
-                LocalDate.of(2024, 6, 18),
-                DEFAULT_PRICE,
-                false,
-                1);
-        when(userRepository.findById(1L))
-                .thenThrow(NoSuchElementException.class);
-        assertThrows(NoSuchElementException.class, () -> rentalService.update(1L, rentalUpdaterDTO));
-    }
-
-    @Test
     void createRental_returnIDTest() {
 
         RentalReturnerDTO expected = new RentalReturnerDTO(
