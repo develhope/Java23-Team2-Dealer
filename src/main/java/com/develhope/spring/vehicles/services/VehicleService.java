@@ -3,19 +3,25 @@ package com.develhope.spring.vehicles.services;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
+import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
-import com.develhope.spring.vehicles.models.VehicleMapper;
+import com.develhope.spring.vehicles.components.VehicleMapper;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class VehicleService {
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     @Autowired
     private VehicleRepository vehicleRepository;
@@ -26,20 +32,23 @@ public class VehicleService {
     @Autowired
     private VehicleMapper vehicleMapper;
 
-    public VehicleCreatorDTO create(long userId, VehicleCreatorDTO vehicleCreatorDTO) {
-        checkUserAuthorizationBy(userId);
-        Vehicle vehicle = vehicleMapper.toEntityFrom(vehicleCreatorDTO);
-        return vehicleMapper.toVehicleCreatorDTOFrom(vehicleRepository.save(vehicle));
+    public VehicleSavedDTO create(VehicleCreatorDTO vehicleCreatorDTO) {
+        Vehicle vehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
+        return vehicleMapper.toSavedDTO(savedVehicle);
     }
 
+    //TODO Convertire autorizzazione
     public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle;
-        existingVehicle = vehicleMapper.toEntityFrom(vehicleCreatorDTO);
+        existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
         existingVehicle.setId(vehicleId);
-        return vehicleMapper.toVehicleCreatorDTOFrom(vehicleRepository.save(existingVehicle));
+        Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
+        return vehicleMapper.toCreatorDTO(updatedVehicle);
     }
 
+    //TODO Convertire autorizzazione
     public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
         checkUserAuthorizationBy(userId);
         Vehicle existingVehicle = findVehicleBy(vehicleId);
@@ -48,14 +57,15 @@ public class VehicleService {
         return existingVehicle;
     }
 
+    //TODO Convertire autorizzazione
     public void delete(long userId, long vehicleId) {
         checkUserAuthorizationBy(userId);
         vehicleRepository.deleteById(vehicleId);
     }
 
     private void checkUserAuthorizationBy(long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty() || !optionalUser.get().getRoles().equals(Roles.ADMIN)) {
+        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        if (!user.getRole().equals(Roles.ADMIN)) {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
         }
     }
@@ -64,6 +74,4 @@ public class VehicleService {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
         return optionalVehicle.orElseThrow();
     }
-
-
 }

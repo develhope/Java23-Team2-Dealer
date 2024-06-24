@@ -3,21 +3,31 @@ package com.develhope.spring.users.dtos;
 import com.develhope.spring.users.models.Roles;
 
 public class UserSavedDTO {
+    private long id;
     private String name;
     private String surname;
+    private String username;
     private Roles roles;
 
 
-    public UserSavedDTO() {
-    }
+    public UserSavedDTO(long id){}
 
-    public UserSavedDTO(String name, String surname, Roles roles) {
+    public UserSavedDTO(){}
+
+    public UserSavedDTO(long id, String name, String surname, String username, Roles roles) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
+        this.username = username;
         this.roles = roles;
     }
 
-    //getters
+//getters
+
+    public long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -30,8 +40,21 @@ public class UserSavedDTO {
         return surname;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
-    //setters
+
+//setters
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void setRoles(Roles roles) {
         this.roles = roles;
     }

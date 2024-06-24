@@ -1,27 +1,41 @@
 package com.develhope.spring.users.components;
 
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
-import com.develhope.spring.users.dtos.UserCreatorDTO;
-import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
+import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
+import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.models.Roles;
+import com.develhope.spring.users.dtos.UserReworkedDTO;
+import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
+    public UserUpdaterDTO toUserUpdaterDTO (User user) {
+        return new UserUpdaterDTO(user.getName(), user.getSurname(), user.getUsername(), user.getPhoneNumber(),
+                user.getEmail(), user.getRole());
+    }
     public UserSavedDTO toUserSavedDTO(User user) {
-        return new UserSavedDTO(user.getName(), user.getSurname(), user.getRoles());
+        return new UserSavedDTO(user.getId(), user.getName(), user.getSurname(), user.getUsername(),user.getRole());
     }
 
-    public User toEntity(UserCreatorDTO userCreatorDTO) {
+    public User toEntity(UserRegistrationDTO userRegistrationDTO) {
         User user = new User();
-        user.setName(userCreatorDTO.getName());
-        user.setSurname(userCreatorDTO.getSurname());
-        user.setPhoneNumber(userCreatorDTO.getPhoneNumber());
-        user.setEmail(userCreatorDTO.getEmail());
-        user.setRoles(userCreatorDTO.getRoles());
+        user.setName(userRegistrationDTO.getName());
+        user.setSurname(userRegistrationDTO.getSurname());
+        user.setUsername(userRegistrationDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
+        user.setPhoneNumber(userRegistrationDTO.getPhoneNumber());
+        user.setEmail(userRegistrationDTO.getEmail());
+        user.setRole(userRegistrationDTO.getRoles());
         return user;
     }
 
@@ -39,6 +53,8 @@ public class UserMapper {
                 buyerRentalReturnerDto.getId(),
                 buyerRentalReturnerDto.getName(),
                 buyerRentalReturnerDto.getSurname(),
+                "default",
+                "default",
                 buyerRentalReturnerDto.getPhoneNumber(),
                 buyerRentalReturnerDto.getEmail(),
                 Roles.BUYER
@@ -54,23 +70,19 @@ public class UserMapper {
         );
     }
 
-    public User toUserFrom(UserCreatorDTO userCreatorDTO) {
+    public User toEntity(UserUpdaterDTO userDTO) {
         User user = new User();
-        user.setName(userCreatorDTO.getName());
-        user.setSurname(userCreatorDTO.getSurname());
-        user.setPhoneNumber(userCreatorDTO.getPhoneNumber());
-        user.setEmail(userCreatorDTO.getEmail());
-        user.setRoles(userCreatorDTO.getRoles());
+        user.setName(userDTO.getName());
+        user.setSurname(userDTO.getSurname());
+        user.setUsername(userDTO.getUsername());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setEmail(userDTO.getEmail());
+        user.setRole(userDTO.getRole());
+
         return user;
     }
-
-    public UserCreatorDTO toUserCreatorDTOFrom(User user) {
-        return new UserCreatorDTO(
-                user.getName(),
-                user.getSurname(),
-                user.getPhoneNumber(),
-                user.getEmail(),
-                user.getRoles()
-        );
+    public UserReworkedDTO toReworkedDTO (User user){
+        return new UserReworkedDTO(user.getId(), user.getName(), user.getSurname(), user.getUsername(), user.getPhoneNumber(),
+                user.getEmail(),user.getRole());
     }
 }

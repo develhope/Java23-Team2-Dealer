@@ -2,8 +2,8 @@ package com.develhope.spring.exceptions;
 
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.RentalNotFoundException;
+import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
-import com.develhope.spring.vehicles.models.exceptions.ExcessiveParameterException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +26,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGlobalException(Exception ex, WebRequest request) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<String> handleGlobalException(Exception ex, WebRequest request) {
+//        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<NoSuchElementException> getException(NoSuchElementException e) {
@@ -53,5 +53,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleRentalNotFoundException(RentalNotFoundException ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<UserAlreadyExistException> getException(UserAlreadyExistException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(e);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<OrderNotFoundException> handleOrderNotFoundException(OrderNotFoundException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(e);
+    }
+
 }
 

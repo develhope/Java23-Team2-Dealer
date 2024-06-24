@@ -1,9 +1,15 @@
 package com.develhope.spring.users.models;
 
-import java.util.Collection;
+import org.springframework.security.core.GrantedAuthority;
 
-public enum Roles {
+
+public enum Roles implements GrantedAuthority {
     BUYER,
     ADMIN,
     SALESPERSON;
+
+    @Override
+    public String getAuthority() {
+        return this.name();
+    }
 }

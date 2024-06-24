@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private boolean downPayment;
@@ -19,7 +19,7 @@ public class Order {
     private OrderStatus orderStatus;
 
     @Column(nullable = false)
-    private boolean isPaid;
+    private boolean paid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
@@ -27,23 +27,26 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+
     public Order() {
     }
 
-    public Order(Long id) {
+    public Order(long id) {
         this.id = id;
     }
 
-    public Order(long id, long vehicleId, boolean downPayment, OrderStatus orderStatus, boolean isPaid, Vehicle vehicle, User user) {
+    public Order(long id, boolean downPayment, OrderStatus orderStatus,
+                 boolean paid, Vehicle vehicle, User user) {
         this.id = id;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
-        this.isPaid = isPaid;
+        this.paid = paid;
         this.vehicle = vehicle;
         this.user = user;
     }
 
-    public Long getId() {
+
+    public long getId() {
         return id;
     }
 
@@ -56,11 +59,11 @@ public class Order {
     }
 
     public void setPaid(boolean paid) {
-        isPaid = paid;
+        this.paid = paid;
     }
 
     public boolean isPaid() {
-        return isPaid;
+        return paid;
     }
 
     public Vehicle getVehicle() {
@@ -86,5 +89,4 @@ public class Order {
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
-
 }
