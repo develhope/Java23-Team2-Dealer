@@ -37,11 +37,6 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class OrderServiceTest {
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @MockBean
     private VehicleRepository vehicleRepository;
 

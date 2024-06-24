@@ -1,17 +1,14 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.dtos.rentalsDtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.rentalsDtos.RentalReturnerDTO;
 import com.develhope.spring.deals.dtos.rentalsDtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.deals.repositories.RentalRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
-import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
@@ -21,19 +18,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 
+import static com.develhope.spring.configurations.DealsUnitTestConfig.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class RentalServiceTest {
-
-
 
     @MockBean
     private VehicleRepository vehicleRepository;
@@ -47,50 +41,8 @@ public class RentalServiceTest {
     @Autowired
     private RentalService rentalService;
 
-    private final LocalDate DEFAULT_RENTAL_START_DATE = LocalDate.of(2024, 6, 3);
-    private final LocalDate DEFAULT_RENTAL_END_DATE = LocalDate.of(2024, 6, 6);
-    private final BigDecimal DEFAULT_PRICE = BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN);
 
-    private final RentalCreatorDTO DEFAULT_RENTAL_CREATOR_DTO = new RentalCreatorDTO(
-            DEFAULT_RENTAL_START_DATE,
-            DEFAULT_RENTAL_END_DATE,
-            DEFAULT_PRICE,
-            true,
-            1,
-            1);
-
-    private final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
-    private final User DEFAULT_USER = new User(2);
-
-    private final Rental DEFAULT_RENTAL = new Rental();
-
-    private final VehicleRentalReturnerDTO DEFAULT_VEHICLE_RENTAL_RETURNER_DTO = new VehicleRentalReturnerDTO(1);
-    private final BuyerRentalReturnerDto DEFAULT_BUYER_RENTAL_RETURNER_DTO = new BuyerRentalReturnerDto(2);
-    private final Rental DEFAULT_EXISTING_RENTAL = new Rental(
-            LocalDate.of(2024, 6, 7),
-            LocalDate.of(2024, 6, 10),
-            DEFAULT_PRICE,
-            DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
-            true,
-            DEFAULT_VEHICLE,
-            1,
-            DEFAULT_USER
-    );
-
-    private final Rental DEFAULT_EXISTING_RENTAL2 = new Rental(
-            LocalDate.of(2024, 6, 11),
-            LocalDate.of(2024, 6, 14),
-            DEFAULT_PRICE,
-            DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
-            true,
-            DEFAULT_VEHICLE,
-            2,
-            DEFAULT_USER
-    );
-
-    private final Collection<Rental> DEFAULT_EXISTING_RENTALS = new ArrayList<>(List.of(DEFAULT_EXISTING_RENTAL, DEFAULT_EXISTING_RENTAL2));
-
-    private List<RentalReturnerDTO> getRentalReturnerDTOS() {
+    private static List<RentalReturnerDTO> getRentalReturnerDTOS() {
         RentalReturnerDTO rental1 = new RentalReturnerDTO(
                 DEFAULT_EXISTING_RENTAL.getId(),
                 DEFAULT_EXISTING_RENTAL.getStartDate(),
@@ -134,7 +86,7 @@ public class RentalServiceTest {
                 true,
                 DEFAULT_VEHICLE,
                 1,
-                DEFAULT_USER
+                DEFAULT_USER2
         );
 
         when(rentalRepository.findByVehicleId(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
@@ -142,7 +94,7 @@ public class RentalServiceTest {
         when(vehicleRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         when(userRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getUserId()))
-                .thenReturn(Optional.of(DEFAULT_USER));
+                .thenReturn(Optional.of(DEFAULT_USER2));
         when(rentalRepository.save(any()))
                 .thenReturn(rental);
 
@@ -181,7 +133,7 @@ public class RentalServiceTest {
                 true,
                 DEFAULT_VEHICLE,
                 4,
-                DEFAULT_USER
+                DEFAULT_USER2
         );
 
         Rental existingRental2 = new Rental(
@@ -192,7 +144,7 @@ public class RentalServiceTest {
                 true,
                 DEFAULT_VEHICLE,
                 4,
-                DEFAULT_USER
+                DEFAULT_USER2
         );
 
         Collection<Rental> rentals = new ArrayList<>(List.of(existingRental, existingRental2));
@@ -224,7 +176,7 @@ public class RentalServiceTest {
                 true,
                 DEFAULT_VEHICLE,
                 1,
-                DEFAULT_USER
+                DEFAULT_USER2
         );
 
         when(rentalRepository.findByVehicleId(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
@@ -232,7 +184,7 @@ public class RentalServiceTest {
         when(vehicleRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getVehicleId()))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         when(userRepository.findById(DEFAULT_RENTAL_CREATOR_DTO.getUserId()))
-                .thenReturn(Optional.of(DEFAULT_USER));
+                .thenReturn(Optional.of(DEFAULT_USER2));
         when(rentalRepository.save(any()))
                 .thenReturn(rental);
 
@@ -299,16 +251,16 @@ public class RentalServiceTest {
         List<RentalReturnerDTO> pageContent2 = rentalReturnerDTOS.subList(start2, end2);
 
 
-        when(userRepository.existsById(DEFAULT_USER.getId()))
+        when(userRepository.existsById(DEFAULT_USER2.getId()))
                 .thenReturn(true);
         when(rentalRepository.save(DEFAULT_RENTAL))
                 .thenReturn(DEFAULT_EXISTING_RENTAL);
         when(rentalRepository.save(DEFAULT_RENTAL))
                 .thenReturn(DEFAULT_EXISTING_RENTAL2);
-        when(rentalRepository.findByUserId(DEFAULT_USER.getId(), pageable))
+        when(rentalRepository.findByUserId(DEFAULT_USER2.getId(), pageable))
                 .thenReturn(rentalPage);
 
-        Page<RentalReturnerDTO> result = rentalService.getByUserId(DEFAULT_USER, page, size);
+        Page<RentalReturnerDTO> result = rentalService.getByUserId(DEFAULT_USER2, page, size);
         Page<RentalReturnerDTO> expect = new PageImpl<>(pageContent2, pageable, rentalReturnerDTOS.size());
 
         assertEquals(expect.stream().findFirst().orElseThrow().getTotalCost(), result.stream().findFirst().orElseThrow().getTotalCost());
@@ -318,7 +270,7 @@ public class RentalServiceTest {
     void getRentalsByUserId_userNotFound() {
         when(userRepository.existsById(5L))
                 .thenReturn(false);
-        assertThrows(NoSuchElementException.class, () -> rentalService.getByUserId(DEFAULT_USER, 0, 5));
+        assertThrows(NoSuchElementException.class, () -> rentalService.getByUserId(DEFAULT_USER2, 0, 5));
     }
 
     @Test
@@ -338,8 +290,8 @@ public class RentalServiceTest {
                 .thenReturn(Optional.of(admin));
 
         RentalUpdaterDTO rentalUpdaterDTO = new RentalUpdaterDTO(
-                LocalDate.of(2024, 6, 15),
-                LocalDate.of(2024, 6, 18),
+                LocalDate.of(2024, 7, 18),
+                LocalDate.of(2024, 7, 20),
                 DEFAULT_PRICE,
                 false,
                 1);
