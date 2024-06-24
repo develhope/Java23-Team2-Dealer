@@ -5,7 +5,10 @@ import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
+import com.develhope.spring.vehicles.components.specifications.SpecSearchCriteria;
+import com.develhope.spring.vehicles.components.specifications.VehicleSpecificationsBuilder;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
 import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
@@ -20,15 +23,19 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static com.develhope.spring.configuration.VehicleUnitTestConfiguration.DEFAULT_VEHICLE;
-import static com.develhope.spring.configuration.VehicleUnitTestConfiguration.DEFAULT_VEHICLE_CREATOR_DTO;
+import static com.develhope.spring.configuration.VehicleUnitTestConfiguration.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -50,7 +57,11 @@ public class VehicleServiceTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private Pattern pattern;
 
+    @MockBean
+    private Matcher matcher;
 
     @Test
     void createVehicle_successfulCreationTest() {
@@ -74,8 +85,21 @@ public class VehicleServiceTest {
         assertEquals(expected.getBrand(), result.getBrand());
     }
 
-    @Test
-    void search_returnCorrectVehicleList_whenASingleFilterEqualIsPassed() {
-
-    }
+//    @Test
+//    void search_returnCorrectVehicleListLength_whenASingleFilterEqualIsPassed() {
+//        List<Vehicle> expected = new ArrayList<>();
+//        expected.add(DEFAULT_VEHICLE());
+//        Pattern pattern = Pattern.compile("(\\p{Punct}?)(\\w+?)(:|<|>)(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
+//        VehicleFilterDTO vehicleFilterDTO = new VehicleFilterDTO(null, "CAR", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+//        VehicleSpecificationsBuilder vehicleSpecificationsBuilder = new VehicleSpecificationsBuilder();
+//        Matcher matcher = pattern.matcher(vehicleFilterDTO.DTOToString() + ",");
+//        while (matcher.find()) {
+//            vehicleSpecificationsBuilder.with(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(4), matcher.group(6));
+//        }
+//        Specification<Vehicle> spec = vehicleSpecificationsBuilder.build();
+//        when(vehicleRepository.findAll(spec))
+//                .thenReturn(expected);
+//        List<Vehicle> result = vehicleService.search(vehicleFilterDTO);
+//        assertEquals(expected.size(), result.size());
+//    }
 }

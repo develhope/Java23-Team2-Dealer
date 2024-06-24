@@ -51,4 +51,11 @@ public class VehicleSpecificationsBuilder {
 
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "VehicleSpecificationsBuilder{" +
+                "params=" + params +
+                '}';
+    }
 }

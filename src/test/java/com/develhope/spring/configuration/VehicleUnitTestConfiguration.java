@@ -4,6 +4,7 @@ import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 
@@ -57,4 +58,24 @@ public class VehicleUnitTestConfiguration {
         vehicle.setEngine(DEFAULT_VEHICLE_CREATOR_DTO.getEngine());
         return vehicle;
     }
+
+    public static VehicleFilterDTO DEFAULT_VEHICLE_FILTER_DTO = new VehicleFilterDTO(
+            "1",
+            "CAR",
+            "Ferrari",
+            "2000",
+            "1000",
+            "3000",
+            "RED",
+            "2500",
+            "MANUAL",
+            "2024",
+            "2000",
+            "2025",
+            "GASOLINE",
+            "10000",
+            "950000",
+            "NEW",
+            "AVAILABLE"
+    );
 }

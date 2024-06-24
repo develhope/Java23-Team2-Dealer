@@ -2,39 +2,39 @@ package com.develhope.spring.vehicles.dtos;
 
 public class VehicleFilterDTO {
 
-    private final String id;
+    private String id;
 
-    private final String vehicleType;
+    private String vehicleType;
 
-    private final String brand;
+    private String brand;
 
-    private final String displacement;
+    private String displacement;
 
-    private final String displacementOver;
+    private String displacementOver;
 
-    private final String displacementBelow;
+    private String displacementBelow;
 
-    private final String color;
+    private String color;
 
-    private final String power;
+    private String power;
 
-    private final String gear;
+    private String gear;
 
-    private final String year;
+    private String year;
 
-    private final String yearOver;
+    private String yearOver;
 
-    private final String yearBelow;
+    private String yearBelow;
 
-    private final String powerSupply;
+    private String powerSupply;
 
-    private final String priceOver;
+    private String priceOver;
 
-    private final String priceBelow;
+    private String priceBelow;
 
-    private final String usedFlag;
+    private String usedFlag;
 
-    private final String marketStatus;
+    private String marketStatus;
 
     public VehicleFilterDTO(
             String id,
@@ -150,8 +150,10 @@ public class VehicleFilterDTO {
         if (this.gear != null) searchString.append("gear:").append(getGear()).append(",");
         if (this.color != null) searchString.append("color:").append(getColor()).append(",");
         if (this.displacement != null) searchString.append("displacement:").append(getDisplacement()).append(",");
-        if (this.displacementOver != null) searchString.append("displacement>").append(getDisplacementOver()).append(",");
-        if (this.displacementBelow != null) searchString.append("displacement<").append(getDisplacementBelow()).append(",");
+        if (this.displacementOver != null)
+            searchString.append("displacement>").append(getDisplacementOver()).append(",");
+        if (this.displacementBelow != null)
+            searchString.append("displacement<").append(getDisplacementBelow()).append(",");
         if (this.power != null) searchString.append("power:").append(getPower()).append(",");
         if (this.powerSupply != null) searchString.append("powerSupply:").append(getPowerSupply()).append(",");
         if (this.priceBelow != null) searchString.append("price<").append(getPriceBelow()).append(",");
