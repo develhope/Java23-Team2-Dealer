@@ -11,6 +11,10 @@ import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +48,8 @@ public class VehicleService {
         return vehicleMapper.toSavedDTO(savedVehicle);
     }
 
-    public List<Vehicle> search(VehicleFilterDTO vehicleFilterDTO) {
+    public Page<Vehicle> search(VehicleFilterDTO vehicleFilterDTO, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         String search = vehicleFilterDTO.DTOToString();
         VehicleSpecificationsBuilder builder = new VehicleSpecificationsBuilder();
         Pattern pattern = Pattern.compile("(\\p{Punct}?)(\\w+?)(:|<|>)(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
@@ -53,7 +58,7 @@ public class VehicleService {
             builder.with(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(4), matcher.group(6));
         }
         Specification<Vehicle> spec = builder.build();
-        return vehicleRepository.findAll(spec);
+        return vehicleRepository.findAll(spec, pageable);
     }
 
     //TODO Convertire autorizzazione

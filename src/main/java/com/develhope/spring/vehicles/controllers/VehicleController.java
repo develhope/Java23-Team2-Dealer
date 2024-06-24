@@ -7,6 +7,7 @@ import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,8 @@ public class VehicleController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<Vehicle> search(VehicleFilterDTO vehicleFilterDTO) {
-        return vehicleService.search(vehicleFilterDTO);
+    public Page<Vehicle> search(VehicleFilterDTO vehicleFilterDTO, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size) {
+        return vehicleService.search(vehicleFilterDTO, page, size);
     }
 
     //TODO Convertire autorizzazione
