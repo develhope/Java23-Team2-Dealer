@@ -1,4 +1,4 @@
-package com.develhope.spring.deals.dtos;
+package com.develhope.spring.deals.dtos.rentalsDtos;
 
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;

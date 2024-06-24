@@ -3,6 +3,8 @@ package com.develhope.spring.exceptions;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
+import com.develhope.spring.users.responseStatus.UserAlreadyExistException;
+import com.develhope.spring.vehicles.responseStatus.ExcessiveParameterException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

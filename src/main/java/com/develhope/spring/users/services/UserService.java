@@ -1,6 +1,6 @@
 package com.develhope.spring.users.services;
 
-import com.develhope.spring.exceptions.UserAlreadyExistException;
+import com.develhope.spring.users.responseStatus.UserAlreadyExistException;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserReworkedDTO;
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
@@ -33,13 +33,13 @@ public class UserService implements IUserService {
     @Override
     public UserSavedDTO registerNewUserAccount(UserRegistrationDTO userRegistrationDTO) {
         if (emailExists(userRegistrationDTO.getEmail())) {
-            logger.warn("Email already exists " + userRegistrationDTO.getEmail());
+            logger.warn("Email already exists {}", userRegistrationDTO.getEmail());
             throw new UserAlreadyExistException("There is an account with that email address: "
                     + userRegistrationDTO.getEmail());
         }
         User user = userMapper.toEntity(userRegistrationDTO);
         User savedUser = userRepository.save(user);
-        logger.info(savedUser + " Registered!");
+        logger.info("{} Registered!", savedUser);
         return userMapper.toUserSavedDTO(savedUser);
     }
 
@@ -61,10 +61,10 @@ public class UserService implements IUserService {
     }
 
     public boolean checkIfItsUserOwnID(long userID, User userDetails) {
-        return userID==userDetails.getId();
+        return userID == userDetails.getId();
     }
 
-    public void deleteUser ( long userIDToDelete){
+    public void deleteUser(long userIDToDelete) {
         userRepository.deleteById(userIDToDelete);
     }
 }

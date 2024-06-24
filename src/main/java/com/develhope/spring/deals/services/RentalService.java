@@ -1,10 +1,10 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalReturnerDTO;
-import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
+import com.develhope.spring.deals.dtos.rentalsDtos.RentalCreatorDTO;
+import com.develhope.spring.deals.dtos.rentalsDtos.RentalReturnerDTO;
+import com.develhope.spring.deals.dtos.rentalsDtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.models.Rental;
-import com.develhope.spring.deals.components.RentalMapper;
+import com.develhope.spring.deals.components.mappers.RentalMapper;
 import com.develhope.spring.deals.repositories.RentalRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
@@ -33,16 +34,16 @@ public class RentalService {
     private RentalMapper rentalMapper;
 
     public RentalReturnerDTO create(RentalCreatorDTO rentalCreatorDTO) {
-        checkValidRentalDates(rentalCreatorDTO);
-        checkMarketStatus(rentalCreatorDTO);
+        checkValidRentalDates(rentalCreatorDTO.getVehicleId(), rentalCreatorDTO.getStartDate(), rentalCreatorDTO.getEndDate());
+        checkMarketStatus(rentalCreatorDTO.getVehicleId());
         Rental rental = rentalMapper.toEntity(rentalCreatorDTO);
         Rental savedRental = rentalRepository.save(rental);
         return rentalMapper.toReturnerDTO(savedRental);
     }
 
     public RentalReturnerDTO update(long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
-        checkValidRentalDates(rentalUpdaterDTO);
-        checkMarketStatus(rentalUpdaterDTO);
+        checkValidRentalDates(rentalUpdaterDTO.getVehicleId(), rentalUpdaterDTO.getStartDate(), rentalUpdaterDTO.getEndDate());
+        checkMarketStatus(rentalUpdaterDTO.getVehicleId());
         Rental savedRental = rentalRepository.findById(rentalId).orElseThrow(NoSuchElementException::new);
         Vehicle vehicle = vehicleRepository.findById(rentalUpdaterDTO.getVehicleId()).orElseThrow(NoSuchElementException::new);
         savedRental.setStartDate(rentalUpdaterDTO.getStartDate());
@@ -64,25 +65,17 @@ public class RentalService {
         return foundRentals.map(rentalMapper::toReturnerDTO);
     }
 
-    private static void checkValidArgument(RentalCreatorDTO rentalCreatorDTO) {
-        if (rentalCreatorDTO.getStartDate().isAfter(rentalCreatorDTO.getEndDate())) {
-            throw new IllegalArgumentException(
-                    "Starting Date of the rental can't be later than ending date. Please select new dates"
-            );
-        }
-    }
-
-    private void checkValidRentalDates(RentalCreatorDTO rentalCreatorDTO) {
-        checkValidArgument(rentalCreatorDTO);
-        Collection<Rental> rentals = rentalRepository.findByVehicleId(rentalCreatorDTO.getVehicleId());
+    private void checkValidRentalDates(long vehicleId, LocalDate startDate, LocalDate endDate) {
+        checkValidArgument(startDate, endDate);
+        Collection<Rental> rentals = rentalRepository.findByVehicleId(vehicleId);
         if (rentals.isEmpty()) {
             return;
         }
         for (Rental rental : rentals) {
             long endDate1 = rental.getEndDate().toEpochDay();
-            long endDate2 = rentalCreatorDTO.getEndDate().toEpochDay();
+            long endDate2 = endDate.toEpochDay();
             long startDate1 = rental.getStartDate().toEpochDay();
-            long startDate2 = rentalCreatorDTO.getStartDate().toEpochDay();
+            long startDate2 = startDate.toEpochDay();
             if ((Math.min(
                     endDate1,
                     endDate2) -
@@ -97,50 +90,15 @@ public class RentalService {
         }
     }
 
-    private void checkMarketStatus(RentalCreatorDTO rentalCreatorDTO) {
-        Vehicle vehicle = vehicleRepository.findById(rentalCreatorDTO.getVehicleId()).orElseThrow(NotAvailableVehicleException::new);
+    private void checkMarketStatus(long vehicleId) {
+        Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(NotAvailableVehicleException::new);
         if (vehicle.getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle is no more available");
         }
     }
 
-    private void checkValidRentalDates(RentalUpdaterDTO rentalUpdaterDTO) {
-        checkValidArgument(rentalUpdaterDTO);
-        Collection<Rental> rentals = rentalRepository.findByVehicleId(rentalUpdaterDTO.getVehicleId());
-        if (rentals.isEmpty()) {
-            return;
-        }
-        for (Rental rental : rentals) {
-            long endDate1 = rental.getEndDate().toEpochDay();
-            long endDate2 = rentalUpdaterDTO.getEndDate().toEpochDay();
-            long startDate1 = rental.getStartDate().toEpochDay();
-            long startDate2 = rentalUpdaterDTO.getStartDate().toEpochDay();
-            if ((Math.min(
-                    endDate1,
-                    endDate2) -
-                    Math.max(
-                            startDate1,
-                            startDate2)) >= 0
-            ) {
-                throw new RentalOverlappingDatesException(
-                        "Selected vehicle is already rented during this periods. Please select new dates"
-                );
-            }
-        }
-    }
-
-    private void checkMarketStatus(RentalUpdaterDTO rentalUpdaterDTO) {
-        if (vehicleRepository.findById(rentalUpdaterDTO.getVehicleId()).isPresent() &&
-                vehicleRepository.findById(
-                                rentalUpdaterDTO.getVehicleId()).get()
-                        .getMarketStatus() == MarketStatus.NOTAVAILABLE
-        ) {
-            throw new NotAvailableVehicleException("Vehicle is no more available");
-        }
-    }
-
-    private static void checkValidArgument(RentalUpdaterDTO rentalUpdaterDTO) {
-        if (rentalUpdaterDTO.getStartDate().isAfter(rentalUpdaterDTO.getEndDate())) {
+    private static void checkValidArgument(LocalDate startDate, LocalDate endDate) {
+        if (startDate.isAfter(endDate)) {
             throw new IllegalArgumentException(
                     "Starting Date of the rental can't be later than ending date. Please select new dates"
             );

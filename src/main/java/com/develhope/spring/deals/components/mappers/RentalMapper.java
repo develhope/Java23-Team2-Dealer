@@ -1,8 +1,8 @@
-package com.develhope.spring.deals.components;
+package com.develhope.spring.deals.components.mappers;
 
-import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalReturnerDTO;
-import com.develhope.spring.deals.dtos.RentalUpdaterDTO;
+import com.develhope.spring.deals.dtos.rentalsDtos.RentalCreatorDTO;
+import com.develhope.spring.deals.dtos.rentalsDtos.RentalReturnerDTO;
+import com.develhope.spring.deals.dtos.rentalsDtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;

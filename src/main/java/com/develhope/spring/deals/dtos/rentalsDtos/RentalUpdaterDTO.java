@@ -1,30 +1,24 @@
-package com.develhope.spring.deals.dtos;
+package com.develhope.spring.deals.dtos.rentalsDtos;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
-public class RentalCreatorDTO {
-
+public class RentalUpdaterDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal dailyCost;
     private BigDecimal totalCost;
     private boolean paid;
     private long vehicleId;
-    private long userId;
 
-    public RentalCreatorDTO() {
-    }
-
-    public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, long vehicleId, long userId) {
+    public RentalUpdaterDTO(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, long vehicleId) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyCost = dailyCost;
+        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
         calculateTotalCost();
         this.paid = paid;
         this.vehicleId = vehicleId;
-        this.userId = userId;
     }
 
     void calculateTotalCost() {
@@ -38,14 +32,6 @@ public class RentalCreatorDTO {
 
     public void setTotalCost(BigDecimal totalCost) {
         this.totalCost = totalCost;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 
     public LocalDate getStartDate() {
@@ -69,7 +55,7 @@ public class RentalCreatorDTO {
     }
 
     public void setDailyCost(BigDecimal dailyCost) {
-        this.dailyCost = dailyCost;
+        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
     }
 
     public boolean isPaid() {
