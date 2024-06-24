@@ -1,4 +1,4 @@
-package com.develhope.spring.configuration;
+package com.develhope.spring.configurations;
 
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.models.Roles;

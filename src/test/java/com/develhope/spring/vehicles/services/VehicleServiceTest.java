@@ -1,21 +1,12 @@
 package com.develhope.spring.vehicles.services;
 
 
-import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.vehicles.components.specifications.SpecSearchCriteria;
-import com.develhope.spring.vehicles.components.specifications.VehicleSpecificationsBuilder;
-import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
-import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
-import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
-import com.develhope.spring.vehicles.vehicleEnums.*;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
-import com.develhope.spring.vehicles.vehicleEnums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -23,19 +14,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.jpa.domain.Specification;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.develhope.spring.configuration.VehicleUnitTestConfiguration.*;
+import static com.develhope.spring.configurations.VehicleUnitTestConfiguration.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
