@@ -20,7 +20,7 @@ public class RentalCreatorDTO {
     public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, long vehicleId, long userId) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyCost = dailyCost;
+        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
         calculateTotalCost();
         this.paid = paid;
         this.vehicleId = vehicleId;
