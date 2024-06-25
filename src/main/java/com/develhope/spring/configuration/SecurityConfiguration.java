@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/v1/profile/registration").permitAll()
                         .requestMatchers("/v1/rentals").permitAll()
                         .requestMatchers("/v1/orders").permitAll()
+                        .requestMatchers("/v1/vehicles").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
