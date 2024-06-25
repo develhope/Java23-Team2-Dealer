@@ -26,16 +26,13 @@ public class RentalMapper {
     public Rental toEntity(RentalCreatorDTO rentalCreatorDTO) {
         Vehicle vehicle = new Vehicle(rentalCreatorDTO.getVehicleId());
         User user = new User(rentalCreatorDTO.getUserId());
-        return new Rental(
-                rentalCreatorDTO.getStartDate(),
-                rentalCreatorDTO.getEndDate(),
-                rentalCreatorDTO.getDailyCost(),
-                rentalCreatorDTO.getTotalCost(),
-                rentalCreatorDTO.isPaid(),
-                vehicle,
-                0,
-                user
-        );
+        Rental rental = new Rental();
+        rental.setStartDate(rentalCreatorDTO.getStartDate());
+        rental.setEndDate(rentalCreatorDTO.getEndDate());
+        rental.setPaid(rentalCreatorDTO.isPaid());
+        rental.setVehicle(vehicle);
+        rental.setUser(user);
+        return rental;
     }
 
     public Rental toEntity(RentalUpdaterDTO rentalUpdaterDTO) {
@@ -44,8 +41,6 @@ public class RentalMapper {
         return new Rental(
                 rentalUpdaterDTO.getStartDate(),
                 rentalUpdaterDTO.getEndDate(),
-                rentalUpdaterDTO.getDailyCost(),
-                rentalUpdaterDTO.getTotalCost(),
                 rentalUpdaterDTO.isPaid(),
                 vehicle,
                 0,
@@ -71,6 +66,6 @@ public class RentalMapper {
     public Rental toEntity(RentalReturnerDTO rentalReturnerDTO) {
         Vehicle vehicle = vehicleMapper.toEntity(rentalReturnerDTO.getVehicle());
         User user = userMapper.toEntity(rentalReturnerDTO.getBuyer());
-        return new Rental(rentalReturnerDTO.getStartDate(), rentalReturnerDTO.getEndDate(), rentalReturnerDTO.getDailyCost(), rentalReturnerDTO.getTotalCost(), rentalReturnerDTO.isPaid(), vehicle, 0, user);
+        return new Rental(rentalReturnerDTO.getStartDate(), rentalReturnerDTO.getEndDate(), rentalReturnerDTO.isPaid(), vehicle, 0, user);
     }
 }

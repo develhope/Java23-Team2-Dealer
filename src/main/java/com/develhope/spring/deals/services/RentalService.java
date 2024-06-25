@@ -49,7 +49,6 @@ public class RentalService {
         savedRental.setEndDate(rentalUpdaterDTO.getEndDate());
         savedRental.setPaid(rentalUpdaterDTO.isPaid());
         savedRental.setVehicle(vehicle);
-        savedRental.setTotalCost(rentalUpdaterDTO.getTotalCost());
         Rental updatedRental = rentalRepository.save(savedRental);
         return rentalMapper.toReturnerDTO(updatedRental);
     }
