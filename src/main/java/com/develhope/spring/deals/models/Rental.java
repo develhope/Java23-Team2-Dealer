@@ -99,6 +99,5 @@ public class Rental {
     public void setPaid(boolean paid) {
         this.paid = paid;
     }
-
 }
 

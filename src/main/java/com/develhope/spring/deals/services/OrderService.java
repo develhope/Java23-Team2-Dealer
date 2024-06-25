@@ -56,7 +56,7 @@ public class OrderService {
 
     public OrderUpdatedDTO update(long orderId, OrderCreatorDTO orderCreatorDTO) {
         checkValidVehicleMarketStatus(orderCreatorDTO);
-        Order orderToUpdate = orderRepository.findById(orderId).orElseThrow();
+        Order orderToUpdate = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
         Vehicle newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow();
         orderToUpdate.setDownPayment(orderCreatorDTO.isDownPayment());
         orderToUpdate.setOrderStatus(orderCreatorDTO.getOrderStatus());

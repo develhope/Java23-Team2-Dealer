@@ -3,6 +3,9 @@ package com.develhope.spring.exceptions;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
+import com.develhope.spring.deals.responseStatus.dtos.IllegalArgumentExceptionMessageDTO;
+import com.develhope.spring.deals.responseStatus.dtos.NoSuchElementExceptionMessageDTO;
+import com.develhope.spring.deals.responseStatus.dtos.NotAvailableVehicleExceptionMessageDTO;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +19,19 @@ import java.util.NoSuchElementException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotAuthorizedOperationException.class)
-    public ResponseEntity<String> handleNotAuthorizedOperationException(NotAuthorizedOperationException ex, WebRequest request) {
+    public ResponseEntity<String> handleNotAuthorizedOperationException(NotAuthorizedOperationException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ExcessiveParameterException.class)
-    public ResponseEntity<String> handleExcessiveParameterException(ExcessiveParameterException ex, WebRequest request) {
+    public ResponseEntity<String> handleExcessiveParameterException(ExcessiveParameterException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<IllegalArgumentExceptionMessageDTO> getException(IllegalArgumentException e, IllegalArgumentExceptionMessageDTO messageDTO) {
+        messageDTO.setMessage(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageDTO);
     }
 
 //    @ExceptionHandler(Exception.class)
@@ -31,13 +40,15 @@ public class GlobalExceptionHandler {
 //    }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<NoSuchElementException> getException(NoSuchElementException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+    public ResponseEntity<NoSuchElementExceptionMessageDTO> getException(NoSuchElementException e, NoSuchElementExceptionMessageDTO messageDTO) {
+        messageDTO.setMessage("No object correspond to the given ID");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageDTO);
     }
 
     @ExceptionHandler(NotAvailableVehicleException.class)
-    public ResponseEntity<NotAvailableVehicleException> getNotAvailableVehicleException(NotAvailableVehicleException e){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+    public ResponseEntity<NotAvailableVehicleExceptionMessageDTO> getNotAvailableVehicleException(NotAvailableVehicleException e, NotAvailableVehicleExceptionMessageDTO messageDTO){
+        messageDTO.setMessage(e.getMessage());
+        return ResponseEntity.status(e.getHttpStatus()).body(messageDTO);
     }
 
     @ExceptionHandler(RentalOverlappingDatesException.class)
