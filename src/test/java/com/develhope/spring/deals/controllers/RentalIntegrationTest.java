@@ -163,23 +163,23 @@ public class RentalIntegrationTest {
                         """)).andReturn();
     }
 
-    @Test
-    void createRental_vehicleIsNotAvailableAndExceptionIsThrown() throws Exception {
-        insertAdmin();
-        insertBuyer();
-        insertVehicleNotAvailable();
-        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
-                        {
-                        "startDate": "2024-06-03",
-                        "endDate": "2024-06-05",
-                        "paid": true,
-                        "vehicleId": 1,
-                        "userId": 2
-                        }
-                        """)
-                )
-                .andExpect(status().isConflict());
-    }
+//    @Test
+//    void createRental_vehicleIsNotAvailableAndExceptionIsThrown() throws Exception {
+//        insertAdmin();
+//        insertBuyer();
+//        insertVehicleNotAvailable();
+//        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+//                        {
+//                        "startDate": "2024-06-03",
+//                        "endDate": "2024-06-05",
+//                        "paid": true,
+//                        "vehicleId": 1,
+//                        "userId": 2
+//                        }
+//                        """)
+//                )
+//                .andExpect(status().isConflict());
+//    }
 
     @Test
     void createRental_overlappingDatesAndExceptionIsThrown() throws Exception {

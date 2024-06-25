@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotAvailableVehicleException.class)
     public ResponseEntity<NotAvailableVehicleExceptionMessageDTO> getNotAvailableVehicleException(NotAvailableVehicleException e, NotAvailableVehicleExceptionMessageDTO messageDTO){
         messageDTO.setMessage(e.getMessage());
-        return ResponseEntity.status(e.getHttpStatus()).body(messageDTO);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(messageDTO);
     }
 
     @ExceptionHandler(RentalOverlappingDatesException.class)

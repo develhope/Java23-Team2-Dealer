@@ -26,7 +26,10 @@ import java.math.RoundingMode;
 import java.util.NoSuchElementException;
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static com.develhope.spring.configurations.VehicleUnitTestConfiguration.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -48,18 +51,8 @@ public class VehicleServiceTest {
     @MockBean
     private UserRepository userRepository;
 
-    private static final Vehicle DEFAULT_VEHICLE = new Vehicle();
-    private static final User DEFAULT_USER = new User(1);
-    private static final UserRegistrationDTO DEFAULT_USER_USER_CREATOR_DTO = new UserRegistrationDTO(
-            "Gabriel",
-            "Dello",
-            "paneNutella",
-            "12345",
-            "12345",
-            3467789L,
-            "hey@itsadmin.com",
-            Roles.ADMIN
-    );
+    @MockBean
+    private Pattern pattern;
 
     private static final VehicleCreatorDTO DEFAULT_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(
             VehicleType.CAR,
@@ -95,6 +88,8 @@ public class VehicleServiceTest {
         vehicle.setEngine(DEFAULT_VEHICLE_CREATOR_DTO.getEngine());
         return vehicle;
     }
+    @MockBean
+    private Matcher matcher;
 
     @Test
     void createVehicle_successfulCreationTest() {
@@ -118,4 +113,22 @@ public class VehicleServiceTest {
         );
         assertEquals(expected.getBrand(), result.getBrand());
     }
+
+//    @Test
+//    void search_returnCorrectVehicleListLength_whenASingleFilterEqualIsPassed() {
+//        List<Vehicle> expected = new ArrayList<>();
+//        expected.add(DEFAULT_VEHICLE());
+//        Pattern pattern = Pattern.compile("(\\p{Punct}?)(\\w+?)(:|<|>)(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
+//        VehicleFilterDTO vehicleFilterDTO = new VehicleFilterDTO(null, "CAR", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+//        VehicleSpecificationsBuilder vehicleSpecificationsBuilder = new VehicleSpecificationsBuilder();
+//        Matcher matcher = pattern.matcher(vehicleFilterDTO.DTOToString() + ",");
+//        while (matcher.find()) {
+//            vehicleSpecificationsBuilder.with(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(4), matcher.group(6));
+//        }
+//        Specification<Vehicle> spec = vehicleSpecificationsBuilder.build();
+//        when(vehicleRepository.findAll(spec))
+//                .thenReturn(expected);
+//        List<Vehicle> result = vehicleService.search(vehicleFilterDTO);
+//        assertEquals(expected.size(), result.size());
+//    }
 }
