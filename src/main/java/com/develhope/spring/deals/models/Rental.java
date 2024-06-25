@@ -1,5 +1,6 @@
 package com.develhope.spring.deals.models;
 
+import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
@@ -15,16 +16,11 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
     @Column(nullable = false)
     private LocalDate startDate;
 
-
     @Column(nullable = false)
     private LocalDate endDate;
-
-    @Column(nullable = false)
-    private BigDecimal dailyCost;
 
     @Column(nullable = false)
     private BigDecimal totalCost;
@@ -47,21 +43,18 @@ public class Rental {
         return paid;
     }
 
-
-    private void calculateTotalCost() {
-        long rentalDays = startDate.until(endDate).getDays();
-        this.totalCost = this.dailyCost.multiply(BigDecimal.valueOf(rentalDays));
-    }
-
-    public Rental(LocalDate startDate, LocalDate endDate, boolean paid, Vehicle vehicle, long id, User user) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyCost = vehicle.getDailyCost();
-        calculateTotalCost();
+        this.totalCost = totalCost;
         this.paid = paid;
         this.vehicle = vehicle;
         this.id = id;
         this.user = user;
+    }
+
+    public void setTotalCost(BigDecimal totalCost) {
+        this.totalCost = totalCost;
     }
 
     public User getUser() {
@@ -89,10 +82,6 @@ public class Rental {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public BigDecimal getDailyCost() {
-        return dailyCost;
     }
 
     public long getId() {

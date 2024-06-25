@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
@@ -32,15 +34,25 @@ public class RentalService {
     @Autowired
     private RentalMapper rentalMapper;
 
+    private BigDecimal calculateTotalCost(BigDecimal dailyCost, LocalDate startDate, LocalDate endDate) {
+        long rentalDays = startDate.until(endDate).getDays();
+        return dailyCost.multiply(BigDecimal.valueOf(rentalDays));
+    }
+
     public RentalReturnerDTO create(RentalCreatorDTO rentalCreatorDTO) {
+        BigDecimal vehicleDailyCost = vehicleRepository.findById(rentalCreatorDTO.getVehicleId()).orElseThrow(NoSuchElementException::new).getDailyCost();
         checkValidRentalDates(rentalCreatorDTO);
         checkMarketStatus(rentalCreatorDTO);
         Rental rental = rentalMapper.toEntity(rentalCreatorDTO);
+        rental.setTotalCost(calculateTotalCost(vehicleDailyCost, rentalCreatorDTO.getStartDate(), rentalCreatorDTO.getEndDate()));
         Rental savedRental = rentalRepository.save(rental);
-        return rentalMapper.toReturnerDTO(savedRental);
+        RentalReturnerDTO rentalReturnerDTO = rentalMapper.toReturnerDTO(savedRental);
+        rentalReturnerDTO.setDailyCost(vehicleDailyCost);
+        return rentalReturnerDTO;
     }
 
     public RentalReturnerDTO update(long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
+        BigDecimal vehicleDailyCost = vehicleRepository.findById(rentalUpdaterDTO.getVehicleId()).orElseThrow(NoSuchElementException::new).getDailyCost();
         checkValidRentalDates(rentalUpdaterDTO);
         checkMarketStatus(rentalUpdaterDTO);
         Rental savedRental = rentalRepository.findById(rentalId).orElseThrow(NoSuchElementException::new);
@@ -49,8 +61,11 @@ public class RentalService {
         savedRental.setEndDate(rentalUpdaterDTO.getEndDate());
         savedRental.setPaid(rentalUpdaterDTO.isPaid());
         savedRental.setVehicle(vehicle);
+        savedRental.setTotalCost(calculateTotalCost(vehicleDailyCost, rentalUpdaterDTO.getStartDate(), rentalUpdaterDTO.getEndDate()));
         Rental updatedRental = rentalRepository.save(savedRental);
-        return rentalMapper.toReturnerDTO(updatedRental);
+        RentalReturnerDTO rentalReturnerDTO = rentalMapper.toReturnerDTO(updatedRental);
+        rentalReturnerDTO.setDailyCost(vehicleDailyCost);
+        return rentalReturnerDTO;
     }
 
     public Page<RentalReturnerDTO> getByUserId(User userDetails, int page, int size) {

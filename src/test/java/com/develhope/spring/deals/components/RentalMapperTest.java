@@ -50,8 +50,8 @@ public class RentalMapperTest {
         User user = new User(1);
 
         Rental result = rentalMapper.toEntity(rentalCreatorDTO);
-        Rental expected = new Rental(startDate, endDate, true, vehicle, 1, user);
-        assertEquals(expected.getTotalCost(), BigDecimal.valueOf(80).setScale(2, RoundingMode.HALF_EVEN));
+        Rental expected = new Rental(startDate, endDate, vehicle.getDailyCost(), true, vehicle, 1, user);
+        assertEquals(expected.getVehicle().getId(), result.getVehicle().getId());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class RentalMapperTest {
         User user = new User(1);
 
         Rental result = rentalMapper.toEntity(rentalCreatorDTO);
-        Rental expected = new Rental(startDate, endDate, true, vehicle, 1, user);
+        Rental expected = new Rental(startDate, endDate,vehicle.getDailyCost(), true, vehicle, 1, user);
         assertEquals(expected.getUser().getId(), result.getUser().getId());
     }
 
@@ -84,7 +84,7 @@ public class RentalMapperTest {
 
         LocalDate startDate = LocalDate.of(2024, 06, 3);
         LocalDate endDate = LocalDate.of(2024, 06, 5);
-        Rental rental = new Rental(startDate, endDate,false, vehicle, 1, user);
+        Rental rental = new Rental(startDate, endDate, vehicle.getDailyCost(), false, vehicle, 1, user);
 
         VehicleRentalReturnerDTO vehicleRentalReturnerDTO = new VehicleRentalReturnerDTO();
         vehicleRentalReturnerDTO.setId(rental.getVehicle().getId());
@@ -93,7 +93,7 @@ public class RentalMapperTest {
         buyerRentalReturnerDto.setEmail(rental.getUser().getEmail());
 
         RentalReturnerDTO result = rentalMapper.toReturnerDTO(rental);
-        RentalReturnerDTO expected = new RentalReturnerDTO(1, startDate, endDate, vehicle.getDailyCost(), false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
+        RentalReturnerDTO expected = new RentalReturnerDTO(1, startDate, endDate, vehicle.getDailyCost(), rental.getTotalCost(), false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
         assertEquals(expected.getTotalCost(), result.getTotalCost());
     }
 }

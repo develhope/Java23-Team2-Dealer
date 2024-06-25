@@ -25,9 +25,6 @@ public class Vehicle {
     @Column(nullable = false)
     private String model;
 
-    @Column(nullable = false)
-    private BigDecimal dailyCost;
-
     @Column
     private int displacement;
 
@@ -51,6 +48,9 @@ public class Vehicle {
 
     @Column(nullable = false)
     private BigDecimal price;
+
+    private BigDecimal dailyCost;
+
     @Column
     private BigDecimal discountedPrice;
 
@@ -69,7 +69,6 @@ public class Vehicle {
     private String engine;
 
     //Getters
-
 
     public BigDecimal getDailyCost() {
         return dailyCost;
@@ -185,7 +184,7 @@ public class Vehicle {
     }
 
     public void setDailyCost(BigDecimal dailyCost) {
-        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
+        this.dailyCost = dailyCost;
     }
 
     public void setDiscountedPrice(BigDecimal discountedPrice) {
