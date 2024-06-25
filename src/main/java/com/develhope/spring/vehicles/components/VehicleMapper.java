@@ -24,6 +24,7 @@ public class VehicleMapper {
                 vehicle.getRegistrationYear(),
                 vehicle.getPowerSupply(),
                 vehicle.getPrice(),
+                vehicle.getDailyCost(),
                 vehicle.getUsedFlag(),
                 vehicle.getMarketStatus(),
                 vehicle.getEngine()
@@ -42,6 +43,7 @@ public class VehicleMapper {
         vehicle.setRegistrationYear(vehicleCreatorDTO.getRegistrationYear());
         vehicle.setPowerSupply(vehicleCreatorDTO.getPowerSupply());
         vehicle.setPrice(vehicleCreatorDTO.getPrice());
+        vehicle.setDailyCost(vehicleCreatorDTO.getDailyCost());
         vehicle.setUsedFlag(vehicleCreatorDTO.getUsedFlag());
         vehicle.setMarketStatus(vehicleCreatorDTO.getMarketStatus());
         vehicle.setEngine(vehicleCreatorDTO.getEngine());
@@ -86,7 +88,8 @@ public class VehicleMapper {
                 vehicle.getModel(),
                 vehicle.getColor(),
                 vehicle.getGear(),
-                vehicle.getPowerSupply()
+                vehicle.getPowerSupply(),
+                vehicle.getDailyCost()
         );
     }
 
@@ -110,6 +113,7 @@ public class VehicleMapper {
                 vehicle.getModel(),
                 vehicle.getColor(),
                 vehicle.getPrice(),
+                vehicle.getDailyCost(),
                 vehicle.getUsedFlag(),
                 vehicle.getMarketStatus()
         );

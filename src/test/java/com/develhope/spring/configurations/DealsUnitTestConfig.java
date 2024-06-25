@@ -53,16 +53,21 @@ public class DealsUnitTestConfig {
     public static final UserOrderReturnerDTO DEFAULT_USER_ORDER_RETURNER_DTO = new UserOrderReturnerDTO();
 
     public static final LocalDate DEFAULT_RENTAL_START_DATE = LocalDate.of(2024, 6, 3);
-    public static final LocalDate DEFAULT_RENTAL_END_DATE = LocalDate.of(2024, 6, 6);
+    public  static final LocalDate DEFAULT_RENTAL_END_DATE = LocalDate.of(2024, 6, 6);
     public static final BigDecimal DEFAULT_PRICE = BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN);
 
     public static final RentalCreatorDTO DEFAULT_RENTAL_CREATOR_DTO = new RentalCreatorDTO(
             DEFAULT_RENTAL_START_DATE,
             DEFAULT_RENTAL_END_DATE,
-            DEFAULT_PRICE,
             true,
             1,
             1);
+
+    public static Vehicle DEFAULT_VEHICLE() {
+        Vehicle vehicle = new Vehicle(1);
+        vehicle.setDailyCost(DEFAULT_PRICE);
+        return vehicle;
+    }
 
     public static final User DEFAULT_USER2 = new User(2);
 
@@ -73,10 +78,9 @@ public class DealsUnitTestConfig {
     public static final Rental DEFAULT_EXISTING_RENTAL = new Rental(
             LocalDate.of(2024, 6, 7),
             LocalDate.of(2024, 6, 10),
-            DEFAULT_PRICE,
-            DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
+            DEFAULT_VEHICLE().getDailyCost(),
             true,
-            DEFAULT_VEHICLE,
+            DEFAULT_VEHICLE(),
             1,
             DEFAULT_USER2
     );
@@ -84,15 +88,13 @@ public class DealsUnitTestConfig {
     public static final Rental DEFAULT_EXISTING_RENTAL2 = new Rental(
             LocalDate.of(2024, 6, 11),
             LocalDate.of(2024, 6, 14),
-            DEFAULT_PRICE,
-            DEFAULT_RENTAL_CREATOR_DTO.getTotalCost(),
+            DEFAULT_VEHICLE().getDailyCost(),
             true,
-            DEFAULT_VEHICLE,
+            DEFAULT_VEHICLE(),
             2,
             DEFAULT_USER2
     );
 
     public static final Collection<Rental> DEFAULT_EXISTING_RENTALS = new ArrayList<>(List.of(DEFAULT_EXISTING_RENTAL, DEFAULT_EXISTING_RENTAL2));
-
 
 }

@@ -8,8 +8,6 @@ public class RentalCreatorDTO {
 
     private LocalDate startDate;
     private LocalDate endDate;
-    private BigDecimal dailyCost;
-    private BigDecimal totalCost;
     private boolean paid;
     private long vehicleId;
     private long userId;
@@ -17,27 +15,12 @@ public class RentalCreatorDTO {
     public RentalCreatorDTO() {
     }
 
-    public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, long vehicleId, long userId) {
+    public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, boolean paid, long vehicleId, long userId) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
-        calculateTotalCost();
         this.paid = paid;
         this.vehicleId = vehicleId;
         this.userId = userId;
-    }
-
-    void calculateTotalCost() {
-        long rentalDays = startDate.until(endDate).getDays();
-        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
-    }
-
-    public BigDecimal getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
     }
 
     public long getUserId() {
@@ -62,14 +45,6 @@ public class RentalCreatorDTO {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public BigDecimal getDailyCost() {
-        return dailyCost;
-    }
-
-    public void setDailyCost(BigDecimal dailyCost) {
-        this.dailyCost = dailyCost;
     }
 
     public boolean isPaid() {
