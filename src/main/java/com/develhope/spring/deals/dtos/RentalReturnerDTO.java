@@ -22,7 +22,7 @@ public class RentalReturnerDTO {
 
     void calculateTotalCost() {
         long rentalDays = startDate.until(endDate).getDays();
-        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays).setScale(2, RoundingMode.HALF_EVEN));
+        this.totalCost = dailyCost.multiply(BigDecimal.valueOf(rentalDays));
     }
 
     public RentalReturnerDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer) {
