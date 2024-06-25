@@ -49,6 +49,7 @@ public class RentalService {
         savedRental.setStartDate(rentalUpdaterDTO.getStartDate());
         savedRental.setEndDate(rentalUpdaterDTO.getEndDate());
         savedRental.setPaid(rentalUpdaterDTO.isPaid());
+        savedRental.setDailyCost(rentalUpdaterDTO.getDailyCost());
         savedRental.setVehicle(vehicle);
         savedRental.setTotalCost(rentalUpdaterDTO.getTotalCost());
         Rental updatedRental = rentalRepository.save(savedRental);
