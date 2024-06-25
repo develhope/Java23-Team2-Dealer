@@ -5,6 +5,8 @@ import com.develhope.spring.vehicles.vehicleEnums.Gears;
 import com.develhope.spring.vehicles.vehicleEnums.MotorPowerSupply;
 import com.develhope.spring.vehicles.vehicleEnums.VehicleType;
 
+import java.math.BigDecimal;
+
 public class VehicleRentalReturnerDTO {
 
     private long id;
@@ -21,6 +23,8 @@ public class VehicleRentalReturnerDTO {
 
     private MotorPowerSupply motorPowerSupply;
 
+    private BigDecimal dailyCost;
+
     public VehicleRentalReturnerDTO() {
     }
 
@@ -30,7 +34,8 @@ public class VehicleRentalReturnerDTO {
                                     String model,
                                     Colors color,
                                     Gears gear,
-                                    MotorPowerSupply motorPowerSupply
+                                    MotorPowerSupply motorPowerSupply,
+                                    BigDecimal dailyCost
     ) {
         this.id = id;
         this.vehicleType = vehicleType;
@@ -39,6 +44,11 @@ public class VehicleRentalReturnerDTO {
         this.color = color;
         this.gear = gear;
         this.motorPowerSupply = motorPowerSupply;
+        this.dailyCost = dailyCost;
+    }
+
+    public BigDecimal getDailyCost() {
+        return dailyCost;
     }
 
     public VehicleRentalReturnerDTO(long id) {

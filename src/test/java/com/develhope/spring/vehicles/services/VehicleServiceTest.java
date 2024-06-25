@@ -1,12 +1,18 @@
 package com.develhope.spring.vehicles.services;
 
 
+import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
+import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.vehicleEnums.*;
+import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
+import com.develhope.spring.vehicles.vehicleEnums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -15,6 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.NoSuchElementException;
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,6 +54,40 @@ public class VehicleServiceTest {
     @MockBean
     private Pattern pattern;
 
+    private static final VehicleCreatorDTO DEFAULT_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(
+            VehicleType.CAR,
+            "Ferrari",
+            "Enzo",
+            2100,
+            Colors.RED,
+            3000,
+            Gears.MANUAL,
+            2004,
+            MotorPowerSupply.GASOLINE,
+            BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN),
+            BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+            UsedFlag.USED,
+            MarketStatus.AVAILABLE,
+            "V8"
+    );
+
+    private static Vehicle DEFAULT_VEHICLE () {
+        Vehicle vehicle = new Vehicle(1);
+        vehicle.setVehicleType(DEFAULT_VEHICLE_CREATOR_DTO.getVehicleType());
+        vehicle.setBrand(DEFAULT_VEHICLE_CREATOR_DTO.getBrand());
+        vehicle.setModel(DEFAULT_VEHICLE_CREATOR_DTO.getModel());
+        vehicle.setDisplacement(DEFAULT_VEHICLE_CREATOR_DTO.getDisplacement());
+        vehicle.setColor(DEFAULT_VEHICLE_CREATOR_DTO.getColor());
+        vehicle.setPower(DEFAULT_VEHICLE_CREATOR_DTO.getPower());
+        vehicle.setGear(DEFAULT_VEHICLE_CREATOR_DTO.getGear());
+        vehicle.setRegistrationYear(DEFAULT_VEHICLE_CREATOR_DTO.getRegistrationYear());
+        vehicle.setPowerSupply(DEFAULT_VEHICLE_CREATOR_DTO.getPowerSupply());
+        vehicle.setPrice(DEFAULT_VEHICLE_CREATOR_DTO.getPrice());
+        vehicle.setUsedFlag(DEFAULT_VEHICLE_CREATOR_DTO.getUsedFlag());
+        vehicle.setMarketStatus(DEFAULT_VEHICLE_CREATOR_DTO.getMarketStatus());
+        vehicle.setEngine(DEFAULT_VEHICLE_CREATOR_DTO.getEngine());
+        return vehicle;
+    }
     @MockBean
     private Matcher matcher;
 
@@ -63,6 +107,7 @@ public class VehicleServiceTest {
                 DEFAULT_VEHICLE().getModel(),
                 DEFAULT_VEHICLE().getColor(),
                 DEFAULT_VEHICLE().getPrice(),
+                DEFAULT_VEHICLE().getDailyCost(),
                 DEFAULT_VEHICLE().getUsedFlag(),
                 DEFAULT_VEHICLE().getMarketStatus()
         );

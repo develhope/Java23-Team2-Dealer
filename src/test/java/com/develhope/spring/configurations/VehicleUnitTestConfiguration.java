@@ -36,6 +36,7 @@ public class VehicleUnitTestConfiguration {
             2004,
             MotorPowerSupply.GASOLINE,
             BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN),
+            BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
             UsedFlag.USED,
             MarketStatus.AVAILABLE,
             "V8"
