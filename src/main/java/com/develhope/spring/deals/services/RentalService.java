@@ -34,17 +34,12 @@ public class RentalService {
     @Autowired
     private RentalMapper rentalMapper;
 
-    private BigDecimal calculateTotalCost(BigDecimal dailyCost, LocalDate startDate, LocalDate endDate) {
-        long rentalDays = startDate.until(endDate).getDays();
-        return dailyCost.multiply(BigDecimal.valueOf(rentalDays));
-    }
-
     public RentalReturnerDTO create(RentalCreatorDTO rentalCreatorDTO) {
-        BigDecimal vehicleDailyCost = vehicleRepository.findById(rentalCreatorDTO.getVehicleId()).orElseThrow(NoSuchElementException::new).getDailyCost();
+        BigDecimal vehicleDailyCost = getDailyCost(rentalCreatorDTO.getVehicleId());
         checkValidRentalDates(rentalCreatorDTO);
         checkMarketStatus(rentalCreatorDTO);
         Rental rental = rentalMapper.toEntity(rentalCreatorDTO);
-        rental.setTotalCost(calculateTotalCost(vehicleDailyCost, rentalCreatorDTO.getStartDate(), rentalCreatorDTO.getEndDate()));
+        setRentalTotalCost(rental, vehicleDailyCost, rentalCreatorDTO.getStartDate(), rentalCreatorDTO.getEndDate());
         Rental savedRental = rentalRepository.save(rental);
         RentalReturnerDTO rentalReturnerDTO = rentalMapper.toReturnerDTO(savedRental);
         rentalReturnerDTO.setDailyCost(vehicleDailyCost);
@@ -52,20 +47,24 @@ public class RentalService {
     }
 
     public RentalReturnerDTO update(long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
-        BigDecimal vehicleDailyCost = vehicleRepository.findById(rentalUpdaterDTO.getVehicleId()).orElseThrow(NoSuchElementException::new).getDailyCost();
+        BigDecimal vehicleDailyCost = getDailyCost(rentalUpdaterDTO.getVehicleId());
         checkValidRentalDates(rentalUpdaterDTO);
         checkMarketStatus(rentalUpdaterDTO);
         Rental savedRental = rentalRepository.findById(rentalId).orElseThrow(NoSuchElementException::new);
-        Vehicle vehicle = vehicleRepository.findById(rentalUpdaterDTO.getVehicleId()).orElseThrow(NoSuchElementException::new);
+        Vehicle vehicle = getVehicle(rentalUpdaterDTO.getVehicleId());
         savedRental.setStartDate(rentalUpdaterDTO.getStartDate());
         savedRental.setEndDate(rentalUpdaterDTO.getEndDate());
         savedRental.setPaid(rentalUpdaterDTO.isPaid());
         savedRental.setVehicle(vehicle);
-        savedRental.setTotalCost(calculateTotalCost(vehicleDailyCost, rentalUpdaterDTO.getStartDate(), rentalUpdaterDTO.getEndDate()));
+        setRentalTotalCost(savedRental, vehicleDailyCost, rentalUpdaterDTO.getStartDate(), rentalUpdaterDTO.getEndDate());
         Rental updatedRental = rentalRepository.save(savedRental);
         RentalReturnerDTO rentalReturnerDTO = rentalMapper.toReturnerDTO(updatedRental);
         rentalReturnerDTO.setDailyCost(vehicleDailyCost);
         return rentalReturnerDTO;
+    }
+
+    private Vehicle getVehicle(long vehicleId) {
+        return vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
     }
 
     public Page<RentalReturnerDTO> getByUserId(User userDetails, int page, int size) {
@@ -84,6 +83,14 @@ public class RentalService {
                     "Starting Date of the rental can't be later than ending date. Please select new dates"
             );
         }
+    }
+
+    private BigDecimal getDailyCost(long vehicleId) {
+        return vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new).getDailyCost();
+    }
+
+    private void setRentalTotalCost(Rental rental, BigDecimal vehicleDailyCost, LocalDate startDate, LocalDate endDate) {
+        rental.setTotalCost(calculateTotalCost(vehicleDailyCost, startDate, endDate));
     }
 
     private void checkValidRentalDates(RentalCreatorDTO rentalCreatorDTO) {
@@ -112,7 +119,7 @@ public class RentalService {
     }
 
     private void checkMarketStatus(RentalCreatorDTO rentalCreatorDTO) {
-        Vehicle vehicle = vehicleRepository.findById(rentalCreatorDTO.getVehicleId()).orElseThrow(NotAvailableVehicleException::new);
+        Vehicle vehicle = getVehicle(rentalCreatorDTO.getVehicleId());
         if (vehicle.getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle is no more available");
         }
@@ -159,5 +166,10 @@ public class RentalService {
                     "Starting Date of the rental can't be later than ending date. Please select new dates"
             );
         }
+    }
+
+    private BigDecimal calculateTotalCost(BigDecimal dailyCost, LocalDate startDate, LocalDate endDate) {
+        long rentalDays = startDate.until(endDate).getDays();
+        return dailyCost.multiply(BigDecimal.valueOf(rentalDays));
     }
 }
