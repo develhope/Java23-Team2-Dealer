@@ -1,5 +1,8 @@
 package com.develhope.spring.deals.components;
 
+import com.develhope.spring.deals.components.mappers.OrderMapper;
+import com.develhope.spring.deals.dtos.ordersDtos.OrderCreatorDTO;
+import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.Order;

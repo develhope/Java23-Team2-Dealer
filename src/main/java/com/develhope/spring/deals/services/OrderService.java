@@ -5,7 +5,7 @@ import com.develhope.spring.deals.dtos.ordersDtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
-import com.develhope.spring.deals.components.OrderMapper;
+import com.develhope.spring.deals.components.mappers.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -41,8 +42,8 @@ public class OrderService {
     }
 
     void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {
-        Vehicle vehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow(NoSuchElementException::new);
-        if (vehicle.getMarketStatus() == MarketStatus.NOTAVAILABLE) {
+        Optional<Vehicle> vehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId());
+        if (vehicle.isPresent() && vehicle.get().getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
     }
@@ -63,11 +64,11 @@ public class OrderService {
     public OrderUpdatedDTO update(long orderId, OrderCreatorDTO orderCreatorDTO) {
         checkValidVehicleMarketStatus(orderCreatorDTO);
         Order orderToUpdate = orderRepository.findById(orderId).orElseThrow();
-        Vehicle newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow();
+        Optional<Vehicle> newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId());
         orderToUpdate.setDownPayment(orderCreatorDTO.isDownPayment());
         orderToUpdate.setOrderStatus(orderCreatorDTO.getOrderStatus());
         orderToUpdate.setPaid(orderCreatorDTO.isPaid());
-        orderToUpdate.setVehicle(newVehicle);
+        newVehicle.ifPresent(orderToUpdate::setVehicle);
         Order newOrderSaved = orderRepository.save(orderToUpdate);
         return orderMapper.toOrderUpdatedDTO(newOrderSaved);
     }

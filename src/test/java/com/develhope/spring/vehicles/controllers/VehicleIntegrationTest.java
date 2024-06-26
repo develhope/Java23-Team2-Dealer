@@ -41,6 +41,7 @@ class VehicleIntegrationTest {
                         }
                         """)).andReturn();
     }
+
     private void insertBuyer() throws Exception {
         this.mockMvc.perform(post("/v1/profile/registration")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -75,6 +76,7 @@ class VehicleIntegrationTest {
                                     "registrationYear": 2022,
                                     "powerSupply": "METHANE",
                                     "price": 15000,
+                                    "dailyCost": 40.00,
                                     "usedFlag": "NEW",
                                     "marketStatus": "AVAILABLE",
                                     "engine": "4-cylinder"
@@ -100,6 +102,7 @@ class VehicleIntegrationTest {
                                     "registrationYear": 2022,
                                     "powerSupply": "METHANE",
                                     "price": 15000,
+                                    "dailyCost": 40.00,
                                     "usedFlag": "NEW",
                                     "marketStatus": "AVAILABLE",
                                     "engine": "4-cylinder"
@@ -142,6 +145,7 @@ class VehicleIntegrationTest {
                                     "registrationYear": 2022,
                                     "powerSupply": "METHANE",
                                     "price": 15000,
+                                    "dailyCost": 40.00,
                                     "usedFlag": "NEW",
                                     "marketStatus": "AVAILABLE",
                                     "discountFlag": true,
