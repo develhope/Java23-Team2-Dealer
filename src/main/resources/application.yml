@@ -1,4 +1,37 @@
 spring:
+  config:
+    activate:
+      on-profile: dev
+environment: dev
+server:
+  port: 5000
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/Dealer
+    username: root
+    password: linda010495-pw
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: create
+
+logging.level:
+  root: info
+  com.develhope.spring.users.services.UserService: info
+  com.develhope.spring.users.controllers.RegistrationController: info
+  com.develhope.spring.users.controllers: info
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+environment: prod
+server:
+  port: 8080
+
   datasource:
     url: jdbc:mysql://localhost:3306/Dealer
     username: root

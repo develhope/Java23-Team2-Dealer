@@ -7,17 +7,18 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+@Profile("dev")
 @RestController
 @RequestMapping("/v1")
-public class RegistrationController {
+public class RegistrationAdminController {
 
     @Autowired
     private UserService userService;
 
-    private Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+    private Logger logger = LoggerFactory.getLogger(RegistrationAdminController.class);
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/profile/registration")
