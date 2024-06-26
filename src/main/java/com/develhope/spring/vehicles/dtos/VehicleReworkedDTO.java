@@ -17,6 +17,7 @@ public class VehicleReworkedDTO {
     private int registrationYear;
     private MotorPowerSupply powerSupply;
     private BigDecimal price;
+    private BigDecimal dailyCost;
     private UsedFlag usedFlag;
     private MarketStatus marketStatus;
     private String engine;
@@ -29,7 +30,7 @@ public class VehicleReworkedDTO {
 
     public VehicleReworkedDTO(long id, VehicleType vehicleType, String brand, String model, int displacement, Colors color,
                               int power, Gears gear, int registrationYear, MotorPowerSupply powerSupply,
-                              BigDecimal price, UsedFlag usedFlag, MarketStatus marketStatus, String engine) {
+                              BigDecimal price, BigDecimal dailyCost, UsedFlag usedFlag, MarketStatus marketStatus, String engine) {
 
         this.id = id;
         this.vehicleType = vehicleType;
@@ -42,6 +43,7 @@ public class VehicleReworkedDTO {
         this.registrationYear = registrationYear;
         this.powerSupply = powerSupply;
         this.price = price;
+        this.dailyCost = dailyCost;
         this.usedFlag = usedFlag;
         this.marketStatus = marketStatus;
         this.engine = engine;
@@ -157,5 +159,13 @@ public class VehicleReworkedDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public BigDecimal getDailyCost() {
+        return dailyCost;
+    }
+
+    public void setDailyCost(BigDecimal dailyCost) {
+        this.dailyCost = dailyCost;
     }
 }

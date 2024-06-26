@@ -53,7 +53,7 @@ public class VehicleServiceTest {
 
     private final VehicleStatusDTO DEFAULT_VEHICLE_STATUS_DTO = new VehicleStatusDTO(MarketStatus.ORDERABLE);
 
-    private  final VehicleCreatorDTO UPDATE_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(
+    private  final VehicleCreatorDTO DEFAULT_VEHICLE_UPDATE_DTO = new VehicleCreatorDTO(
             VehicleType.CAR,
             "Lamborghini",
             "Marco",
@@ -152,20 +152,20 @@ public class VehicleServiceTest {
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         Vehicle updatedVehicle = new Vehicle(
                 DEFAULT_VEHICLE.getId(),
-                UPDATE_VEHICLE_CREATOR_DTO.getVehicleType(),
-                UPDATE_VEHICLE_CREATOR_DTO.getBrand(),
-                UPDATE_VEHICLE_CREATOR_DTO.getModel(),
-                UPDATE_VEHICLE_CREATOR_DTO.getDisplacement(),
-                UPDATE_VEHICLE_CREATOR_DTO.getColor(),
-                UPDATE_VEHICLE_CREATOR_DTO.getPower(),
-                UPDATE_VEHICLE_CREATOR_DTO.getGear(),
-                UPDATE_VEHICLE_CREATOR_DTO.getRegistrationYear(),
-                UPDATE_VEHICLE_CREATOR_DTO.getPowerSupply(),
-                UPDATE_VEHICLE_CREATOR_DTO.getPrice(),
-                UPDATE_VEHICLE_CREATOR_DTO.getDailyCost(),
-                UPDATE_VEHICLE_CREATOR_DTO.getUsedFlag(),
-                UPDATE_VEHICLE_CREATOR_DTO.getMarketStatus(),
-                UPDATE_VEHICLE_CREATOR_DTO.getEngine()
+                DEFAULT_VEHICLE_UPDATE_DTO.getVehicleType(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getBrand(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getModel(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDisplacement(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getColor(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPower(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getGear(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getRegistrationYear(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPowerSupply(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPrice(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDailyCost(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getUsedFlag(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getMarketStatus(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getEngine()
         );
         when(vehicleRepository.save(any()))
                 .thenReturn(updatedVehicle);
@@ -182,11 +182,12 @@ public class VehicleServiceTest {
                 4002,
                 MotorPowerSupply.GPL,
                 BigDecimal.valueOf(99999).setScale(2, RoundingMode.HALF_EVEN),
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
                 UsedFlag.NEW,
                 MarketStatus.ORDERABLE,
                 "motore a curvatura"
         );
-        VehicleReworkedDTO result = vehicleService.update(1L, UPDATE_VEHICLE_CREATOR_DTO);
+        VehicleReworkedDTO result = vehicleService.update(1L, DEFAULT_VEHICLE_UPDATE_DTO);
         assertEquals(expected.getDisplacement(), result.getDisplacement());
     }
 
@@ -196,20 +197,20 @@ public class VehicleServiceTest {
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         Vehicle updatedVehicle = new Vehicle(
                 DEFAULT_VEHICLE.getId(),
-                UPDATE_VEHICLE_CREATOR_DTO.getVehicleType(),
-                UPDATE_VEHICLE_CREATOR_DTO.getBrand(),
-                UPDATE_VEHICLE_CREATOR_DTO.getModel(),
-                UPDATE_VEHICLE_CREATOR_DTO.getDisplacement(),
-                UPDATE_VEHICLE_CREATOR_DTO.getColor(),
-                UPDATE_VEHICLE_CREATOR_DTO.getPower(),
-                UPDATE_VEHICLE_CREATOR_DTO.getGear(),
-                UPDATE_VEHICLE_CREATOR_DTO.getRegistrationYear(),
-                UPDATE_VEHICLE_CREATOR_DTO.getPowerSupply(),
-                UPDATE_VEHICLE_CREATOR_DTO.getPrice(),
-                UPDATE_VEHICLE_CREATOR_DTO.getDailyCost(),
-                UPDATE_VEHICLE_CREATOR_DTO.getUsedFlag(),
-                UPDATE_VEHICLE_CREATOR_DTO.getMarketStatus(),
-                UPDATE_VEHICLE_CREATOR_DTO.getEngine()
+                DEFAULT_VEHICLE_UPDATE_DTO.getVehicleType(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getBrand(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getModel(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDisplacement(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getColor(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPower(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getGear(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getRegistrationYear(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPowerSupply(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPrice(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDailyCost(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getUsedFlag(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getMarketStatus(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getEngine()
         );
         when(vehicleRepository.save(any()))
                 .thenReturn(updatedVehicle);
@@ -226,11 +227,12 @@ public class VehicleServiceTest {
                 4002,
                 MotorPowerSupply.GPL,
                 BigDecimal.valueOf(99999).setScale(2, RoundingMode.HALF_EVEN),
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
                 UsedFlag.NEW,
                 MarketStatus.ORDERABLE,
                 "motore a curvatura"
         );
-        VehicleReworkedDTO result = vehicleService.update(1L, UPDATE_VEHICLE_CREATOR_DTO);
+        VehicleReworkedDTO result = vehicleService.update(1, DEFAULT_VEHICLE_UPDATE_DTO);
         assertEquals(expected.getId(), result.getId());
     }
 
@@ -250,7 +252,7 @@ public class VehicleServiceTest {
                 DEFAULT_VEHICLE.getRegistrationYear(),
                 DEFAULT_VEHICLE.getPowerSupply(),
                 DEFAULT_VEHICLE.getPrice(),
-                UPDATE_VEHICLE_CREATOR_DTO.getDailyCost(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDailyCost(),
                 DEFAULT_VEHICLE.getUsedFlag(),
                 DEFAULT_VEHICLE_STATUS_DTO.getMarketStatus(),
                 DEFAULT_VEHICLE.getEngine()
@@ -269,6 +271,7 @@ public class VehicleServiceTest {
                 2004,
                 MotorPowerSupply.GASOLINE,
                 BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN),
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
                 UsedFlag.USED,
                 MarketStatus.ORDERABLE,
                 "V8");
@@ -292,7 +295,7 @@ public class VehicleServiceTest {
                 DEFAULT_VEHICLE.getRegistrationYear(),
                 DEFAULT_VEHICLE.getPowerSupply(),
                 DEFAULT_VEHICLE.getPrice(),
-                UPDATE_VEHICLE_CREATOR_DTO.getDailyCost(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDailyCost(),
                 DEFAULT_VEHICLE.getUsedFlag(),
                 DEFAULT_VEHICLE_STATUS_DTO.getMarketStatus(),
                 DEFAULT_VEHICLE.getEngine()
@@ -311,6 +314,7 @@ public class VehicleServiceTest {
                 2004,
                 MotorPowerSupply.GASOLINE,
                 BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN),
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
                 UsedFlag.USED,
                 MarketStatus.ORDERABLE,
                 "V8");

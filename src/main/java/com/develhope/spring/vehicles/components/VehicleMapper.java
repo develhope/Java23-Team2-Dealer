@@ -131,6 +131,7 @@ public class VehicleMapper {
                 vehicle.getRegistrationYear(),
                 vehicle.getPowerSupply(),
                 vehicle.getPrice(),
+                vehicle.getDailyCost(),
                 vehicle.getUsedFlag(),
                 vehicle.getMarketStatus(),
                 vehicle.getEngine()

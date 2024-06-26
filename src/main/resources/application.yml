@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/Dealer
     username: root
-    password: linda010495-pw
+    password:
   jpa:
     properties:
       hibernate:
@@ -15,5 +15,3 @@ logging.level:
   com.develhope.spring.users.services.UserService: info
   com.develhope.spring.users.controllers.RegistrationController: info
   com.develhope.spring.users.controllers: info
-
-

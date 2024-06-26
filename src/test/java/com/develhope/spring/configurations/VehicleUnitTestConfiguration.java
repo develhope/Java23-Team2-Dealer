@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class VehicleUnitTestConfiguration {
-    public static final Vehicle DEFAULT_VEHICLE = new Vehicle();
+    public static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
     public static final User DEFAULT_USER = new User(1);
     public static final UserRegistrationDTO DEFAULT_USER_USER_CREATOR_DTO = new UserRegistrationDTO(
             "Gabriel",
