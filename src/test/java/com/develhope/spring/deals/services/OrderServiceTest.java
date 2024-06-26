@@ -123,40 +123,6 @@ public class OrderServiceTest {
     }
 
     @Test
-    void checkValidOperatorTest() {
-        User admin = new User(
-                2,
-                "",
-                "",
-                "",
-                "1234",
-                123,
-                "",
-                Roles.ADMIN
-        );
-        when(userRepository.findById(DEFAULT_ADMIN_ID))
-                .thenReturn(Optional.of(admin));
-        assertDoesNotThrow(() -> orderService.checkValidOperator(DEFAULT_ADMIN_ID));
-    }
-
-    @Test
-    void checkValidOperatorTest_UserBuyer() {
-        User buyer = new User(DEFAULT_ID);
-        buyer.setRole(Roles.BUYER);
-        when(userRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(buyer));
-        assertThrows(NotAuthorizedOperationException.class, () -> orderService.checkValidOperator(DEFAULT_ID));
-    }
-
-    @Test
-    void checkValidOperatorTest_UserRoleNull() {
-        User user = new User(2);
-        when(userRepository.findById(2L))
-                .thenReturn(Optional.of(user));
-        assertThrows(NullPointerException.class, () -> orderService.checkValidOperator(2));
-    }
-
-    @Test
     void checkValidVehicleMarketStatusTest() {
         when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));

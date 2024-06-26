@@ -94,7 +94,7 @@ public class VehicleService {
     }
 
     private void checkUserAuthorizationBy(long userId) {
-        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("No user found with this ID"));
         if (!user.getRole().equals(Roles.ADMIN)) {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
         }

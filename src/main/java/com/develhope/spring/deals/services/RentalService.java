@@ -50,7 +50,7 @@ public class RentalService {
         BigDecimal vehicleDailyCost = getDailyCost(rentalUpdaterDTO.getVehicleId());
         checkValidRentalDates(rentalUpdaterDTO.getVehicleId(), rentalUpdaterDTO.getStartDate(), rentalUpdaterDTO.getEndDate());
         checkMarketStatus(rentalUpdaterDTO.getVehicleId());
-        Rental savedRental = rentalRepository.findById(rentalId).orElseThrow(NoSuchElementException::new);
+        Rental savedRental = rentalRepository.findById(rentalId).orElseThrow(() -> new NoSuchElementException("No rental found with this ID"));
         Vehicle vehicle = getVehicle(rentalUpdaterDTO.getVehicleId());
         savedRental.setStartDate(rentalUpdaterDTO.getStartDate());
         savedRental.setEndDate(rentalUpdaterDTO.getEndDate());
@@ -64,25 +64,17 @@ public class RentalService {
     }
 
     private Vehicle getVehicle(long vehicleId) {
-        return vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
+        return vehicleRepository.findById(vehicleId).orElseThrow(() -> new NoSuchElementException("No vehicle found with this ID"));
     }
 
     public Page<RentalReturnerDTO> getByUserId(User userDetails, int page, int size) {
         if (!userRepository.existsById(userDetails.getId())) {
-            throw new NoSuchElementException("User not registered");
+            throw new NoSuchElementException("No registered user found with this ID");
         }
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Rental> foundRentals = rentalRepository.findByUserId(userDetails.getId(), pageable);
         return foundRentals.map(rentalMapper::toReturnerDTO);
-    }
-
-    private BigDecimal getDailyCost(long vehicleId) {
-        return vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new).getDailyCost();
-    }
-
-    private void setRentalTotalCost(Rental rental, BigDecimal vehicleDailyCost, LocalDate startDate, LocalDate endDate) {
-        rental.setTotalCost(calculateTotalCost(vehicleDailyCost, startDate, endDate));
     }
 
     private void checkValidRentalDates(long vehicleId, LocalDate startDate, LocalDate endDate) {
@@ -123,6 +115,14 @@ public class RentalService {
                     "Starting Date of the rental can't be later than ending date. Please select new dates"
             );
         }
+    }
+
+    private BigDecimal getDailyCost(long vehicleId) {
+        return getVehicle(vehicleId).getDailyCost();
+    }
+
+    private void setRentalTotalCost(Rental rental, BigDecimal vehicleDailyCost, LocalDate startDate, LocalDate endDate) {
+        rental.setTotalCost(calculateTotalCost(vehicleDailyCost, startDate, endDate));
     }
 
     private BigDecimal calculateTotalCost(BigDecimal dailyCost, LocalDate startDate, LocalDate endDate) {
