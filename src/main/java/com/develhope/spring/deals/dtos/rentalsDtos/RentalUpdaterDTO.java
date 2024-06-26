@@ -1,4 +1,4 @@
-package com.develhope.spring.deals.dtos;
+package com.develhope.spring.deals.dtos.rentalsDtos;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -1,6 +1,6 @@
 package com.develhope.spring.vehicles.models;
 
-import com.develhope.spring.exceptions.ExcessiveParameterException;
+import com.develhope.spring.vehicles.responseStatus.ExcessiveParameterException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
 

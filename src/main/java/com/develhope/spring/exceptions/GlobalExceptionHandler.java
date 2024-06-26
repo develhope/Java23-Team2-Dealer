@@ -6,6 +6,8 @@ import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException
 import com.develhope.spring.deals.responseStatus.dtos.IllegalArgumentExceptionMessageDTO;
 import com.develhope.spring.deals.responseStatus.dtos.NoSuchElementExceptionMessageDTO;
 import com.develhope.spring.deals.responseStatus.dtos.NotAvailableVehicleExceptionMessageDTO;
+import com.develhope.spring.users.responseStatus.UserAlreadyExistException;
+import com.develhope.spring.vehicles.responseStatus.ExcessiveParameterException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,9 +48,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NotAvailableVehicleException.class)
-    public ResponseEntity<NotAvailableVehicleExceptionMessageDTO> getNotAvailableVehicleException(NotAvailableVehicleException e, NotAvailableVehicleExceptionMessageDTO messageDTO){
-        messageDTO.setMessage(e.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(messageDTO);
+    public ResponseEntity<NotAvailableVehicleException> getNotAvailableVehicleException(NotAvailableVehicleException e){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
     }
 
     @ExceptionHandler(RentalOverlappingDatesException.class)
