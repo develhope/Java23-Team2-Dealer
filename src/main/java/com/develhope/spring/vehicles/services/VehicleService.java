@@ -10,6 +10,7 @@ import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.responseStatus.ExcessiveParameterException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.components.VehicleMapper;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -103,5 +106,44 @@ public class VehicleService {
     public Vehicle findVehicleBy(long vehicleId) {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
         return optionalVehicle.orElseThrow(NoSuchElementException::new);
+    }
+
+    /**
+     * Calcola il prezzo scontato e modifica la variabile discountedPrice.
+     * Inserisce un double che viene convertito internamente in un BigDecimal.
+     *
+     * @param discountPercentage è la percentuale di sconto che si desidera applicare
+     * @throws ExcessiveParameterException se la percentuale inserita è fuori dai limiti 0 e 100
+     */
+
+     void calculateDiscount(double discountPercentage, long vehicleId) {
+        Vehicle discountedVehicle = vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
+        if (discountPercentage > 100 || discountPercentage < 0) {
+            throw new ExcessiveParameterException("The discount percentage must be comprehended between 0 and 100");
+        }
+        BigDecimal discountRate = BigDecimal.valueOf(discountPercentage / 100).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal removedPrice = discountedVehicle.getPrice().multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal discountedPrice = discountedVehicle.getPrice().subtract(removedPrice).setScale(2, RoundingMode.HALF_EVEN);
+        discountedVehicle.setDiscountedPrice(discountedPrice);
+    }
+
+    /**
+     * Permette di decidere se attivare uno sconto e di scegliere di quanto scontare il prodotto.
+     *
+     * @param discountPercentage è la percentuale di sconto che si desidera applicare.
+     */
+     void activateDiscount(double discountPercentage, long vehicleId) {
+        Vehicle discountedVehicle = vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
+        discountedVehicle.setDiscountFlag(true);
+        calculateDiscount(discountPercentage, vehicleId);
+    }
+
+    /**
+     * Permette di rimuovere lo sconto e fa tornare il prezzo scontato come l'originale
+     */
+     void removeDiscount(long vehicleId) {
+        Vehicle discountedVehicle = vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
+        discountedVehicle.setDiscountFlag(false);
+        discountedVehicle.setDiscountedPrice(discountedVehicle.getPrice());
     }
 }

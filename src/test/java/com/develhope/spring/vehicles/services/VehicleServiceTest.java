@@ -8,6 +8,7 @@ import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.dtos.*;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
+import com.develhope.spring.vehicles.responseStatus.ExcessiveParameterException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -320,5 +321,123 @@ public class VehicleServiceTest {
                 "V8");
         VehicleReworkedDTO result = vehicleService.updateStatus(1L,DEFAULT_VEHICLE_STATUS_DTO);
         assertEquals(result.getId(), expected.getId());
+    }
+    @Test
+    void calculateDiscount_throwExcessiveParameterException_Over100(){
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE()));
+        assertThrows(ExcessiveParameterException.class, ()-> vehicleService.calculateDiscount(101, 1L));
+    }
+
+    @Test
+    void calculateDiscount_throwExcessiveParameterException_Below0(){
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE()));
+        assertThrows(ExcessiveParameterException.class, ()-> vehicleService.calculateDiscount(-1, 1L));
+    }
+
+    @Test
+    void calculateDiscount_setTheRightDiscountedPrice(){
+        Vehicle resultVehicle = new Vehicle(
+                1L,
+                VehicleType.CAR,
+                "Ferrari",
+                "Marco",
+                8080,
+                Colors.RED,
+                8001,
+                Gears.MANUAL,
+                2024,
+                MotorPowerSupply.GPL,
+                BigDecimal.valueOf(100),
+                BigDecimal.valueOf(40),
+                UsedFlag.NEW,
+                MarketStatus.AVAILABLE,
+                "boh"
+        );
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(resultVehicle));
+        BigDecimal expected = BigDecimal.valueOf(50).setScale(2,RoundingMode.HALF_EVEN);
+        vehicleService.calculateDiscount(50, 1L);
+        BigDecimal result = resultVehicle.getDiscountedPrice();
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void activateDiscount_changeDiscountFlag(){
+
+        Vehicle resultVehicle = new Vehicle(
+                1L,
+                VehicleType.CAR,
+                "Ferrari",
+                "Marco",
+                8080,
+                Colors.RED,
+                8001,
+                Gears.MANUAL,
+                2024,
+                MotorPowerSupply.GPL,
+                BigDecimal.valueOf(100),
+                BigDecimal.valueOf(40),
+                UsedFlag.NEW,
+                MarketStatus.AVAILABLE,
+                "boh"
+        );
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(resultVehicle));
+        vehicleService.activateDiscount(50, 1L);
+        assertTrue(resultVehicle.isDiscountFlag());
+    }
+
+    @Test
+    void removeDiscount_changeDiscountFlag(){
+        Vehicle resultVehicle = new Vehicle(
+                1L,
+                VehicleType.CAR,
+                "Ferrari",
+                "Marco",
+                8080,
+                Colors.RED,
+                8001,
+                Gears.MANUAL,
+                2024,
+                MotorPowerSupply.GPL,
+                BigDecimal.valueOf(100),
+                BigDecimal.valueOf(40),
+                UsedFlag.NEW,
+                MarketStatus.AVAILABLE,
+                "boh"
+        );
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(resultVehicle));
+        vehicleService.removeDiscount(1L);
+        assertFalse(resultVehicle.isDiscountFlag());
+    }
+
+    @Test
+    void removeDiscount_setDiscountedPriceEqualAsPrice(){
+        Vehicle resultVehicle = new Vehicle(
+                1L,
+                VehicleType.CAR,
+                "Ferrari",
+                "Marco",
+                8080,
+                Colors.RED,
+                8001,
+                Gears.MANUAL,
+                2024,
+                MotorPowerSupply.GPL,
+                BigDecimal.valueOf(100),
+                BigDecimal.valueOf(40),
+                UsedFlag.NEW,
+                MarketStatus.AVAILABLE,
+                "boh"
+        );
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(resultVehicle));
+        vehicleService.removeDiscount(1L);
+        BigDecimal expected = resultVehicle.getPrice();
+        BigDecimal result = resultVehicle.getDiscountedPrice();
+        assertEquals(expected, result);
     }
 }
