@@ -4,10 +4,7 @@ import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.components.specifications.VehicleSpecificationsBuilder;
-import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
-import com.develhope.spring.vehicles.dtos.VehicleReworkedDTO;
-import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
-import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
+import com.develhope.spring.vehicles.dtos.*;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.ExcessiveParameterException;
@@ -20,13 +17,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.components.VehicleMapper;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,6 +91,22 @@ public class VehicleService {
         vehicleRepository.deleteById(vehicleId);
     }
 
+    public VehicleDiscountedDTO discountPrice(double discountPercentage, long vehicleId){
+        Vehicle vehicleToDiscount = findVehicleBy(vehicleId);
+        calculatePriceDiscount(discountPercentage, vehicleId);
+        vehicleToDiscount.setDiscountFlag(true);
+        Vehicle discountedVehicle = vehicleRepository.save(vehicleToDiscount);
+        return vehicleMapper.toDiscountedDTO(discountedVehicle);
+    }
+
+    public VehicleDiscountedDTO removeDiscountPrice( long vehicleId){
+        Vehicle discountedVehicle = findVehicleBy(vehicleId);
+        discountedVehicle.setDiscountFlag(false);
+        discountedVehicle.setDiscountedPrice(discountedVehicle.getPrice());
+        Vehicle originalPriceVehicle = vehicleRepository.save(discountedVehicle);
+        return vehicleMapper.toDiscountedDTO(originalPriceVehicle);
+    }
+
     private void checkUserAuthorizationBy(long userId) {
         User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
         if (!user.getRole().equals(Roles.ADMIN)) {
@@ -104,8 +115,7 @@ public class VehicleService {
     }
 
     public Vehicle findVehicleBy(long vehicleId) {
-        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
-        return optionalVehicle.orElseThrow(NoSuchElementException::new);
+        return vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
     }
 
     /**
@@ -116,8 +126,8 @@ public class VehicleService {
      * @throws ExcessiveParameterException se la percentuale inserita è fuori dai limiti 0 e 100
      */
 
-     void calculateDiscount(double discountPercentage, long vehicleId) {
-        Vehicle discountedVehicle = vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
+     void calculatePriceDiscount(double discountPercentage, long vehicleId) {
+        Vehicle discountedVehicle = findVehicleBy(vehicleId);
         if (discountPercentage > 100 || discountPercentage < 0) {
             throw new ExcessiveParameterException("The discount percentage must be comprehended between 0 and 100");
         }
@@ -125,25 +135,5 @@ public class VehicleService {
         BigDecimal removedPrice = discountedVehicle.getPrice().multiply(discountRate).setScale(2, RoundingMode.HALF_EVEN);
         BigDecimal discountedPrice = discountedVehicle.getPrice().subtract(removedPrice).setScale(2, RoundingMode.HALF_EVEN);
         discountedVehicle.setDiscountedPrice(discountedPrice);
-    }
-
-    /**
-     * Permette di decidere se attivare uno sconto e di scegliere di quanto scontare il prodotto.
-     *
-     * @param discountPercentage è la percentuale di sconto che si desidera applicare.
-     */
-     void activateDiscount(double discountPercentage, long vehicleId) {
-        Vehicle discountedVehicle = vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
-        discountedVehicle.setDiscountFlag(true);
-        calculateDiscount(discountPercentage, vehicleId);
-    }
-
-    /**
-     * Permette di rimuovere lo sconto e fa tornare il prezzo scontato come l'originale
-     */
-     void removeDiscount(long vehicleId) {
-        Vehicle discountedVehicle = vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
-        discountedVehicle.setDiscountFlag(false);
-        discountedVehicle.setDiscountedPrice(discountedVehicle.getPrice());
     }
 }

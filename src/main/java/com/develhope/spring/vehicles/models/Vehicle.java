@@ -137,6 +137,7 @@ public class Vehicle {
     public long getId() {
         return id;
     }
+
     // Setter
     public void setId(long id) {
         this.id = id;
