@@ -94,6 +94,7 @@ public class RentalIntegrationTest {
                         "registrationYear": 1700,
                         "powerSupply": "DIESEL",
                         "price": 54000.00,
+                        "dailyCost": 40.00,
                         "discountedPrice": null,
                         "usedFlag": "NEW",
                         "marketStatus": "AVAILABLE",
@@ -119,6 +120,7 @@ public class RentalIntegrationTest {
                         "registrationYear": 1700,
                         "powerSupply": "DIESEL",
                         "price": 54000.00,
+                        "dailyCost": 40.00,
                         "discountedPrice": null,
                         "usedFlag": "NEW",
                         "marketStatus": "NOTAVAILABLE",
@@ -138,7 +140,6 @@ public class RentalIntegrationTest {
                         {
                         "startDate": "2024-06-03",
                         "endDate": "2024-06-05",
-                        "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
                         "userId": 2
@@ -171,7 +172,6 @@ public class RentalIntegrationTest {
                         {
                         "startDate": "2024-06-03",
                         "endDate": "2024-06-05",
-                        "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
                         "userId": 2
@@ -191,7 +191,6 @@ public class RentalIntegrationTest {
                         {
                         "startDate": "2024-06-03",
                         "endDate": "2024-06-05",
-                        "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
                         "userId": 2
@@ -204,7 +203,6 @@ public class RentalIntegrationTest {
                         {
                         "startDate": "2024-06-06",
                         "endDate": "2024-06-09",
-                        "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
                         "userId": 2
@@ -217,7 +215,6 @@ public class RentalIntegrationTest {
                         {
                         "startDate": "2024-06-09",
                         "endDate": "2024-06-10",
-                        "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
                         "userId": 2
@@ -238,7 +235,6 @@ public class RentalIntegrationTest {
                 {
                 "startDate": "2024-06-03",
                 "endDate": "2024-06-05",
-                "dailyCost": 40.00,
                 "paid": true,
                 "vehicleId": 1,
                 "userId": 2
@@ -249,7 +245,6 @@ public class RentalIntegrationTest {
                 {
                 "startDate": "2024-06-06",
                 "endDate": "2024-06-08",
-                "dailyCost": 40.00,
                 "paid": true,
                 "vehicleId": 1,
                 "userId": 3
@@ -264,7 +259,6 @@ public class RentalIntegrationTest {
                                         {
                                             "startDate": "2024-06-09",
                                             "endDate": "2024-06-12",
-                                            "dailyCost": 40.00,
                                             "paid": false,
                                             "vehicleId": 1
                                         }
@@ -298,7 +292,6 @@ public class RentalIntegrationTest {
                         {
                         "startDate": "2024-06-03",
                         "endDate": "2024-06-05",
-                        "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
                         "userId": 2
@@ -311,7 +304,6 @@ public class RentalIntegrationTest {
                         {
                         "startDate": "2024-06-06",
                         "endDate": "2024-06-09",
-                        "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
                         "userId": 2
@@ -339,7 +331,6 @@ public class RentalIntegrationTest {
                         {
                         "startDate": "2024-06-03",
                         "endDate": "2024-06-05",
-                        "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
                         "userId": 2
@@ -352,7 +343,6 @@ public class RentalIntegrationTest {
                         {
                         "startDate": "2024-06-06",
                         "endDate": "2024-06-09",
-                        "dailyCost": 40.00,
                         "paid": true,
                         "vehicleId": 1,
                         "userId": 2

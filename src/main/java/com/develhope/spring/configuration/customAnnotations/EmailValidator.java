@@ -1,4 +1,4 @@
-package com.develhope.spring.configuration.validators;
+package com.develhope.spring.configuration.customAnnotations;
 
 
 import jakarta.validation.ConstraintValidator;
