@@ -5,6 +5,7 @@ import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
+import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class VehicleUnitTestConfiguration {
-    public static final Vehicle DEFAULT_VEHICLE = new Vehicle();
+    public static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
     public static final User DEFAULT_USER = new User(1);
     public static final UserRegistrationDTO DEFAULT_USER_USER_CREATOR_DTO = new UserRegistrationDTO(
             "Gabriel",
@@ -79,4 +80,5 @@ public class VehicleUnitTestConfiguration {
             "NEW",
             "AVAILABLE"
     );
+
 }

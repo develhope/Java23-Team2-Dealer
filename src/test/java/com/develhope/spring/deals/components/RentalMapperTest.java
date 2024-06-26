@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,7 +55,7 @@ public class RentalMapperTest {
     }
 
     @Test
-    void toEntity_From_testSuccessfulSameUserSuccessfulSameUser() {
+    void toEntity_testSuccessfulSameUserSuccessfulSameUser() {
         LocalDate startDate = LocalDate.of(2024, 06, 3);
         LocalDate endDate = LocalDate.of(2024, 06, 5);
 

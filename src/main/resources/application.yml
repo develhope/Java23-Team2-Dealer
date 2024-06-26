@@ -15,4 +15,3 @@ logging.level:
   com.develhope.spring.users.services.UserService: info
   com.develhope.spring.users.controllers.RegistrationController: info
   com.develhope.spring.users.controllers: info
-

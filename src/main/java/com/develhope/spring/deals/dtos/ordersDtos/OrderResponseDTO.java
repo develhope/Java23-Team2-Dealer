@@ -67,5 +67,4 @@ public class OrderResponseDTO {
     public void setPaid(boolean paid) {
         this.paid = paid;
     }
-
 }

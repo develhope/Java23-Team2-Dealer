@@ -1,17 +1,14 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.dtos.rentalsDtos.RentalCreatorDTO;
 import com.develhope.spring.deals.dtos.rentalsDtos.RentalReturnerDTO;
 import com.develhope.spring.deals.dtos.rentalsDtos.RentalUpdaterDTO;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.deals.repositories.RentalRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.RentalOverlappingDatesException;
-import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
@@ -21,8 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 
