@@ -1,6 +1,7 @@
 package com.develhope.spring.users.controllers;
 
 import com.develhope.spring.users.dtos.UserReworkedDTO;
+import com.develhope.spring.users.dtos.UserRoleUpdaterDTO;
 import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
@@ -37,10 +38,18 @@ public class UserController {
             }
         }
     }
-        @Secured("ADMIN")
-        @DeleteMapping("/{userID}")
-        @ResponseStatus(HttpStatus.OK)
-        public void deleteUser ( @PathVariable long userID){
-            userService.deleteUser(userID);
-        }
+
+    @ResponseStatus(HttpStatus.OK)
+    @Secured("ADMIN")
+    @PutMapping("/{userId}")
+    public UserReworkedDTO updateUserRole(@PathVariable long userId, @RequestBody UserRoleUpdaterDTO userRoleUpdaterDTO) {
+        return userService.updateRole(userId, userRoleUpdaterDTO);
     }
+
+    @Secured("ADMIN")
+    @DeleteMapping("/{userID}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable long userID) {
+        userService.deleteUser(userID);
+    }
+}

@@ -9,9 +9,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,54 +23,54 @@ public class UserIntegrationTest {
 
     private void insertAdmin() throws Exception {
         this.mockMvc.perform(post("/v1/profile/registration")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                   "name": "Alessio",
-                                   "surname":"Delle Donne",
-                                   "username": "ilGrandeWorro",
-                                   "password": "1234",
-                                   "matchingPassword": "1234",
-                                   "phoneNumber": 1234567890,
-                                   "email":"mail@itsadmin.com",
-                                   "roles":"ADMIN"
-                                }
-                                """)).andReturn();
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                           "name": "Alessio",
+                           "surname":"Delle Donne",
+                           "username": "ilGrandeWorro",
+                           "password": "1234",
+                           "matchingPassword": "1234",
+                           "phoneNumber": 1234567890,
+                           "email":"mail@itsadmin.com",
+                           "roles":"ADMIN"
+                        }
+                        """)).andReturn();
     }
 
     private void insertSeller() throws Exception {
         this.mockMvc.perform(post("/v1/profile/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                                {
-                                   "name": "Oscar",
-                                   "surname":"Afaggio",
-                                   "username": "Lady",
-                                   "password": "1234",
-                                   "matchingPassword": "1234",
-                                   "phoneNumber": 1234567890,
-                                   "email":"mail@itsseller.com",
-                                   "roles": "SALESPERSON"
-                                }
-                                """)).andReturn();
+                        {
+                           "name": "Oscar",
+                           "surname":"Afaggio",
+                           "username": "Lady",
+                           "password": "1234",
+                           "matchingPassword": "1234",
+                           "phoneNumber": 1234567890,
+                           "email":"mail@itsseller.com",
+                           "roles": "SALESPERSON"
+                        }
+                        """)).andReturn();
     }
 
 
     private void insertBuyer() throws Exception {
         this.mockMvc.perform(post("/v1/profile/registration")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                   "name": "Giovanni",
-                                   "surname":"Giorgio",
-                                   "username": "Giorgio",
-                                   "password": "1234",
-                                   "matchingPassword": "1234",
-                                   "phoneNumber": 1234567890,
-                                   "email":"mail@itsbuyer.com",
-                                   "roles":"BUYER"
-                                }
-                                """)).andReturn();
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                           "name": "Giovanni",
+                           "surname":"Giorgio",
+                           "username": "Giorgio",
+                           "password": "1234",
+                           "matchingPassword": "1234",
+                           "phoneNumber": 1234567890,
+                           "email":"mail@itsbuyer.com",
+                           "roles":"BUYER"
+                        }
+                        """)).andReturn();
     }
 
     private void insertBuyer2() throws Exception {
@@ -92,8 +90,8 @@ public class UserIntegrationTest {
                         """)).andReturn();
     }
 
-@Test
-    void adminUserUpdateTest() throws Exception {
+    @Test
+    void adminUpdateUser_roleIsUnchangedTest() throws Exception {
         insertAdmin();
         insertBuyer();
         this.mockMvc.perform(patch("/v1/users/2")
@@ -105,12 +103,11 @@ public class UserIntegrationTest {
                                 "surname": "Mastrota",
                                 "username": "Inox",
                                 "phoneNumber": 123,
-                                "email": "altra@email.it",
-                                "role": "SALESPERSON"
+                                "email": "altra@email.it"
                                 }
                                 """))
                 .andDo(print())
-        .andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
                         "id": 2,
@@ -118,16 +115,52 @@ public class UserIntegrationTest {
                         "surname": "Mastrota",
                         "username": "Inox",
                         "phoneNumber": 123,
-                        "email": "altra@email.it",
+                        "email": "altra@email.it"
+                        }
+                        """)).andReturn();
+    }
+
+    @Test
+    void adminUpdateUserRole_andRoleIsChangedTest() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        this.mockMvc.perform(put("/v1/users/2")
+                        .with(httpBasic("mail@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "role": "SALESPERSON"
+                                }
+                                """))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                        "id": 2,
+                        "name": "Giovanni",
+                        "surname": "Giorgio",
+                        "username": "Giorgio",
+                        "phoneNumber": 1234567890,
+                        "email": "mail@itsbuyer.com",
                         "role": "SALESPERSON"
                         }
                         """)).andReturn();
     }
 
     @Test
-    void userSelfUpdateTest() throws Exception {
+    void adminUpdateUserRole_newSellerTryToUpdateHimSelf_andExpectForbiddenTest() throws Exception {
+        insertAdmin();
         insertBuyer();
-        this.mockMvc.perform(patch("/v1/users/1")
+        this.mockMvc.perform(put("/v1/users/2")
+                        .with(httpBasic("mail@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "role": "SALESPERSON"
+                                }
+                                """))
+                .andReturn();
+        this.mockMvc.perform(patch("/v1/users/2")
                         .with(httpBasic("mail@itsbuyer.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -141,6 +174,27 @@ public class UserIntegrationTest {
                                 }
                                 """))
                 .andDo(print())
+                .andExpect(status().isForbidden()).andReturn();
+
+    }
+
+
+    @Test
+    void userSelfUpdateTest() throws Exception {
+        insertBuyer();
+        this.mockMvc.perform(patch("/v1/users/1")
+                        .with(httpBasic("mail@itsbuyer.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "name": "Giorgio",
+                                "surname": "Mastrota",
+                                "username": "Inox",
+                                "phoneNumber": 123,
+                                "email": "altra@email.it"
+                                }
+                                """))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -150,7 +204,7 @@ public class UserIntegrationTest {
                         "username": "Inox",
                         "phoneNumber": 123,
                         "email": "altra@email.it",
-                        "role": "SALESPERSON"
+                        "role": "BUYER"
                         }
                         """)).andReturn();
     }
