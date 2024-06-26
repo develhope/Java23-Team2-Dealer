@@ -4,6 +4,7 @@ import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleDiscountedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
@@ -41,6 +42,17 @@ public class VehicleUnitTestConfiguration {
             UsedFlag.USED,
             MarketStatus.AVAILABLE,
             "V8"
+    );
+
+    public static final VehicleDiscountedDTO DEFAULT_VEHICLE_DISCOUNTED_DTO = new VehicleDiscountedDTO(
+            1,
+            VehicleType.CAR,
+            "Ferrari",
+            "Enzo",
+            2004,
+            BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN),
+            BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+            true
     );
 
     public static Vehicle DEFAULT_VEHICLE () {

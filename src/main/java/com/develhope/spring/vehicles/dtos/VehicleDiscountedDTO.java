@@ -10,7 +10,7 @@ public class VehicleDiscountedDTO {
     private String brand;
     private String model;
     private int registrationYear;
-    private BigDecimal price;
+    private BigDecimal discountedPrice;
     private BigDecimal dailyCost;
     private boolean discountFlag;
 
@@ -23,13 +23,13 @@ public class VehicleDiscountedDTO {
     }
 
     public VehicleDiscountedDTO(long id, VehicleType vehicleType, String brand, String model, int registrationYear,
-                                BigDecimal price, BigDecimal dailyCost, boolean discountFlag) {
+                                BigDecimal discountedPrice, BigDecimal dailyCost, boolean discountFlag) {
         this.id = id;
         this.vehicleType = vehicleType;
         this.brand = brand;
         this.model = model;
         this.registrationYear = registrationYear;
-        this.price = price;
+        this.discountedPrice = discountedPrice;
         this.dailyCost = dailyCost;
         this.discountFlag = discountFlag;
     }
@@ -74,12 +74,12 @@ public class VehicleDiscountedDTO {
         this.registrationYear = registrationYear;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getDiscountedPrice() {
+        return discountedPrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 
     public BigDecimal getDailyCost() {

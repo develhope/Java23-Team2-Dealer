@@ -22,8 +22,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.develhope.spring.configurations.VehicleUnitTestConfiguration.DEFAULT_VEHICLE;
-import static com.develhope.spring.configurations.VehicleUnitTestConfiguration.DEFAULT_VEHICLE_CREATOR_DTO;
+import static com.develhope.spring.configurations.VehicleUnitTestConfiguration.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -87,6 +86,27 @@ public class VehicleServiceTest {
         vehicle.setEngine(DEFAULT_VEHICLE_CREATOR_DTO.getEngine());
         return vehicle;
     }
+
+    private Vehicle DEFAULT_DISCOUNTED_VEHICLE() {
+        Vehicle vehicle = new Vehicle(1);
+        vehicle.setVehicleType(DEFAULT_VEHICLE_CREATOR_DTO.getVehicleType());
+        vehicle.setBrand(DEFAULT_VEHICLE_CREATOR_DTO.getBrand());
+        vehicle.setModel(DEFAULT_VEHICLE_CREATOR_DTO.getModel());
+        vehicle.setDisplacement(DEFAULT_VEHICLE_CREATOR_DTO.getDisplacement());
+        vehicle.setColor(DEFAULT_VEHICLE_CREATOR_DTO.getColor());
+        vehicle.setPower(DEFAULT_VEHICLE_CREATOR_DTO.getPower());
+        vehicle.setGear(DEFAULT_VEHICLE_CREATOR_DTO.getGear());
+        vehicle.setRegistrationYear(DEFAULT_VEHICLE_CREATOR_DTO.getRegistrationYear());
+        vehicle.setPowerSupply(DEFAULT_VEHICLE_CREATOR_DTO.getPowerSupply());
+        vehicle.setPrice(DEFAULT_VEHICLE_CREATOR_DTO.getPrice());
+        vehicle.setUsedFlag(DEFAULT_VEHICLE_CREATOR_DTO.getUsedFlag());
+        vehicle.setMarketStatus(DEFAULT_VEHICLE_CREATOR_DTO.getMarketStatus());
+        vehicle.setEngine(DEFAULT_VEHICLE_CREATOR_DTO.getEngine());
+        vehicle.setDiscountFlag(DEFAULT_VEHICLE_DISCOUNTED_DTO.isDiscountFlag());
+        vehicle.setDiscountedPrice(DEFAULT_VEHICLE_DISCOUNTED_DTO.getDiscountedPrice());
+        return vehicle;
+    }
+
 
     @Test
     void createVehicle_successfulCreationTest() {
@@ -339,7 +359,7 @@ public class VehicleServiceTest {
                 BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
                 true);
         VehicleDiscountedDTO result = vehicleService.discountPrice(50, 1L);
-        assertEquals(result.getPrice(), expected.getPrice());
+        assertEquals(result.getDiscountedPrice(), expected.getDiscountedPrice());
     }
 
     @Test
@@ -388,33 +408,31 @@ public class VehicleServiceTest {
         assertEquals(result.getId(), expected.getId());
     }
 
-//    @Test
-//    void priceRemoveDiscount_changeDiscountFlag() {
-//        when(vehicleRepository.findById(1L))
-//                .thenReturn(Optional.of(DEFAULT_VEHICLE()));
-//        VehicleDiscountedDTO result = vehicleService.removeDiscountPrice(1L);
-//        assertFalse(result.isDiscountFlag());
-//    }
-//
-//    @Test
-//    void priceRemoveDiscount_setDiscountedPriceEqualAsPrice() {
-//        when(vehicleRepository.findById(1L))
-//                .thenReturn(Optional.of(DEFAULT_VEHICLE()));
-//        Vehicle expectedVehicle = DEFAULT_VEHICLE();
-//        expectedVehicle.setDiscountedPrice(DEFAULT_VEHICLE().getPrice());
-//        expectedVehicle.setDiscountFlag(false);
-//        when(vehicleRepository.save(any()))
-//                .thenReturn(expectedVehicle);
-//        VehicleDiscountedDTO expected = new VehicleDiscountedDTO(
-//                1,
-//                VehicleType.CAR,
-//                "Ferrari",
-//                "Enzo",
-//                2004,
-//                BigDecimal.valueOf(400000).setScale(2, RoundingMode.HALF_EVEN),
-//                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
-//                true);
-//        VehicleDiscountedDTO result = vehicleService.discountPrice(50, 1L);
-//        assertEquals(expected.getPrice(), result.getPrice());
-//    }
+    @Test
+    void priceRemoveDiscount_changeDiscountFlag() {
+        BigDecimal expectedDiscountedPrice = BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN);
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_DISCOUNTED_VEHICLE()));
+        Vehicle expectedVehicle = DEFAULT_DISCOUNTED_VEHICLE();
+        expectedVehicle.setDiscountedPrice(expectedDiscountedPrice);
+        expectedVehicle.setDiscountFlag(false);
+        when(vehicleRepository.save(any()))
+                .thenReturn(expectedVehicle);
+        VehicleDiscountedDTO result = vehicleService.removeDiscountPrice(1L);
+        assertFalse(result.isDiscountFlag());
+    }
+
+    @Test
+    void priceRemoveDiscount_setDiscountedPriceEqualAsPrice() {
+        BigDecimal expectedDiscountedPrice = BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN);
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_DISCOUNTED_VEHICLE()));
+        Vehicle expectedVehicle = DEFAULT_DISCOUNTED_VEHICLE();
+        expectedVehicle.setDiscountedPrice(expectedDiscountedPrice);
+        expectedVehicle.setDiscountFlag(false);
+        when(vehicleRepository.save(any()))
+                .thenReturn(expectedVehicle);
+        VehicleDiscountedDTO result = vehicleService.removeDiscountPrice(1L);
+        assertEquals(expectedVehicle.getPrice(), result.getDiscountedPrice());
+    }
 }
