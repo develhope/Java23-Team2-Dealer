@@ -1,5 +1,6 @@
 package com.develhope.spring.deals.controllers;
 
+import com.develhope.spring.exceptions.HttpRequestHandlingException;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -229,7 +229,7 @@ public class OrderIntegrationTest {
                         .with(httpBasic("hey@itsbuyer2.com", "54321"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotAuthorizedOperationException))
+                .andExpect(result -> assertInstanceOf(HttpRequestHandlingException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("You are not authorized to cancel this order.", result.getResolvedException().getMessage()))
                 .andReturn();
     }

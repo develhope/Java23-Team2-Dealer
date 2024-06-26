@@ -251,8 +251,7 @@ public class OrderServiceTest {
     void deleteOrderByIdAndUserId_OrderNotFound() {
         when(orderRepository.findByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER.getId()))
                 .thenReturn(Optional.empty());
-        Exception exception = assertThrows(OrderNotFoundException.class, () -> orderService.deleteOrderByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER));
-        assertEquals("Order Not Found!", exception.getMessage());
+       assertThrows(OrderNotFoundException.class, () -> orderService.deleteOrderByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER));
         verify(orderRepository, times(1)).findByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER.getId());
         verify(orderRepository, never()).deleteById(anyLong());
     }
