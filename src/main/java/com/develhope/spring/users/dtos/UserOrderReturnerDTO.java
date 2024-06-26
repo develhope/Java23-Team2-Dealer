@@ -10,6 +10,10 @@ public class UserOrderReturnerDTO {
     public UserOrderReturnerDTO() {
     }
 
+    public UserOrderReturnerDTO(long id) {
+        this.id = id;
+    }
+
     public UserOrderReturnerDTO(long id, String name, String surname, String email) {
         this.id = id;
         this.name = name;

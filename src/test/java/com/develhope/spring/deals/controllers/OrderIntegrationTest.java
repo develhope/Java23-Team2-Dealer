@@ -39,6 +39,22 @@ public class OrderIntegrationTest {
                          }
                         """)).andReturn();
     }
+    private void insertSeller() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "name": "Giorgio",
+                            "surname":"Mastrota",
+                            "username": "eminflex",
+                            "password": "1234",
+                            "matchingPassword": "1234",
+                            "phoneNumber": 3467796292,
+                            "email":"hey@itsseller.com",
+                            "roles":"SALESPERSON"
+                         }
+                        """)).andReturn();
+    }
 
     private void insertBuyer() throws Exception {
         this.mockMvc.perform(post("/v1/profile/registration")
@@ -53,23 +69,6 @@ public class OrderIntegrationTest {
                             "phoneNumber": 34427796292,
                             "email":"hey@itsbuyer.com",
                             "roles":"BUYER"
-                         }
-                        """)).andReturn();
-    }
-
-    private void insertSeller() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                            "name": "Matthew",
-                            "surname":"Littlesavings",
-                            "username": "ilCapitone",
-                            "password": "1234",
-                            "matchingPassword": "1234",
-                            "phoneNumber": 3467796292,
-                            "email":"hey@itsseller.com",
-                            "roles":"SALESPERSON"
                          }
                         """)).andReturn();
     }
@@ -117,7 +116,7 @@ public class OrderIntegrationTest {
     }
 
     @Test
-    void orderUpdateTest() throws Exception {
+    void OrderUpdateTestAdmin() throws Exception {
         insertAdmin();
         insertBuyer();
         insertVehicle();
@@ -150,6 +149,60 @@ public class OrderIntegrationTest {
                 )).andReturn();
     }
 
+    @Test
+    void OrderUpdateTestSeller() throws Exception {
+        insertSeller();
+        insertAdmin();
+        insertVehicle();
+        insertOrder();
+
+        this.mockMvc.perform((patch("/v1/orders/1")
+                        .with(httpBasic("hey@itsseller.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 1,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        """
+                                {
+                                "downPayment": true,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """
+                )).andReturn();
+    }
+
+    @Test
+    void OrderUpdateTestBuyerForbidden() throws Exception {
+        insertBuyer();
+        insertAdmin();
+        insertVehicle();
+        insertOrder();
+
+        this.mockMvc.perform((patch("/v1/orders/1")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 1,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """)))
+                .andDo(print())
+                .andExpect(status().isForbidden()).andReturn();
+    }
 
     @Test
     void createOrderAndDeletedByADMIN_successfulTest() throws Exception {

@@ -1,6 +1,5 @@
 package com.develhope.spring.vehicles.components;
 
-
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.dtos.*;
 import org.springframework.stereotype.Component;
@@ -116,6 +115,26 @@ public class VehicleMapper {
                 vehicle.getDailyCost(),
                 vehicle.getUsedFlag(),
                 vehicle.getMarketStatus()
+        );
+    }
+
+    public VehicleReworkedDTO toReworkedDTO(Vehicle vehicle){
+        return new VehicleReworkedDTO(
+                vehicle.getId(),
+                vehicle.getVehicleType(),
+                vehicle.getBrand(),
+                vehicle.getModel(),
+                vehicle.getDisplacement(),
+                vehicle.getColor(),
+                vehicle.getPower(),
+                vehicle.getGear(),
+                vehicle.getRegistrationYear(),
+                vehicle.getPowerSupply(),
+                vehicle.getPrice(),
+                vehicle.getDailyCost(),
+                vehicle.getUsedFlag(),
+                vehicle.getMarketStatus(),
+                vehicle.getEngine()
         );
     }
 }

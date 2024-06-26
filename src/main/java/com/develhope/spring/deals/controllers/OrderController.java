@@ -27,7 +27,7 @@ public class OrderController {
     }
 
     @Secured({"ADMIN", "SALESPERSON"})
-    @PatchMapping("{orderId}")
+    @PatchMapping("/{orderId}")
     @ResponseStatus(HttpStatus.OK)
     public OrderUpdatedDTO updateOrder(@PathVariable long orderId,
                                        @RequestBody OrderCreatorDTO orderCreatorDTO) {

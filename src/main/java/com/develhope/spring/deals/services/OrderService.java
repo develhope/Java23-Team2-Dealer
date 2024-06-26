@@ -55,6 +55,12 @@ public class OrderService {
         }
     }
 
+    void checkIfOrderExists(long orderId, User userDetails){
+        if (orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isEmpty()) {
+            throw new OrderNotFoundException("Order Not Found!");
+        }
+    }
+
     public OrderUpdatedDTO update(long orderId, OrderCreatorDTO orderCreatorDTO) {
         checkValidVehicleMarketStatus(orderCreatorDTO);
         Order orderToUpdate = orderRepository.findById(orderId).orElseThrow();
@@ -64,7 +70,7 @@ public class OrderService {
         orderToUpdate.setPaid(orderCreatorDTO.isPaid());
         newVehicle.ifPresent(orderToUpdate::setVehicle);
         Order newOrderSaved = orderRepository.save(orderToUpdate);
-        return orderMapper.toOrderUpdateDTO(newOrderSaved);
+        return orderMapper.toOrderUpdatedDTO(newOrderSaved);
     }
 
     public void deleteBy(long orderId) {
@@ -72,9 +78,7 @@ public class OrderService {
     }
 
     public void deleteOrderByIdAndUserId(long orderId, User userDetails) {
-        if (orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isEmpty()) {
-            throw new OrderNotFoundException("Order Not Found!");
-        }
+        checkIfOrderExists(orderId, userDetails);
         orderRepository.deleteById(orderId);
     }
 

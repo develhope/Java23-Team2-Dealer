@@ -13,7 +13,6 @@ public class RentalUpdaterDTO {
     public RentalUpdaterDTO(LocalDate startDate, LocalDate endDate, boolean paid, long vehicleId) {
         this.startDate = startDate;
         this.endDate = endDate;
-
         this.paid = paid;
         this.vehicleId = vehicleId;
     }

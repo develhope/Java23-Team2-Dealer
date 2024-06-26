@@ -57,7 +57,7 @@ public class RentalMapperTest {
     }
 
     @Test
-    void toEntity_From_testSuccessfulSameUserSuccessfulSameUser() {
+    void toEntity_testSuccessfulSameUserSuccessfulSameUser() {
         LocalDate startDate = LocalDate.of(2024, 06, 3);
         LocalDate endDate = LocalDate.of(2024, 06, 5);
 

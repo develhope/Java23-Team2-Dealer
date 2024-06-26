@@ -63,7 +63,7 @@ public class OrderMapper {
         );
     }
 
-    public OrderUpdatedDTO toOrderUpdateDTO(Order order){
+    public OrderUpdatedDTO toOrderUpdatedDTO(Order order){
         return new OrderUpdatedDTO(
                 order.getId(),
                 order.isDownPayment(),

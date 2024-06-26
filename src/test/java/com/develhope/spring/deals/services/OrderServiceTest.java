@@ -1,8 +1,10 @@
 package com.develhope.spring.deals.services;
 
 import com.develhope.spring.deals.components.mappers.OrderMapper;
+import com.develhope.spring.deals.dtos.ordersDtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderUpdatedDTO;
+
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
@@ -22,11 +24,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
@@ -59,7 +59,9 @@ public class OrderServiceTest {
     @InjectMocks
     private OrderMapper orderMapper;
 
-    private final UserOrderReturnerDTO DEFAULT_USER_ORDER_RETURNER_DTO = new UserOrderReturnerDTO();
+    private final Order DEFAULT_ORDER_ID = new Order();
+    private final String ADMIN_USERNAME = "admin@example.com";
+    private final String USER_USERNAME = "user@example.com";
 
     @BeforeEach
     public void setUp() {
@@ -89,6 +91,52 @@ public class OrderServiceTest {
             Roles.SALESPERSON
     );
 
+    private final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
+            true,
+            1,
+            1,
+            2,
+            OrderStatus.PAID,
+            true
+    );
+    private final Order DEFAULT_ORDER = new Order(
+            1,
+            true,
+            OrderStatus.PAID,
+            true,
+            DEFAULT_VEHICLE,
+            DEFAULT_USER,
+            DEFAULT_SELLER
+    );
+    private final OrderResponseDTO DEFAULT_ORDER_RESPONSE_DTO = new OrderResponseDTO(
+            1,
+            true,
+            DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+            1,
+            2,
+            OrderStatus.PAID,
+            true
+    );
+
+    @Test
+    void createOrder() {
+        OrderResponseDTO expected = new OrderResponseDTO(
+                1,
+                true,
+                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+                2,
+                1,
+                OrderStatus.PAID,
+                true
+        );
+        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(orderRepository.save(any()))
+                .thenReturn(DEFAULT_ORDER);
+        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
+        assertEquals(expected.getUserId(), result.getUserId());
+    }
+
     @Test
     void checkValidOperatorTest() {
         User admin = new User(
@@ -117,10 +165,10 @@ public class OrderServiceTest {
 
     @Test
     void checkValidOperatorTest_UserRoleNull() {
-
-        when(userRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(DEFAULT_USER));
-        assertThrows(NullPointerException.class, () -> orderService.checkValidOperator(DEFAULT_ID));
+        User user = new User(2);
+        when(userRepository.findById(2L))
+                .thenReturn(Optional.of(user));
+        assertThrows(NullPointerException.class, () -> orderService.checkValidOperator(2));
     }
 
     @Test
@@ -233,6 +281,7 @@ public class OrderServiceTest {
                 OrderStatus.PAID,
                 true
         );
+
 
         when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));

@@ -5,6 +5,7 @@ import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.components.specifications.VehicleSpecificationsBuilder;
 import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
+import com.develhope.spring.vehicles.dtos.VehicleReworkedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.components.VehicleMapper;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -61,23 +60,31 @@ public class VehicleService {
         return vehicleRepository.findAll(spec, pageable);
     }
 
-    //TODO Convertire autorizzazione
-    public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
-        checkUserAuthorizationBy(userId);
-        Vehicle existingVehicle;
-        existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
-        existingVehicle.setId(vehicleId);
-        Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
-        return vehicleMapper.toCreatorDTO(updatedVehicle);
+    public VehicleReworkedDTO update(long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
+        Vehicle vehicleToUpdate = findVehicleBy(vehicleId);
+        vehicleToUpdate.setVehicleType(vehicleCreatorDTO.getVehicleType());
+        vehicleToUpdate.setBrand(vehicleCreatorDTO.getBrand());
+        vehicleToUpdate.setModel(vehicleCreatorDTO.getModel());
+        vehicleToUpdate.setDisplacement(vehicleCreatorDTO.getDisplacement());
+        vehicleToUpdate.setColor(vehicleCreatorDTO.getColor());
+        vehicleToUpdate.setPower(vehicleCreatorDTO.getPower());
+        vehicleToUpdate.setGear(vehicleCreatorDTO.getGear());
+        vehicleToUpdate.setRegistrationYear(vehicleCreatorDTO.getRegistrationYear());
+        vehicleToUpdate.setPowerSupply(vehicleCreatorDTO.getPowerSupply());
+        vehicleToUpdate.setPrice(vehicleCreatorDTO.getPrice());
+        vehicleToUpdate.setUsedFlag(vehicleCreatorDTO.getUsedFlag());
+        vehicleToUpdate.setMarketStatus(vehicleCreatorDTO.getMarketStatus());
+        vehicleToUpdate.setEngine(vehicleCreatorDTO.getEngine());
+
+        Vehicle updatedVehicle = vehicleRepository.save(vehicleToUpdate);
+        return vehicleMapper.toReworkedDTO(updatedVehicle);
     }
 
-    //TODO Convertire autorizzazione
-    public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
-        checkUserAuthorizationBy(userId);
-        Vehicle existingVehicle = findVehicleBy(vehicleId);
-        existingVehicle.setMarketStatus(vehicleStatusDTO.getMarketStatus());
-        vehicleRepository.save(existingVehicle);
-        return existingVehicle;
+    public VehicleReworkedDTO updateStatus(long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
+        Vehicle vehicleToUpdate = findVehicleBy(vehicleId);
+        vehicleToUpdate.setMarketStatus(vehicleStatusDTO.getMarketStatus());
+        Vehicle updatedVehicle = vehicleRepository.save(vehicleToUpdate);
+        return vehicleMapper.toReworkedDTO(updatedVehicle);
     }
 
     //TODO Convertire autorizzazione
@@ -95,6 +102,6 @@ public class VehicleService {
 
     public Vehicle findVehicleBy(long vehicleId) {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleId);
-        return optionalVehicle.orElseThrow();
+        return optionalVehicle.orElseThrow(NoSuchElementException::new);
     }
 }
