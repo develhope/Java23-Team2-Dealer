@@ -41,7 +41,7 @@ public class OrderService {
     }
 
     void checkValidVehicleMarketStatus(OrderCreatorDTO orderCreatorDTO) {
-        Vehicle vehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow(NoSuchElementException::new);
+        Vehicle vehicle = getVehicle(orderCreatorDTO);
         if (vehicle.getMarketStatus() == MarketStatus.NOTAVAILABLE) {
             throw new NotAvailableVehicleException("Vehicle not orderable.");
         }
@@ -50,14 +50,14 @@ public class OrderService {
     void checkValidOperator(long userId) {
         User operator = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
         if (operator.getRole().equals(Roles.BUYER)){
-            throw new NotAuthorizedOperationException("Permesso negato. Non sei autorizzato ad effettuare questa operazione");
+            throw new NotAuthorizedOperationException("Access denied. Not Authorized to proceed with this operation");
         }
     }
 
     public OrderUpdatedDTO update(long orderId, OrderCreatorDTO orderCreatorDTO) {
         checkValidVehicleMarketStatus(orderCreatorDTO);
-        Order orderToUpdate = orderRepository.findById(orderId).orElseThrow();
-        Vehicle newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow();
+        Order orderToUpdate = orderRepository.findById(orderId).orElseThrow(() -> new NoSuchElementException("No order found with ths ID"));
+        Vehicle newVehicle = getVehicle(orderCreatorDTO);
         orderToUpdate.setDownPayment(orderCreatorDTO.isDownPayment());
         orderToUpdate.setOrderStatus(orderCreatorDTO.getOrderStatus());
         orderToUpdate.setPaid(orderCreatorDTO.isPaid());
@@ -79,5 +79,9 @@ public class OrderService {
 
     public boolean checkOrderId(long orderId, User userDetails) {
         return orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isPresent();
+    }
+
+    private Vehicle getVehicle(OrderCreatorDTO orderCreatorDTO) {
+        return vehicleRepository.findById(orderCreatorDTO.getVehicleId()).orElseThrow(()-> new NoSuchElementException("No vehicles found with this ID"));
     }
 }
