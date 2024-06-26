@@ -118,6 +118,7 @@ class VehicleIntegrationTest {
                                   "model": "Fiorino",
                                   "color": "WHITE",
                                   "price": 15000,
+                                  "dailyCost": 40.00,
                                   "usedFlag": "NEW",
                                   "marketStatus": "AVAILABLE"
                                 }
@@ -174,6 +175,7 @@ class VehicleIntegrationTest {
                                     "registrationYear": 2024,
                                     "powerSupply": "GPL",
                                     "price": 9000,
+                                    "dailyCost": 40.00,
                                     "usedFlag": "NEW",
                                     "marketStatus": "AVAILABLE",
                                     "engine": "uno a caso"
@@ -193,6 +195,7 @@ class VehicleIntegrationTest {
                                     "registrationYear": 2024,
                                     "powerSupply": "GPL",
                                     "price": 9000,
+                                    "dailyCost": 40.00,
                                     "usedFlag": "NEW",
                                     "marketStatus": "AVAILABLE",
                                     "engine": "uno a caso"
@@ -225,6 +228,7 @@ class VehicleIntegrationTest {
                                     "registrationYear": 2022,
                                     "powerSupply": "METHANE",
                                     "price": 15000,
+                                    "dailyCost": 40.00,
                                     "usedFlag": "NEW",
                                     "marketStatus": "ORDERABLE",
                                     "engine": "4-cylinder"
@@ -250,6 +254,7 @@ class VehicleIntegrationTest {
                                     "registrationYear": 2024,
                                     "powerSupply": "GPL",
                                     "price": 9000,
+                                    "dailyCost": 40.00,
                                     "usedFlag": "NEW",
                                     "marketStatus": "AVAILABLE",
                                     "engine": "uno a caso"

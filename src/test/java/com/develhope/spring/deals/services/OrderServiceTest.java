@@ -3,10 +3,7 @@ package com.develhope.spring.deals.services;
 import com.develhope.spring.deals.components.mappers.OrderMapper;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderUpdatedDTO;
-import com.develhope.spring.deals.dtos.ordersDtos.OrderCreatorDTO;
-import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
-import com.develhope.spring.deals.dtos.ordersDtos.OrderUpdatedDTO;
-import com.develhope.spring.deals.components.OrderMapper;
+
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
@@ -25,11 +22,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 

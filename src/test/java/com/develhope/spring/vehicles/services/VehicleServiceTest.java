@@ -1,17 +1,13 @@
 package com.develhope.spring.vehicles.services;
 
 
-import com.develhope.spring.users.dtos.UserRegistrationDTO;
+
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
-import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
-import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
+import com.develhope.spring.vehicles.dtos.*;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
-import com.develhope.spring.vehicles.vehicleEnums.*;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.NoSuchElementException;
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,7 +48,29 @@ public class VehicleServiceTest {
     @MockBean
     private Pattern pattern;
 
-    private  final VehicleCreatorDTO DEFAULT_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(
+    @MockBean
+    private Matcher matcher;
+
+    private final VehicleStatusDTO DEFAULT_VEHICLE_STATUS_DTO = new VehicleStatusDTO(MarketStatus.ORDERABLE);
+
+    private  final VehicleCreatorDTO UPDATE_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(
+            VehicleType.CAR,
+            "Lamborghini",
+            "Marco",
+            7000,
+            Colors.BLACK,
+            9001,
+            Gears.AUTOMATIC,
+            4002,
+            MotorPowerSupply.GPL,
+            BigDecimal.valueOf(99999).setScale(2, RoundingMode.HALF_EVEN),
+            BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+            UsedFlag.NEW,
+            MarketStatus.ORDERABLE,
+            "motore a curvatura"
+    );
+
+    private final VehicleCreatorDTO DEFAULT_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(
             VehicleType.CAR,
             "Ferrari",
             "Enzo",
@@ -88,8 +104,6 @@ public class VehicleServiceTest {
         vehicle.setEngine(DEFAULT_VEHICLE_CREATOR_DTO.getEngine());
         return vehicle;
     }
-    @MockBean
-    private Matcher matcher;
 
     @Test
     void createVehicle_successfulCreationTest() {
@@ -134,7 +148,7 @@ public class VehicleServiceTest {
 
     @Test
     void updateVehicleTest(){
-        when(vehicleRepository.findById(DEFAULT_ID))
+        when(vehicleRepository.findById(1L))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         Vehicle updatedVehicle = new Vehicle(
                 DEFAULT_VEHICLE.getId(),
@@ -148,6 +162,7 @@ public class VehicleServiceTest {
                 UPDATE_VEHICLE_CREATOR_DTO.getRegistrationYear(),
                 UPDATE_VEHICLE_CREATOR_DTO.getPowerSupply(),
                 UPDATE_VEHICLE_CREATOR_DTO.getPrice(),
+                UPDATE_VEHICLE_CREATOR_DTO.getDailyCost(),
                 UPDATE_VEHICLE_CREATOR_DTO.getUsedFlag(),
                 UPDATE_VEHICLE_CREATOR_DTO.getMarketStatus(),
                 UPDATE_VEHICLE_CREATOR_DTO.getEngine()
@@ -171,13 +186,13 @@ public class VehicleServiceTest {
                 MarketStatus.ORDERABLE,
                 "motore a curvatura"
         );
-        VehicleReworkedDTO result = vehicleService.update(DEFAULT_ID, UPDATE_VEHICLE_CREATOR_DTO);
+        VehicleReworkedDTO result = vehicleService.update(1L, UPDATE_VEHICLE_CREATOR_DTO);
         assertEquals(expected.getDisplacement(), result.getDisplacement());
     }
 
     @Test
     void updateVehicleTest_checkIfIdIsUnchanged(){
-        when(vehicleRepository.findById(DEFAULT_ID))
+        when(vehicleRepository.findById(1L))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         Vehicle updatedVehicle = new Vehicle(
                 DEFAULT_VEHICLE.getId(),
@@ -191,6 +206,7 @@ public class VehicleServiceTest {
                 UPDATE_VEHICLE_CREATOR_DTO.getRegistrationYear(),
                 UPDATE_VEHICLE_CREATOR_DTO.getPowerSupply(),
                 UPDATE_VEHICLE_CREATOR_DTO.getPrice(),
+                UPDATE_VEHICLE_CREATOR_DTO.getDailyCost(),
                 UPDATE_VEHICLE_CREATOR_DTO.getUsedFlag(),
                 UPDATE_VEHICLE_CREATOR_DTO.getMarketStatus(),
                 UPDATE_VEHICLE_CREATOR_DTO.getEngine()
@@ -214,13 +230,13 @@ public class VehicleServiceTest {
                 MarketStatus.ORDERABLE,
                 "motore a curvatura"
         );
-        VehicleReworkedDTO result = vehicleService.update(DEFAULT_ID, UPDATE_VEHICLE_CREATOR_DTO);
+        VehicleReworkedDTO result = vehicleService.update(1L, UPDATE_VEHICLE_CREATOR_DTO);
         assertEquals(expected.getId(), result.getId());
     }
 
     @Test
     void updateVehicleStatusTest(){
-        when(vehicleRepository.findById(DEFAULT_ID))
+        when(vehicleRepository.findById(1L))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         Vehicle updatedVehicle = new Vehicle(
                 DEFAULT_VEHICLE.getId(),
@@ -234,6 +250,7 @@ public class VehicleServiceTest {
                 DEFAULT_VEHICLE.getRegistrationYear(),
                 DEFAULT_VEHICLE.getPowerSupply(),
                 DEFAULT_VEHICLE.getPrice(),
+                UPDATE_VEHICLE_CREATOR_DTO.getDailyCost(),
                 DEFAULT_VEHICLE.getUsedFlag(),
                 DEFAULT_VEHICLE_STATUS_DTO.getMarketStatus(),
                 DEFAULT_VEHICLE.getEngine()
@@ -255,13 +272,13 @@ public class VehicleServiceTest {
                 UsedFlag.USED,
                 MarketStatus.ORDERABLE,
                 "V8");
-        VehicleReworkedDTO result = vehicleService.updateStatus(DEFAULT_ID,DEFAULT_VEHICLE_STATUS_DTO);
+        VehicleReworkedDTO result = vehicleService.updateStatus(1L,DEFAULT_VEHICLE_STATUS_DTO);
         assertEquals(result.getMarketStatus(), expected.getMarketStatus());
     }
 
     @Test
     void updateVehicleStatusTest_otherThingsAreUnchanged(){
-        when(vehicleRepository.findById(DEFAULT_ID))
+        when(vehicleRepository.findById(1L))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
         Vehicle updatedVehicle = new Vehicle(
                 DEFAULT_VEHICLE.getId(),
@@ -275,6 +292,7 @@ public class VehicleServiceTest {
                 DEFAULT_VEHICLE.getRegistrationYear(),
                 DEFAULT_VEHICLE.getPowerSupply(),
                 DEFAULT_VEHICLE.getPrice(),
+                UPDATE_VEHICLE_CREATOR_DTO.getDailyCost(),
                 DEFAULT_VEHICLE.getUsedFlag(),
                 DEFAULT_VEHICLE_STATUS_DTO.getMarketStatus(),
                 DEFAULT_VEHICLE.getEngine()
@@ -296,7 +314,7 @@ public class VehicleServiceTest {
                 UsedFlag.USED,
                 MarketStatus.ORDERABLE,
                 "V8");
-        VehicleReworkedDTO result = vehicleService.updateStatus(DEFAULT_ID,DEFAULT_VEHICLE_STATUS_DTO);
+        VehicleReworkedDTO result = vehicleService.updateStatus(1L,DEFAULT_VEHICLE_STATUS_DTO);
         assertEquals(result.getId(), expected.getId());
     }
 }

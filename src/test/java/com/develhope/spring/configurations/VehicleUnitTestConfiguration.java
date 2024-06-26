@@ -5,6 +5,7 @@ import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
+import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 
@@ -79,4 +80,5 @@ public class VehicleUnitTestConfiguration {
             "NEW",
             "AVAILABLE"
     );
+
 }
