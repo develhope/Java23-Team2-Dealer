@@ -1,4 +1,4 @@
-package com.develhope.spring.deals.dtos;
+package com.develhope.spring.deals.dtos.ordersDtos;
 
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
@@ -24,6 +24,10 @@ public class OrderResponseDTO {
         this.userId = userId;
         this.orderStatus = orderStatus;
         this.paid = paid;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public boolean isDownPayment() {

@@ -21,6 +21,8 @@ public class VehicleSavedDTO {
 
     private BigDecimal price;
 
+    private BigDecimal dailyCost;
+
     private UsedFlag usedFlag;
 
     private MarketStatus marketStatus;
@@ -28,19 +30,24 @@ public class VehicleSavedDTO {
     public VehicleSavedDTO() {
     }
 
-    public VehicleSavedDTO(long id, VehicleType vehicleType, String brand, String model, Colors color, BigDecimal price, UsedFlag usedFlag, MarketStatus marketStatus) {
+    public VehicleSavedDTO(long id, VehicleType vehicleType, String brand, String model, Colors color, BigDecimal price, BigDecimal dailyCost, UsedFlag usedFlag, MarketStatus marketStatus) {
         this.id = id;
         this.vehicleType = vehicleType;
         this.brand = brand;
         this.model = model;
         this.color = color;
         this.price = price;
+        this.dailyCost = dailyCost;
         this.usedFlag = usedFlag;
         this.marketStatus = marketStatus;
     }
 
     public long getId() {
         return id;
+    }
+
+    public BigDecimal getDailyCost() {
+        return dailyCost;
     }
 
     public void setId(long id) {

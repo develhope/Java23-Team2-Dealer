@@ -1,4 +1,4 @@
-package com.develhope.spring.exceptions;
+package com.develhope.spring.users.responseStatus;
 
 import org.springframework.http.HttpStatus;
 

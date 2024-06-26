@@ -79,6 +79,7 @@ class VehicleIntegrationTest {
                                     "registrationYear": 2022,
                                     "powerSupply": "METHANE",
                                     "price": 15000,
+                                    "dailyCost": 40.00,
                                     "usedFlag": "NEW",
                                     "marketStatus": "AVAILABLE",
                                     "engine": "4-cylinder"
@@ -120,7 +121,8 @@ class VehicleIntegrationTest {
                                     "gear": "MANUAL",
                                     "registrationYear": 2022,
                                     "powerSupply": "METHANE",
-                                    "originalPrice": 15000,
+                                    "price": 15000,
+                                    "dailyCost": 40.00,
                                     "usedFlag": "NEW",
                                     "marketStatus": "AVAILABLE",
                                     "discountFlag": true,

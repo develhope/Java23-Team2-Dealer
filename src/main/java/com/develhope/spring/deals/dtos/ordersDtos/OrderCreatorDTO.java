@@ -1,4 +1,4 @@
-package com.develhope.spring.deals.dtos;
+package com.develhope.spring.deals.dtos.ordersDtos;
 
 import com.develhope.spring.deals.models.OrderStatus;
 

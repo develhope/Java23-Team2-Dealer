@@ -1,10 +1,12 @@
 package com.develhope.spring.deals.models;
 
+import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
@@ -14,19 +16,13 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
     @Column(nullable = false)
     private LocalDate startDate;
-
 
     @Column(nullable = false)
     private LocalDate endDate;
 
-
     @Column(nullable = false)
-    private BigDecimal dailyCost;
-
-
     private BigDecimal totalCost;
 
     @Column(nullable = false)
@@ -42,8 +38,6 @@ public class Rental {
     private User seller;
 
 
-
-    // Getters
     public BigDecimal getTotalCost() {
         return totalCost;
     }
@@ -52,16 +46,19 @@ public class Rental {
         return paid;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user, User seller) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user, User seller) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dailyCost = dailyCost;
         this.totalCost = totalCost;
         this.paid = paid;
         this.vehicle = vehicle;
         this.id = id;
         this.user = user;
         this.seller = seller;
+    }
+
+    public void setTotalCost(BigDecimal totalCost) {
+        this.totalCost = totalCost;
     }
 
     public User getUser() {
@@ -91,18 +88,6 @@ public class Rental {
         this.endDate = endDate;
     }
 
-    public BigDecimal getDailyCost() {
-        return dailyCost;
-    }
-
-    public void setDailyCost(BigDecimal dailyCost) {
-        this.dailyCost = dailyCost;
-    }
-
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
-    }
-
     public long getId() {
         return id;
     }
@@ -115,11 +100,9 @@ public class Rental {
         this.vehicle = vehicle;
     }
 
-
     public void setPaid(boolean paid) {
         this.paid = paid;
     }
-
 
     public void setSeller(User seller) {
         this.seller = seller;
