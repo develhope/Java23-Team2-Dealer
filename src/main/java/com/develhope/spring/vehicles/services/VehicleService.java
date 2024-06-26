@@ -10,7 +10,7 @@ import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
+import com.develhope.spring.exceptions.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

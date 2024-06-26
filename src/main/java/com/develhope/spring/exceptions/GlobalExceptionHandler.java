@@ -16,52 +16,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getStatus()).body(exceptionHandlerMessageDTO);
     }
 
-//    @ExceptionHandler(NotAuthorizedOperationException.class)
-//    public ResponseEntity<String> handleNotAuthorizedOperationException(NotAuthorizedOperationException ex, WebRequest request) {
-//        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
-//    }
-//
-//    @ExceptionHandler(ExcessiveParameterException.class)
-//    public ResponseEntity<String> handleExcessiveParameterException(ExcessiveParameterException ex, WebRequest request) {
-//        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-//    }
-
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    public ResponseEntity<IllegalArgumentException> getException(IllegalArgumentException e) {
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
-//    }
-
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<String> handleGlobalException(Exception ex, WebRequest request) {
-//        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<NoSuchElementException> getException(NoSuchElementException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
+    public ResponseEntity<ExceptionHandlerMessageDTO> getException(NoSuchElementException e) {
+        ExceptionHandlerMessageDTO exceptionHandlerMessageDTO = new ExceptionHandlerMessageDTO(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(exceptionHandlerMessageDTO.getStatus()).body(exceptionHandlerMessageDTO);
     }
-//
-//    @ExceptionHandler(NotAvailableVehicleException.class)
-//    public ResponseEntity<ExceptionHandlerMessageDTO> getNotAvailableVehicleException(NotAvailableVehicleException e){
-//        ExceptionHandlerMessageDTO exceptionHandlerMessageDTO = new ExceptionHandlerMessageDTO(e.getMessage());
-//        return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionHandlerMessageDTO);
-//    }
-//
-//    @ExceptionHandler(RentalOverlappingDatesException.class)
-//    public ResponseEntity<RentalOverlappingDatesExceptionMessageDTO> getException(RentalOverlappingDatesException e) {
-//        RentalOverlappingDatesExceptionMessageDTO rentalOverlappingDatesExceptionMessageDTO = new RentalOverlappingDatesExceptionMessageDTO(e.getMessage());
-//        return ResponseEntity.status(e.getHttpStatus()).body(rentalOverlappingDatesExceptionMessageDTO);
-//    }
-//
-//    @ExceptionHandler(UserAlreadyExistException.class)
-//    public ResponseEntity<UserAlreadyExistException> getException(UserAlreadyExistException e) {
-//        return ResponseEntity.status(e.getHttpStatus()).body(e);
-//    }
-//
-//    @ExceptionHandler(OrderNotFoundException.class)
-//    public ResponseEntity<OrderNotFoundException> handleOrderNotFoundException(OrderNotFoundException e) {
-//        return ResponseEntity.status(e.getHttpStatus()).body(e);
-//    }
 
 }
 
