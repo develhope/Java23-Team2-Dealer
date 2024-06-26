@@ -1,5 +1,6 @@
-package com.develhope.spring.exceptions;
+package com.develhope.spring.users.responseStatus;
 
+import com.develhope.spring.exceptions.HttpRequestHandlingException;
 import org.springframework.http.HttpStatus;
 
 public class UserAlreadyExistException extends HttpRequestHandlingException {

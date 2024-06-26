@@ -1,53 +1,41 @@
 package com.develhope.spring.deals.services;
 
-import com.develhope.spring.deals.components.OrderMapper;
-import com.develhope.spring.deals.dtos.OrderCreatorDTO;
-import com.develhope.spring.deals.dtos.OrderResponseDTO;
-import com.develhope.spring.deals.dtos.OrderUpdatedDTO;
+import com.develhope.spring.deals.components.mappers.OrderMapper;
+import com.develhope.spring.deals.dtos.ordersDtos.OrderCreatorDTO;
+import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
+import com.develhope.spring.deals.dtos.ordersDtos.OrderUpdatedDTO;
+
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.users.components.UserMapper;
-import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.components.VehicleMapper;
-import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
-import com.develhope.spring.vehicles.vehicleEnums.Colors;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
-import com.develhope.spring.vehicles.vehicleEnums.UsedFlag;
-import com.develhope.spring.vehicles.vehicleEnums.VehicleType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Optional;
 
+import static com.develhope.spring.configurations.DealsUnitTestConfig.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class OrderServiceTest {
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @MockBean
     private VehicleRepository vehicleRepository;
@@ -61,50 +49,6 @@ public class OrderServiceTest {
     @Autowired
     private OrderService orderService;
 
-    @MockBean
-    private SecurityContextHolder securityContextHolder;
-
-
-    private static final long DEFAULT_ID = 1;
-    private static final long DEFAULT_ADMIN_ID = 2;
-
-    private static final User DEFAULT_ADMIN = new User(
-            2,
-            "",
-            "",
-            "",
-            "1234",
-            123,
-            "",
-            Roles.ADMIN
-    );
-
-    private static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
-            true,
-            1,
-            1,
-            OrderStatus.PAID,
-            true
-    );
-    private static final Order DEFAULT_ORDER = new Order(1);
-
-    private static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
-    private static final VehicleOrderReturnerDTO DEFAULT_VEHICLE_ORDER_RETURNER_DTO = new VehicleOrderReturnerDTO(
-            1,
-            VehicleType.CAR,
-            "Fiat",
-            "Fiorino",
-            Colors.WHITE,
-            BigDecimal.valueOf(1000).setScale(2, RoundingMode.HALF_EVEN),
-            UsedFlag.NEW,
-            "Motore"
-    );
-    private static final User DEFAULT_USER = new User(1);
-
-    private static final Order DEFAULT_ORDER_ID = new Order();
-    private static final String ADMIN_USERNAME = "admin@example.com";
-    private static final String USER_USERNAME = "user@example.com";
-
     @Mock
     private VehicleMapper vehicleMapper;
 
@@ -114,7 +58,9 @@ public class OrderServiceTest {
     @InjectMocks
     private OrderMapper orderMapper;
 
-    private static final UserOrderReturnerDTO DEFAULT_USER_ORDER_RETURNER_DTO = new UserOrderReturnerDTO();
+    private final Order DEFAULT_ORDER_ID = new Order();
+    private final String ADMIN_USERNAME = "admin@example.com";
+    private final String USER_USERNAME = "user@example.com";
 
     @BeforeEach
     public void setUp() {
@@ -134,10 +80,62 @@ public class OrderServiceTest {
         DEFAULT_USER_ORDER_RETURNER_DTO.setId(1);
     }
 
+    private final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
+            true,
+            1,
+            1,
+            OrderStatus.PAID,
+            true
+    );
+    private final Order DEFAULT_ORDER = new Order(
+            1,
+            true,
+            OrderStatus.PAID,
+            true,
+            DEFAULT_VEHICLE,
+            DEFAULT_USER
+    );
+    private final OrderResponseDTO DEFAULT_ORDER_RESPONSE_DTO = new OrderResponseDTO(
+            1,
+            true,
+            DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+            1,
+            OrderStatus.PAID,
+            true
+    );
+
+    @Test
+    void createOrder() {
+        OrderResponseDTO expected = new OrderResponseDTO(
+                1,
+                true,
+                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
+                1,
+                OrderStatus.PAID,
+                true
+        );
+        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(orderRepository.save(any()))
+                .thenReturn(DEFAULT_ORDER);
+        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
+        assertEquals(expected.getUserId(), result.getUserId());
+    }
+
     @Test
     void checkValidOperatorTest() {
+        User admin = new User(
+                2,
+                "",
+                "",
+                "",
+                "1234",
+                123,
+                "",
+                Roles.ADMIN
+        );
         when(userRepository.findById(DEFAULT_ADMIN_ID))
-                .thenReturn(Optional.of(DEFAULT_ADMIN));
+                .thenReturn(Optional.of(admin));
         assertDoesNotThrow(() -> orderService.checkValidOperator(DEFAULT_ADMIN_ID));
     }
 
@@ -152,10 +150,10 @@ public class OrderServiceTest {
 
     @Test
     void checkValidOperatorTest_UserRoleNull() {
-
-        when(userRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(DEFAULT_USER));
-        assertThrows(NullPointerException.class, () -> orderService.checkValidOperator(DEFAULT_ID));
+        User user = new User(2);
+        when(userRepository.findById(2L))
+                .thenReturn(Optional.of(user));
+        assertThrows(NullPointerException.class, () -> orderService.checkValidOperator(2));
     }
 
     @Test
@@ -173,26 +171,6 @@ public class OrderServiceTest {
                 .thenReturn(Optional.of(vehicle));
         assertThrows(NotAvailableVehicleException.class, () -> orderService.checkValidVehicleMarketStatus(DEFAULT_ORDER_CREATOR_DTO));
     }
-//    @Test
-//    void createOrder_successfulTest() {
-//        OrderResponseDTO expected = new OrderResponseDTO(
-//                1,
-//                true,
-//                DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-//                1,
-//                OrderStatus.PAID,
-//                true
-//        );
-//
-//        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
-//                .thenReturn(Optional.of(DEFAULT_VEHICLE));
-//        when(userRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getUserId()))
-//                .thenReturn(Optional.of(DEFAULT_USER));
-//
-//        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
-//        assertEquals(expected.getUserId(), result.getUserId());
-//    }
-
 
     @Test
     void updateOrderTest() {
@@ -200,7 +178,7 @@ public class OrderServiceTest {
                 .thenReturn(Optional.of(DEFAULT_ORDER));
         when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
-        Order updatedOrder = new Order(
+        Order updatedRental = new Order(
                 DEFAULT_ORDER.getId(),
                 DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
                 DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
@@ -209,7 +187,7 @@ public class OrderServiceTest {
                 DEFAULT_USER
         );
         when(orderRepository.save(any()))
-                .thenReturn(updatedOrder);
+                .thenReturn(updatedRental);
         OrderUpdatedDTO expected = new OrderUpdatedDTO(
                 1L,
                 true,
@@ -289,6 +267,8 @@ public class OrderServiceTest {
                 .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
         when(userMapper.toUserOrderReturnerDTO(any(User.class)))
                 .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
+        when(orderRepository.save(any()))
+                .thenReturn(DEFAULT_ORDER);
 
         OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
 

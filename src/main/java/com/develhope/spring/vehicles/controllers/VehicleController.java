@@ -1,11 +1,14 @@
 package com.develhope.spring.vehicles.controllers;
 
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
+import com.develhope.spring.vehicles.dtos.VehicleReworkedDTO;
+import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
 import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
 import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -24,21 +27,26 @@ public class VehicleController {
         return vehicleService.create(vehicleCreatorDTO);
     }
 
-    //TODO Convertire autorizzazione
-    @PutMapping("/{userId}/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
-    public VehicleCreatorDTO update(@PathVariable long userId,
-                                    @PathVariable long vehicleId,
-                                    @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
-        return vehicleService.update(userId, vehicleId, vehicleCreatorDTO);
+    @GetMapping
+    public Page<Vehicle> search(VehicleFilterDTO vehicleFilterDTO, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size) {
+        return vehicleService.search(vehicleFilterDTO, page, size);
     }
 
-    //TODO Convertire autorizzazione
-    @PatchMapping("/{userId}/{vehicleId}/status")
+    @Secured("ADMIN")
+    @PutMapping("/{vehicleId}")
     @ResponseStatus(HttpStatus.OK)
-    public Vehicle updateStatus(@PathVariable long userId, @PathVariable long vehicleId,
+    public VehicleReworkedDTO update(@PathVariable long vehicleId,
+                                     @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
+        return vehicleService.update(vehicleId, vehicleCreatorDTO);
+    }
+
+    @Secured({"ADMIN"})
+    @PatchMapping("/{vehicleId}/status")
+    @ResponseStatus(HttpStatus.OK)
+    public VehicleReworkedDTO updateStatus( @PathVariable long vehicleId,
                                 @RequestBody VehicleStatusDTO vehicleStatusDTO) {
-        return vehicleService.updateStatus(userId, vehicleId, vehicleStatusDTO);
+        return vehicleService.updateStatus(vehicleId, vehicleStatusDTO);
     }
 
     //TODO Convertire autorizzazione

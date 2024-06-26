@@ -1,7 +1,8 @@
 package com.develhope.spring.deals.components;
 
-import com.develhope.spring.deals.dtos.RentalCreatorDTO;
-import com.develhope.spring.deals.dtos.RentalReturnerDTO;
+import com.develhope.spring.deals.components.mappers.RentalMapper;
+import com.develhope.spring.deals.dtos.rentalsDtos.RentalCreatorDTO;
+import com.develhope.spring.deals.dtos.rentalsDtos.RentalReturnerDTO;
 import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
@@ -15,7 +16,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,39 +40,38 @@ public class RentalMapperTest {
         RentalCreatorDTO rentalCreatorDTO = new RentalCreatorDTO(
                 startDate,
                 endDate,
-                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
                 true,
                 1,
                 1);
 
         Vehicle vehicle = new Vehicle(1);
+        vehicle.setDailyCost(BigDecimal.valueOf(40));
 
         User user = new User(1);
 
         Rental result = rentalMapper.toEntity(rentalCreatorDTO);
-        Rental expected = new Rental(startDate, endDate, BigDecimal.valueOf(40), BigDecimal.valueOf(80).setScale(2, RoundingMode.HALF_EVEN), true, vehicle, 1, user);
-        assertEquals(expected.getTotalCost(), BigDecimal.valueOf(80).setScale(2, RoundingMode.HALF_EVEN));
+        Rental expected = new Rental(startDate, endDate, vehicle.getDailyCost(), true, vehicle, 1, user);
+        assertEquals(expected.getVehicle().getId(), result.getVehicle().getId());
     }
 
     @Test
-    void toEntity_From_testSuccessfulSameUserSuccessfulSameUser() {
+    void toEntity_testSuccessfulSameUserSuccessfulSameUser() {
         LocalDate startDate = LocalDate.of(2024, 06, 3);
         LocalDate endDate = LocalDate.of(2024, 06, 5);
 
         RentalCreatorDTO rentalCreatorDTO = new RentalCreatorDTO(
                 startDate,
                 endDate,
-                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
                 true,
                 1,
                 1);
 
         Vehicle vehicle = new Vehicle(1);
-
+        vehicle.setDailyCost(BigDecimal.valueOf(40));
         User user = new User(1);
 
         Rental result = rentalMapper.toEntity(rentalCreatorDTO);
-        Rental expected = new Rental(startDate, endDate, BigDecimal.valueOf(40), BigDecimal.valueOf(80), true, vehicle, 1, user);
+        Rental expected = new Rental(startDate, endDate,vehicle.getDailyCost(), true, vehicle, 1, user);
         assertEquals(expected.getUser().getId(), result.getUser().getId());
     }
 
@@ -80,13 +79,12 @@ public class RentalMapperTest {
     void toReturnerDTO_From_testSuccessfulSameTotalPrice() {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(1);
-
+        vehicle.setDailyCost(BigDecimal.valueOf(40));
         User user = new User(1);
 
         LocalDate startDate = LocalDate.of(2024, 06, 3);
         LocalDate endDate = LocalDate.of(2024, 06, 5);
-        BigDecimal dailyCost = BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN);
-        Rental rental = new Rental(startDate, endDate, dailyCost, BigDecimal.valueOf(80),false, vehicle, 1, user);
+        Rental rental = new Rental(startDate, endDate, vehicle.getDailyCost(), false, vehicle, 1, user);
 
         VehicleRentalReturnerDTO vehicleRentalReturnerDTO = new VehicleRentalReturnerDTO();
         vehicleRentalReturnerDTO.setId(rental.getVehicle().getId());
@@ -95,7 +93,7 @@ public class RentalMapperTest {
         buyerRentalReturnerDto.setEmail(rental.getUser().getEmail());
 
         RentalReturnerDTO result = rentalMapper.toReturnerDTO(rental);
-        RentalReturnerDTO expected = new RentalReturnerDTO(1, startDate, endDate, dailyCost, false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
+        RentalReturnerDTO expected = new RentalReturnerDTO(1, startDate, endDate, vehicle.getDailyCost(), rental.getTotalCost(), false, vehicleRentalReturnerDTO, buyerRentalReturnerDto);
         assertEquals(expected.getTotalCost(), result.getTotalCost());
     }
 }

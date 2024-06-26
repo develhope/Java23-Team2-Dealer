@@ -1,6 +1,6 @@
 package com.develhope.spring.users.dtos;
 
-import com.develhope.spring.configuration.validators.CustomAnnotation.PasswordMatches;
+import com.develhope.spring.configuration.customAnnotations.CustomAnnotation.PasswordMatches;
 import com.develhope.spring.users.models.Roles;
 
 @PasswordMatches
