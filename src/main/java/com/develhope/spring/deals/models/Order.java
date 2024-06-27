@@ -3,8 +3,7 @@ package com.develhope.spring.deals.models;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
-
-
+    
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -27,6 +26,9 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User seller;
+
 
     public Order() {
     }
@@ -36,14 +38,17 @@ public class Order {
     }
 
     public Order(long id, boolean downPayment, OrderStatus orderStatus,
-                 boolean paid, Vehicle vehicle, User user) {
+                 boolean paid, Vehicle vehicle, User user, User seller) {
         this.id = id;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
         this.paid = paid;
         this.vehicle = vehicle;
         this.user = user;
+        this.seller = seller;
     }
+
+
 
 
     public long getId() {
@@ -88,5 +93,13 @@ public class Order {
 
     public OrderStatus getOrderStatus() {
         return orderStatus;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public User getSeller() {
+        return seller;
     }
 }

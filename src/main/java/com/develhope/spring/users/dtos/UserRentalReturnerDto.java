@@ -1,6 +1,6 @@
 package com.develhope.spring.users.dtos;
 
-public class BuyerRentalReturnerDto {
+public class UserRentalReturnerDto {
 
     private long id;
 
@@ -13,11 +13,11 @@ public class BuyerRentalReturnerDto {
     private long phoneNumber;
 
 
-    public BuyerRentalReturnerDto(long id,
-                                  String name,
-                                  String surname,
-                                  String email,
-                                  long phoneNumber
+    public UserRentalReturnerDto(long id,
+                                 String name,
+                                 String surname,
+                                 String email,
+                                 long phoneNumber
     ) {
         this.name = name;
         this.surname = surname;
@@ -26,11 +26,11 @@ public class BuyerRentalReturnerDto {
         this.id = id;
     }
 
-    public BuyerRentalReturnerDto(long id) {
+    public UserRentalReturnerDto(long id) {
         this.id = id;
     }
 
-    public BuyerRentalReturnerDto() {
+    public UserRentalReturnerDto() {
     }
 
     public long getId() {

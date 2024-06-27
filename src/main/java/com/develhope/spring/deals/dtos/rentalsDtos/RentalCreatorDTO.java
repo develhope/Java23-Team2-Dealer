@@ -1,7 +1,5 @@
 package com.develhope.spring.deals.dtos.rentalsDtos;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 public class RentalCreatorDTO {
@@ -11,16 +9,18 @@ public class RentalCreatorDTO {
     private boolean paid;
     private long vehicleId;
     private long userId;
+    private Long sellerId;
 
     public RentalCreatorDTO() {
     }
 
-    public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, boolean paid, long vehicleId, long userId) {
+    public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, boolean paid, long vehicleId, long userId, Long sellerId) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.paid = paid;
         this.vehicleId = vehicleId;
         this.userId = userId;
+        this.sellerId = sellerId;
     }
 
     public long getUserId() {
@@ -61,5 +61,13 @@ public class RentalCreatorDTO {
 
     public void setVehicleId(long vehicleId) {
         this.vehicleId = vehicleId;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
     }
 }

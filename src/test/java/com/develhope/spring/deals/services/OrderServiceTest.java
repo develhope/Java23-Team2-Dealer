@@ -10,6 +10,8 @@ import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.users.components.UserMapper;
+import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.components.VehicleMapper;
@@ -77,11 +79,31 @@ public class OrderServiceTest {
         DEFAULT_VEHICLE_ORDER_RETURNER_DTO.setId(1);
         DEFAULT_USER_ORDER_RETURNER_DTO.setId(1);
     }
+    private final User DEFAULT_SELLER = new User(
+            3,
+            "",
+            "",
+            "",
+            "1234",
+            123,
+            "",
+            Roles.SALESPERSON
+    );
 
     private final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
             true,
-            1,
-            1,
+            1L,
+            3L,
+            2,
+            OrderStatus.PAID,
+            true
+    );
+
+    private final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO_NULL_SELLER = new OrderCreatorDTO(
+            true,
+            1L,
+            null,
+            2,
             OrderStatus.PAID,
             true
     );
@@ -91,13 +113,26 @@ public class OrderServiceTest {
             OrderStatus.PAID,
             true,
             DEFAULT_VEHICLE,
-            DEFAULT_USER
+            DEFAULT_USER,
+            DEFAULT_SELLER
     );
+
+    private final Order DEFAULT_ORDER_NULL_SELLER = new Order(
+            1,
+            true,
+            OrderStatus.PAID,
+            true,
+            DEFAULT_VEHICLE,
+            DEFAULT_USER,
+            null
+    );
+
     private final OrderResponseDTO DEFAULT_ORDER_RESPONSE_DTO = new OrderResponseDTO(
             1,
             true,
             DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
             1,
+            2L,
             OrderStatus.PAID,
             true
     );
@@ -108,7 +143,8 @@ public class OrderServiceTest {
                 1,
                 true,
                 DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-                1,
+                2,
+                1L,
                 OrderStatus.PAID,
                 true
         );
@@ -142,18 +178,22 @@ public class OrderServiceTest {
                 .thenReturn(Optional.of(DEFAULT_ORDER));
         when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
-        Order updatedRental = new Order(
+        when(userRepository.findById(3L))
+                .thenReturn(Optional.of(DEFAULT_SELLER));
+        Order updatedOrder = new Order(
                 DEFAULT_ORDER.getId(),
                 DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
                 DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
                 DEFAULT_ORDER_CREATOR_DTO.isPaid(),
                 DEFAULT_VEHICLE,
-                DEFAULT_USER
-        );
+                DEFAULT_USER,
+                DEFAULT_SELLER
+                );
         when(orderRepository.save(any()))
-                .thenReturn(updatedRental);
+                .thenReturn(updatedOrder);
         OrderUpdatedDTO expected = new OrderUpdatedDTO(
                 1L,
+                3L,
                 true,
                 OrderStatus.PAID,
                 true
@@ -163,23 +203,112 @@ public class OrderServiceTest {
     }
 
     @Test
+    void updateOrderTest_sellerNull() {
+        when(orderRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_ORDER_NULL_SELLER));
+        when(vehicleRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        Order updatedOrder = new Order(
+                DEFAULT_ORDER.getId(),
+                DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
+                DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
+                DEFAULT_ORDER_CREATOR_DTO.isPaid(),
+                DEFAULT_VEHICLE,
+                DEFAULT_USER,
+                null
+        );
+        when(orderRepository.save(any()))
+                .thenReturn(updatedOrder);
+        OrderUpdatedDTO expected = new OrderUpdatedDTO(
+                1L,
+                null,
+                true,
+                OrderStatus.PAID,
+                true
+        );
+        OrderUpdatedDTO result = orderService.update(DEFAULT_ID, DEFAULT_ORDER_CREATOR_DTO_NULL_SELLER);
+        assertEquals(expected.isDownPayment(), result.isDownPayment());
+    }
+
+    @Test
+    void updateOrderTest_sellerNullified() {
+        when(orderRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_ORDER));
+        when(vehicleRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        Order updatedOrder = new Order(
+                DEFAULT_ORDER.getId(),
+                DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
+                DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
+                DEFAULT_ORDER_CREATOR_DTO.isPaid(),
+                DEFAULT_VEHICLE,
+                DEFAULT_USER,
+                null
+        );
+        when(orderRepository.save(any()))
+                .thenReturn(updatedOrder);
+        OrderUpdatedDTO expected = new OrderUpdatedDTO(
+                1L,
+                null,
+                true,
+                OrderStatus.PAID,
+                true
+        );
+        OrderUpdatedDTO result = orderService.update(DEFAULT_ID, DEFAULT_ORDER_CREATOR_DTO_NULL_SELLER);
+        assertNull(result.getSellerId());
+    }
+
+    @Test
+    void updateOrderTest_nullSeller_sellerAdded() {
+        when(orderRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_ORDER_NULL_SELLER));
+        when(vehicleRepository.findById(DEFAULT_ID))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(userRepository.findById(3L))
+                .thenReturn(Optional.of(DEFAULT_SELLER));
+        Order updatedOrder = new Order(
+                DEFAULT_ORDER.getId(),
+                DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
+                DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
+                DEFAULT_ORDER_CREATOR_DTO.isPaid(),
+                DEFAULT_VEHICLE,
+                DEFAULT_USER,
+                DEFAULT_SELLER
+        );
+        when(orderRepository.save(any()))
+                .thenReturn(updatedOrder);
+        OrderUpdatedDTO expected = new OrderUpdatedDTO(
+                1L,
+                3L,
+                true,
+                OrderStatus.PAID,
+                true
+        );
+        OrderUpdatedDTO result = orderService.update(DEFAULT_ID, DEFAULT_ORDER_CREATOR_DTO);
+        assertEquals(expected.getSellerId(), result.getSellerId());
+    }
+    @Test
     void updateOrderTest_checkIfIdIsUnchanged() {
         when(orderRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_ORDER));
         when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(userRepository.findById(3L))
+                .thenReturn(Optional.of(DEFAULT_SELLER));
         Order updatedRental = new Order(
                 DEFAULT_ORDER.getId(),
                 DEFAULT_ORDER_CREATOR_DTO.isDownPayment(),
                 DEFAULT_ORDER_CREATOR_DTO.getOrderStatus(),
                 DEFAULT_ORDER_CREATOR_DTO.isPaid(),
                 DEFAULT_VEHICLE,
-                DEFAULT_USER
+                DEFAULT_USER,
+                DEFAULT_SELLER
         );
         when(orderRepository.save(any()))
                 .thenReturn(updatedRental);
         OrderUpdatedDTO expected = new OrderUpdatedDTO(
                 1L,
+                3L,
                 true,
                 OrderStatus.PAID,
                 true
@@ -217,24 +346,23 @@ public class OrderServiceTest {
     }
 
     @Test
-    void createOrder_successfulTest_userId() {
+    void createOrder_successfulTest_userId(){
         OrderResponseDTO expected = new OrderResponseDTO(
                 1,
                 true,
                 DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-                1,
+                2,
+                1L,
                 OrderStatus.PAID,
                 true
         );
 
-        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
-                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
-        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
-                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
+
+        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
         when(orderRepository.save(any()))
                 .thenReturn(DEFAULT_ORDER);
-
-        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
 
         assertEquals(expected.getUserId(), result.getUserId());
     }
@@ -245,17 +373,17 @@ public class OrderServiceTest {
                 1,
                 true,
                 DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-                1,
+                2,
+                1L,
                 OrderStatus.PAID,
                 true
         );
 
-        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
-                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
-        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
-                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
-
-        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(orderRepository.save(any()))
+                .thenReturn(DEFAULT_ORDER);
+        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
 
         assertEquals(expected.getVehicle().getId(), result.getVehicle().getId());
     }
@@ -266,17 +394,17 @@ public class OrderServiceTest {
                 1,
                 true,
                 DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-                1,
+                2,
+                1L,
                 OrderStatus.PAID,
                 true
         );
 
-        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
-                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
-        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
-                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
-
-        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(orderRepository.save(any()))
+                .thenReturn(DEFAULT_ORDER);
+        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
 
         assertEquals(expected.isDownPayment(), result.isDownPayment());
     }
@@ -287,17 +415,17 @@ public class OrderServiceTest {
                 1,
                 true,
                 DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
-                1,
+                2,
+                1L,
                 OrderStatus.PAID,
                 true
         );
 
-        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
-                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
-        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
-                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
-
-        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(orderRepository.save(any()))
+                .thenReturn(DEFAULT_ORDER);
+        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
 
         assertEquals(expected.getOrderStatus(), result.getOrderStatus());
     }
@@ -309,16 +437,16 @@ public class OrderServiceTest {
                 true,
                 DEFAULT_VEHICLE_ORDER_RETURNER_DTO,
                 1,
+                2L,
                 OrderStatus.PAID,
                 true
         );
 
-        when(vehicleMapper.toOrderReturnerDTO(any(Vehicle.class)))
-                .thenReturn(DEFAULT_VEHICLE_ORDER_RETURNER_DTO);
-        when(userMapper.toUserOrderReturnerDTO(any(User.class)))
-                .thenReturn(DEFAULT_USER_ORDER_RETURNER_DTO);
-
-        OrderResponseDTO result = orderMapper.toResponseDTO(DEFAULT_ORDER);
+        when(vehicleRepository.findById(DEFAULT_ORDER_CREATOR_DTO.getVehicleId()))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        when(orderRepository.save(any()))
+                .thenReturn(DEFAULT_ORDER);
+        OrderResponseDTO result = orderService.create(DEFAULT_ORDER_CREATOR_DTO);
 
         assertEquals(expected.isPaid(), result.isPaid());
     }

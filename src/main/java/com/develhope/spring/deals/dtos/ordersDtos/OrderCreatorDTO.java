@@ -6,15 +6,17 @@ public class OrderCreatorDTO {
     private boolean downPayment;
     private long vehicleId;
     private long userId;
+    private Long sellerId;
     private OrderStatus orderStatus;
     private boolean paid;
 
     public OrderCreatorDTO() {
     }
 
-    public OrderCreatorDTO(boolean downPayment, long vehicleId, long userId, OrderStatus orderStatus, boolean paid) {
+    public OrderCreatorDTO(boolean downPayment, long vehicleId, Long sellerId, long userId, OrderStatus orderStatus, boolean paid) {
         this.downPayment = downPayment;
         this.vehicleId = vehicleId;
+        this.sellerId = sellerId;
         this.userId = userId;
         this.orderStatus = orderStatus;
         this.paid = paid;
@@ -58,5 +60,13 @@ public class OrderCreatorDTO {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
     }
 }

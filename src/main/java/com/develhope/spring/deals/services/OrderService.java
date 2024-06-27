@@ -1,11 +1,11 @@
 package com.develhope.spring.deals.services;
 
 
+import com.develhope.spring.deals.components.mappers.OrderMapper;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderCreatorDTO;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
 import com.develhope.spring.deals.dtos.ordersDtos.OrderUpdatedDTO;
 import com.develhope.spring.deals.models.Order;
-import com.develhope.spring.deals.components.mappers.OrderMapper;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.users.models.User;
@@ -13,8 +13,8 @@ import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -45,7 +45,7 @@ public class OrderService {
         }
     }
 
-    void checkIfOrderExists(long orderId, User userDetails){
+    void checkIfOrderExists(long orderId, User userDetails) {
         if (orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isEmpty()) {
             throw new NoSuchElementException("No order found with these IDs");
         }
@@ -55,10 +55,15 @@ public class OrderService {
         checkValidVehicleMarketStatus(orderCreatorDTO);
         Order orderToUpdate = orderRepository.findById(orderId).orElseThrow(() -> new NoSuchElementException("No order found with this ID"));
         Optional<Vehicle> newVehicle = vehicleRepository.findById(orderCreatorDTO.getVehicleId());
+        User seller = null;
+        if(orderCreatorDTO.getSellerId()!=null){
+            seller = userRepository.findById(orderCreatorDTO.getSellerId()).orElseThrow(() -> new NoSuchElementException("No seller found with this ID"));
+        }
         orderToUpdate.setDownPayment(orderCreatorDTO.isDownPayment());
         orderToUpdate.setOrderStatus(orderCreatorDTO.getOrderStatus());
         orderToUpdate.setPaid(orderCreatorDTO.isPaid());
         newVehicle.ifPresent(orderToUpdate::setVehicle);
+        orderToUpdate.setSeller(seller);
         Order newOrderSaved = orderRepository.save(orderToUpdate);
         return orderMapper.toOrderUpdatedDTO(newOrderSaved);
     }

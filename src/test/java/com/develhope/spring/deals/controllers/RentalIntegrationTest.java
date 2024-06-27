@@ -159,7 +159,8 @@ public class RentalIntegrationTest {
                         "endDate": "2024-06-05",
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """))
                 .andExpect(status().isCreated())
@@ -175,6 +176,9 @@ public class RentalIntegrationTest {
                                     },
                         "buyer": {
                                  "id": 2
+                                 },
+                        "seller": {
+                                 "id": 1
                                  }
                         }
                         """)).andReturn();
@@ -191,7 +195,8 @@ public class RentalIntegrationTest {
                         "endDate": "2024-06-05",
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -210,7 +215,8 @@ public class RentalIntegrationTest {
                         "endDate": "2024-06-05",
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -222,7 +228,8 @@ public class RentalIntegrationTest {
                         "endDate": "2024-06-09",
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -234,7 +241,8 @@ public class RentalIntegrationTest {
                         "endDate": "2024-06-10",
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -254,7 +262,8 @@ public class RentalIntegrationTest {
                 "endDate": "2024-06-05",
                 "paid": true,
                 "vehicleId": 1,
-                "userId": 2
+                "userId": 2,
+                "sellerId": 1
                 }
                 """).contentType(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -264,7 +273,8 @@ public class RentalIntegrationTest {
                 "endDate": "2024-06-08",
                 "paid": true,
                 "vehicleId": 1,
-                "userId": 3
+                "userId": 3,
+                "sellerId": 1
                 }
                 """).contentType(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -277,7 +287,8 @@ public class RentalIntegrationTest {
                                             "startDate": "2024-06-09",
                                             "endDate": "2024-06-12",
                                             "paid": false,
-                                            "vehicleId": 1
+                                            "vehicleId": 1,
+                                            "sellerId": 1
                                         }
                                         """
                         ))
@@ -294,7 +305,10 @@ public class RentalIntegrationTest {
                                     },
                         "buyer": {
                                  "id": 2
-                                 }
+                                 },
+                        "seller":{
+                                  "id": 1
+                                  }
                         }
                         """)).andReturn();
     }
@@ -310,10 +324,10 @@ public class RentalIntegrationTest {
                 {
                 "startDate": "2024-06-03",
                 "endDate": "2024-06-05",
-                "dailyCost": 40.00,
                 "paid": true,
                 "vehicleId": 1,
-                "userId": 2
+                "userId": 4,
+                "sellerId": 1
                 }
                 """).contentType(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -321,10 +335,10 @@ public class RentalIntegrationTest {
                 {
                 "startDate": "2024-06-06",
                 "endDate": "2024-06-08",
-                "dailyCost": 40.00,
                 "paid": true,
                 "vehicleId": 1,
-                "userId": 3
+                "userId": 3,
+                "sellerId": 2
                 }
                 """).contentType(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -336,15 +350,16 @@ public class RentalIntegrationTest {
                                         {
                                             "startDate": "2024-06-09",
                                             "endDate": "2024-06-12",
-                                            "dailyCost": 40.00,
                                             "paid": false,
-                                            "vehicleId": 1
+                                            "vehicleId": 1,
+                                            "sellerId": 1
                                         }
                                         """
                         ))
                 .andExpect(status().isAccepted())
                 .andExpect(content().json("""
                         {
+                        "id": 1,
                         "startDate": "2024-06-09",
                         "endDate": "2024-06-12",
                         "dailyCost": 40.00,
@@ -354,7 +369,10 @@ public class RentalIntegrationTest {
                                     "id": 1
                                     },
                         "buyer": {
-                                 "id": 2
+                                 "id": 4
+                                 },
+                        "seller": {
+                                 "id": 1
                                  }
                         }
                         """)).andReturn();
@@ -373,7 +391,8 @@ public class RentalIntegrationTest {
                 "dailyCost": 40.00,
                 "paid": true,
                 "vehicleId": 1,
-                "userId": 2
+                "userId": 2,
+                "sellerId": 1
                 }
                 """).contentType(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -384,7 +403,8 @@ public class RentalIntegrationTest {
                 "dailyCost": 40.00,
                 "paid": true,
                 "vehicleId": 1,
-                "userId": 3
+                "userId": 3,
+                "sellerId": 1
                 }
                 """).contentType(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -396,7 +416,6 @@ public class RentalIntegrationTest {
                                         {
                                             "startDate": "2024-06-09",
                                             "endDate": "2024-06-12",
-                                            "dailyCost": 40.00,
                                             "paid": false,
                                             "vehicleId": 1
                                         }
@@ -417,7 +436,8 @@ public class RentalIntegrationTest {
                         "endDate": "2024-06-05",
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -429,7 +449,8 @@ public class RentalIntegrationTest {
                         "endDate": "2024-06-09",
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -456,7 +477,8 @@ public class RentalIntegrationTest {
                         "endDate": "2024-06-05",
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -468,7 +490,8 @@ public class RentalIntegrationTest {
                         "endDate": "2024-06-09",
                         "paid": true,
                         "vehicleId": 1,
-                        "userId": 2
+                        "userId": 2,
+                        "sellerId": 1
                         }
                         """)
                 )
@@ -477,5 +500,225 @@ public class RentalIntegrationTest {
         this.mockMvc.perform(get("/v1/rentals?page=0&size=5")
                         .with(httpBasic("hey@itsbuyer2.com", "1234")))
                 .andExpect(status().isUnauthorized()).andReturn();
+    }
+
+    @Test
+    void createRentalTest_nullSeller() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertVehicle();
+
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                        {
+                        "startDate": "2024-06-03",
+                        "endDate": "2024-06-05",
+                        "paid": true,
+                        "vehicleId": 1,
+                        "userId": 2,
+                        "sellerId": null
+                        }
+                        """))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("""
+                        {
+                        "startDate": "2024-06-03",
+                        "endDate": "2024-06-05",
+                        "dailyCost": 40.00,
+                        "totalCost": 80.00,
+                        "paid": true,
+                        "vehicle": {
+                                    "id": 1
+                                    },
+                        "buyer": {
+                                 "id": 2
+                                 },
+                        "seller": null
+                        }
+                        """)).andReturn();
+    }
+
+    @Test
+    void updateRentalTest_nullSeller() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertBuyer2();
+        insertVehicle();
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-03",
+                "endDate": "2024-06-05",
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 2,
+                "sellerId": null
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-06",
+                "endDate": "2024-06-08",
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 3,
+                "sellerId": null
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(patch("/v1/rentals/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(
+                                """
+                                        {
+                                            "startDate": "2024-06-09",
+                                            "endDate": "2024-06-12",
+                                            "paid": false,
+                                            "vehicleId": 1,
+                                            "sellerId": null
+                                        }
+                                        """
+                        ))
+                .andExpect(status().isAccepted())
+                .andExpect(content().json("""
+                        {
+                        "startDate": "2024-06-09",
+                        "endDate": "2024-06-12",
+                        "dailyCost": 40.00,
+                        "totalCost": 120.00,
+                        "paid": false,
+                        "vehicle": {
+                                    "id": 1
+                                    },
+                        "buyer": {
+                                 "id": 2
+                                 },
+                        "seller":null
+                        }
+                        """)).andReturn();
+    }
+
+    @Test
+    void updateRentalTest_nullSeller_removeSeller() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertBuyer2();
+        insertVehicle();
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-03",
+                "endDate": "2024-06-05",
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 2,
+                "sellerId": 1
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-06",
+                "endDate": "2024-06-08",
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 3,
+                "sellerId": 1
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(patch("/v1/rentals/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(
+                                """
+                                        {
+                                            "startDate": "2024-06-09",
+                                            "endDate": "2024-06-12",
+                                            "paid": false,
+                                            "vehicleId": 1,
+                                            "sellerId": null
+                                        }
+                                        """
+                        ))
+                .andExpect(status().isAccepted())
+                .andExpect(content().json("""
+                        {
+                        "startDate": "2024-06-09",
+                        "endDate": "2024-06-12",
+                        "dailyCost": 40.00,
+                        "totalCost": 120.00,
+                        "paid": false,
+                        "vehicle": {
+                                    "id": 1
+                                    },
+                        "buyer": {
+                                 "id": 2
+                                 },
+                        "seller":null
+                        }
+                        """)).andReturn();
+    }
+
+    @Test
+    void updateRentalTest_nullSeller_addSeller() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertBuyer2();
+        insertVehicle();
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-03",
+                "endDate": "2024-06-05",
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 2,
+                "sellerId": null
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(post("/v1/rentals").contentType(MediaType.APPLICATION_JSON).content("""
+                {
+                "startDate": "2024-06-06",
+                "endDate": "2024-06-08",
+                "paid": true,
+                "vehicleId": 1,
+                "userId": 3,
+                "sellerId": null
+                }
+                """).contentType(MediaType.APPLICATION_JSON)).andReturn();
+
+        this.mockMvc.perform(patch("/v1/rentals/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(
+                                """
+                                        {
+                                            "startDate": "2024-06-09",
+                                            "endDate": "2024-06-12",
+                                            "paid": false,
+                                            "vehicleId": 1,
+                                            "sellerId": 1
+                                        }
+                                        """
+                        ))
+                .andExpect(status().isAccepted())
+                .andExpect(content().json("""
+                        {
+                        "startDate": "2024-06-09",
+                        "endDate": "2024-06-12",
+                        "dailyCost": 40.00,
+                        "totalCost": 120.00,
+                        "paid": false,
+                        "vehicle": {
+                                    "id": 1
+                                    },
+                        "buyer": {
+                                 "id": 2
+                                 },
+                        "seller": {
+                                  "id": 1
+                                  }
+                        }
+                        """)).andReturn();
     }
 }

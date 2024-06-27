@@ -1,6 +1,6 @@
 package com.develhope.spring.deals.dtos.rentalsDtos;
 
-import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
+import com.develhope.spring.users.dtos.UserRentalReturnerDto;
 import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 
 import java.math.BigDecimal;
@@ -15,12 +15,13 @@ public class RentalReturnerDTO {
     private BigDecimal totalCost;
     private boolean paid;
     private VehicleRentalReturnerDTO vehicle;
-    private BuyerRentalReturnerDto buyer;
+    private UserRentalReturnerDto buyer;
+    private UserRentalReturnerDto seller;
 
     public RentalReturnerDTO() {
     }
 
-    public RentalReturnerDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, VehicleRentalReturnerDTO vehicle, BuyerRentalReturnerDto buyer) {
+    public RentalReturnerDTO(long id, LocalDate startDate, LocalDate endDate, BigDecimal dailyCost, BigDecimal totalCost, boolean paid, VehicleRentalReturnerDTO vehicle, UserRentalReturnerDto buyer, UserRentalReturnerDto seller) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
@@ -28,6 +29,7 @@ public class RentalReturnerDTO {
         this.vehicle = vehicle;
         this.buyer = buyer;
         this.totalCost = totalCost;
+        this.seller = seller;
         this.id = id;
     }
 
@@ -39,11 +41,11 @@ public class RentalReturnerDTO {
         this.id = id;
     }
 
-    public BuyerRentalReturnerDto getBuyer() {
+    public UserRentalReturnerDto getBuyer() {
         return buyer;
     }
 
-    public void setBuyer(BuyerRentalReturnerDto buyer) {
+    public void setBuyer(UserRentalReturnerDto buyer) {
         this.buyer = buyer;
     }
 
@@ -93,5 +95,13 @@ public class RentalReturnerDTO {
 
     public void setVehicle(VehicleRentalReturnerDTO vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public void setSeller(UserRentalReturnerDto seller) {
+        this.seller = seller;
+    }
+
+    public UserRentalReturnerDto getSeller() {
+        return seller;
     }
 }

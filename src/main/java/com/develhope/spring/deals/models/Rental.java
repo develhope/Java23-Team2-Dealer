@@ -1,12 +1,10 @@
 package com.develhope.spring.deals.models;
 
-import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
@@ -34,6 +32,9 @@ public class Rental {
     @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User seller;
+
 
     public BigDecimal getTotalCost() {
         return totalCost;
@@ -43,7 +44,7 @@ public class Rental {
         return paid;
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user) {
+    public Rental(LocalDate startDate, LocalDate endDate, BigDecimal totalCost, boolean paid, Vehicle vehicle, long id, User user, User seller) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalCost = totalCost;
@@ -51,6 +52,7 @@ public class Rental {
         this.vehicle = vehicle;
         this.id = id;
         this.user = user;
+        this.seller = seller;
     }
 
     public void setTotalCost(BigDecimal totalCost) {
@@ -98,6 +100,14 @@ public class Rental {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public User getSeller() {
+        return seller;
     }
 }
 

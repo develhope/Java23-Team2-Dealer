@@ -8,6 +8,7 @@ public class OrderUpdatedDTO {
     private boolean downPayment;
     private OrderStatus orderStatus;
     private boolean paid;
+    private Long sellerId;
 
     //getters
     public Long getId() {
@@ -26,9 +27,10 @@ public class OrderUpdatedDTO {
         return paid;
     }
 
-
-
-    //setters
+    public Long getSellerId() {
+        return sellerId;
+    }
+//setters
 
     public void setId(Long id) {
         this.id = id;
@@ -46,15 +48,19 @@ public class OrderUpdatedDTO {
         this.paid = paid;
     }
 
-
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
 
     //constructors
-    public OrderUpdatedDTO(Long id, boolean downPayment, OrderStatus orderStatus, boolean paid) {
+    public OrderUpdatedDTO(Long id, Long sellerId, boolean downPayment, OrderStatus orderStatus, boolean paid) {
         this.id = id;
+        this.sellerId = sellerId;
         this.downPayment = downPayment;
         this.orderStatus = orderStatus;
         this.paid = paid;
     }
 
-    public OrderUpdatedDTO(){}
+    public OrderUpdatedDTO() {
+    }
 }

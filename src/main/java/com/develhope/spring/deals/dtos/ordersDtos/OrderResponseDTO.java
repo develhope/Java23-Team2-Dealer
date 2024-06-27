@@ -8,6 +8,7 @@ public class OrderResponseDTO {
     private long id;
     private boolean downPayment;
     private VehicleOrderReturnerDTO vehicle;
+    private Long sellerId;
     private long userId;
     private OrderStatus orderStatus;
     private boolean paid;
@@ -15,10 +16,11 @@ public class OrderResponseDTO {
     public OrderResponseDTO() {
     }
 
-    public OrderResponseDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, OrderStatus orderStatus, boolean paid) {
+    public OrderResponseDTO(long id, boolean downPayment, VehicleOrderReturnerDTO vehicle, long userId, Long sellerId, OrderStatus orderStatus, boolean paid) {
         this.id = id;
         this.downPayment = downPayment;
         this.vehicle = vehicle;
+        this.sellerId = sellerId;
         this.userId = userId;
         this.orderStatus = orderStatus;
         this.paid = paid;
@@ -66,5 +68,13 @@ public class OrderResponseDTO {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
     }
 }
