@@ -118,13 +118,6 @@ public class VehicleService {
         return vehicleRepository.findById(vehicleId).orElseThrow(NoSuchElementException::new);
     }
 
-    /**
-     * Calcola il prezzo scontato e modifica la variabile discountedPrice.
-     * Inserisce un double che viene convertito internamente in un BigDecimal.
-     *
-     * @param discountPercentage è la percentuale di sconto che si desidera applicare
-     * @throws ExcessiveParameterException se la percentuale inserita è fuori dai limiti 0 e 100
-     */
 
      void calculatePriceDiscount(double discountPercentage, long vehicleId) {
         Vehicle discountedVehicle = findVehicleBy(vehicleId);

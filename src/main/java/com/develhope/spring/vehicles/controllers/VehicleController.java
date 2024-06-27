@@ -1,10 +1,6 @@
 package com.develhope.spring.vehicles.controllers;
 
-import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
-import com.develhope.spring.vehicles.dtos.VehicleReworkedDTO;
-import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
-import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
-import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
+import com.develhope.spring.vehicles.dtos.*;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +43,21 @@ public class VehicleController {
     public VehicleReworkedDTO updateStatus( @PathVariable long vehicleId,
                                 @RequestBody VehicleStatusDTO vehicleStatusDTO) {
         return vehicleService.updateStatus(vehicleId, vehicleStatusDTO);
+    }
+
+    @Secured({"ADMIN"})
+    @PatchMapping("/{vehicleId}/discount-activate")
+    @ResponseStatus(HttpStatus.OK)
+    public VehicleDiscountedDTO setDiscount(@PathVariable long vehicleId,
+                                            @RequestParam long discountPercentage) {
+        return vehicleService.discountPrice(discountPercentage, vehicleId);
+    }
+
+    @Secured({"ADMIN"})
+    @PatchMapping("/{vehicleId}/discount-remove")
+    @ResponseStatus(HttpStatus.OK)
+    public VehicleDiscountedDTO removeDiscount (@PathVariable long vehicleId) {
+        return vehicleService.removeDiscountPrice(vehicleId);
     }
 
     //TODO Convertire autorizzazione
