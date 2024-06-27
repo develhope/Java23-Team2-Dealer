@@ -59,7 +59,7 @@ public class UserIntegrationTest {
 
 
     private void insertBuyer() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -76,7 +76,7 @@ public class UserIntegrationTest {
     }
 
     private void insertBuyer2() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {

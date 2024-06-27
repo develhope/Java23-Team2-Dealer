@@ -59,7 +59,7 @@ public class OrderIntegrationTest {
     }
 
     private void insertBuyer() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -265,7 +265,7 @@ public class OrderIntegrationTest {
         insertVehicle();
         insertBuyer();
 
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {

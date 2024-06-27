@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/profile/registration")
+    @PostMapping("/registration")
     public UserSavedDTO registerUserAccount(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
         logger.info("Registration request received " + userRegistrationDTO);
         return userService.registerNewUserAccount(userRegistrationDTO);
