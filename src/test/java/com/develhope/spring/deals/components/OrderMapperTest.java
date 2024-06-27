@@ -6,7 +6,7 @@ import com.develhope.spring.deals.dtos.ordersDtos.OrderResponseDTO;
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.users.components.UserMapper;
-import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
+import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleOrderReturnerDTO;
 import com.develhope.spring.vehicles.components.VehicleMapper;
 import org.junit.jupiter.api.Test;
@@ -62,14 +62,12 @@ public class OrderMapperTest {
     void toResponseDTO_MapsOrderToDTO_notNull() {
         Order order = new Order();
         order.setDownPayment(true);
+        order.setUser(new User(1));
         order.setOrderStatus(OrderStatus.PENDING);
         order.setPaid(false);
 
         VehicleOrderReturnerDTO vehicleDTO = new VehicleOrderReturnerDTO();
         when(vehicleMapper.toOrderReturnerDTO(any())).thenReturn(vehicleDTO);
-
-        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
-        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
 
         OrderResponseDTO result = orderMapper.toResponseDTO(order);
 
@@ -78,13 +76,15 @@ public class OrderMapperTest {
 
     @Test
     void toResponseDTO_MapsOrderToDTO_downPayment() {
-
+        Order order = new Order();
+        order.setDownPayment(true);
+        order.setUser(new User(1));
+        order.setOrderStatus(OrderStatus.PENDING);
+        order.setPaid(false);
 
         VehicleOrderReturnerDTO vehicleDTO = new VehicleOrderReturnerDTO();
         when(vehicleMapper.toOrderReturnerDTO(any())).thenReturn(vehicleDTO);
 
-        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
-        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
 
         OrderResponseDTO result = orderMapper.toResponseDTO(order);
 
@@ -97,12 +97,12 @@ public class OrderMapperTest {
         order.setDownPayment(true);
         order.setOrderStatus(OrderStatus.PENDING);
         order.setPaid(false);
+        order.setUser(new User(1));
 
         VehicleOrderReturnerDTO vehicleDTO = new VehicleOrderReturnerDTO();
         when(vehicleMapper.toOrderReturnerDTO(any())).thenReturn(vehicleDTO);
 
-        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
-        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
+
 
         OrderResponseDTO result = orderMapper.toResponseDTO(order);
 
@@ -115,12 +115,10 @@ public class OrderMapperTest {
         order.setDownPayment(true);
         order.setOrderStatus(OrderStatus.PENDING);
         order.setPaid(false);
+        order.setUser(new User(1));
 
         VehicleOrderReturnerDTO vehicleDTO = new VehicleOrderReturnerDTO();
         when(vehicleMapper.toOrderReturnerDTO(any())).thenReturn(vehicleDTO);
-
-        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
-        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
 
         OrderResponseDTO result = orderMapper.toResponseDTO(order);
 
@@ -130,12 +128,11 @@ public class OrderMapperTest {
     @Test
     void toResponseDTO_SetsUserIdCorrectly() {
         Order order = new Order();
-        UserOrderReturnerDTO userDTO = new UserOrderReturnerDTO();
-        when(userMapper.toUserOrderReturnerDTO(any())).thenReturn(userDTO);
+        order.setUser(new User(1));
 
         OrderResponseDTO result = orderMapper.toResponseDTO(order);
 
-        assertEquals(userDTO.getId(), result.getUserId());
+        assertEquals(order.getUser().getId(), result.getUserId());
     }
 }
 
