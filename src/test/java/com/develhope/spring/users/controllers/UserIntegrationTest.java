@@ -115,7 +115,8 @@ public class UserIntegrationTest {
                         "surname": "Mastrota",
                         "username": "Inox",
                         "phoneNumber": 123,
-                        "email": "altra@email.it"
+                        "email": "altra@email.it",
+                        "role": "BUYER"
                         }
                         """)).andReturn();
     }
@@ -124,7 +125,7 @@ public class UserIntegrationTest {
     void adminUpdateUserRole_andRoleIsChangedTest() throws Exception {
         insertAdmin();
         insertBuyer();
-        this.mockMvc.perform(put("/v1/users/2")
+        this.mockMvc.perform(patch("/v1/users/role/2")
                         .with(httpBasic("mail@itsadmin.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -151,7 +152,7 @@ public class UserIntegrationTest {
     void adminUpdateUserRole_newSellerTryToUpdateHimSelf_andExpectForbiddenTest() throws Exception {
         insertAdmin();
         insertBuyer();
-        this.mockMvc.perform(put("/v1/users/2")
+        this.mockMvc.perform(patch("/v1/users/role/2")
                         .with(httpBasic("mail@itsadmin.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
