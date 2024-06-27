@@ -1,11 +1,8 @@
 package com.develhope.spring.users.services;
 
+import com.develhope.spring.users.dtos.*;
 import com.develhope.spring.users.responseStatus.UserAlreadyExistException;
 import com.develhope.spring.users.components.UserMapper;
-import com.develhope.spring.users.dtos.UserReworkedDTO;
-import com.develhope.spring.users.dtos.UserRegistrationDTO;
-import com.develhope.spring.users.dtos.UserSavedDTO;
-import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -54,10 +51,18 @@ public class UserService implements IUserService {
         userToUpdate.setEmail(userUpdaterDTO.getEmail());
         userToUpdate.setUsername(userUpdaterDTO.getUsername());
         userToUpdate.setPhoneNumber(userUpdaterDTO.getPhoneNumber());
-        userToUpdate.setRole(userUpdaterDTO.getRole());
         User newUser = userRepository.save(userToUpdate);
 
         return userMapper.toReworkedDTO(newUser);
+    }
+
+    public UserReworkedDTO updateRole(long userId, UserRoleUpdaterDTO userRoleUpdaterDTO) {
+        User userToUpdate = userRepository.findById(userId).orElseThrow(
+                () -> new NoSuchElementException("No user found with this ID")
+        );
+        userToUpdate.setRole(userRoleUpdaterDTO.getRole());
+        User updatedUser = userRepository.save(userToUpdate);
+        return userMapper.toReworkedDTO(updatedUser);
     }
 
     public boolean checkIfItsUserOwnID(long userID, User userDetails) {
