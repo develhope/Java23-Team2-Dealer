@@ -8,18 +8,17 @@ public class UserUpdaterDTO {
     private String username;
     private long phoneNumber;
     private String email;
-    private Roles role;
 
     public UserUpdaterDTO() {
     }
 
-    public UserUpdaterDTO(String name, String surname, String username, long phoneNumber, String email, Roles role) {
+    public UserUpdaterDTO(String name, String surname, String username, long phoneNumber, String email) {
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.role = role;
+
     }
 
     //getters
@@ -44,10 +43,6 @@ public class UserUpdaterDTO {
         return username;
     }
 
-    public Roles getRole() {
-        return role;
-    }
-
     //setters
 
     public void setEmail(String email) {
@@ -68,9 +63,5 @@ public class UserUpdaterDTO {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setRole(Roles role) {
-        this.role = role;
     }
 }
