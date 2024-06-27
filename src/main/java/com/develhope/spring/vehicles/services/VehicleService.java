@@ -47,6 +47,25 @@ public class VehicleService {
         return vehicleMapper.toSavedDTO(savedVehicle);
     }
 
+
+onvertire autorizzazione
+    public VehicleCreatorDTO update(long userId, long vehicleId, VehicleCreatorDTO vehicleCreatorDTO) {
+        checkUserAuthorizationBy(userId);
+        Vehicle existingVehicle;
+        existingVehicle = vehicleMapper.toEntity(vehicleCreatorDTO);
+        existingVehicle.setId(vehicleId);
+        Vehicle updatedVehicle = vehicleRepository.save(existingVehicle);
+        return vehicleMapper.toSavedDTO(updatedVehicle);
+    }
+    //TODO Convertire autorizzazione
+    public Vehicle updateStatus(long userId, long vehicleId, VehicleStatusDTO vehicleStatusDTO) {
+      
+        checkUserAuthorizationBy(userId);
+        Vehicle existingVehicle = findVehicleBy(vehicleId);
+        existingVehicle.setMarketStatus(vehicleStatusDTO.getMarketStatus());
+        Vehicle savedVehicle =  vehicleRepository.save(existingVehicle);
+        return vehicleMapper.toSavedDTO(savedVehicle);
+
     public Page<Vehicle> search(VehicleFilterDTO vehicleFilterDTO, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         String search = vehicleFilterDTO.DTOToString();
@@ -85,6 +104,7 @@ public class VehicleService {
         vehicleToUpdate.setMarketStatus(vehicleStatusDTO.getMarketStatus());
         Vehicle updatedVehicle = vehicleRepository.save(vehicleToUpdate);
         return vehicleMapper.toReworkedDTO(updatedVehicle);
+
     }
 
     //TODO Convertire autorizzazione

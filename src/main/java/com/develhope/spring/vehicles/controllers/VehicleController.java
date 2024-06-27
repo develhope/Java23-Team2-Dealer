@@ -28,9 +28,15 @@ public class VehicleController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    public VehicleSavedDTO update(@PathVariable long userId,
+                                    @PathVariable long vehicleId,
+                                    @RequestBody VehicleCreatorDTO vehicleCreatorDTO) {
+        return vehicleService.update(userId, vehicleId, vehicleCreatorDTO);
+
     @GetMapping
     public Page<Vehicle> search(VehicleFilterDTO vehicleFilterDTO, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "25") int size) {
         return vehicleService.search(vehicleFilterDTO, page, size);
+
     }
 
     @Secured("ADMIN")
@@ -44,7 +50,9 @@ public class VehicleController {
     @Secured({"ADMIN"})
     @PatchMapping("/{vehicleId}/status")
     @ResponseStatus(HttpStatus.OK)
-    public VehicleReworkedDTO updateStatus( @PathVariable long vehicleId,
+
+    public VehicleSavedDTO updateStatus(@PathVariable long userId, @PathVariable long vehicleId,
+
                                 @RequestBody VehicleStatusDTO vehicleStatusDTO) {
         return vehicleService.updateStatus(vehicleId, vehicleStatusDTO);
     }
