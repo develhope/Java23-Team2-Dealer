@@ -1,20 +1,27 @@
 package com.develhope.spring.deals.responseStatus;
 
+import com.develhope.spring.exceptions.HttpRequestHandlingException;
 import org.springframework.http.HttpStatus;
 
-public class NotAvailableVehicleException extends RuntimeException {
+public class NotAvailableVehicleException extends HttpRequestHandlingException {
 
-    private HttpStatus httpStatus;
+    private String message;
 
     public NotAvailableVehicleException() {
     }
 
     public NotAvailableVehicleException(String message) {
-        super(message);
-        this.httpStatus = HttpStatus.CONFLICT;
+        HttpStatus httpStatus = HttpStatus.CONFLICT;
+        this.message = message;
     }
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
+    @Override
+    public HttpStatus getStatus() {
+        return HttpStatus.CONFLICT;
+    }
+
+    @Override
+    public String getBody() {
+        return this.message;
     }
 }

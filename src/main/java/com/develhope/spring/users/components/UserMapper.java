@@ -39,7 +39,7 @@ public class UserMapper {
         return user;
     }
 
-    public UserRentalReturnerDto toUserBuyerDTO(User user) {
+    public UserRentalReturnerDto toUserRentalDTO(User user) {
         return new UserRentalReturnerDto(
                 user.getId(),
                 user.getName(),

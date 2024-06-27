@@ -48,7 +48,7 @@ public class UserService implements IUserService {
     }
 
     public UserReworkedDTO update(long userId, UserUpdaterDTO userUpdaterDTO) {
-        User userToUpdate = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        User userToUpdate = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("No user found with this ID"));
         userToUpdate.setName(userUpdaterDTO.getName());
         userToUpdate.setSurname(userUpdaterDTO.getSurname());
         userToUpdate.setEmail(userUpdaterDTO.getEmail());

@@ -5,7 +5,7 @@ import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.services.UserService;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
+import com.develhope.spring.exceptions.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;

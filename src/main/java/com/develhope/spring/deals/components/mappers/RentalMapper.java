@@ -52,8 +52,8 @@ public class RentalMapper {
 
     public RentalReturnerDTO toReturnerDTO(Rental rental) {
         VehicleRentalReturnerDTO vehicleRentalReturnerDTO = vehicleMapper.toRentalReturnerDTO(rental.getVehicle());
-        UserRentalReturnerDto buyerReturnerDto = userMapper.toUserBuyerDTO(rental.getUser());
-        UserRentalReturnerDto sellerReturnerDTO = userMapper.toUserBuyerDTO(rental.getSeller());
+        UserRentalReturnerDto buyerReturnerDto = userMapper.toUserRentalDTO(rental.getUser());
+        UserRentalReturnerDto sellerReturnerDTO = userMapper.toUserRentalDTO(rental.getSeller());
         RentalReturnerDTO rentalReturnerDTO = new RentalReturnerDTO();
         rentalReturnerDTO.setId(rental.getId());
         rentalReturnerDTO.setStartDate(rental.getStartDate());

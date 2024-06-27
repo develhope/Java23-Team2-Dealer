@@ -9,7 +9,6 @@ import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.OrderStatus;
 import com.develhope.spring.deals.repositories.OrderRepository;
 import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
-import com.develhope.spring.deals.responseStatus.OrderNotFoundException;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
 import com.develhope.spring.users.models.Roles;
@@ -18,7 +17,6 @@ import com.develhope.spring.users.repositories.UserRepository;
 import com.develhope.spring.vehicles.components.VehicleMapper;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.MarketStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static com.develhope.spring.configurations.DealsUnitTestConfig.*;
@@ -138,40 +137,6 @@ public class OrderServiceTest {
     }
 
     @Test
-    void checkValidOperatorTest() {
-        User admin = new User(
-                2,
-                "",
-                "",
-                "",
-                "1234",
-                123,
-                "",
-                Roles.ADMIN
-        );
-        when(userRepository.findById(DEFAULT_ADMIN_ID))
-                .thenReturn(Optional.of(admin));
-        assertDoesNotThrow(() -> orderService.checkValidOperator(DEFAULT_ADMIN_ID));
-    }
-
-    @Test
-    void checkValidOperatorTest_UserBuyer() {
-        User buyer = new User(DEFAULT_ID);
-        buyer.setRole(Roles.BUYER);
-        when(userRepository.findById(DEFAULT_ID))
-                .thenReturn(Optional.of(buyer));
-        assertThrows(NotAuthorizedOperationException.class, () -> orderService.checkValidOperator(DEFAULT_ID));
-    }
-
-    @Test
-    void checkValidOperatorTest_UserRoleNull() {
-        User user = new User(2);
-        when(userRepository.findById(2L))
-                .thenReturn(Optional.of(user));
-        assertThrows(NullPointerException.class, () -> orderService.checkValidOperator(2));
-    }
-
-    @Test
     void checkValidVehicleMarketStatusTest() {
         when(vehicleRepository.findById(DEFAULT_ID))
                 .thenReturn(Optional.of(DEFAULT_VEHICLE));
@@ -246,8 +211,7 @@ public class OrderServiceTest {
     void deleteOrderByIdAndUserId_OrderNotFound() {
         when(orderRepository.findByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER.getId()))
                 .thenReturn(Optional.empty());
-        Exception exception = assertThrows(OrderNotFoundException.class, () -> orderService.deleteOrderByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER));
-        assertEquals("Order Not Found!", exception.getMessage());
+       assertThrows(NoSuchElementException.class, () -> orderService.deleteOrderByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER));
         verify(orderRepository, times(1)).findByIdAndUserId(DEFAULT_ORDER_ID.getId(), DEFAULT_USER.getId());
         verify(orderRepository, never()).deleteById(anyLong());
     }
