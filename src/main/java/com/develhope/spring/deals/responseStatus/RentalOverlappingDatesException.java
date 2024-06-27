@@ -1,25 +1,26 @@
 package com.develhope.spring.deals.responseStatus;
 
+import com.develhope.spring.exceptions.HttpRequestHandlingException;
 import org.springframework.http.HttpStatus;
 
-public class RentalOverlappingDatesException extends RuntimeException {
+public class RentalOverlappingDatesException extends HttpRequestHandlingException {
 
-    private HttpStatus httpStatus;
+    private String message;
 
     public RentalOverlappingDatesException(String message) {
-        super(message);
-        this.httpStatus = HttpStatus.CONFLICT;
+        this.message = message;
     }
 
     public RentalOverlappingDatesException() {
     }
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
+    @Override
+    public HttpStatus getStatus() {
+        return HttpStatus.CONFLICT;
     }
 
-    public void setHttpStatus(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
+    @Override
+    public String getBody() {
+        return this.message;
     }
-
 }

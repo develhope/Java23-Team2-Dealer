@@ -22,14 +22,11 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class UserServiceTest {
 
-    private long DEFAULT_ID = 1;
+    private final long DEFAULT_ID = 1;
 
-    private User DEFAULT_BUYER = new User(1, "Alessio", "Delle Donne", "ilGrandeWorro", "password1", 123, "indirizzo@email.com", Roles.BUYER);
+    private final User DEFAULT_BUYER = new User(1, "Alessio", "Delle Donne", "ilGrandeWorro", "password1", 123, "indirizzo@email.com", Roles.BUYER);
 
-    private User DEFAULT_ADMIN = new User(2, "Don", "Matteo", "DetectiveConan", "password2", 123, "altra@email.com", Roles.ADMIN);
-
-
-    private UserUpdaterDTO DEFAULT_UPDATER_DTO = new UserUpdaterDTO(
+    private final UserUpdaterDTO DEFAULT_UPDATER_DTO = new UserUpdaterDTO(
             "Sio",
             "Asburgo",
             "coriandolo",

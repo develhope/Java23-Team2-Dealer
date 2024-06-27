@@ -1,9 +1,24 @@
 package com.develhope.spring.vehicles.responseStatus;
 
 
-public class ExcessiveParameterException extends Exception{
+import com.develhope.spring.exceptions.HttpRequestHandlingException;
+import org.springframework.http.HttpStatus;
+
+public class ExcessiveParameterException extends HttpRequestHandlingException {
+
+    private String message;
 
     public ExcessiveParameterException(String message) {
-        super(message);
+      this.message = message;
+    }
+
+    @Override
+    public HttpStatus getStatus() {
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @Override
+    public String getBody() {
+        return this.message;
     }
 }

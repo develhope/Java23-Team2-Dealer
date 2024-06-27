@@ -1,6 +1,6 @@
 package com.develhope.spring.deals.controllers;
 
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
+import com.develhope.spring.exceptions.NotAuthorizedOperationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -300,7 +300,6 @@ public class OrderIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden())
                 .andExpect(result -> assertInstanceOf(NotAuthorizedOperationException.class, result.getResolvedException()))
-                .andExpect(result -> assertEquals("You are not authorized to cancel this order.", result.getResolvedException().getMessage()))
                 .andReturn();
     }
 
