@@ -1,6 +1,6 @@
 package com.develhope.spring.users.dtos;
 
-import com.develhope.spring.configuration.validators.CustomAnnotation.PasswordMatches;
+import com.develhope.spring.configuration.customAnnotations.CustomAnnotation.PasswordMatches;
 import com.develhope.spring.users.models.Roles;
 
 @PasswordMatches
@@ -19,7 +19,8 @@ public class UserRegistrationDTO {
     public UserRegistrationDTO() {
     }
 
-    public UserRegistrationDTO(String name, String surname, String username, String password, String matchingPassword, long phoneNumber, String email, Roles roles) {
+    public UserRegistrationDTO(String name, String surname, String username, String password, String matchingPassword,
+                               long phoneNumber, String email, Roles roles) {
         this.name = name;
         this.surname = surname;
         this.username = username;

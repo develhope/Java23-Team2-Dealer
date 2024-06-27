@@ -2,7 +2,7 @@ package com.develhope.spring.users.models;
 
 import com.develhope.spring.deals.models.Order;
 import com.develhope.spring.deals.models.Rental;
-import com.develhope.spring.configuration.validators.CustomAnnotation.ValidEmail;
+import com.develhope.spring.configuration.customAnnotations.CustomAnnotation.ValidEmail;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -43,14 +43,14 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Roles roles;
+    private Roles role;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
     private List<Order> orders;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Rental> rentals;
 
     public User() {
@@ -60,7 +60,7 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public User(long id, String name, String surname, String username, String password, long phoneNumber, String email, Roles roles) {
+    public User(long id, String name, String surname, String username, String password, long phoneNumber, String email, Roles role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -70,12 +70,12 @@ public class User implements UserDetails {
         this.orders = new ArrayList<>();
         this.rentals = new ArrayList<>();
         this.email = email;
-        this.roles = roles;
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(roles);
+        return List.of(role);
     }
 
     @Override
@@ -140,8 +140,8 @@ public class User implements UserDetails {
         return phoneNumber;
     }
 
-    public Roles getRoles() {
-        return roles;
+    public Roles getRole() {
+        return role;
     }
 
     public String getEmail() {
@@ -160,8 +160,8 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public void setRoles(Roles roles) {
-        this.roles = roles;
+    public void setRole(Roles role) {
+        this.role = role;
     }
 
     public void setName(String name) {

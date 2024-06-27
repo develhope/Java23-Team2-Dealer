@@ -1,17 +1,13 @@
 package com.develhope.spring.vehicles.services;
 
 
-import com.develhope.spring.users.dtos.UserRegistrationDTO;
+
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.repositories.UserRepository;
-import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
-import com.develhope.spring.vehicles.dtos.VehicleResponseDTO;
-import com.develhope.spring.vehicles.dtos.VehicleSavedDTO;
+import com.develhope.spring.vehicles.dtos.*;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
-import com.develhope.spring.vehicles.vehicleEnums.*;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,10 +19,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.NoSuchElementException;
-import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static com.develhope.spring.configurations.VehicleUnitTestConfiguration.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -48,20 +45,32 @@ public class VehicleServiceTest {
     @MockBean
     private UserRepository userRepository;
 
-    private static final Vehicle DEFAULT_VEHICLE = new Vehicle();
-    private static final User DEFAULT_USER = new User(1);
-    private static final UserRegistrationDTO DEFAULT_USER_USER_CREATOR_DTO = new UserRegistrationDTO(
-            "Gabriel",
-            "Dello",
-            "paneNutella",
-            "12345",
-            "12345",
-            3467789L,
-            "hey@itsadmin.com",
-            Roles.ADMIN
+    @MockBean
+    private Pattern pattern;
+
+    @MockBean
+    private Matcher matcher;
+
+    private final VehicleStatusDTO DEFAULT_VEHICLE_STATUS_DTO = new VehicleStatusDTO(MarketStatus.ORDERABLE);
+
+    private  final VehicleCreatorDTO DEFAULT_VEHICLE_UPDATE_DTO = new VehicleCreatorDTO(
+            VehicleType.CAR,
+            "Lamborghini",
+            "Marco",
+            7000,
+            Colors.BLACK,
+            9001,
+            Gears.AUTOMATIC,
+            4002,
+            MotorPowerSupply.GPL,
+            BigDecimal.valueOf(99999).setScale(2, RoundingMode.HALF_EVEN),
+            BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+            UsedFlag.NEW,
+            MarketStatus.ORDERABLE,
+            "motore a curvatura"
     );
 
-    private static final VehicleCreatorDTO DEFAULT_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(
+    private final VehicleCreatorDTO DEFAULT_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(
             VehicleType.CAR,
             "Ferrari",
             "Enzo",
@@ -72,12 +81,13 @@ public class VehicleServiceTest {
             2004,
             MotorPowerSupply.GASOLINE,
             BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN),
+            BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
             UsedFlag.USED,
             MarketStatus.AVAILABLE,
             "V8"
     );
 
-    private static Vehicle DEFAULT_VEHICLE () {
+    private Vehicle DEFAULT_VEHICLE () {
         Vehicle vehicle = new Vehicle(1);
         vehicle.setVehicleType(DEFAULT_VEHICLE_CREATOR_DTO.getVehicleType());
         vehicle.setBrand(DEFAULT_VEHICLE_CREATOR_DTO.getBrand());
@@ -111,9 +121,204 @@ public class VehicleServiceTest {
                 DEFAULT_VEHICLE().getModel(),
                 DEFAULT_VEHICLE().getColor(),
                 DEFAULT_VEHICLE().getPrice(),
+                DEFAULT_VEHICLE().getDailyCost(),
                 DEFAULT_VEHICLE().getUsedFlag(),
                 DEFAULT_VEHICLE().getMarketStatus()
         );
         assertEquals(expected.getBrand(), result.getBrand());
+    }
+
+//    @Test
+//    void search_returnCorrectVehicleListLength_whenASingleFilterEqualIsPassed() {
+//        List<Vehicle> expected = new ArrayList<>();
+//        expected.add(DEFAULT_VEHICLE());
+//        Pattern pattern = Pattern.compile("(\\p{Punct}?)(\\w+?)(:|<|>)(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
+//        VehicleFilterDTO vehicleFilterDTO = new VehicleFilterDTO(null, "CAR", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+//        VehicleSpecificationsBuilder vehicleSpecificationsBuilder = new VehicleSpecificationsBuilder();
+//        Matcher matcher = pattern.matcher(vehicleFilterDTO.DTOToString() + ",");
+//        while (matcher.find()) {
+//            vehicleSpecificationsBuilder.with(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(4), matcher.group(6));
+//        }
+//        Specification<Vehicle> spec = vehicleSpecificationsBuilder.build();
+//        when(vehicleRepository.findAll(spec))
+//                .thenReturn(expected);
+//        List<Vehicle> result = vehicleService.search(vehicleFilterDTO);
+//        assertEquals(expected.size(), result.size());
+//    }
+
+    @Test
+    void updateVehicleTest(){
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        Vehicle updatedVehicle = new Vehicle(
+                DEFAULT_VEHICLE.getId(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getVehicleType(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getBrand(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getModel(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDisplacement(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getColor(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPower(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getGear(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getRegistrationYear(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPowerSupply(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPrice(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDailyCost(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getUsedFlag(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getMarketStatus(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getEngine()
+        );
+        when(vehicleRepository.save(any()))
+                .thenReturn(updatedVehicle);
+
+        VehicleReworkedDTO expected = new VehicleReworkedDTO(
+                1,
+                VehicleType.CAR,
+                "Lamborghini",
+                "Marco",
+                7000,
+                Colors.BLACK,
+                9001,
+                Gears.AUTOMATIC,
+                4002,
+                MotorPowerSupply.GPL,
+                BigDecimal.valueOf(99999).setScale(2, RoundingMode.HALF_EVEN),
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+                UsedFlag.NEW,
+                MarketStatus.ORDERABLE,
+                "motore a curvatura"
+        );
+        VehicleReworkedDTO result = vehicleService.update(1L, DEFAULT_VEHICLE_UPDATE_DTO);
+        assertEquals(expected.getDisplacement(), result.getDisplacement());
+    }
+
+    @Test
+    void updateVehicleTest_checkIfIdIsUnchanged(){
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        Vehicle updatedVehicle = new Vehicle(
+                DEFAULT_VEHICLE.getId(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getVehicleType(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getBrand(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getModel(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDisplacement(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getColor(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPower(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getGear(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getRegistrationYear(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPowerSupply(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getPrice(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDailyCost(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getUsedFlag(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getMarketStatus(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getEngine()
+        );
+        when(vehicleRepository.save(any()))
+                .thenReturn(updatedVehicle);
+
+        VehicleReworkedDTO expected = new VehicleReworkedDTO(
+                1,
+                VehicleType.CAR,
+                "Lamborghini",
+                "Marco",
+                7000,
+                Colors.BLACK,
+                9001,
+                Gears.AUTOMATIC,
+                4002,
+                MotorPowerSupply.GPL,
+                BigDecimal.valueOf(99999).setScale(2, RoundingMode.HALF_EVEN),
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+                UsedFlag.NEW,
+                MarketStatus.ORDERABLE,
+                "motore a curvatura"
+        );
+        VehicleReworkedDTO result = vehicleService.update(1, DEFAULT_VEHICLE_UPDATE_DTO);
+        assertEquals(expected.getId(), result.getId());
+    }
+
+    @Test
+    void updateVehicleStatusTest(){
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        Vehicle updatedVehicle = new Vehicle(
+                DEFAULT_VEHICLE.getId(),
+                DEFAULT_VEHICLE.getVehicleType(),
+                DEFAULT_VEHICLE.getBrand(),
+                DEFAULT_VEHICLE.getModel(),
+                DEFAULT_VEHICLE.getDisplacement(),
+                DEFAULT_VEHICLE.getColor(),
+                DEFAULT_VEHICLE.getPower(),
+                DEFAULT_VEHICLE.getGear(),
+                DEFAULT_VEHICLE.getRegistrationYear(),
+                DEFAULT_VEHICLE.getPowerSupply(),
+                DEFAULT_VEHICLE.getPrice(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDailyCost(),
+                DEFAULT_VEHICLE.getUsedFlag(),
+                DEFAULT_VEHICLE_STATUS_DTO.getMarketStatus(),
+                DEFAULT_VEHICLE.getEngine()
+        );
+        when(vehicleRepository.save(any()))
+                .thenReturn(updatedVehicle);
+        VehicleReworkedDTO expected = new VehicleReworkedDTO(
+                1,
+                VehicleType.CAR,
+                "Ferrari",
+                "Enzo",
+                2100,
+                Colors.RED,
+                3000,
+                Gears.MANUAL,
+                2004,
+                MotorPowerSupply.GASOLINE,
+                BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN),
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+                UsedFlag.USED,
+                MarketStatus.ORDERABLE,
+                "V8");
+        VehicleReworkedDTO result = vehicleService.updateStatus(1L,DEFAULT_VEHICLE_STATUS_DTO);
+        assertEquals(result.getMarketStatus(), expected.getMarketStatus());
+    }
+
+    @Test
+    void updateVehicleStatusTest_otherThingsAreUnchanged(){
+        when(vehicleRepository.findById(1L))
+                .thenReturn(Optional.of(DEFAULT_VEHICLE));
+        Vehicle updatedVehicle = new Vehicle(
+                DEFAULT_VEHICLE.getId(),
+                DEFAULT_VEHICLE.getVehicleType(),
+                DEFAULT_VEHICLE.getBrand(),
+                DEFAULT_VEHICLE.getModel(),
+                DEFAULT_VEHICLE.getDisplacement(),
+                DEFAULT_VEHICLE.getColor(),
+                DEFAULT_VEHICLE.getPower(),
+                DEFAULT_VEHICLE.getGear(),
+                DEFAULT_VEHICLE.getRegistrationYear(),
+                DEFAULT_VEHICLE.getPowerSupply(),
+                DEFAULT_VEHICLE.getPrice(),
+                DEFAULT_VEHICLE_UPDATE_DTO.getDailyCost(),
+                DEFAULT_VEHICLE.getUsedFlag(),
+                DEFAULT_VEHICLE_STATUS_DTO.getMarketStatus(),
+                DEFAULT_VEHICLE.getEngine()
+        );
+        when(vehicleRepository.save(any()))
+                .thenReturn(updatedVehicle);
+        VehicleReworkedDTO expected = new VehicleReworkedDTO(
+                1,
+                VehicleType.CAR,
+                "Ferrari",
+                "Enzo",
+                2100,
+                Colors.RED,
+                3000,
+                Gears.MANUAL,
+                2004,
+                MotorPowerSupply.GASOLINE,
+                BigDecimal.valueOf(800000).setScale(2, RoundingMode.HALF_EVEN),
+                BigDecimal.valueOf(40).setScale(2, RoundingMode.HALF_EVEN),
+                UsedFlag.USED,
+                MarketStatus.ORDERABLE,
+                "V8");
+        VehicleReworkedDTO result = vehicleService.updateStatus(1L,DEFAULT_VEHICLE_STATUS_DTO);
+        assertEquals(result.getId(), expected.getId());
     }
 }

@@ -1,8 +1,6 @@
 package com.develhope.spring.vehicles.models;
 
-
-import com.develhope.spring.deals.models.OrderStatus;
-import com.develhope.spring.exceptions.ExcessiveParameterException;
+import com.develhope.spring.vehicles.responseStatus.ExcessiveParameterException;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 import jakarta.persistence.*;
 
@@ -50,6 +48,9 @@ public class Vehicle {
 
     @Column(nullable = false)
     private BigDecimal price;
+
+    private BigDecimal dailyCost;
+
     @Column
     private BigDecimal discountedPrice;
 
@@ -68,6 +69,11 @@ public class Vehicle {
     private String engine;
 
     //Getters
+
+    public BigDecimal getDailyCost() {
+        return dailyCost;
+    }
+
     public boolean isDiscountFlag() {
         return discountFlag;
     }
@@ -177,6 +183,10 @@ public class Vehicle {
         this.price = price.setScale(2, RoundingMode.HALF_EVEN);
     }
 
+    public void setDailyCost(BigDecimal dailyCost) {
+        this.dailyCost = dailyCost;
+    }
+
     public void setDiscountedPrice(BigDecimal discountedPrice) {
         this.discountedPrice = discountedPrice.setScale(2, RoundingMode.HALF_EVEN);
     }
@@ -206,7 +216,7 @@ public class Vehicle {
     }
 
     public Vehicle(long id, VehicleType vehicleType, String brand, String model, int displacement, Colors color, int power,
-                   Gears gear, int registrationYear, MotorPowerSupply powerSupply, BigDecimal price,
+                   Gears gear, int registrationYear, MotorPowerSupply powerSupply, BigDecimal price, BigDecimal dailyCost,
                    UsedFlag usedFlag, MarketStatus marketStatus, String engine) {
         this.id = id;
         this.vehicleType = vehicleType;
@@ -219,6 +229,7 @@ public class Vehicle {
         this.registrationYear = registrationYear;
         this.powerSupply = powerSupply;
         this.price = price.setScale(2, RoundingMode.HALF_EVEN);
+        this.dailyCost = dailyCost.setScale(2, RoundingMode.HALF_EVEN);
         this.discountedPrice = price.setScale(2, RoundingMode.HALF_EVEN);
         this.usedFlag = usedFlag;
         this.marketStatus = marketStatus;

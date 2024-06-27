@@ -1,5 +1,6 @@
 package com.develhope.spring.deals.controllers;
 
+import com.develhope.spring.exceptions.NotAuthorizedOperationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,6 +36,39 @@ public class OrderIntegrationTest {
                             "phoneNumber": 3467796292,
                             "email":"hey@itsadmin.com",
                             "roles":"ADMIN"
+                         }
+                        """)).andReturn();
+    }
+    private void insertSeller() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "name": "Giorgio",
+                            "surname":"Mastrota",
+                            "username": "eminflex",
+                            "password": "1234",
+                            "matchingPassword": "1234",
+                            "phoneNumber": 3467796292,
+                            "email":"hey@itsseller.com",
+                            "roles":"SALESPERSON"
+                         }
+                        """)).andReturn();
+    }
+
+    private void insertBuyer() throws Exception {
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "name": "Pietro",
+                            "surname":"Pacciani",
+                            "username": "MostroDiFirenze",
+                            "password": "12345",
+                            "matchingPassword": "12345",
+                            "phoneNumber": 34427796292,
+                            "email":"hey@itsbuyer.com",
+                            "roles":"BUYER"
                          }
                         """)).andReturn();
     }
@@ -65,6 +100,7 @@ public class OrderIntegrationTest {
 
     private void insertOrder() throws Exception {
         this.mockMvc.perform(post("/v1/orders")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -75,18 +111,50 @@ public class OrderIntegrationTest {
                                 "paid": true
                                 }
                                 """))
-                .andExpect(status().isCreated())
                 .andReturn();
     }
 
     @Test
-    void OrderUpdateTest() throws Exception {
+    void OrderUpdateTestAdmin() throws Exception {
         insertAdmin();
         insertVehicle();
         insertOrder();
 
         this.mockMvc.perform((patch("/v1/orders/1")
                         .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 1,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        """
+                        {
+                        "id": 1,
+                        "downPayment": true,
+                        "orderStatus": "PENDING",
+                        "paid": false
+                        }
+                        """
+                )).andReturn();
+    }
+
+    @Test
+    void OrderUpdateTestSeller() throws Exception {
+        insertSeller();
+        insertAdmin();
+        insertVehicle();
+        insertOrder();
+
+        this.mockMvc.perform((patch("/v1/orders/1")
+                        .with(httpBasic("hey@itsseller.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -109,4 +177,129 @@ public class OrderIntegrationTest {
                                 """
                 )).andReturn();
     }
+
+    @Test
+    void OrderUpdateTestBuyerForbidden() throws Exception {
+        insertBuyer();
+        insertAdmin();
+        insertVehicle();
+        insertOrder();
+
+        this.mockMvc.perform((patch("/v1/orders/1")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 1,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """)))
+                .andDo(print())
+                .andExpect(status().isForbidden()).andReturn();
+    }
+
+    @Test
+    void createOrderAndDeletedByADMIN_successfulTest() throws Exception {
+        insertAdmin();
+        insertVehicle();
+        insertOrder();
+
+        this.mockMvc.perform(post("/v1/orders")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 1,
+                                "orderStatus": "PAID",
+                                "paid": true
+                                }
+                                """))
+                .andExpect(status().isCreated());
+
+        this.mockMvc.perform(delete("/v1/orders/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+    }
+
+
+    @Test
+    void buyerCreateAndDeleteOrder_successfulTest() throws Exception {
+        insertAdmin();
+        insertVehicle();
+        insertBuyer();
+
+        this.mockMvc.perform(post("/v1/orders")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 2,
+                                "orderStatus": "PAID",
+                                "paid": true
+                                }
+                                """))
+                .andExpect(status().isCreated()).andReturn();
+
+
+        this.mockMvc.perform(delete("/v1/orders/1")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+    }
+
+    @Test
+    void unauthorizedBuyerCannotDeleteOrder() throws Exception {
+        insertAdmin();
+        insertVehicle();
+        insertBuyer();
+
+        this.mockMvc.perform(post("/v1/profile/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "name": "Luffy",
+                            "surname":"Monkey D.",
+                            "username": "Mugiwara",
+                            "password": "54321",
+                            "matchingPassword": "54321",
+                            "phoneNumber": 1234567890,
+                            "email":"hey@itsbuyer2.com",
+                            "roles":"BUYER"
+                         }
+                        """)).andReturn();
+
+        this.mockMvc.perform(post("/v1/orders")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 2,
+                                "orderStatus": "PAID",
+                                "paid": true
+                                }
+                                """))
+                .andExpect(status().isCreated()).andReturn();
+
+
+        this.mockMvc.perform(delete("/v1/orders/1")
+                        .with(httpBasic("hey@itsbuyer2.com", "54321"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andExpect(result -> assertInstanceOf(NotAuthorizedOperationException.class, result.getResolvedException()))
+                .andReturn();
+    }
+
+
 }
