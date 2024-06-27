@@ -62,6 +62,9 @@ public class UserMapper {
     }
 
     public UserOrderReturnerDTO toUserOrderReturnerDTO(User user) {
+        if(user==null){
+            return null;
+        }
         return new UserOrderReturnerDTO(
                 user.getId(),
                 user.getName(),

@@ -34,7 +34,7 @@ public class DealsUnitTestConfig {
     public static final OrderCreatorDTO DEFAULT_ORDER_CREATOR_DTO = new OrderCreatorDTO(
             true,
             1,
-            1,
+            1L,
             2,
             OrderStatus.PAID,
             true

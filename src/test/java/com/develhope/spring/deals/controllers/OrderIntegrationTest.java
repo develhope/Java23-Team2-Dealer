@@ -115,8 +115,58 @@ public class OrderIntegrationTest {
                 .andReturn();
     }
 
+    private void insertOrder_nullSeller() throws Exception {
+        this.mockMvc.perform(post("/v1/orders")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "sellerId": null,
+                                "userId": 2,
+                                "orderStatus": "PAID",
+                                "paid": true
+                                }
+                                """))
+                .andReturn();
+    }
     @Test
-    void OrderUpdateTestAdmin() throws Exception {
+    void createOrder() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertVehicle();
+
+        this.mockMvc.perform(post("/v1/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "sellerId": 1,
+                                "userId": 2,
+                                "orderStatus": "PAID",
+                                "paid": true
+                                }
+                                """))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("""
+                        {
+                        "id": 1,
+                        "downPayment": true,
+                        "vehicle": {
+                                    "id": 1
+                                    },
+                        "sellerId": 1,
+                        "userId": 2,
+                        "orderStatus": "PAID",
+                        "paid": true
+                        }
+                        """)).andReturn();
+    }
+
+    @Test
+    void adminOrderUpdateTest() throws Exception {
         insertAdmin();
         insertBuyer();
         insertVehicle();
@@ -141,6 +191,7 @@ public class OrderIntegrationTest {
                         """
                         {
                         "id": 1,
+                        "sellerId": 1,
                         "downPayment": true,
                         "orderStatus": "PENDING",
                         "paid": false
@@ -150,7 +201,7 @@ public class OrderIntegrationTest {
     }
 
     @Test
-    void OrderUpdateTestSeller() throws Exception {
+    void sellerOrderUpdateTest() throws Exception {
         insertSeller();
         insertAdmin();
         insertVehicle();
@@ -163,7 +214,8 @@ public class OrderIntegrationTest {
                                 {
                                 "downPayment": true,
                                 "vehicleId": 1,
-                                "userId": 1,
+                                "sellerId": 1,
+                                "userId": 2,
                                 "orderStatus": "PENDING",
                                 "paid": false
                                 }
@@ -173,6 +225,8 @@ public class OrderIntegrationTest {
                 .andExpect(content().json(
                         """
                                 {
+                                "id": 1,
+                                "sellerId": 1,
                                 "downPayment": true,
                                 "orderStatus": "PENDING",
                                 "paid": false
@@ -182,7 +236,7 @@ public class OrderIntegrationTest {
     }
 
     @Test
-    void OrderUpdateTestBuyerForbidden() throws Exception {
+    void buyerOrderUpdateTest_forbidden() throws Exception {
         insertBuyer();
         insertAdmin();
         insertVehicle();
@@ -308,5 +362,165 @@ public class OrderIntegrationTest {
                 .andReturn();
     }
 
+    @Test
+    void createOrder_nullSeller() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertVehicle();
 
+        this.mockMvc.perform(post("/v1/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "sellerId": null,
+                                "userId": 2,
+                                "orderStatus": "PAID",
+                                "paid": true
+                                }
+                                """))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("""
+                        {
+                        "id": 1,
+                        "downPayment": true,
+                        "vehicle": {
+                                    "id": 1
+                                    },
+                        "sellerId": null,
+                        "userId": 2,
+                        "orderStatus": "PAID",
+                        "paid": true
+                        }
+                        """)).andReturn();
+    }
+
+    @Test
+    void orderUpdateTest_nullSeller() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertVehicle();
+        insertOrder_nullSeller();
+
+        this.mockMvc.perform((patch("/v1/orders/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "sellerId": null,
+                                "userId": 2,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        """
+                        {
+                        "id": 1,
+                        "sellerId": null,
+                        "downPayment": true,
+                        "orderStatus": "PENDING",
+                        "paid": false
+                        }
+                        """
+                )).andReturn();
+    }
+
+    @Test
+    void orderUpdateTest_nullSeller_addSeller() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertVehicle();
+        insertOrder_nullSeller();
+
+        this.mockMvc.perform((patch("/v1/orders/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "sellerId": 1,
+                                "userId": 2,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        """
+                        {
+                        "id": 1,
+                        "sellerId": 1,
+                        "downPayment": true,
+                        "orderStatus": "PENDING",
+                        "paid": false
+                        }
+                        """
+                )).andReturn();
+    }
+    @Test
+    void orderUpdateTest_nullSeller_removeSeller() throws Exception {
+        insertAdmin();
+        insertBuyer();
+        insertVehicle();
+        insertOrder();
+
+        this.mockMvc.perform((patch("/v1/orders/1")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "sellerId": null,
+                                "userId": 2,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        """
+                        {
+                        "id": 1,
+                        "sellerId": null,
+                        "downPayment": true,
+                        "orderStatus": "PENDING",
+                        "paid": false
+                        }
+                        """
+                )).andReturn();
+    }
+
+
+    @Test
+    void buyerOrderUpdateTest_forbidden_nullSeller() throws Exception {
+        insertBuyer();
+        insertAdmin();
+        insertVehicle();
+        insertOrder();
+
+        this.mockMvc.perform((patch("/v1/orders/1")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "downPayment": true,
+                                "vehicleId": 1,
+                                "userId": 1,
+                                "orderStatus": "PENDING",
+                                "paid": false
+                                }
+                                """)))
+                .andDo(print())
+                .andExpect(status().isForbidden()).andReturn();
+    }
 }
