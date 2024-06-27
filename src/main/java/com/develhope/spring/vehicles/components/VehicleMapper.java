@@ -137,4 +137,15 @@ public class VehicleMapper {
                 vehicle.getEngine()
         );
     }
+    public VehicleDiscountedDTO toDiscountedDTO(Vehicle vehicle){
+        return new VehicleDiscountedDTO(
+                vehicle.getId(),
+                vehicle.getVehicleType(),
+                vehicle.getBrand(),
+                vehicle.getModel(),
+                vehicle.getRegistrationYear(),
+                vehicle.getDiscountedPrice(),
+                vehicle.getDailyCost(),
+                vehicle.isDiscountFlag());
+    }
 }

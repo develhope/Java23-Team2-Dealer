@@ -65,23 +65,23 @@ class VehicleIntegrationTest {
                 .with(httpBasic("hey@itsadmin.com", "1234"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                                {
-                                    "vehicleType": "VAN",
-                                    "brand": "Fiat",
-                                    "model": "Fiorino",
-                                    "displacement": 1200,
-                                    "color": "WHITE",
-                                    "power": 70,
-                                    "gear": "MANUAL",
-                                    "registrationYear": 2022,
-                                    "powerSupply": "METHANE",
-                                    "price": 15000,
-                                    "dailyCost": 40.00,
-                                    "usedFlag": "NEW",
-                                    "marketStatus": "AVAILABLE",
-                                    "engine": "4-cylinder"
-                                }
-                                """)).andReturn();
+                        {
+                            "vehicleType": "VAN",
+                            "brand": "Fiat",
+                            "model": "Fiorino",
+                            "displacement": 1200,
+                            "color": "WHITE",
+                            "power": 70,
+                            "gear": "MANUAL",
+                            "registrationYear": 2022,
+                            "powerSupply": "METHANE",
+                            "price": 15000,
+                            "dailyCost": 40.00,
+                            "usedFlag": "NEW",
+                            "marketStatus": "AVAILABLE",
+                            "engine": "4-cylinder"
+                        }
+                        """)).andReturn();
     }
 
     @Test
@@ -161,9 +161,9 @@ class VehicleIntegrationTest {
     void vehicleUpdateTest() throws Exception {
         insertVehicle();
         this.mockMvc.perform(put("/v1/vehicles/1")
-                .with(httpBasic("hey@itsadmin.com", "1234"))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
                                 {
                                     "vehicleType": "CAR",
                                     "brand": "Ferrari",
@@ -183,24 +183,24 @@ class VehicleIntegrationTest {
                                 """))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                                {
-                                    "id": 1,
-                                    "vehicleType": "CAR",
-                                    "brand": "Ferrari",
-                                    "model": "boh",
-                                    "displacement": 51,
-                                    "color": "RED",
-                                    "power": 70000,
-                                    "gear": "AUTOMATIC",
-                                    "registrationYear": 2024,
-                                    "powerSupply": "GPL",
-                                    "price": 9000,
-                                    "dailyCost": 40.00,
-                                    "usedFlag": "NEW",
-                                    "marketStatus": "AVAILABLE",
-                                    "engine": "uno a caso"
-                                }
-                                """)).andReturn();
+                        {
+                            "id": 1,
+                            "vehicleType": "CAR",
+                            "brand": "Ferrari",
+                            "model": "boh",
+                            "displacement": 51,
+                            "color": "RED",
+                            "power": 70000,
+                            "gear": "AUTOMATIC",
+                            "registrationYear": 2024,
+                            "powerSupply": "GPL",
+                            "price": 9000,
+                            "dailyCost": 40.00,
+                            "usedFlag": "NEW",
+                            "marketStatus": "AVAILABLE",
+                            "engine": "uno a caso"
+                        }
+                        """)).andReturn();
     }
 
     @Test
@@ -216,25 +216,26 @@ class VehicleIntegrationTest {
                                 """))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                                {
-                                    "id": 1,
-                                    "vehicleType": "VAN",
-                                    "brand": "Fiat",
-                                    "model": "Fiorino",
-                                    "displacement": 1200,
-                                    "color": "WHITE",
-                                    "power": 70,
-                                    "gear": "MANUAL",
-                                    "registrationYear": 2022,
-                                    "powerSupply": "METHANE",
-                                    "price": 15000,
-                                    "dailyCost": 40.00,
-                                    "usedFlag": "NEW",
-                                    "marketStatus": "ORDERABLE",
-                                    "engine": "4-cylinder"
-                                }
-                                """)).andReturn();
+                        {
+                            "id": 1,
+                            "vehicleType": "VAN",
+                            "brand": "Fiat",
+                            "model": "Fiorino",
+                            "displacement": 1200,
+                            "color": "WHITE",
+                            "power": 70,
+                            "gear": "MANUAL",
+                            "registrationYear": 2022,
+                            "powerSupply": "METHANE",
+                            "price": 15000,
+                            "dailyCost": 40.00,
+                            "usedFlag": "NEW",
+                            "marketStatus": "ORDERABLE",
+                            "engine": "4-cylinder"
+                        }
+                        """)).andReturn();
     }
+
     @Test
     void vehicleUpdateTestForbidden() throws Exception {
         insertVehicle();
@@ -277,4 +278,77 @@ class VehicleIntegrationTest {
                                 """))
                 .andExpect(status().isForbidden()).andReturn();
     }
+
+    @Test
+    void vehicleSetDiscountTest() throws Exception {
+        insertVehicle();
+        this.mockMvc.perform(patch("/v1/vehicles/1/discount-activate")
+                        .param("discountPercentage", "50")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "id": 1,
+                            "vehicleType": "VAN",
+                            "brand": "Fiat",
+                            "registrationYear": 2022,
+                            "discountedPrice": 7500,
+                            "dailyCost": 40.00,
+                            "discountFlag": true
+                        }
+                        """)).andReturn();
+    }
+
+    @Test
+    void vehicleSetDiscountTest_isForbidden() throws Exception {
+        insertVehicle();
+        insertBuyer();
+        this.mockMvc.perform(patch("/v1/vehicles/1/discount-activate")
+                        .param("discountPercentage", "50")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden()).andReturn();
+    }
+
+    @Test
+    void vehicleRemoveDiscountTest() throws Exception {
+        insertVehicle();
+        this.mockMvc.perform(patch("/v1/vehicles/1/discount-activate")
+                        .param("discountPercentage", "50")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        this.mockMvc.perform(patch("/v1/vehicles/1/discount-remove")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "id": 1,
+                            "vehicleType": "VAN",
+                            "brand": "Fiat",
+                            "registrationYear": 2022,
+                            "discountedPrice": 15000,
+                            "dailyCost": 40.00,
+                            "discountFlag": false
+                        }
+                        """)).andReturn();
+    }
+
+    @Test
+    void vehicleRemoveDiscountTest_isForbidden() throws Exception {
+        insertVehicle();
+        insertBuyer();
+        this.mockMvc.perform(patch("/v1/vehicles/1/discount-activate")
+                        .param("discountPercentage", "50")
+                        .with(httpBasic("hey@itsadmin.com", "1234"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        this.mockMvc.perform(patch("/v1/vehicles/1/discount-remove")
+                        .with(httpBasic("hey@itsbuyer.com", "12345"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden()).andReturn();
+    }
+
 }
