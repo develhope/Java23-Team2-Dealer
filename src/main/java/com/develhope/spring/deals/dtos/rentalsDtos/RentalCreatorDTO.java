@@ -9,12 +9,12 @@ public class RentalCreatorDTO {
     private boolean paid;
     private long vehicleId;
     private long userId;
-    private long sellerId;
+    private Long sellerId;
 
     public RentalCreatorDTO() {
     }
 
-    public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, boolean paid, long vehicleId, long userId, long sellerId) {
+    public RentalCreatorDTO(LocalDate startDate, LocalDate endDate, boolean paid, long vehicleId, long userId, Long sellerId) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.paid = paid;
@@ -63,11 +63,11 @@ public class RentalCreatorDTO {
         this.vehicleId = vehicleId;
     }
 
-    public long getSellerId() {
+    public Long getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(long sellerId) {
+    public void setSellerId(Long sellerId) {
         this.sellerId = sellerId;
     }
 }

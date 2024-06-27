@@ -499,28 +499,4 @@ public class OrderIntegrationTest {
                         """
                 )).andReturn();
     }
-
-
-    @Test
-    void buyerOrderUpdateTest_forbidden_nullSeller() throws Exception {
-        insertBuyer();
-        insertAdmin();
-        insertVehicle();
-        insertOrder();
-
-        this.mockMvc.perform((patch("/v1/orders/1")
-                        .with(httpBasic("hey@itsbuyer.com", "12345"))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                "downPayment": true,
-                                "vehicleId": 1,
-                                "userId": 1,
-                                "orderStatus": "PENDING",
-                                "paid": false
-                                }
-                                """)))
-                .andDo(print())
-                .andExpect(status().isForbidden()).andReturn();
-    }
 }

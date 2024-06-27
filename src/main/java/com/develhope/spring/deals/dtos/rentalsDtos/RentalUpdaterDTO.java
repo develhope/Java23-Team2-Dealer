@@ -9,12 +9,14 @@ public class RentalUpdaterDTO {
     private LocalDate endDate;
     private boolean paid;
     private long vehicleId;
+    private Long sellerId;
 
-    public RentalUpdaterDTO(LocalDate startDate, LocalDate endDate, boolean paid, long vehicleId) {
+    public RentalUpdaterDTO(LocalDate startDate, LocalDate endDate, boolean paid, long vehicleId, Long sellerId) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.paid = paid;
         this.vehicleId = vehicleId;
+        this.sellerId= sellerId;
     }
 
     public LocalDate getStartDate() {
@@ -47,5 +49,13 @@ public class RentalUpdaterDTO {
 
     public void setVehicleId(long vehicleId) {
         this.vehicleId = vehicleId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
     }
 }

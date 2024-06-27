@@ -31,7 +31,6 @@ public class OrderMapperTest {
     @InjectMocks
     private OrderMapper orderMapper;
 
-
     @Test
     void toEntity_SetsDownPaymentCorrectly() {
         OrderCreatorDTO orderCreatorDTO = new OrderCreatorDTO();
@@ -79,10 +78,7 @@ public class OrderMapperTest {
 
     @Test
     void toResponseDTO_MapsOrderToDTO_downPayment() {
-        Order order = new Order();
-        order.setDownPayment(true);
-        order.setOrderStatus(OrderStatus.PENDING);
-        order.setPaid(false);
+
 
         VehicleOrderReturnerDTO vehicleDTO = new VehicleOrderReturnerDTO();
         when(vehicleMapper.toOrderReturnerDTO(any())).thenReturn(vehicleDTO);

@@ -47,6 +47,10 @@ public class RentalService {
     }
 
     public RentalReturnerDTO update(long rentalId, RentalUpdaterDTO rentalUpdaterDTO) {
+        User seller = null;
+        if(rentalUpdaterDTO.getSellerId()!=null){
+            seller = userRepository.findById(rentalUpdaterDTO.getSellerId()).orElseThrow(() -> new NoSuchElementException("No seller found with this ID"));
+        }
         BigDecimal vehicleDailyCost = getDailyCost(rentalUpdaterDTO.getVehicleId());
         checkValidRentalDates(rentalUpdaterDTO.getVehicleId(), rentalUpdaterDTO.getStartDate(), rentalUpdaterDTO.getEndDate());
         checkMarketStatus(rentalUpdaterDTO.getVehicleId());
@@ -56,6 +60,7 @@ public class RentalService {
         savedRental.setEndDate(rentalUpdaterDTO.getEndDate());
         savedRental.setPaid(rentalUpdaterDTO.isPaid());
         savedRental.setVehicle(vehicle);
+        savedRental.setSeller(seller);
         setRentalTotalCost(savedRental, vehicleDailyCost, rentalUpdaterDTO.getStartDate(), rentalUpdaterDTO.getEndDate());
         Rental updatedRental = rentalRepository.save(savedRental);
         RentalReturnerDTO rentalReturnerDTO = rentalMapper.toReturnerDTO(updatedRental);

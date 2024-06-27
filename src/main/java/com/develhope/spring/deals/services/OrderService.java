@@ -80,19 +80,4 @@ public class OrderService {
     public boolean checkOrderId(long orderId, User userDetails) {
         return orderRepository.findByIdAndUserId(orderId, userDetails.getId()).isPresent();
     }
-
-    void addReference(Order order) {
-        User buyer = order.getUser();
-        long buyerId = buyer.getId();
-        User seller = order.getSeller();
-        long sellerId = seller.getId();
-        User referencedUser = (userRepository.findById(buyerId)
-                .orElseThrow(() -> new NoSuchElementException("No user found with this ID")));
-        referencedUser.getOrders().add(order);
-        if (seller != null && sellerId != 0) {
-            User referencedSeller = (userRepository.findById(sellerId)
-                    .orElseThrow(() -> new NoSuchElementException("No seller found with this ID")));
-            referencedSeller.getOrders().add(order);
-        }
-    }
 }

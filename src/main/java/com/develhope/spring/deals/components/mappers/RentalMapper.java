@@ -7,11 +7,13 @@ import com.develhope.spring.deals.models.Rental;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.dtos.UserRentalReturnerDto;
 import com.develhope.spring.users.models.User;
+import com.develhope.spring.vehicles.components.VehicleMapper;
 import com.develhope.spring.vehicles.dtos.VehicleRentalReturnerDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
-import com.develhope.spring.vehicles.components.VehicleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class RentalMapper {
@@ -25,7 +27,7 @@ public class RentalMapper {
     public Rental toEntity(RentalCreatorDTO rentalCreatorDTO) {
         Vehicle vehicle = new Vehicle(rentalCreatorDTO.getVehicleId());
         User user = new User(rentalCreatorDTO.getUserId());
-        User seller = new User(rentalCreatorDTO.getSellerId());
+        User seller = Optional.ofNullable(rentalCreatorDTO.getSellerId()).map(User::new).orElse(null);
         Rental rental = new Rental();
         rental.setStartDate(rentalCreatorDTO.getStartDate());
         rental.setEndDate(rentalCreatorDTO.getEndDate());
@@ -39,7 +41,7 @@ public class RentalMapper {
     public Rental toEntity(RentalUpdaterDTO rentalUpdaterDTO) {
         Vehicle vehicle = new Vehicle(rentalUpdaterDTO.getVehicleId());
         User user = new User(0);
-        User seller = new User(0);
+        User seller = Optional.ofNullable(rentalUpdaterDTO.getSellerId()).map(User::new).orElse(null);
         Rental rental = new Rental();
         rental.setStartDate(rentalUpdaterDTO.getStartDate());
         rental.setEndDate(rentalUpdaterDTO.getEndDate());
@@ -52,8 +54,12 @@ public class RentalMapper {
 
     public RentalReturnerDTO toReturnerDTO(Rental rental) {
         VehicleRentalReturnerDTO vehicleRentalReturnerDTO = vehicleMapper.toRentalReturnerDTO(rental.getVehicle());
+        User seller = rental.getSeller();
         UserRentalReturnerDto buyerReturnerDto = userMapper.toUserRentalDTO(rental.getUser());
-        UserRentalReturnerDto sellerReturnerDTO = userMapper.toUserRentalDTO(rental.getSeller());
+        UserRentalReturnerDto sellerReturnerDTO = null;
+        if (seller != null) {
+            sellerReturnerDTO = userMapper.toUserRentalDTO(seller);
+        }
         RentalReturnerDTO rentalReturnerDTO = new RentalReturnerDTO();
         rentalReturnerDTO.setId(rental.getId());
         rentalReturnerDTO.setStartDate(rental.getStartDate());

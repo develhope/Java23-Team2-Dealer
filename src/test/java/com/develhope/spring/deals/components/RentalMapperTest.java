@@ -43,7 +43,7 @@ public class RentalMapperTest {
                 true,
                 1,
                 2,
-                1);
+                1L);
 
         Vehicle vehicle = new Vehicle(1);
         vehicle.setDailyCost(BigDecimal.valueOf(40));
@@ -67,7 +67,7 @@ public class RentalMapperTest {
                 true,
                 1,
                 2,
-                1);
+                1L);
 
         Vehicle vehicle = new Vehicle(1);
         vehicle.setDailyCost(BigDecimal.valueOf(40));

@@ -1,12 +1,10 @@
 package com.develhope.spring.deals.models;
 
-import com.develhope.spring.deals.responseStatus.NotAvailableVehicleException;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.models.Vehicle;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity

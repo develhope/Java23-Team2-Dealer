@@ -71,7 +71,15 @@ public class DealsUnitTestConfig {
             true,
             1,
             2,
-            1);
+            1L);
+
+    public static final RentalCreatorDTO DEFAULT_RENTAL_CREATOR_DTO_NULL_SELLER = new RentalCreatorDTO(
+            DEFAULT_RENTAL_START_DATE,
+            DEFAULT_RENTAL_END_DATE,
+            true,
+            1,
+            2,
+            null);
 
     public static Vehicle DEFAULT_VEHICLE() {
         Vehicle vehicle = new Vehicle(1);
