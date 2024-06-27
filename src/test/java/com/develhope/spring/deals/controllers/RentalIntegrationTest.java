@@ -74,8 +74,7 @@ public class RentalIntegrationTest {
                             "password": "1234",
                             "matchingPassword": "1234",
                             "phoneNumber": 3467796292,
-                            "email":"hey@itsbuyer.com",
-                            "roles":"BUYER"
+                            "email":"hey@itsbuyer.com"
                         }
                         """)).andReturn();
     }
@@ -91,8 +90,7 @@ public class RentalIntegrationTest {
                             "password": "1234",
                             "matchingPassword": "1234",
                             "phoneNumber": 3467796292,
-                            "email":"hey@itsbuyer2.com",
-                            "roles":"BUYER"
+                            "email":"hey@itsbuyer2.com"
                         }
                         """)).andReturn();
     }

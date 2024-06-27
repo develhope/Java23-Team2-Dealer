@@ -1,5 +1,6 @@
 package com.develhope.spring.users.controllers;
 
+import com.develhope.spring.users.dtos.UserAdminRegistrationDTO;
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.dtos.UserSavedDTO;
 import com.develhope.spring.users.services.UserService;
@@ -22,8 +23,8 @@ public class RegistrationAdminController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/profile/registration")
-    public UserSavedDTO registerUserAccount(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
-        logger.info("Registration request received " + userRegistrationDTO);
-        return userService.registerNewUserAccount(userRegistrationDTO);
+    public UserSavedDTO registerUserAccount(@RequestBody UserAdminRegistrationDTO userAdminRegistrationDTO) {
+        logger.info("Registration request received " + userAdminRegistrationDTO);
+        return userService.registerNewAdminAccount(userAdminRegistrationDTO);
     }
 }

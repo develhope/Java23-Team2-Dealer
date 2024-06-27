@@ -69,8 +69,7 @@ public class OrderIntegrationTest {
                             "password": "12345",
                             "matchingPassword": "12345",
                             "phoneNumber": 34427796292,
-                            "email":"hey@itsbuyer.com",
-                            "roles":"BUYER"
+                            "email":"hey@itsbuyer.com"
                          }
                         """)).andReturn();
     }
@@ -275,8 +274,7 @@ public class OrderIntegrationTest {
                             "password": "54321",
                             "matchingPassword": "54321",
                             "phoneNumber": 1234567890,
-                            "email":"hey@itsbuyer2.com",
-                            "roles":"BUYER"
+                            "email":"hey@itsbuyer2.com"
                          }
                         """)).andReturn();
 

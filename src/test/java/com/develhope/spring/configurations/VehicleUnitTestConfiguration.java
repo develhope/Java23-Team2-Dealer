@@ -1,5 +1,6 @@
 package com.develhope.spring.configurations;
 
+import com.develhope.spring.users.dtos.UserAdminRegistrationDTO;
 import com.develhope.spring.users.dtos.UserRegistrationDTO;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
@@ -15,7 +16,7 @@ import java.math.RoundingMode;
 public class VehicleUnitTestConfiguration {
     public static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
     public static final User DEFAULT_USER = new User(1);
-    public static final UserRegistrationDTO DEFAULT_USER_USER_CREATOR_DTO = new UserRegistrationDTO(
+    public static final UserAdminRegistrationDTO DEFAULT_USER_USER_CREATOR_DTO = new UserAdminRegistrationDTO(
             "Gabriel",
             "Dello",
             "paneNutella",

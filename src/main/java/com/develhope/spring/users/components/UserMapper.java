@@ -1,12 +1,7 @@
 package com.develhope.spring.users.components;
 
-import com.develhope.spring.users.dtos.BuyerRentalReturnerDto;
-import com.develhope.spring.users.dtos.UserRegistrationDTO;
-import com.develhope.spring.users.dtos.UserSavedDTO;
-import com.develhope.spring.users.dtos.UserOrderReturnerDTO;
+import com.develhope.spring.users.dtos.*;
 import com.develhope.spring.users.models.Roles;
-import com.develhope.spring.users.dtos.UserReworkedDTO;
-import com.develhope.spring.users.dtos.UserUpdaterDTO;
 import com.develhope.spring.users.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +30,19 @@ public class UserMapper {
         user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         user.setPhoneNumber(userRegistrationDTO.getPhoneNumber());
         user.setEmail(userRegistrationDTO.getEmail());
-        user.setRole(userRegistrationDTO.getRoles());
+        user.setRole(Roles.BUYER);
+        return user;
+    }
+
+    public User toEntity(UserAdminRegistrationDTO userAdminRegistrationDTO) {
+        User user = new User();
+        user.setName(userAdminRegistrationDTO.getName());
+        user.setSurname(userAdminRegistrationDTO.getSurname());
+        user.setUsername(userAdminRegistrationDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(userAdminRegistrationDTO.getPassword()));
+        user.setPhoneNumber(userAdminRegistrationDTO.getPhoneNumber());
+        user.setEmail(userAdminRegistrationDTO.getEmail());
+        user.setRole(userAdminRegistrationDTO.getRoles());
         return user;
     }
 

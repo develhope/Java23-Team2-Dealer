@@ -40,6 +40,19 @@ public class UserService implements IUserService {
         return userMapper.toUserSavedDTO(savedUser);
     }
 
+    @Override
+    public UserSavedDTO registerNewAdminAccount(UserAdminRegistrationDTO userAdminRegistrationDTO) {
+        if (emailExists(userAdminRegistrationDTO.getEmail())) {
+            logger.warn("Email already exists {}", userAdminRegistrationDTO.getEmail());
+            throw new UserAlreadyExistException("There is an account with that email address: "
+                    + userAdminRegistrationDTO.getEmail());
+        }
+        User user = userMapper.toEntity(userAdminRegistrationDTO);
+        User savedUser = userRepository.save(user);
+        logger.info("{} Registered!", savedUser);
+        return userMapper.toUserSavedDTO(savedUser);
+    }
+
     private boolean emailExists(String email) {
         return userRepository.findByEmail(email).isPresent();
     }

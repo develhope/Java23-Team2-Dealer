@@ -55,8 +55,7 @@ class VehicleIntegrationTest {
                             "password": "12345",
                             "matchingPassword": "12345",
                             "phoneNumber": 34427796292,
-                            "email":"hey@itsbuyer.com",
-                            "roles":"BUYER"
+                            "email":"hey@itsbuyer.com"
                          }
                         """)).andReturn();
     }
