@@ -8,7 +8,7 @@ import com.develhope.spring.vehicles.dtos.*;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.repositories.VehicleRepository;
 import com.develhope.spring.vehicles.responseStatus.ExcessiveParameterException;
-import com.develhope.spring.vehicles.responseStatus.NotAuthorizedOperationException;
+import com.develhope.spring.exceptions.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -108,7 +108,7 @@ public class VehicleService {
     }
 
     private void checkUserAuthorizationBy(long userId) {
-        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("No user found with this ID"));
         if (!user.getRole().equals(Roles.ADMIN)) {
             throw new NotAuthorizedOperationException("Permesso negato. Non autorizzato ad aggiornare i veicoli");
         }

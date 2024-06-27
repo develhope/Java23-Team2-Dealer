@@ -1,17 +1,23 @@
 package com.develhope.spring.users.responseStatus;
 
+import com.develhope.spring.exceptions.HttpRequestHandlingException;
 import org.springframework.http.HttpStatus;
 
-public class UserAlreadyExistException extends RuntimeException {
+public class UserAlreadyExistException extends HttpRequestHandlingException {
 
-    private HttpStatus httpStatus;
+    private String message;
 
     public UserAlreadyExistException (String message) {
-        super(message);
-        this.httpStatus = HttpStatus.CONFLICT;
+        this.message = message;
     }
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
+    @Override
+    public HttpStatus getStatus() {
+        return HttpStatus.CONFLICT;
+    }
+
+    @Override
+    public String getBody() {
+        return this.message;
     }
 }
