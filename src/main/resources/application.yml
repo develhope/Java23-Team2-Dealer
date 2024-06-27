@@ -1,11 +1,4 @@
 spring:
-  config:
-    activate:
-      on-profile: dev
-environment: dev
-server:
-  port: 5000
-
   datasource:
     url: jdbc:mysql://localhost:3306/Dealer
     username: root
@@ -16,6 +9,12 @@ server:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: create
+  config:
+    activate:
+      on-profile: dev
+environment: dev
+server:
+  port: 5000
 
 logging.level:
   root: info
@@ -25,13 +24,6 @@ logging.level:
 
 ---
 spring:
-  config:
-    activate:
-      on-profile: prod
-environment: prod
-server:
-  port: 8080
-
   datasource:
     url: jdbc:mysql://localhost:3306/Dealer
     username: root
@@ -42,9 +34,31 @@ server:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: create
+  config:
+    activate:
+      on-profile: prod
+environment: prod
+server:
+  port: 8080
 
 logging.level:
   root: info
   com.develhope.spring.users.services.UserService: info
   com.develhope.spring.users.controllers.RegistrationController: info
   com.develhope.spring.users.controllers: info
+
+---
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: root
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  config:
+    activate:
+      on-profile: test
+environment: test
+server:
+  port: 8080
