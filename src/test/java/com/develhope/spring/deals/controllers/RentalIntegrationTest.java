@@ -59,7 +59,7 @@ public class RentalIntegrationTest {
                            "email":"hey@itsseller.com"
                         }
                         """)).andReturn();
-        this.mockMvc.perform(put("/v1/users/2")
+        this.mockMvc.perform(patch("/v1/users/role/2")
                 .with(httpBasic("hey@itsadmin.com", "1234"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
