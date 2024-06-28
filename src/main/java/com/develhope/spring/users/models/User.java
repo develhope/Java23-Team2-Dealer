@@ -175,4 +175,20 @@ public class User implements UserDetails {
     public long getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", orders=" + orders +
+                ", rentals=" + rentals +
+                '}';
+    }
 }

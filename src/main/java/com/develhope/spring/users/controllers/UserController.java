@@ -1,11 +1,12 @@
 package com.develhope.spring.users.controllers;
 
-import com.develhope.spring.users.dtos.UserReworkedDTO;
-import com.develhope.spring.users.dtos.UserRoleUpdaterDTO;
-import com.develhope.spring.users.dtos.UserUpdaterDTO;
+import com.develhope.spring.users.dtos.*;
 import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.models.User;
 import com.develhope.spring.users.services.UserService;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.develhope.spring.exceptions.NotAuthorizedOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private Logger logger = LoggerFactory.getLogger(RegistrationAdminController.class);
 
     @PatchMapping("/{userID}")
     @ResponseStatus(HttpStatus.OK)
@@ -27,7 +29,6 @@ public class UserController {
     public UserReworkedDTO updateUser(@PathVariable long userID, @AuthenticationPrincipal User userDetails,
                                       @RequestBody UserUpdaterDTO userUpdaterDTO) {
         boolean isAdmin = userDetails.getRole().equals(Roles.ADMIN);
-        boolean isBuyer = userDetails.getRole().equals(Roles.BUYER);
         if (isAdmin) {
             return userService.update(userID, userUpdaterDTO);
         } else {
@@ -44,6 +45,13 @@ public class UserController {
     @PatchMapping("/role/{userId}")
     public UserReworkedDTO updateUserRole(@PathVariable long userId, @RequestBody UserRoleUpdaterDTO userRoleUpdaterDTO) {
         return userService.updateRole(userId, userRoleUpdaterDTO);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/registration")
+    public UserSavedDTO registerUserAccount(@Valid @RequestBody UserRegistrationDTO userRegistrationDTO) {
+        logger.info("Registration request received " + userRegistrationDTO);
+        return userService.registerNewUserAccount(userRegistrationDTO);
     }
 
     @Secured("ADMIN")

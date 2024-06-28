@@ -1,11 +1,7 @@
 package com.develhope.spring.configurations;
 
-import com.develhope.spring.users.dtos.UserRegistrationDTO;
-import com.develhope.spring.users.models.Roles;
-import com.develhope.spring.users.models.User;
 import com.develhope.spring.vehicles.dtos.VehicleCreatorDTO;
 import com.develhope.spring.vehicles.dtos.VehicleFilterDTO;
-import com.develhope.spring.vehicles.dtos.VehicleStatusDTO;
 import com.develhope.spring.vehicles.models.Vehicle;
 import com.develhope.spring.vehicles.vehicleEnums.*;
 
@@ -14,18 +10,6 @@ import java.math.RoundingMode;
 
 public class VehicleUnitTestConfiguration {
     public static final Vehicle DEFAULT_VEHICLE = new Vehicle(1);
-    public static final User DEFAULT_USER = new User(1);
-    public static final UserRegistrationDTO DEFAULT_USER_USER_CREATOR_DTO = new UserRegistrationDTO(
-            "Gabriel",
-            "Dello",
-            "paneNutella",
-            "12345",
-            "12345",
-            3467789L,
-            "hey@itsadmin.com",
-            Roles.ADMIN
-    );
-
     public static final VehicleCreatorDTO DEFAULT_VEHICLE_CREATOR_DTO = new VehicleCreatorDTO(
             VehicleType.CAR,
             "Ferrari",

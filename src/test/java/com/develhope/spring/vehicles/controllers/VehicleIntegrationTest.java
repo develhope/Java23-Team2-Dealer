@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest
+@ActiveProfiles(profiles = "test")
 class VehicleIntegrationTest {
 
     @Autowired
@@ -43,7 +45,7 @@ class VehicleIntegrationTest {
     }
 
     private void insertBuyer() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -53,8 +55,7 @@ class VehicleIntegrationTest {
                             "password": "12345",
                             "matchingPassword": "12345",
                             "phoneNumber": 34427796292,
-                            "email":"hey@itsbuyer.com",
-                            "roles":"BUYER"
+                            "email":"hey@itsbuyer.com"
                          }
                         """)).andReturn();
     }

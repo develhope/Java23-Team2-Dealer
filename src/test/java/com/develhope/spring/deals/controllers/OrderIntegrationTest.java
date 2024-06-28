@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@ActiveProfiles(profiles = "test")
 public class OrderIntegrationTest {
 
     @Autowired
@@ -34,13 +36,12 @@ public class OrderIntegrationTest {
                             "password": "1234",
                             "matchingPassword": "1234",
                             "phoneNumber": 3467796292,
-                            "email":"hey@itsadmin.com",
-                            "roles":"ADMIN"
+                            "email":"hey@itsadmin.com"
                          }
                         """)).andReturn();
     }
     private void insertSeller() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -50,14 +51,21 @@ public class OrderIntegrationTest {
                             "password": "1234",
                             "matchingPassword": "1234",
                             "phoneNumber": 3467796292,
-                            "email":"hey@itsseller.com",
-                            "roles":"SALESPERSON"
+                            "email":"hey@itsseller.com"
                          }
                         """)).andReturn();
+        this.mockMvc.perform(patch("/v1/users/role/2")
+                .with(httpBasic("hey@itsadmin.com", "1234"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                                {
+                                "role": "SALESPERSON"
+                                }
+                                """)).andReturn();
     }
 
     private void insertBuyer() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -67,8 +75,7 @@ public class OrderIntegrationTest {
                             "password": "12345",
                             "matchingPassword": "12345",
                             "phoneNumber": 34427796292,
-                            "email":"hey@itsbuyer.com",
-                            "roles":"BUYER"
+                            "email":"hey@itsbuyer.com"
                          }
                         """)).andReturn();
     }
@@ -148,8 +155,8 @@ public class OrderIntegrationTest {
 
     @Test
     void OrderUpdateTestSeller() throws Exception {
-        insertSeller();
         insertAdmin();
+        insertSeller();
         insertVehicle();
         insertOrder();
 
@@ -263,7 +270,7 @@ public class OrderIntegrationTest {
         insertVehicle();
         insertBuyer();
 
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -273,8 +280,7 @@ public class OrderIntegrationTest {
                             "password": "54321",
                             "matchingPassword": "54321",
                             "phoneNumber": 1234567890,
-                            "email":"hey@itsbuyer2.com",
-                            "roles":"BUYER"
+                            "email":"hey@itsbuyer2.com"
                          }
                         """)).andReturn();
 

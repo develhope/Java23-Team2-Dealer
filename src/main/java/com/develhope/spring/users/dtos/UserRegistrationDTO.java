@@ -20,7 +20,7 @@ public class UserRegistrationDTO {
     }
 
     public UserRegistrationDTO(String name, String surname, String username, String password, String matchingPassword,
-                               long phoneNumber, String email, Roles roles) {
+                               long phoneNumber, String email) {
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -28,7 +28,6 @@ public class UserRegistrationDTO {
         this.matchingPassword = matchingPassword;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.roles = roles;
     }
 
     public String getMatchingPassword() {
@@ -75,7 +74,6 @@ public class UserRegistrationDTO {
     public String getSurname() {
         return surname;
     }
-
 
     //setters
     public void setEmail(String email) {

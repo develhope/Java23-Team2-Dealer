@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@ActiveProfiles(profiles = "test")
 public class UserIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
@@ -32,14 +34,13 @@ public class UserIntegrationTest {
                            "password": "1234",
                            "matchingPassword": "1234",
                            "phoneNumber": 1234567890,
-                           "email":"mail@itsadmin.com",
-                           "roles":"ADMIN"
+                           "email":"mail@itsadmin.com"
                         }
                         """)).andReturn();
     }
 
     private void insertSeller() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -49,15 +50,23 @@ public class UserIntegrationTest {
                            "password": "1234",
                            "matchingPassword": "1234",
                            "phoneNumber": 1234567890,
-                           "email":"mail@itsseller.com",
-                           "roles": "SALESPERSON"
+                           "email":"mail@itsseller.com"
+                        }
+                        """)).andReturn();
+
+        this.mockMvc.perform(patch("/v1/users/role/2")
+                .with(httpBasic("mail@itsadmin.com", "1234"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                        "role": "SALESPERSON"
                         }
                         """)).andReturn();
     }
 
 
     private void insertBuyer() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -67,14 +76,13 @@ public class UserIntegrationTest {
                            "password": "1234",
                            "matchingPassword": "1234",
                            "phoneNumber": 1234567890,
-                           "email":"mail@itsbuyer.com",
-                           "roles":"BUYER"
+                           "email":"mail@itsbuyer.com"
                         }
                         """)).andReturn();
     }
 
     private void insertBuyer2() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -84,8 +92,7 @@ public class UserIntegrationTest {
                             "password": "12345",
                             "matchingPassword": "12345",
                             "phoneNumber": 34427796292,
-                            "email":"hey@itsbuyer.com",
-                            "roles":"BUYER"
+                            "email":"hey@itsbuyer.com"
                          }
                         """)).andReturn();
     }
@@ -233,9 +240,10 @@ public class UserIntegrationTest {
 
     @Test
     void sellerUpdateOtherTestForbidden() throws Exception {
-        insertBuyer();
+        insertAdmin();
         insertSeller();
-        this.mockMvc.perform(patch("/v1/users/1")
+        insertBuyer();
+        this.mockMvc.perform(patch("/v1/users/3")
                         .with(httpBasic("mail@itsseller.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -244,8 +252,7 @@ public class UserIntegrationTest {
                                 "surname": "Mastrota",
                                 "username": "Inox",
                                 "phoneNumber": 123,
-                                "email": "altra@email.it",
-                                "role": "SALESPERSON"
+                                "email": "altra@email.it"
                                 }
                                 """))
                 .andDo(print())
@@ -254,8 +261,9 @@ public class UserIntegrationTest {
 
     @Test
     void sellerUpdateSelfTestForbidden() throws Exception {
+        insertAdmin();
         insertSeller();
-        this.mockMvc.perform(patch("/v1/users/1")
+        this.mockMvc.perform(patch("/v1/users/2")
                         .with(httpBasic("mail@itsseller.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -264,8 +272,7 @@ public class UserIntegrationTest {
                                 "surname": "Mastrota",
                                 "username": "Inox",
                                 "phoneNumber": 123,
-                                "email": "altra@email.it",
-                                "role": "SALESPERSON"
+                                "email": "altra@email.it"
                                 }
                                 """))
                 .andDo(print())
