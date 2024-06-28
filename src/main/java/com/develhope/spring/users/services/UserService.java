@@ -1,6 +1,7 @@
 package com.develhope.spring.users.services;
 
 import com.develhope.spring.users.dtos.*;
+import com.develhope.spring.users.models.Roles;
 import com.develhope.spring.users.responseStatus.UserAlreadyExistException;
 import com.develhope.spring.users.components.UserMapper;
 import com.develhope.spring.users.models.User;
@@ -34,20 +35,20 @@ public class UserService implements IUserService {
             throw new UserAlreadyExistException("There is an account with that email address: "
                     + userRegistrationDTO.getEmail());
         }
-        User user = userMapper.toEntity(userRegistrationDTO);
+        User user = userMapper.toEntity(userRegistrationDTO, Roles.BUYER);
         User savedUser = userRepository.save(user);
         logger.info("{} Registered!", savedUser);
         return userMapper.toUserSavedDTO(savedUser);
     }
 
     @Override
-    public UserSavedDTO registerNewAdminAccount(UserAdminRegistrationDTO userAdminRegistrationDTO) {
-        if (emailExists(userAdminRegistrationDTO.getEmail())) {
-            logger.warn("Email already exists {}", userAdminRegistrationDTO.getEmail());
+    public UserSavedDTO registerNewAdminAccount(UserRegistrationDTO userRegistrationDTO) {
+        if (emailExists(userRegistrationDTO.getEmail())) {
+            logger.warn("Email already exists {}", userRegistrationDTO.getEmail());
             throw new UserAlreadyExistException("There is an account with that email address: "
-                    + userAdminRegistrationDTO.getEmail());
+                    + userRegistrationDTO.getEmail());
         }
-        User user = userMapper.toEntity(userAdminRegistrationDTO);
+        User user = userMapper.toEntity(userRegistrationDTO, Roles.ADMIN);
         User savedUser = userRepository.save(user);
         logger.info("{} Registered!", savedUser);
         return userMapper.toUserSavedDTO(savedUser);

@@ -34,14 +34,13 @@ public class UserIntegrationTest {
                            "password": "1234",
                            "matchingPassword": "1234",
                            "phoneNumber": 1234567890,
-                           "email":"mail@itsadmin.com",
-                           "roles":"ADMIN"
+                           "email":"mail@itsadmin.com"
                         }
                         """)).andReturn();
     }
 
     private void insertSeller() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -51,8 +50,16 @@ public class UserIntegrationTest {
                            "password": "1234",
                            "matchingPassword": "1234",
                            "phoneNumber": 1234567890,
-                           "email":"mail@itsseller.com",
-                           "roles": "SALESPERSON"
+                           "email":"mail@itsseller.com"
+                        }
+                        """)).andReturn();
+
+        this.mockMvc.perform(put("/v1/users/2")
+                .with(httpBasic("mail@itsadmin.com", "1234"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                        "role": "SALESPERSON"
                         }
                         """)).andReturn();
     }
@@ -232,9 +239,10 @@ public class UserIntegrationTest {
 
     @Test
     void sellerUpdateOtherTestForbidden() throws Exception {
-        insertBuyer();
+        insertAdmin();
         insertSeller();
-        this.mockMvc.perform(patch("/v1/users/1")
+        insertBuyer();
+        this.mockMvc.perform(patch("/v1/users/3")
                         .with(httpBasic("mail@itsseller.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -243,8 +251,7 @@ public class UserIntegrationTest {
                                 "surname": "Mastrota",
                                 "username": "Inox",
                                 "phoneNumber": 123,
-                                "email": "altra@email.it",
-                                "role": "SALESPERSON"
+                                "email": "altra@email.it"
                                 }
                                 """))
                 .andDo(print())
@@ -253,8 +260,9 @@ public class UserIntegrationTest {
 
     @Test
     void sellerUpdateSelfTestForbidden() throws Exception {
+        insertAdmin();
         insertSeller();
-        this.mockMvc.perform(patch("/v1/users/1")
+        this.mockMvc.perform(patch("/v1/users/2")
                         .with(httpBasic("mail@itsseller.com", "1234"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -263,8 +271,7 @@ public class UserIntegrationTest {
                                 "surname": "Mastrota",
                                 "username": "Inox",
                                 "phoneNumber": 123,
-                                "email": "altra@email.it",
-                                "role": "SALESPERSON"
+                                "email": "altra@email.it"
                                 }
                                 """))
                 .andDo(print())

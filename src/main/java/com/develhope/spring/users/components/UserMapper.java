@@ -22,7 +22,7 @@ public class UserMapper {
         return new UserSavedDTO(user.getId(), user.getName(), user.getSurname(), user.getUsername(),user.getRole());
     }
 
-    public User toEntity(UserRegistrationDTO userRegistrationDTO) {
+    public User toEntity(UserRegistrationDTO userRegistrationDTO, Roles roles) {
         User user = new User();
         user.setName(userRegistrationDTO.getName());
         user.setSurname(userRegistrationDTO.getSurname());
@@ -30,19 +30,7 @@ public class UserMapper {
         user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         user.setPhoneNumber(userRegistrationDTO.getPhoneNumber());
         user.setEmail(userRegistrationDTO.getEmail());
-        user.setRole(Roles.BUYER);
-        return user;
-    }
-
-    public User toEntity(UserAdminRegistrationDTO userAdminRegistrationDTO) {
-        User user = new User();
-        user.setName(userAdminRegistrationDTO.getName());
-        user.setSurname(userAdminRegistrationDTO.getSurname());
-        user.setUsername(userAdminRegistrationDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(userAdminRegistrationDTO.getPassword()));
-        user.setPhoneNumber(userAdminRegistrationDTO.getPhoneNumber());
-        user.setEmail(userAdminRegistrationDTO.getEmail());
-        user.setRole(userAdminRegistrationDTO.getRoles());
+        user.setRole(roles);
         return user;
     }
 

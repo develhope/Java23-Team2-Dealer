@@ -36,13 +36,12 @@ public class OrderIntegrationTest {
                             "password": "1234",
                             "matchingPassword": "1234",
                             "phoneNumber": 3467796292,
-                            "email":"hey@itsadmin.com",
-                            "roles":"ADMIN"
+                            "email":"hey@itsadmin.com"
                          }
                         """)).andReturn();
     }
     private void insertSeller() throws Exception {
-        this.mockMvc.perform(post("/v1/profile/registration")
+        this.mockMvc.perform(post("/v1/users/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {
@@ -52,10 +51,17 @@ public class OrderIntegrationTest {
                             "password": "1234",
                             "matchingPassword": "1234",
                             "phoneNumber": 3467796292,
-                            "email":"hey@itsseller.com",
-                            "roles":"SALESPERSON"
+                            "email":"hey@itsseller.com"
                          }
                         """)).andReturn();
+        this.mockMvc.perform(put("/v1/users/2")
+                .with(httpBasic("hey@itsadmin.com", "1234"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                                {
+                                "role": "SALESPERSON"
+                                }
+                                """)).andReturn();
     }
 
     private void insertBuyer() throws Exception {
@@ -149,8 +155,8 @@ public class OrderIntegrationTest {
 
     @Test
     void OrderUpdateTestSeller() throws Exception {
-        insertSeller();
         insertAdmin();
+        insertSeller();
         insertVehicle();
         insertOrder();
 

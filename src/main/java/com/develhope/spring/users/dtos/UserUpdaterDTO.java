@@ -61,6 +61,17 @@ public class UserUpdaterDTO {
         this.surname = surname;
     }
 
+    @Override
+    public String toString() {
+        return "UserUpdaterDTO{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", username='" + username + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

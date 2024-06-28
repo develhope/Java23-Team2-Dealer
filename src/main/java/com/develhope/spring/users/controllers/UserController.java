@@ -29,7 +29,6 @@ public class UserController {
     public UserReworkedDTO updateUser(@PathVariable long userID, @AuthenticationPrincipal User userDetails,
                                       @RequestBody UserUpdaterDTO userUpdaterDTO) {
         boolean isAdmin = userDetails.getRole().equals(Roles.ADMIN);
-        boolean isBuyer = userDetails.getRole().equals(Roles.BUYER);
         if (isAdmin) {
             return userService.update(userID, userUpdaterDTO);
         } else {
