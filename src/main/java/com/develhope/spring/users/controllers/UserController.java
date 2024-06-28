@@ -42,7 +42,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @Secured("ADMIN")
-    @PutMapping("/{userId}")
+    @PatchMapping("/role/{userId}")
     public UserReworkedDTO updateUserRole(@PathVariable long userId, @RequestBody UserRoleUpdaterDTO userRoleUpdaterDTO) {
         return userService.updateRole(userId, userRoleUpdaterDTO);
     }
